@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:toefl/widgets/border_button.dart';
-tatelessWidget {
+
+import '../widgets/answer_button.dart';
+import '../widgets/blue_button.dart';
+import '../widgets/blue_container.dart';
+
+class SplashPage extends StatelessWidget {
   const SplashPage({super.key});
 
   @override
