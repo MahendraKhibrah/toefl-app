@@ -1,12 +1,26 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:toefl/routes/route_key.dart';
 import 'package:toefl/routes/routes.dart';
 import 'package:toefl/utils/colors.dart';
 import 'package:toefl/utils/hex_color.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:toefl/utils/locale.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await EasyLocalization.ensureInitialized();
+  runApp(EasyLocalization(
+    supportedLocales: [
+      Locale(LocaleEnum.id.name),
+      Locale(LocaleEnum.en.name),
+    ],
+    path: 'assets/translation',
+    fallbackLocale: Locale(LocaleEnum.id.name),
+    child: const MyApp(),
+  ),);
 }
 
 class MyApp extends StatelessWidget {
@@ -15,6 +29,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      localizationsDelegates: context.localizationDelegates,
+      supportedLocales: context.supportedLocales,
+      locale: Locale(Platform.localeName),
       title: 'Pentol',
       theme: ThemeData(
         primaryColor: HexColor(mariner700),
