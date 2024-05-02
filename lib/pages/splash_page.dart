@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:toefl/widgets/border_button.dart';
 
 import '../widgets/answer_button.dart';
+import '../widgets/answer_validation_container.dart';
 import '../widgets/blue_button.dart';
 import '../widgets/blue_container.dart';
 
@@ -59,6 +60,24 @@ class SplashPage extends StatelessWidget {
               title:
                   '(A) APAKAH SUDAH MAKAN? akdmakdm akdmakdm akdmadkm akdmadkm'
                   'ssd,ls,dl,djnajdna aakdak akdmak',
+            ),
+            const SizedBox(
+              height: 15,
+            ),
+            const AnswerValidationContainer(
+              isCorrect: true,
+              keyAnswer: '(B) Agile ini Bosenin Banget sih haduh aaa aa aaa aa',
+              explanation:
+                  'lorem ipsum dolor sit amet hehe hehe hehhhhh eheh weh',
+            ),
+            const SizedBox(
+              height: 15,
+            ),
+            const AnswerValidationContainer(
+              isCorrect: false,
+              keyAnswer: '(B) Agile ini Bosenin Banget sih haduh aaa aa aaa aa',
+              explanation:
+                  'lorem ipsum dolor sit amet hehe hehe hehhhhh eheh weh',
             ),
           ],
         ),
