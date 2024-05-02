@@ -36,9 +36,6 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primaryColor: HexColor(mariner700),
         secondaryHeaderColor: HexColor(mariner100),
-        colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.blue)
-            .copyWith(primary: HexColor(mariner700))
-            .copyWith(secondary: HexColor(mariner100)),
         fontFamily: GoogleFonts.nunito().fontFamily,
       ),
       initialRoute: RouteKey.root,
