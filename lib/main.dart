@@ -12,15 +12,17 @@ import 'package:toefl/utils/locale.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
-  runApp(EasyLocalization(
-    supportedLocales: [
-      Locale(LocaleEnum.id.name),
-      Locale(LocaleEnum.en.name),
-    ],
-    path: 'assets/translation',
-    fallbackLocale: Locale(LocaleEnum.id.name),
-    child: const MyApp(),
-  ),);
+  runApp(
+    EasyLocalization(
+      supportedLocales: [
+        Locale(LocaleEnum.id.name),
+        Locale(LocaleEnum.en.name),
+      ],
+      path: 'assets/translation',
+      fallbackLocale: Locale(LocaleEnum.id.name),
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -38,9 +40,8 @@ class MyApp extends StatelessWidget {
         secondaryHeaderColor: HexColor(mariner100),
         fontFamily: GoogleFonts.nunito().fontFamily,
       ),
-      initialRoute: RouteKey.root,
+      initialRoute: RouteKey.fullTest,
       routes: routes,
-
     );
   }
 }

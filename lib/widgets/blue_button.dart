@@ -37,7 +37,7 @@ class BlueButton extends StatelessWidget {
             child: Text(
               title,
               style: CustomTextStyle.bold16.copyWith(
-                  color: isDisabled ? HexColor(secondaryGrey) : Colors.white),
+                  color: isDisabled ? HexColor(neutral60) : Colors.white),
             ),
           ),
         ),

@@ -22,4 +22,9 @@ class CustomTextStyle {
   static TextStyle normal12 = GoogleFonts.nunito(
     fontSize: 12,
   );
+
+  static TextStyle medium14 = GoogleFonts.nunito(
+    fontSize: 14,
+    fontWeight: FontWeight.w600,
+  );
 }
