@@ -17,6 +17,7 @@ const neutral20 = "#F6F6F6";
 // BLUE
 const mariner600 = "#4282CE";
 const mariner100 = "#E4F4FF";
+const mariner300 = "#ADE0FF";
 const mariner700 = "#3B73C5";
 const mariner400 = "#76B7E4";
 const mariner900 = "#2E4C7A";
