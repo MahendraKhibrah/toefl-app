@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:toefl/utils/custom_text_style.dart';
 
 import '../../utils/colors.dart';
