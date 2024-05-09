@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:toefl/pages/full_test/bottom_sheet_transcript.dart';
 import 'package:toefl/pages/full_test/submit_dialog.dart';
 import 'package:toefl/utils/colors.dart';
 import 'package:toefl/utils/custom_text_style.dart';
@@ -22,6 +23,52 @@ class _FullTestPageState extends State<FullTestPage> {
     final screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.only(bottom: 90),
+        child: GestureDetector(
+          onTap: () {
+            showModalBottomSheet(
+                context: context,
+                builder: (context) {
+                  return const BottomSheetTranscript();
+                });
+          },
+          child: Container(
+            width: 70,
+            height: 70,
+            decoration: BoxDecoration(
+                color: HexColor(mariner500),
+                borderRadius: BorderRadius.circular(40),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.5),
+                    spreadRadius: 3,
+                    blurRadius: 5,
+                    offset: const Offset(1, 3),
+                  ),
+                ]),
+            child: Column(
+              children: [
+                const SizedBox(
+                  height: 6,
+                ),
+                Text(
+                  "See\nTranscript",
+                  textAlign: TextAlign.center,
+                  style: CustomTextStyle.bold16.copyWith(
+                    color: Colors.white,
+                    fontSize: 10,
+                  ),
+                ),
+                const Icon(
+                  Icons.menu_book_outlined,
+                  color: Colors.white,
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
       body: Stack(
         children: [
           Positioned(
