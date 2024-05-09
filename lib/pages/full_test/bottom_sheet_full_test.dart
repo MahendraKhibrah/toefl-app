@@ -16,6 +16,12 @@ class _BottomSheetFullTestState extends State<BottomSheetFullTest> {
   var pageController = PageController();
 
   @override
+  void dispose() {
+    super.dispose();
+    pageController.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
