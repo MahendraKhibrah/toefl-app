@@ -36,4 +36,9 @@ class CustomTextStyle {
     color: HexColor(mariner50),
     fontWeight: FontWeight.bold,
   );
+  
+  static TextStyle medium14 = GoogleFonts.nunito(
+    fontSize: 14,
+    fontWeight: FontWeight.w600,
+  );
 }

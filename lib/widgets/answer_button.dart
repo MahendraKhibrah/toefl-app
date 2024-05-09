@@ -12,6 +12,7 @@ class AnswerButton extends StatefulWidget {
     this.isAnswerTrue = false,
     required this.onTap,
     required this.title,
+    this.isActive = true,
   });
 
   final bool isDisabled;
@@ -19,26 +20,23 @@ class AnswerButton extends StatefulWidget {
   final bool isAnswerTrue;
   final Function onTap;
   final String title;
+  final bool isActive;
 
   @override
   State<AnswerButton> createState() => _AnswerButtonState();
 }
 
 class _AnswerButtonState extends State<AnswerButton> {
-  bool isAnswer = false;
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        if (!(widget.isDisabled ||
-            widget.isAnswerFalse ||
-            widget.isAnswerTrue)) {
-          setState(() {
-            isAnswer = !isAnswer;
-          });
-          widget.onTap();
-        }
+        widget.onTap();
       },
       child: Container(
         decoration: BoxDecoration(
@@ -46,12 +44,12 @@ class _AnswerButtonState extends State<AnswerButton> {
               ? HexColor(colorSuccess)
               : widget.isAnswerFalse
                   ? HexColor(colorError)
-                  : isAnswer
+                  : widget.isActive
                       ? HexColor(mariner100)
                       : Colors.transparent,
           borderRadius: BorderRadius.circular(15),
           border: Border.all(
-            color: HexColor(isAnswer ? mariner400 : neutral40),
+            color: HexColor(widget.isActive ? mariner400 : neutral40),
             width: (widget.isAnswerFalse || widget.isAnswerTrue) ? 0 : 2,
           ),
         ),
@@ -82,11 +80,11 @@ class _AnswerButtonState extends State<AnswerButton> {
                           ? softGreen
                           : widget.isAnswerFalse
                               ? softRed
-                              : isAnswer
+                              : widget.isActive
                                   ? mariner400
                                   : neutral40,
                     ),
-                    width: (isAnswer ||
+                    width: (widget.isActive ||
                             widget.isAnswerTrue ||
                             widget.isAnswerFalse)
                         ? 6
