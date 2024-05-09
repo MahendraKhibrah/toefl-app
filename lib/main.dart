@@ -40,7 +40,7 @@ class MyApp extends StatelessWidget {
         secondaryHeaderColor: HexColor(mariner100),
         fontFamily: GoogleFonts.nunito().fontFamily,
       ),
-      initialRoute: RouteKey.fullTest,
+      initialRoute: RouteKey.root,
       routes: routes,
     );
   }
