@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:toefl/pages/full_test/submit_dialog.dart';
 import 'package:toefl/utils/colors.dart';
 import 'package:toefl/utils/custom_text_style.dart';
 import 'package:toefl/utils/hex_color.dart';
@@ -19,7 +20,6 @@ class _FullTestPageState extends State<FullTestPage> {
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
-    final screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
       body: Stack(
@@ -50,10 +50,32 @@ class _FullTestPageState extends State<FullTestPage> {
                       Row(
                         children: [
                           const Spacer(),
-                          Text(
-                            "Submit",
-                            style: CustomTextStyle.extraBold16
-                                .copyWith(color: HexColor(mariner700)),
+                          GestureDetector(
+                            onTap: () {
+                              showDialog(
+                                  barrierDismissible: false,
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                        backgroundColor: Colors.transparent,
+                                        contentPadding:
+                                            const EdgeInsets.symmetric(
+                                                horizontal: 0, vertical: 0),
+                                        content: SubmitDialog(
+                                          onNo: () {
+                                            Navigator.pop(context);
+                                          },
+                                          onYes: () {
+                                            Navigator.pop(context);
+                                          },
+                                        ));
+                                  });
+                            },
+                            child: Text(
+                              "Submit",
+                              style: CustomTextStyle.extraBold16
+                                  .copyWith(color: HexColor(mariner700)),
+                            ),
                           )
                         ],
                       ),

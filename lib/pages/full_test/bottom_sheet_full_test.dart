@@ -23,7 +23,7 @@ class _BottomSheetFullTestState extends State<BottomSheetFullTest> {
     return Container(
       height: screenHeight * 0.6,
       decoration: BoxDecoration(
-        color: HexColor(neutral10),
+        color: HexColor(neutral20),
         borderRadius: const BorderRadius.only(
           topLeft: Radius.circular(15),
           topRight: Radius.circular(15),

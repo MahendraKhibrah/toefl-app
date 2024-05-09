@@ -34,7 +34,7 @@ class BorderButton extends StatelessWidget {
         ),
         width: buttonSize,
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
           child: Center(
             child: Text(
               title,
