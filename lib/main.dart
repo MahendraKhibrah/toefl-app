@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:toefl/routes/navigator_key.dart';
 import 'package:toefl/routes/route_key.dart';
 import 'package:toefl/routes/routes.dart';
 import 'package:toefl/utils/colors.dart';
@@ -42,6 +43,7 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: RouteKey.root,
       routes: routes,
+      navigatorKey: navigatorKey,
     );
   }
 }
