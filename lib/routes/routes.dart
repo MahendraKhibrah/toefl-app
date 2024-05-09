@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:toefl/pages/full_test_page.dart';
+import 'package:toefl/pages/full_test/full_test_page.dart';
 import 'package:toefl/pages/template_page.dart';
 import 'package:toefl/routes/route_key.dart';
 
