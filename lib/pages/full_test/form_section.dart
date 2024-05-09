@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:toefl/pages/full_test/toefl_audio_player.dart';
 import 'package:toefl/widgets/answer_button.dart';
 
 import '../../utils/colors.dart';
 import '../../utils/custom_text_style.dart';
 import '../../utils/hex_color.dart';
-import '../../widgets/blue_container.dart';
 import 'bottom_sheet_transcript.dart';
 
 class FormSection extends StatefulWidget {
@@ -31,26 +31,27 @@ class _FormSectionState extends State<FormSection> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                BlueContainer(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Listening",
-                        style: CustomTextStyle.bold16.copyWith(
-                          fontSize: 14,
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Text(
-                        "Crescent Moon Bistro Located along the eastern shore of Canawap Bay, the Crescent Moon Bistro is a unique venue for birthday parties, weddings, corporate gatherings, and a host of other social events. Our chefs work with you to craft a perfect menu, while our coordinators will see to it that your event is superbly organized. Rental pricing is based on the date, type of event, and number of attendees.You are welcome to tour our facility on October 10 from 11:00 AM. to 2:00 PM. Meet with our coordinators and culinary staff, and sample items from our creative menu. Admission is free, but registration is required. We are offering 25% off on any booking made during this open house on October 10.",
-                        style: CustomTextStyle.normal12.copyWith(fontSize: 14),
-                      ),
-                    ],
-                  ),
-                ),
+                // BlueContainer(
+                //   child: Column(
+                //     crossAxisAlignment: CrossAxisAlignment.start,
+                //     children: [
+                //       Text(
+                //         "Listening",
+                //         style: CustomTextStyle.bold16.copyWith(
+                //           fontSize: 14,
+                //         ),
+                //       ),
+                //       const SizedBox(
+                //         height: 10,
+                //       ),
+                //       Text(
+                //         "Crescent Moon Bistro Located along the eastern shore of Canawap Bay, the Crescent Moon Bistro is a unique venue for birthday parties, weddings, corporate gatherings, and a host of other social events. Our chefs work with you to craft a perfect menu, while our coordinators will see to it that your event is superbly organized. Rental pricing is based on the date, type of event, and number of attendees.You are welcome to tour our facility on October 10 from 11:00 AM. to 2:00 PM. Meet with our coordinators and culinary staff, and sample items from our creative menu. Admission is free, but registration is required. We are offering 25% off on any booking made during this open house on October 10.",
+                //         style: CustomTextStyle.normal12.copyWith(fontSize: 14),
+                //       ),
+                //     ],
+                //   ),
+                // ),
+                const ToeflAudioPlayer(),
                 const SizedBox(
                   height: 20,
                 ),
