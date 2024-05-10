@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:toefl/models/login.dart';
-import 'package:toefl/remote/api/login_api.dart';
+import 'package:toefl/remote/api/user_api.dart';
 import 'package:toefl/routes/route_key.dart';
 import 'package:toefl/utils/colors.dart';
 import 'package:toefl/utils/hex_color.dart';
@@ -21,6 +21,7 @@ class _LoginPageState extends State<LoginPage> {
 
   late final FocusNode _emailFocusNode;
   late final FocusNode _passwordFocusNode;
+  final userApi = UserApi();
 
   @override
   void initState() {
@@ -39,8 +40,6 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     final _formKey = GlobalKey<FormState>();
-    final loginApi = LoginApi();
-    Login? login;
 
     return Scaffold(
       body: SafeArea(
@@ -49,7 +48,8 @@ class _LoginPageState extends State<LoginPage> {
             children: [
               SvgPicture.asset('assets/images/login.svg'),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 30),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 24.0, vertical: 30),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -98,7 +98,12 @@ class _LoginPageState extends State<LoginPage> {
                       title: 'Login',
                       onTap: () async {
                         if (_formKey.currentState!.validate()) {
-                          login = await loginApi.postLogin(emailController.text,  passwordController.text);
+                          userApi.postLogin(
+                            Login(
+                              email: emailController.text,
+                              password: passwordController.text,
+                            ),
+                          );
                         }
                       },
                     ),
@@ -115,7 +120,7 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                         GestureDetector(
                           onTap: () {
-                            Navigator.pushNamed(context, RouteKey.regist);
+                            Navigator.popAndPushNamed(context, RouteKey.regist);
                           },
                           child: const Text(
                             "Sign Up",

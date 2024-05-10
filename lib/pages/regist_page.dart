@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:toefl/models/regist.dart';
-import 'package:toefl/remote/api/regist_api.dart';
 import 'package:toefl/routes/route_key.dart';
 import 'package:toefl/utils/colors.dart';
 import 'package:toefl/utils/hex_color.dart';
 import 'package:toefl/widgets/blue_button.dart';
 import 'package:toefl/widgets/form_input.dart';
+
+import '../remote/api/user_api.dart';
 
 class RegistPage extends StatefulWidget {
   const RegistPage({super.key});
@@ -22,11 +23,10 @@ class _RegistPageState extends State<RegistPage> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final confirmPasswordController = TextEditingController();
+  final userApi = UserApi();
 
   @override
   Widget build(BuildContext context) {
-    final registApi = RegistApi();
-    Regist? regist;
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -34,7 +34,8 @@ class _RegistPageState extends State<RegistPage> {
             children: [
               SvgPicture.asset('assets/images/register.svg'),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 30),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 24.0, vertical: 30),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -95,7 +96,15 @@ class _RegistPageState extends State<RegistPage> {
                       title: 'Sign Up',
                       onTap: () async {
                         if (_formKey.currentState!.validate()) {
-                          regist = await registApi.postRegist(nameController.text, emailController.text, passwordController.text, confirmPasswordController.text);
+                          userApi.postRegist(
+                            Regist(
+                              name: nameController.text,
+                              email: emailController.text,
+                              password: passwordController.text,
+                              passwordConfirmation:
+                                  confirmPasswordController.text,
+                            ),
+                          );
                         }
                       },
                     ),
@@ -112,7 +121,7 @@ class _RegistPageState extends State<RegistPage> {
                         ),
                         GestureDetector(
                           onTap: () {
-                            Navigator.pushNamed(context, RouteKey.login);
+                            Navigator.popAndPushNamed(context, RouteKey.login);
                           },
                           child: const Text(
                             "Login",
@@ -135,4 +144,3 @@ class _RegistPageState extends State<RegistPage> {
     );
   }
 }
-

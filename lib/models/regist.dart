@@ -5,14 +5,12 @@ import 'package:json_annotation/json_annotation.dart';
 part 'regist.g.dart';
 
 @JsonSerializable()
-
 class Regist {
   final String name;
   final String email;
   final String password;
   @JsonKey(name: 'password_confirmation')
   final String passwordConfirmation;
-
 
   Regist({
     required this.name,
@@ -21,12 +19,12 @@ class Regist {
     required this.passwordConfirmation,
   });
 
-   factory Regist.fromJson(Map<String, dynamic> json) => _$RegistFromJson(json);
+  factory Regist.fromJson(Map<String, dynamic> json) => _$RegistFromJson(json);
 
   factory Regist.fromJsonString(String jsonString) =>
       _$RegistFromJson(jsonDecode(jsonString));
 
-  Map<String, dynamic> _toJson() => _$RegistToJson(this);
+  Map<String, dynamic> toJson() => _$RegistToJson(this);
 
-  String toStringJson() => _toJson().toString();
+  String toStringJson() => toJson().toString();
 }
