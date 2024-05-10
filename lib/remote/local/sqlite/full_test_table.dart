@@ -1,7 +1,9 @@
+import 'package:flutter/material.dart';
 import 'package:sqflite/sqlite_api.dart';
+import 'package:toefl/remote/local_database_service.dart';
 
-class FinalTestTable {
-  final tableName = 'final_test';
+class FullTestTable {
+  final tableName = 'full_test';
 
   Future<void> createTable(Database database) async {
     const idType = 'STRING PRIMARY KEY';
@@ -25,6 +27,12 @@ class FinalTestTable {
         category $categoryType
       )
     ''');
+  }
+
+  void getFullTestTest() async {
+    final database = await LocalDatabaseService().database;
+    final result = await database.query(tableName);
+    debugPrint("result: $result");
   }
 
   Future<void> resetDatabase(Database database) async {
