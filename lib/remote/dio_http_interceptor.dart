@@ -21,7 +21,7 @@ class DioHttpInterceptor extends Interceptor {
     options.headers['Accept'] = 'application/json';
     //TODO : add bearer token
     options.headers['Authorization'] =
-        "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9rYWJlc3RhcmkubGl2ZS9hcGkvbG9naW4iLCJpYXQiOjE3MTUyNjczMzksImV4cCI6MTcxNTI3MDkzOSwibmJmIjoxNzE1MjY3MzM5LCJqdGkiOiJjZXFCOHVlT2M0Unp0TUg2Iiwic3ViIjoiNjYzY2NhOWY5ZjUxZTZjYWU2MDI0OTQyIiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.HFMx01OVX1WLoK5clgmO54Otnjo1ooFr1cajp3IEUjI";
+        "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9rYWJlc3RhcmkubGl2ZS9hcGkvbG9naW4iLCJpYXQiOjE3MTUyNzgwNDQsImV4cCI6MTcyMTc1ODA0NCwibmJmIjoxNzE1Mjc4MDQ0LCJqdGkiOiIwbUN0dkhORmI3M0VIR2dBIiwic3ViIjoiNjYzNWMwNDI3YTM0MGUzYjEwMDkyMTQ0IiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.Pfb8dEwRVOTcjvO-aNm6JtsLy6qX1z5hKiRM2OXInMU";
     // await _authSharedPreference.getBearerToken();
 
     debugPrint('REQUEST[${options.method}]: ${options.uri}');

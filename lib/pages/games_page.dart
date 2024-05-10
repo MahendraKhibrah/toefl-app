@@ -61,7 +61,7 @@ class _GamesPageState extends State<GamesPage> {
           ),
         ),
         body: PageView(
-          controller: _pageController,
+          controller: _pageController ,
           scrollDirection: Axis.vertical,
           children: [GamesLevelPage(), GamesLevelPage(), Text('1')],
           onPageChanged: (value) {

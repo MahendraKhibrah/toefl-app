@@ -1,3 +1,4 @@
+
 class Game {
   int id;
   int level;

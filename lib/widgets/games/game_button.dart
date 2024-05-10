@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:toefl/models/quiz.dart';
+import 'package:toefl/models/user.dart';
+import 'package:toefl/remote/api/quiz_api.dart';
+import 'package:toefl/remote/api/user_api.dart';
 import 'package:toefl/utils/colors.dart';
 import 'package:toefl/utils/custom_text_style.dart';
 import 'package:toefl/utils/hex_color.dart';
@@ -10,6 +14,10 @@ class GameButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final quizApi = QuizApi();
+    Quiz? quiz;
+    final userApi = UserApi();
+    User? user;
     return Stack(
       clipBehavior: Clip.none,
       alignment: Alignment.bottomCenter,
@@ -42,9 +50,12 @@ class GameButton extends StatelessWidget {
         Container(
           margin: EdgeInsets.only(bottom: 35),
           child: InkWell(
-            onTap: () {
+            onTap: () async {
               ScaffoldMessenger.of(context).hideCurrentSnackBar();
-
+              quiz = await quizApi.fetchQuiz();
+              // print(quiz!.quizName);
+              // user = await userApi.getProfile();
+              // print(user!.nameUser);
               final snackBar = SnackBar(
                 backgroundColor: Colors.white,
                 padding: EdgeInsets.all(0),
@@ -73,7 +84,7 @@ class GameButton extends StatelessWidget {
             child: Container(
               alignment: Alignment.center,
               height: 80,
-              width: 65,
+              width: 60,
               decoration: BoxDecoration(
                   color: HexColor(mariner500),
                   borderRadius: BorderRadius.circular(6)),
