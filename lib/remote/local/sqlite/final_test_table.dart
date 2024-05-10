@@ -9,8 +9,9 @@ class FinalTestTable {
     const questionType = 'STRING';
     const answerType = 'STRING';
     const optionType = 'STRING';
-    const flaggedType = 'INTEGER';
+    const bookmarkedType = 'INTEGER';
     const numberType = 'INTEGER';
+    const categoryType = 'STRING';
 
     await database.execute('''
       CREATE TABLE $tableName (
@@ -19,8 +20,9 @@ class FinalTestTable {
         question $questionType,
         answer $answerType,
         option $optionType,
-        flagged $flaggedType,
-        number $numberType
+        bookmarked $bookmarkedType,
+        number $numberType,
+        category $categoryType
       )
     ''');
   }
