@@ -59,9 +59,7 @@ class DioHttpInterceptor extends Interceptor {
 
       if (context != null && context.mounted) {
         Navigator.of(context).pushNamedAndRemoveUntil(
-          // TODO : CHANGE TO LOGIN
           RouteKey.login,
-          // RouteKey.root,
           (route) => false,
         );
       }
