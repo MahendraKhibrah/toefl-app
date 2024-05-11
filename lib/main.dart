@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:toefl/routes/navigator_key.dart';
 import 'package:toefl/routes/route_key.dart';
 import 'package:toefl/routes/routes.dart';
@@ -21,7 +22,7 @@ void main() async {
       ],
       path: 'assets/translation',
       fallbackLocale: Locale(LocaleEnum.id.name),
-      child: const MyApp(),
+      child: const ProviderScope(child: MyApp()),
     ),
   );
 }

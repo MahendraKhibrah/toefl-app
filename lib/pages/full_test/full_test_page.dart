@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:toefl/pages/full_test/form_section.dart';
 import 'package:toefl/pages/full_test/submit_dialog.dart';
 import 'package:toefl/utils/colors.dart';
@@ -7,18 +8,11 @@ import 'package:toefl/utils/hex_color.dart';
 
 import 'bottom_sheet_full_test.dart';
 
-class FullTestPage extends StatefulWidget {
+class FullTestPage extends ConsumerWidget {
   const FullTestPage({super.key});
 
   @override
-  State<FullTestPage> createState() => _FullTestPageState();
-}
-
-class _FullTestPageState extends State<FullTestPage> {
-  var activeIndex = -1;
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
