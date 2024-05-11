@@ -14,6 +14,7 @@ class GamesLevelPage extends StatefulWidget {
 
 class _GamesLevelPageState extends State<GamesLevelPage> {
   final keyComponent = GlobalKey();
+
   // late Size size;
   // late Offset position;
 
@@ -25,7 +26,6 @@ class _GamesLevelPageState extends State<GamesLevelPage> {
 
   // @override
   // void initState() {
-  //   // TODO: implement initState
   //   getCurr();
   //   si
   //   super.initState();

@@ -15,9 +15,9 @@ class _GamesPageState extends State<GamesPage> {
   late PageController _pageController;
   late int _index;
   late bool _isActive;
+
   @override
   void initState() {
-    // TODO: implement initState
     _pageController = PageController();
     _index = 0;
     _isActive = false;
@@ -26,7 +26,6 @@ class _GamesPageState extends State<GamesPage> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     _pageController.dispose();
     super.dispose();
   }
@@ -61,7 +60,7 @@ class _GamesPageState extends State<GamesPage> {
           ),
         ),
         body: PageView(
-          controller: _pageController ,
+          controller: _pageController,
           scrollDirection: Axis.vertical,
           children: [GamesLevelPage(), GamesLevelPage(), Text('1')],
           onPageChanged: (value) {

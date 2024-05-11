@@ -4,14 +4,14 @@ import 'package:toefl/utils/colors.dart';
 import 'package:toefl/utils/hex_color.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class NavBarBottom extends StatefulWidget {
-  const NavBarBottom({super.key});
+class MainPage extends StatefulWidget {
+  const MainPage({super.key});
 
   @override
-  State<NavBarBottom> createState() => _NavBarBottomState();
+  State<MainPage> createState() => _MainPageState();
 }
 
-class _NavBarBottomState extends State<NavBarBottom> {
+class _MainPageState extends State<MainPage> {
   late int _index;
 
   static const List<Widget> _widgetOptions = <Widget>[
@@ -23,6 +23,7 @@ class _NavBarBottomState extends State<NavBarBottom> {
       'Index 2: School',
     ),
   ];
+
   @override
   void initState() {
     super.initState();
@@ -35,13 +36,13 @@ class _NavBarBottomState extends State<NavBarBottom> {
       body: _widgetOptions.elementAt(_index),
       bottomNavigationBar: Container(
         height: 75,
-        decoration: BoxDecoration(boxShadow: [BoxShadow()]),
+        decoration: const BoxDecoration(boxShadow: [BoxShadow()]),
         child: BottomNavigationBar(
           iconSize: 30,
           currentIndex: _index,
-          onTap: (int _index) {
+          onTap: (int index) {
             setState(() {
-              this._index = _index;
+              _index = index;
             });
             ScaffoldMessenger.of(context).hideCurrentSnackBar();
           },
@@ -57,7 +58,7 @@ class _NavBarBottomState extends State<NavBarBottom> {
           selectedIconTheme: IconThemeData(color: HexColor(mariner800)),
           unselectedItemColor: HexColor(neutral40),
           items: <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
+            const BottomNavigationBarItem(
               icon: Icon(
                 Icons.home_rounded,
               ),
@@ -78,7 +79,7 @@ class _NavBarBottomState extends State<NavBarBottom> {
               ),
               label: 'Games',
             ),
-            BottomNavigationBarItem(
+            const BottomNavigationBarItem(
               icon: Icon(
                 Icons.person_2_rounded,
               ),
