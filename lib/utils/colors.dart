@@ -14,7 +14,10 @@ const menuGreen = "#24CE85";
 const menuRed = "#FD7366";
 const neutral20 = "#F6F6F6";
 
+const neutral10 = "#F6F6F6";
+const neutral90 = "#191919";
 // BLUE
+const mariner50 = "#F1F8FD";
 const mariner600 = "#4282CE";
 const mariner100 = "#E4F4FF";
 const mariner300 = "#ADE0FF";
