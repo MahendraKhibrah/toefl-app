@@ -24,6 +24,7 @@ dependencies:
   skeletonizer: ^1.1.2+1
   easy_debounce: ^2.0.3
   flutter_widget_from_html: ^0.15.0
+  slide_countdown: ^1.6.1
 
 
 dev_dependencies:

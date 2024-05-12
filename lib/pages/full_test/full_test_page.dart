@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:skeletonizer/skeletonizer.dart';
+import 'package:slide_countdown/slide_countdown.dart';
 import 'package:toefl/pages/full_test/form_section.dart';
 import 'package:toefl/pages/full_test/submit_dialog.dart';
 import 'package:toefl/state_management/full_test_provider.dart';
@@ -96,7 +97,7 @@ class FullTestPage extends ConsumerWidget {
                           ),
                           const Spacer(),
                           SizedBox(
-                            width: screenWidth * 0.58,
+                            width: screenWidth * 0.5,
                             child: LinearProgressIndicator(
                               value: ref
                                       .watch(fullTestProvider)
@@ -116,16 +117,26 @@ class FullTestPage extends ConsumerWidget {
                             color: HexColor(colorSuccess),
                             size: 18,
                           ),
-                          const SizedBox(
-                            width: 4,
-                          ),
-                          Text(
-                            "0:30:37",
-                            style: CustomTextStyle.bold16.copyWith(
-                              color: HexColor(colorSuccess),
-                              fontSize: 14,
-                            ),
-                          ),
+                          SlideCountdown(
+                              duration: const Duration(hours: 2),
+                              style: CustomTextStyle.bold16.copyWith(
+                                color: HexColor(colorSuccess),
+                                fontSize: 14,
+                              ),
+                              separator: ":",
+                              separatorStyle: CustomTextStyle.bold16.copyWith(
+                                color: HexColor(colorSuccess),
+                                fontSize: 14,
+                              ),
+                              padding: const EdgeInsets.only(left: 8),
+                              separatorPadding:
+                                  const EdgeInsets.symmetric(horizontal: 1),
+                              decoration: const BoxDecoration(
+                                color: Colors.transparent,
+                              )),
+                          // Text(
+                          //   "0:30:37",
+                          // ),
                         ],
                       ),
                       const SizedBox(
