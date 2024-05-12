@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 import 'package:toefl/pages/full_test/form_section.dart';
 import 'package:toefl/pages/full_test/submit_dialog.dart';
+import 'package:toefl/state_management/full_test_provider.dart';
 import 'package:toefl/utils/colors.dart';
 import 'package:toefl/utils/custom_text_style.dart';
 import 'package:toefl/utils/hex_color.dart';
 
+import 'bookmark_button.dart';
 import 'bottom_sheet_full_test.dart';
 
 class FullTestPage extends ConsumerWidget {
@@ -14,7 +17,7 @@ class FullTestPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final screenWidth = MediaQuery.of(context).size.width;
-
+    final FullTestProviderState state = ref.watch(fullTestProvider);
     return Scaffold(
       body: Stack(
         children: [
@@ -45,25 +48,31 @@ class FullTestPage extends ConsumerWidget {
                         children: [
                           const Spacer(),
                           GestureDetector(
-                            onTap: () {
+                            onTap: () async {
                               showDialog(
-                                  barrierDismissible: false,
-                                  context: context,
-                                  builder: (BuildContext context) {
-                                    return AlertDialog(
-                                        backgroundColor: Colors.transparent,
-                                        contentPadding:
-                                            const EdgeInsets.symmetric(
-                                                horizontal: 0, vertical: 0),
-                                        content: SubmitDialog(
-                                          onNo: () {
-                                            Navigator.pop(context);
-                                          },
-                                          onYes: () {
-                                            Navigator.pop(context);
-                                          },
-                                        ));
-                                  });
+                                barrierDismissible: false,
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    backgroundColor: Colors.transparent,
+                                    contentPadding: const EdgeInsets.symmetric(
+                                        horizontal: 0, vertical: 0),
+                                    content: SubmitDialog(
+                                        onNo: () {
+                                          Navigator.pop(context);
+                                        },
+                                        onYes: () {
+                                          Navigator.pop(context);
+                                        },
+                                        unAnsweredQuestion: ref
+                                            .watch(fullTestProvider)
+                                            .questionsFilledStatus
+                                            .where(
+                                                (element) => element == false)
+                                            .length),
+                                  );
+                                },
+                              );
                             },
                             child: Text(
                               "Submit",
@@ -79,7 +88,7 @@ class FullTestPage extends ConsumerWidget {
                       Row(
                         children: [
                           Text(
-                            "51/140",
+                            "${ref.watch(fullTestProvider).questionsFilledStatus.where((element) => element == true).length}/140",
                             style: CustomTextStyle.bold16.copyWith(
                               color: HexColor(mariner700),
                               fontSize: 14,
@@ -89,10 +98,16 @@ class FullTestPage extends ConsumerWidget {
                           SizedBox(
                             width: screenWidth * 0.58,
                             child: LinearProgressIndicator(
-                              value: 0.46,
+                              value: ref
+                                      .watch(fullTestProvider)
+                                      .questionsFilledStatus
+                                      .where((element) => element == true)
+                                      .length /
+                                  140,
                               backgroundColor: HexColor(neutral40),
                               color: HexColor(mariner700),
                               minHeight: 7,
+                              borderRadius: BorderRadius.circular(9),
                             ),
                           ),
                           const Spacer(),
@@ -116,7 +131,25 @@ class FullTestPage extends ConsumerWidget {
                       const SizedBox(
                         height: 20,
                       ),
-                      const FormSection(),
+                      Consumer(
+                        builder: (context, ref, child) {
+                          final state = ref.watch(fullTestProvider);
+                          if (state.isLoading) {
+                            return const Skeletonizer(
+                              child: FormSection(
+                                questions: [],
+                              ),
+                            );
+                          } else if (state.selectedQuestions.isNotEmpty) {
+                            return FormSection(
+                              questions: state.selectedQuestions,
+                            );
+                          } else {
+                            return const SizedBox();
+                          }
+                        },
+                      ),
+                      // const FormSection(),
                     ],
                   ),
                 ),
@@ -142,29 +175,66 @@ class FullTestPage extends ConsumerWidget {
                 child: Row(
                   children: [
                     IconButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          if ((state.selectedQuestions.firstOrNull?.number ??
+                                  1) <=
+                              1) {
+                            return;
+                          } else {
+                            ref
+                                .read(fullTestProvider.notifier)
+                                .getQuestionByNumber((state.selectedQuestions
+                                            .firstOrNull?.number ??
+                                        1) -
+                                    1);
+                          }
+                        },
                         icon: const Icon(
                           Icons.chevron_left,
                           size: 50,
                         )),
                     const Spacer(),
-                    IconButton(
-                        onPressed: () {},
-                        icon: const Icon(
-                          Icons.bookmark_border,
-                          size: 35,
-                        )),
-                    const SizedBox(
-                      width: 30,
+                    Consumer(
+                      builder: (context, ref, child) {
+                        final state = ref.watch(fullTestProvider);
+                        if (state.selectedQuestions.firstOrNull?.bookmarked ==
+                            null) {
+                          return IconButton(
+                              onPressed: () {},
+                              icon: const Icon(
+                                Icons.bookmark_border,
+                                size: 35,
+                              ));
+                        } else {
+                          return BookmarkButton(
+                            initalValue: state.selectedQuestions.firstOrNull
+                                    ?.bookmarked ??
+                                1,
+                            questions: state.selectedQuestions,
+                          );
+                        }
+                      },
                     ),
+                    const Spacer(),
                     IconButton(
                         onPressed: () {
-                          showModalBottomSheet(
-                              context: context,
-                              // enableDrag: false,
-                              builder: (context) {
-                                return const BottomSheetFullTest();
-                              });
+                          ref
+                              .read(fullTestProvider.notifier)
+                              .getQuestionsFilledStatus()
+                              .then((value) {
+                            showModalBottomSheet(
+                                context: context,
+                                builder: (context) {
+                                  return BottomSheetFullTest(
+                                    filledStatus: value,
+                                    onTap: (number) {},
+                                  );
+                                }).then((value) {
+                              ref
+                                  .read(fullTestProvider.notifier)
+                                  .getQuestionByNumber(value);
+                            });
+                          });
                         },
                         icon: const Icon(
                           Icons.list,
@@ -172,11 +242,25 @@ class FullTestPage extends ConsumerWidget {
                         )),
                     const Spacer(),
                     IconButton(
-                        onPressed: () {},
-                        icon: const Icon(
-                          Icons.chevron_right,
-                          size: 50,
-                        )),
+                      onPressed: () {
+                        if ((state.selectedQuestions.lastOrNull?.number ??
+                                140) >=
+                            140) {
+                          return;
+                        } else {
+                          ref
+                              .read(fullTestProvider.notifier)
+                              .getQuestionByNumber(
+                                  (state.selectedQuestions.lastOrNull?.number ??
+                                          140) +
+                                      1);
+                        }
+                      },
+                      icon: const Icon(
+                        Icons.chevron_right,
+                        size: 50,
+                      ),
+                    ),
                   ],
                 ),
               ),

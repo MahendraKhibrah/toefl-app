@@ -2,6 +2,8 @@ import 'dart:convert';
 
 import 'package:json_annotation/json_annotation.dart';
 
+import '../utils/utils.dart';
+
 part 'packet_detail.g.dart';
 
 @JsonSerializable()
@@ -22,7 +24,7 @@ class PacketDetail {
       _$PacketDetailFromJson(json);
 
   factory PacketDetail.fromJsonString(String jsonString) =>
-      _$PacketDetailFromJson(jsonDecode(jsonString));
+      _$PacketDetailFromJson(Utils.stringToJson(jsonString));
 
   Map<String, dynamic> toJson() => _$PacketDetailToJson(this);
 
@@ -41,20 +43,31 @@ class Question {
   final String nestedQuestionId;
   @JsonKey(name: 'multiple_choices', defaultValue: [])
   final List<Choice> choices;
+  @JsonKey(defaultValue: '', name: 'nested_question')
+  final String bigQuestion;
+  @JsonKey(defaultValue: '')
+  String answer;
+  @JsonKey(defaultValue: 0)
+  final int bookmarked;
+  @JsonKey(defaultValue: 0)
+  final int number;
 
-  Question({
-    required this.id,
-    required this.question,
-    required this.typeQuestion,
-    required this.nestedQuestionId,
-    required this.choices,
-  });
+  Question(
+      {required this.id,
+      required this.question,
+      required this.typeQuestion,
+      required this.nestedQuestionId,
+      required this.choices,
+      required this.bigQuestion,
+      required this.answer,
+      required this.bookmarked,
+      required this.number});
 
   factory Question.fromJson(Map<String, dynamic> json) =>
       _$QuestionFromJson(json);
 
   factory Question.fromJsonString(String jsonString) =>
-      _$QuestionFromJson(jsonDecode(jsonString));
+      _$QuestionFromJson(Utils.stringToJson(jsonString));
 
   Map<String, dynamic> toJson() => _$QuestionToJson(this);
 
@@ -78,5 +91,5 @@ class Choice {
 
   Map<String, dynamic> toJson() => _$ChoiceToJson(this);
 
-  String toStringJson() => toJson().toString();
+  String toStringJson() => jsonEncode(toJson());
 }
