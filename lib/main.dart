@@ -43,7 +43,7 @@ class MyApp extends StatelessWidget {
         secondaryHeaderColor: HexColor(mariner100),
         fontFamily: GoogleFonts.nunito().fontFamily,
       ),
-      initialRoute: RouteKey.login,
+      initialRoute: RouteKey.root,
       routes: routes,
       navigatorKey: navigatorKey,
       navigatorObservers: [
