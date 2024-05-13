@@ -48,7 +48,7 @@ class AnswerValidationContainer extends StatelessWidget {
                   height: 5,
                 ),
                 SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.7,
+                  width: MediaQuery.of(context).size.width * 0.65,
                   child: Text(
                     'Key answer : $keyAnswer',
                     style: CustomTextStyle.bold16.copyWith(fontSize: 12),
@@ -58,7 +58,7 @@ class AnswerValidationContainer extends StatelessWidget {
                   height: 5,
                 ),
                 SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.7,
+                  width: MediaQuery.of(context).size.width * 0.65,
                   child: Text(
                     explanation,
                     style: CustomTextStyle.normal12,

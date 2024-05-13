@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:toefl/widgets/border_button.dart';
-
 import '../widgets/answer_button.dart';
 import '../widgets/answer_validation_container.dart';
 import '../widgets/blue_button.dart';
@@ -50,6 +49,7 @@ class TemplatePage extends StatelessWidget {
             AnswerButton(
               onTap: () {},
               title: 'INI BISA DIPENCET',
+              isActive: true,
             ),
             const SizedBox(
               height: 15,
@@ -60,6 +60,7 @@ class TemplatePage extends StatelessWidget {
               title:
                   '(A) APAKAH SUDAH MAKAN? akdmakdm akdmakdm akdmadkm akdmadkm'
                   'ssd,ls,dl,djnajdna aakdak akdmak',
+              isActive: true,
             ),
             const SizedBox(
               height: 15,
