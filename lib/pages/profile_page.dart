@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 import 'package:toefl/widgets/profile_page/level_score.dart';
 import 'package:toefl/widgets/profile_page/profile.dart';
@@ -27,7 +25,7 @@ class ProfilePage extends StatelessWidget {
                   Profile(
                     nama: 'Adinda Azzahra Q',
                     email: 'adinda@gmail.com',
-                    foto: AssetImage('assets/img/avatar_profile.png'),
+                    foto: AssetImage('assets/images/avatar_profile.png'),
                   ),
                   SizedBox(
                     height: 20,

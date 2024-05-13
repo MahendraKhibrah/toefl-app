@@ -5,14 +5,13 @@ import 'package:toefl/utils/hex_color.dart';
 import 'package:toefl/widgets/blue_button.dart';
 
 class EditProfile extends StatelessWidget {
-   EditProfile({super.key});
+  EditProfile({super.key});
 
   final _nameController = TextEditingController();
   final _emailController = TextEditingController();
 
   String? validateEmail(String? value) {
-    const pattern =
-        r"(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'"
+    const pattern = r"(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'"
         r'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-'
         r'\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*'
         r'[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4]'
@@ -67,7 +66,8 @@ class EditProfile extends StatelessWidget {
                   CircleAvatar(
                     backgroundColor: Colors.transparent,
                     radius: 50,
-                    backgroundImage: AssetImage('assets/img/avatar_profile.png'),
+                    backgroundImage:
+                        AssetImage('assets/images/avatar_profile.png'),
                   ),
                   SizedBox(
                     height: 10,
@@ -96,25 +96,27 @@ class EditProfile extends StatelessWidget {
                           "Name",
                           false,
                           "Adinda Azzahra",
-                          validateName ,
-                          _nameController ..text = 'Adinda Azzahra',
+                          validateName,
+                          _nameController..text = 'Adinda Azzahra',
                         ),
-                        
                         _textField(
                           "Email",
                           true,
                           "dinda@gmail.com",
                           validateEmail,
-                          _emailController ..text = 'adinda@gmail.com',
+                          _emailController..text = 'adinda@gmail.com',
                         ),
-                        SizedBox(height: 10,),
+                        SizedBox(
+                          height: 10,
+                        ),
                         BlueButton(
                           title: 'Update',
                           size: 300,
                           onTap: () {
                             if (_formKey.currentState!.validate()) {
                               ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(content: Text('Processing Data')),
+                                const SnackBar(
+                                    content: Text('Processing Data')),
                               );
                             }
                           },

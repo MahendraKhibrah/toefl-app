@@ -42,10 +42,11 @@ class MyApp extends StatelessWidget {
         primaryColor: HexColor(mariner700),
         secondaryHeaderColor: HexColor(mariner100),
         fontFamily: GoogleFonts.nunito().fontFamily,
-        colorScheme:
-        Theme.of(context).colorScheme.copyWith(outline: HexColor(mariner800)),
+        colorScheme: Theme.of(context)
+            .colorScheme
+            .copyWith(outline: HexColor(mariner800)),
       ),
-      initialRoute: RouteKey.profile,
+      initialRoute: RouteKey.root,
       routes: routes,
       navigatorKey: navigatorKey,
       navigatorObservers: [
