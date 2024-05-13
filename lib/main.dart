@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:toefl/routes/navigator_key.dart';
 import 'package:toefl/routes/route_key.dart';
+import 'package:toefl/routes/route_observer.dart';
 import 'package:toefl/routes/routes.dart';
 import 'package:toefl/utils/colors.dart';
 import 'package:toefl/utils/hex_color.dart';
@@ -45,6 +46,9 @@ class MyApp extends StatelessWidget {
       initialRoute: RouteKey.login,
       routes: routes,
       navigatorKey: navigatorKey,
+      navigatorObservers: [
+        NavigatorHistory(),
+      ],
     );
   }
 }
