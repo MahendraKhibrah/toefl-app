@@ -6,4 +6,6 @@ class RouteKey {
   static const regist = '/regist';
   static const login = '/login';
   static const main = '/main';
+  static const profile = '/profile';
+  static const editProfile = '/editProfile ';
 }
