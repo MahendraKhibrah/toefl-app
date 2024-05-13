@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:toefl/utils/custom_text_style.dart';
 
 import '../../utils/colors.dart';
 import '../../utils/hex_color.dart';
 
 class BottomSheetTranscript extends StatelessWidget {
-  const BottomSheetTranscript({super.key});
+  const BottomSheetTranscript({super.key, required this.htmlText});
+
+  final String htmlText;
 
   @override
   Widget build(BuildContext context) {
@@ -55,20 +58,9 @@ class BottomSheetTranscript extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Text(
-                      "this is Title",
-                      style: CustomTextStyle.bold16.copyWith(fontSize: 14),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Text(
-                      "Located along the eastern shore of Canawap Bay, the Crescent Moon Bistro is a unique venue for birthday parties, weddings, corporate gatherings, and a host of other social events. \n\nOur chefs work with you to craft a perfect menu, while our coordinators will see to it that your event is superbly organized. Rental pricing is based on the date, type of event, and number of attendees.\n\nYou are welcome to tour our facility on October 10 from 11:00 AM. to 2:00 PM. Meet with our coordinators and culinary staff, and sample items from our creative menu. \n\nAdmission is free, but registration is required. We are offering 25% off on any booking made during this open house on October 10. For more information, please visit our website at www.crescentmoonbistro.com.",
-                      style: CustomTextStyle.normal12.copyWith(fontSize: 14),
-                    ),
+                    HtmlWidget(
+                      htmlText,
+                    )
                   ],
                 ),
               ),

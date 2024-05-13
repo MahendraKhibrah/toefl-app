@@ -20,6 +20,7 @@ const neutral90 = "#191919";
 const mariner50 = "#F1F8FD";
 const mariner600 = "#4282CE";
 const mariner100 = "#E4F4FF";
+const mariner200 = "#CDEAFF";
 const mariner300 = "#ADE0FF";
 const mariner700 = "#3B73C5";
 const mariner400 = "#76B7E4";
