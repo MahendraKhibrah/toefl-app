@@ -10,18 +10,34 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.6
+  google_fonts: ^6.2.1
+  easy_localization: ^3.0.6
+  flutter_svg: ^2.0.10+1
+  just_audio: ^0.9.37
+  dio: ^5.4.3+1
+  json_annotation: ^4.9.0
+  sqflite: ^2.3.2
+  path: ^1.9.0
+  shared_preferences: ^2.2.3
+  freezed_annotation: ^2.4.1
+  flutter_riverpod: ^2.5.1
+  skeletonizer: ^1.1.2+1
+  easy_debounce: ^2.0.3
+  flutter_widget_from_html: ^0.15.0
+  slide_countdown: ^1.6.1
+
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^3.0.0
-  google_fonts: ^6.2.1
-  easy_localization: ^3.0.6
-  flutter_svg: ^2.0.10+1
+  build_runner: ^2.4.9
+  json_serializable: ^6.8.0
+  freezed: ^2.5.2
 
 flutter:
   uses-material-design: true
   assets:
     - assets/translation/
     - assets/icons/
-    - assets/img/
+    - assets/images/

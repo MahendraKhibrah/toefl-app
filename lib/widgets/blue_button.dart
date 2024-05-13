@@ -27,17 +27,17 @@ class BlueButton extends StatelessWidget {
       onTap: isDisabled ? () {} : onTap,
       child: Container(
         decoration: BoxDecoration(
-          color: HexColor(isDisabled ? neutral10 : mariner700),
+          color: HexColor(isDisabled ? neutral20 : mariner700),
           borderRadius: BorderRadius.circular(15),
         ),
         width: buttonSize,
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.symmetric(vertical: 11.0, horizontal: 16.0),
           child: Center(
             child: Text(
               title,
               style: CustomTextStyle.bold16.copyWith(
-                  color: isDisabled ? HexColor(secondaryGrey) : Colors.white),
+                  color: isDisabled ? HexColor(neutral60) : Colors.white),
             ),
           ),
         ),
