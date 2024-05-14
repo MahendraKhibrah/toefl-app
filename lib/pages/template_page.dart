@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:toefl/utils/colors.dart';
+import 'package:toefl/widgets/answer_validation_container.dart';
 import 'package:toefl/widgets/border_button.dart';
 import 'package:toefl/widgets/toefl_progress_indicator.dart';
 import '../widgets/answer_button.dart';
@@ -81,7 +82,7 @@ class TemplatePage extends StatelessWidget {
               explanation:
                   'lorem ipsum dolor sit amet hehe hehe hehhhhh eheh weh',
             ),
-             const ToeflProgressIndicator(
+            const ToeflProgressIndicator(
               value: 0.25,
               scale: 0.5,
               strokeWidth: 30,

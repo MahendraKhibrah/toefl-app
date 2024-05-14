@@ -37,8 +37,8 @@ class SimulationPage extends StatelessWidget {
                         1 /
                         16, // Sesuaikan tingginya
                     decoration: BoxDecoration(
-                      color: HexColor(
-                          mariner600), // Ganti dengan warna atau dekorasi yang Anda inginkan
+                      color: HexColor(mariner600),
+                      // Ganti dengan warna atau dekorasi yang Anda inginkan
                       borderRadius: BorderRadius.circular(
                           10), // Atur radius sesuai kebutuhan
                     ),
@@ -79,6 +79,7 @@ class SimulationPage extends StatelessWidget {
                                 backgroundColor: HexColor(neutral40),
                                 valueColor: AlwaysStoppedAnimation<Color>(
                                     HexColor(mariner700)),
+                                value: 0.8,
                               ),
                             ),
                           ),
