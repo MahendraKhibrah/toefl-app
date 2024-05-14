@@ -12,7 +12,7 @@ class AnswerButton extends StatefulWidget {
     this.isAnswerTrue = false,
     required this.onTap,
     required this.title,
-    required this.isActive,
+    this.isActive = true,
   });
 
   final bool isDisabled;
@@ -27,8 +27,6 @@ class AnswerButton extends StatefulWidget {
 }
 
 class _AnswerButtonState extends State<AnswerButton> {
-  // bool isAnswer = false;
-
   @override
   void initState() {
     super.initState();

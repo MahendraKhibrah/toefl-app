@@ -1,7 +1,10 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:toefl/routes/navigator_key.dart';
 import 'package:toefl/routes/route_key.dart';
+import 'package:toefl/routes/route_observer.dart';
 import 'package:toefl/routes/routes.dart';
 import 'package:toefl/utils/colors.dart';
 import 'package:toefl/utils/hex_color.dart';
@@ -12,15 +15,17 @@ import 'package:toefl/utils/locale.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
-  runApp(EasyLocalization(
-    supportedLocales: [
-      Locale(LocaleEnum.id.name),
-      Locale(LocaleEnum.en.name),
-    ],
-    path: 'assets/translation',
-    fallbackLocale: Locale(LocaleEnum.id.name),
-    child: const MyApp(),
-  ),);
+  runApp(
+    EasyLocalization(
+      supportedLocales: [
+        Locale(LocaleEnum.id.name),
+        Locale(LocaleEnum.en.name),
+      ],
+      path: 'assets/translation',
+      fallbackLocale: Locale(LocaleEnum.id.name),
+      child: const ProviderScope(child: MyApp()),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -37,10 +42,16 @@ class MyApp extends StatelessWidget {
         primaryColor: HexColor(mariner700),
         secondaryHeaderColor: HexColor(mariner100),
         fontFamily: GoogleFonts.nunito().fontFamily,
+        colorScheme: Theme.of(context)
+            .colorScheme
+            .copyWith(outline: HexColor(mariner800)),
       ),
       initialRoute: RouteKey.quiz,
       routes: routes,
-
+      navigatorKey: navigatorKey,
+      navigatorObservers: [
+        NavigatorHistory(),
+      ],
     );
   }
 }
