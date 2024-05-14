@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:toefl/routes/navigator_key.dart';
 
 import '../../utils/colors.dart';
 import '../../utils/custom_text_style.dart';
 import '../../utils/hex_color.dart';
 
 class BottomSheetFullTest extends StatefulWidget {
-  const BottomSheetFullTest({super.key});
+  const BottomSheetFullTest(
+      {super.key, required this.filledStatus, required this.onTap});
+
+  final List<bool> filledStatus;
+  final Function(int) onTap;
 
   @override
   State<BottomSheetFullTest> createState() => _BottomSheetFullTestState();
@@ -19,6 +24,11 @@ class _BottomSheetFullTestState extends State<BottomSheetFullTest> {
   void dispose() {
     super.dispose();
     pageController.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
   }
 
   @override
@@ -110,11 +120,11 @@ class _BottomSheetFullTestState extends State<BottomSheetFullTest> {
                           ),
                         ),
                         ...buildSection(
-                            "Part A : Short Talks", (p0) => null, 30, 1),
+                            "Part A : Short Talks", widget.onTap, 30, 1),
                         ...buildSection(
-                            "Part B : Long Conversations", (p0) => null, 8, 31),
+                            "Part B : Long Conversations", widget.onTap, 8, 31),
                         ...buildSection(
-                            "Part C : Mini-Lectures", (p0) => null, 12, 39),
+                            "Part C : Mini-Lectures", widget.onTap, 12, 39),
                         Padding(
                           padding: const EdgeInsets.only(top: 15, bottom: 2),
                           child: Text(
@@ -124,9 +134,9 @@ class _BottomSheetFullTestState extends State<BottomSheetFullTest> {
                           ),
                         ),
                         ...buildSection("Part A: Sentence Completitions",
-                            (p0) => null, 15, 51),
+                            widget.onTap, 15, 51),
                         ...buildSection(
-                            "Part B: Error Recognition", (p0) => null, 25, 66),
+                            "Part B: Error Recognition", widget.onTap, 25, 66),
                         Padding(
                           padding: const EdgeInsets.only(top: 15, bottom: 2),
                           child: Text(
@@ -135,12 +145,100 @@ class _BottomSheetFullTestState extends State<BottomSheetFullTest> {
                                 CustomTextStyle.bold16.copyWith(fontSize: 15),
                           ),
                         ),
-                        ...buildSection("", (p0) => null, 50, 91),
+                        ...buildSection("", widget.onTap, 50, 91),
                       ],
                     ),
                   ),
-                  const Text("Answered"),
-                  const Text("Unanswered")
+                  SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(top: 15, bottom: 2),
+                          child: Text(
+                            "Listening",
+                            style:
+                                CustomTextStyle.bold16.copyWith(fontSize: 15),
+                          ),
+                        ),
+                        ...buildSectionAnswered(
+                            "Part A : Short Talks", widget.onTap, 30, 1),
+                        ...buildSectionAnswered(
+                            "Part B : Long Conversations", widget.onTap, 8, 31),
+                        ...buildSectionAnswered(
+                            "Part C : Mini-Lectures", widget.onTap, 12, 39),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 15, bottom: 2),
+                          child: Text(
+                            "Structure and Written Expression",
+                            style:
+                                CustomTextStyle.bold16.copyWith(fontSize: 15),
+                          ),
+                        ),
+                        ...buildSectionAnswered(
+                            "Part A: Sentence Completitions",
+                            widget.onTap,
+                            15,
+                            51),
+                        ...buildSectionAnswered(
+                            "Part B: Error Recognition", widget.onTap, 25, 66),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 15, bottom: 2),
+                          child: Text(
+                            "Reading",
+                            style:
+                                CustomTextStyle.bold16.copyWith(fontSize: 15),
+                          ),
+                        ),
+                        ...buildSectionAnswered("", widget.onTap, 50, 91),
+                      ],
+                    ),
+                  ),
+                  SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(top: 15, bottom: 2),
+                          child: Text(
+                            "Listening",
+                            style:
+                                CustomTextStyle.bold16.copyWith(fontSize: 15),
+                          ),
+                        ),
+                        ...buildSectionUnanswered(
+                            "Part A : Short Talks", widget.onTap, 30, 1),
+                        ...buildSectionUnanswered(
+                            "Part B : Long Conversations", widget.onTap, 8, 31),
+                        ...buildSectionUnanswered(
+                            "Part C : Mini-Lectures", widget.onTap, 12, 39),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 15, bottom: 2),
+                          child: Text(
+                            "Structure and Written Expression",
+                            style:
+                                CustomTextStyle.bold16.copyWith(fontSize: 15),
+                          ),
+                        ),
+                        ...buildSectionUnanswered(
+                            "Part A: Sentence Completitions",
+                            widget.onTap,
+                            15,
+                            51),
+                        ...buildSectionUnanswered(
+                            "Part B: Error Recognition", widget.onTap, 25, 66),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 15, bottom: 2),
+                          child: Text(
+                            "Reading",
+                            style:
+                                CustomTextStyle.bold16.copyWith(fontSize: 15),
+                          ),
+                        ),
+                        ...buildSectionUnanswered("", widget.onTap, 50, 91),
+                      ],
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -234,13 +332,103 @@ class _BottomSheetFullTestState extends State<BottomSheetFullTest> {
             children: List.generate(total, (index) {
               return buildNumOption(
                 index + start,
-                () {},
-                isActive: false,
+                () {
+                  Navigator.of(context).pop(index + start);
+                },
+                isActive: widget.filledStatus[index + start - 1],
               );
             }),
           ),
         ),
       ),
+    ];
+  }
+
+  List buildSectionAnswered(
+    String title,
+    Function(int) onTap,
+    int total,
+    int start,
+  ) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    var answeredNumberList = <int>[];
+
+    for (var i = start; i < start + total; i++) {
+      if (widget.filledStatus[i - 1]) {
+        answeredNumberList.add(i);
+      }
+    }
+
+    return [
+      title != "" && answeredNumberList.isNotEmpty
+          ? Text(
+              title,
+              style: CustomTextStyle.normal12,
+            )
+          : const SizedBox(),
+      answeredNumberList.isNotEmpty
+          ? Padding(
+              padding: const EdgeInsets.symmetric(vertical: 15),
+              child: Wrap(
+                crossAxisAlignment: WrapCrossAlignment.center,
+                spacing: screenWidth * 0.03,
+                runSpacing: screenWidth * 0.03,
+                children: List.generate(answeredNumberList.length, (index) {
+                  return buildNumOption(
+                    answeredNumberList[index],
+                    () {
+                      Navigator.of(context).pop(index + start);
+                    },
+                    isActive: true,
+                  );
+                }),
+              ),
+            )
+          : const SizedBox(),
+    ];
+  }
+
+  List buildSectionUnanswered(
+    String title,
+    Function(int) onTap,
+    int total,
+    int start,
+  ) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    var answeredNumberList = <int>[];
+
+    for (var i = start; i < start + total; i++) {
+      if (!widget.filledStatus[i - 1]) {
+        answeredNumberList.add(i);
+      }
+    }
+
+    return [
+      title != "" && answeredNumberList.isNotEmpty
+          ? Text(
+              title,
+              style: CustomTextStyle.normal12,
+            )
+          : const SizedBox(),
+      answeredNumberList.isNotEmpty
+          ? Padding(
+              padding: const EdgeInsets.symmetric(vertical: 15),
+              child: Wrap(
+                crossAxisAlignment: WrapCrossAlignment.center,
+                spacing: screenWidth * 0.03,
+                runSpacing: screenWidth * 0.03,
+                children: List.generate(answeredNumberList.length, (index) {
+                  return buildNumOption(
+                    answeredNumberList[index],
+                    () {
+                      Navigator.of(context).pop(index + start);
+                    },
+                    isActive: false,
+                  );
+                }),
+              ),
+            )
+          : const SizedBox(),
     ];
   }
 }

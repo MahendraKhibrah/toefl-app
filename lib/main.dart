@@ -1,8 +1,10 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:toefl/routes/navigator_key.dart';
 import 'package:toefl/routes/route_key.dart';
+import 'package:toefl/routes/route_observer.dart';
 import 'package:toefl/routes/routes.dart';
 import 'package:toefl/utils/colors.dart';
 import 'package:toefl/utils/hex_color.dart';
@@ -22,7 +24,7 @@ void main() async {
       ],
       path: 'assets/translation',
       fallbackLocale: Locale(LocaleEnum.id.name),
-      child: const MyApp(),
+      child: const ProviderScope(child: MyApp()),
     ),
   );
 }
@@ -41,10 +43,16 @@ class MyApp extends StatelessWidget {
         primaryColor: HexColor(mariner700),
         secondaryHeaderColor: HexColor(mariner100),
         fontFamily: GoogleFonts.nunito().fontFamily,
+        colorScheme: Theme.of(context)
+            .colorScheme
+            .copyWith(outline: HexColor(mariner800)),
       ),
-      initialRoute: RouteKey.testresult,
+      initialRoute: RouteKey.root,
       routes: routes,
       navigatorKey: navigatorKey,
+      navigatorObservers: [
+        NavigatorHistory(),
+      ],
     );
   }
 }

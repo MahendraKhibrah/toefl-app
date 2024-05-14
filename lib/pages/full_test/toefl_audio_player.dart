@@ -8,7 +8,9 @@ import '../../utils/hex_color.dart';
 import '../../widgets/blue_container.dart';
 
 class ToeflAudioPlayer extends StatefulWidget {
-  const ToeflAudioPlayer({super.key});
+  const ToeflAudioPlayer({super.key, required this.url});
+
+  final String url;
 
   @override
   State<ToeflAudioPlayer> createState() => _ToeflAudioPlayerState();
@@ -33,8 +35,7 @@ class _ToeflAudioPlayerState extends State<ToeflAudioPlayer> {
   }
 
   void initPlayer() async {
-    await player.setUrl(
-        "https://www.learningcontainer.com/wp-content/uploads/2020/02/Kalimba.mp3");
+    await player.setUrl(widget.url);
 
     player.positionStream.listen((event) {
       setState(() {
@@ -72,7 +73,10 @@ class _ToeflAudioPlayerState extends State<ToeflAudioPlayer> {
     final screenWidth = MediaQuery.of(context).size.width;
 
     return BlueContainer(
-      showShadow: true,
+      innerShadow: true,
+      color: mariner200,
+      padding: 8.0,
+      width: screenWidth * 0.89,
       child: Row(
         children: [
           GestureDetector(

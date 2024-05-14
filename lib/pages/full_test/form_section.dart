@@ -1,21 +1,51 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
+import 'package:skeletonizer/skeletonizer.dart';
+import 'package:toefl/models/test/packet_detail.dart';
+import 'package:toefl/pages/full_test/multiple_choices.dart';
 import 'package:toefl/pages/full_test/toefl_audio_player.dart';
+import 'package:toefl/remote/env.dart';
 import 'package:toefl/widgets/answer_button.dart';
+import 'package:toefl/widgets/blue_container.dart';
 
+import '../../state_management/full_test_provider.dart';
 import '../../utils/colors.dart';
 import '../../utils/custom_text_style.dart';
 import '../../utils/hex_color.dart';
 import 'bottom_sheet_transcript.dart';
 
-class FormSection extends StatefulWidget {
-  const FormSection({super.key});
+class FormSection extends ConsumerStatefulWidget {
+  const FormSection({super.key, required this.questions});
+
+  final List<Question> questions;
 
   @override
-  State<FormSection> createState() => _FormSectionState();
+  ConsumerState<FormSection> createState() => _FormSectionState();
 }
 
-class _FormSectionState extends State<FormSection> {
-  var activeIndex = -1;
+class _FormSectionState extends ConsumerState<FormSection> {
+  List<Question> questions = [
+    Question(
+      id: "",
+      question: "",
+      typeQuestion: "",
+      nestedQuestionId: "",
+      choices: [],
+      bigQuestion: "",
+      answer: "",
+      bookmarked: 0,
+      number: 0,
+    )
+  ];
+
+  @override
+  void initState() {
+    if (widget.questions.isNotEmpty) {
+      questions = widget.questions;
+    }
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,116 +55,151 @@ class _FormSectionState extends State<FormSection> {
     return Stack(
       children: [
         SizedBox(
-          width: screenWidth * 0.9,
-          height: screenHeight * 0.68,
+          width: screenWidth * 0.92,
+          height: screenHeight * 0.7,
           child: SingleChildScrollView(
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // BlueContainer(
-                //   child: Column(
-                //     crossAxisAlignment: CrossAxisAlignment.start,
-                //     children: [
-                //       Text(
-                //         "Listening",
-                //         style: CustomTextStyle.bold16.copyWith(
-                //           fontSize: 14,
-                //         ),
-                //       ),
-                //       const SizedBox(
-                //         height: 10,
-                //       ),
-                //       Text(
-                //         "Crescent Moon Bistro Located along the eastern shore of Canawap Bay, the Crescent Moon Bistro is a unique venue for birthday parties, weddings, corporate gatherings, and a host of other social events. Our chefs work with you to craft a perfect menu, while our coordinators will see to it that your event is superbly organized. Rental pricing is based on the date, type of event, and number of attendees.You are welcome to tour our facility on October 10 from 11:00 AM. to 2:00 PM. Meet with our coordinators and culinary staff, and sample items from our creative menu. Admission is free, but registration is required. We are offering 25% off on any booking made during this open house on October 10.",
-                //         style: CustomTextStyle.normal12.copyWith(fontSize: 14),
-                //       ),
-                //     ],
-                //   ),
-                // ),
-                const ToeflAudioPlayer(),
+                const SizedBox(
+                  height: 10,
+                ),
+                questions.first.typeQuestion == "Reading"
+                    ? Skeleton.leaf(
+                        child: BlueContainer(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              HtmlWidget(
+                                questions.first.bigQuestion,
+                              )
+                            ],
+                          ),
+                        ),
+                      )
+                    : const SizedBox(),
+                questions.first.typeQuestion == "Listening" &&
+                        (questions.first.bigQuestion).contains("mp3")
+                    ? Skeleton.leaf(
+                        child: ToeflAudioPlayer(
+                        url: '${Env.storageUrl}/${questions.first.bigQuestion}',
+                      ))
+                    : const SizedBox(),
                 const SizedBox(
                   height: 20,
                 ),
-                Text(
-                  "Question 51",
-                  style: CustomTextStyle.bold16.copyWith(fontSize: 14),
-                ),
-                const SizedBox(
-                  height: 2,
-                ),
-                Text(
-                  "What is the ... having trouble doing?",
-                  style: CustomTextStyle.medium14,
-                ),
-                const SizedBox(
-                  height: 12,
-                ),
-                ...List.generate(5, (index) {
+                ...List.generate(questions.length, (index) {
                   return Padding(
-                      padding: const EdgeInsets.only(bottom: 15),
-                      child: AnswerButton(
-                        onTap: () {
-                          setState(() {
-                            activeIndex = index;
-                          });
-                        },
-                        title: "index $index",
-                        isActive: activeIndex == index,
-                      ));
+                    padding: const EdgeInsets.only(bottom: 20),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: _buildQuestion(questions[index]),
+                    ),
+                  );
                 }),
                 const SizedBox(
-                  height: 100,
+                  height: 80,
                 )
               ],
             ),
           ),
         ),
-        Positioned(bottom: 0, right: 0, child: _buildFloatingButton(context))
+        Positioned(
+            bottom: 20,
+            right: 0,
+            child: (questions.first.typeQuestion) == "Reading"
+                ? _buildFloatingButton(context)
+                : const SizedBox())
       ],
     );
   }
 
+  List<Widget> _buildQuestion(Question question) {
+    return [
+      Padding(
+        padding: EdgeInsets.only(bottom: question.question.isEmpty ? 8.0 : 0),
+        child: Text(
+          "Question ${question.number}",
+          style: CustomTextStyle.bold16.copyWith(fontSize: 14),
+        ),
+      ),
+      question.question.isNotEmpty
+          ? Padding(
+              padding: const EdgeInsets.only(top: 2, bottom: 12),
+              child: Text(
+                question.question,
+                style: CustomTextStyle.medium14,
+              ),
+            )
+          : const SizedBox(),
+      Consumer(builder: (context, ref, child) {
+        final state = ref.watch(fullTestProvider);
+        if (state.selectedQuestions.isEmpty) {
+          return Column(
+            children: List.generate(4, (index) {
+              return Padding(
+                  padding: const EdgeInsets.only(bottom: 15),
+                  child: Skeleton.replace(
+                    width: MediaQuery.of(context).size.width,
+                    height: 50,
+                    child: AnswerButton(
+                        onTap: () {},
+                        title: "(${String.fromCharCode(65 + index)}) $index",
+                        isActive: false),
+                  ));
+            }),
+          );
+        } else {
+          return MultipleChoices(question: question);
+        }
+      }),
+    ];
+  }
+
   Widget _buildFloatingButton(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        showModalBottomSheet(
-            context: context,
-            builder: (context) {
-              return const BottomSheetTranscript();
-            });
-      },
-      child: Container(
-        width: 70,
-        height: 70,
-        decoration: BoxDecoration(
-            color: HexColor(mariner500),
-            borderRadius: BorderRadius.circular(40),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.withOpacity(0.5),
-                spreadRadius: 3,
-                blurRadius: 5,
-                offset: const Offset(1, 3),
+    return Skeleton.leaf(
+      child: GestureDetector(
+        onTap: () {
+          showModalBottomSheet(
+              context: context,
+              builder: (context) {
+                return BottomSheetTranscript(
+                  htmlText: questions.first.bigQuestion,
+                );
+              });
+        },
+        child: Container(
+          width: 70,
+          height: 70,
+          decoration: BoxDecoration(
+              color: HexColor(mariner500),
+              borderRadius: BorderRadius.circular(40),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.5),
+                  spreadRadius: 3,
+                  blurRadius: 5,
+                  offset: const Offset(1, 3),
+                ),
+              ]),
+          child: Column(
+            children: [
+              const SizedBox(
+                height: 6,
               ),
-            ]),
-        child: Column(
-          children: [
-            const SizedBox(
-              height: 6,
-            ),
-            Text(
-              "See\nTranscript",
-              textAlign: TextAlign.center,
-              style: CustomTextStyle.bold16.copyWith(
+              Text(
+                "See\nTranscript",
+                textAlign: TextAlign.center,
+                style: CustomTextStyle.bold16.copyWith(
+                  color: Colors.white,
+                  fontSize: 10,
+                ),
+              ),
+              const Icon(
+                Icons.menu_book_outlined,
                 color: Colors.white,
-                fontSize: 10,
               ),
-            ),
-            const Icon(
-              Icons.menu_book_outlined,
-              color: Colors.white,
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

@@ -7,9 +7,14 @@ import '../../utils/colors.dart';
 import '../../utils/custom_text_style.dart';
 
 class SubmitDialog extends StatelessWidget {
-  const SubmitDialog({super.key, required this.onNo, required this.onYes});
+  const SubmitDialog(
+      {super.key,
+      required this.onNo,
+      required this.onYes,
+      required this.unAnsweredQuestion});
   final Function onNo;
   final Function onYes;
+  final int unAnsweredQuestion;
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +35,9 @@ class SubmitDialog extends StatelessWidget {
         child: Column(
           children: [
             Text(
-              "The are still 136 unanswered questions. Do you want to submit your test now?",
+              unAnsweredQuestion > 0
+                  ? "The are still $unAnsweredQuestion unanswered questions. Do you want to submit your test now?"
+                  : "you still have remaining time, are you sure want to finish the test?",
               textAlign: TextAlign.center,
               style: CustomTextStyle.medium14.copyWith(fontSize: 15),
             ),

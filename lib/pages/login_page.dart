@@ -107,8 +107,7 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                         );
                         if (val) {
-                          //TODO : CHANGE TO HOME PAGE
-                          Navigator.popAndPushNamed(context, RouteKey.fullTest);
+                          Navigator.popAndPushNamed(context, RouteKey.main);
                         }
                       }
                     },

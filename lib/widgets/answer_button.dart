@@ -58,7 +58,7 @@ class _AnswerButtonState extends State<AnswerButton> {
           child: Row(
             children: [
               SizedBox(
-                width: MediaQuery.of(context).size.width * 0.75,
+                width: MediaQuery.of(context).size.width * 0.7,
                 child: Text(
                   widget.title,
                   style: CustomTextStyle.light13.copyWith(
