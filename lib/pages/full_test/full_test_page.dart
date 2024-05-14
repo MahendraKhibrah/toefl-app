@@ -14,7 +14,7 @@ import 'bookmark_button.dart';
 import 'bottom_sheet_full_test.dart';
 
 class FullTestPage extends ConsumerWidget {
-  const FullTestPage(this.diffInSec, {super.key});
+  const FullTestPage({super.key, required this.diffInSec});
 
   final int diffInSec;
 

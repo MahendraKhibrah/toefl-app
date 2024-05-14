@@ -2,7 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:toefl/models/test/packet_detail.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:toefl/models/test/test_status.dart';
 import 'package:toefl/remote/api/full_test_api.dart';
+import 'package:toefl/remote/local/shared_pref/test_shared_preferences.dart';
 import 'package:toefl/remote/local/sqlite/full_test_table.dart';
 
 part 'full_test_provider.freezed.dart';
@@ -25,22 +27,45 @@ class FullTestProvider extends StateNotifier<FullTestProviderState> {
             packetDetail: PacketDetail(id: '', name: '', questions: []),
             selectedQuestions: [],
             questionsFilledStatus: [])) {
-    //TODO : CONDITION : SHARED PREFERENCES KEEP DATA OR NOT
-    getQuestionByNumber(1);
+    _onInit();
   }
 
   final FullTestTable _fullTestTable = FullTestTable();
   final FullTestApi _fullTestApi = FullTestApi();
+  final TestSharedPreference _testSharedPref = TestSharedPreference();
+
+  void _onInit() async {
+    try {
+      state = state.copyWith(isLoading: true);
+      final testStatus = await _testSharedPref.getStatus();
+      if (testStatus != null) {
+        _testSharedPref.saveStatus(TestStatus(
+            id: testStatus.id,
+            startTime: testStatus.startTime,
+            resetTable: false));
+
+        if (testStatus.resetTable) {
+          await initPacketDetail(testStatus.id).then((val) {
+            getQuestionByNumber(1);
+          });
+        } else {
+          getQuestionByNumber(1);
+        }
+      }
+    } catch (e) {
+      debugPrint("error: $e");
+    }
+  }
 
   Future<void> resetPacketTable() async {
     await _fullTestTable.resetDatabase();
     _fullTestTable.getFullTestTest();
   }
 
-  Future<bool> initPacketDetail() async {
+  Future<bool> initPacketDetail(String id) async {
     try {
       await resetPacketTable();
-      await _getPacketDetailFromApi();
+      await _getPacketDetailFromApi(id);
       await _insertQuestionsToLocal();
       state = state.copyWith(isLoading: false);
       return true;
@@ -50,9 +75,9 @@ class FullTestProvider extends StateNotifier<FullTestProviderState> {
     }
   }
 
-  Future<void> _getPacketDetailFromApi() async {
+  Future<void> _getPacketDetailFromApi(String id) async {
     try {
-      final packetDetail = await _fullTestApi.getPacketDetail();
+      final packetDetail = await _fullTestApi.getPacketDetail(id);
       state = state.copyWith(packetDetail: packetDetail);
     } catch (e) {
       rethrow;

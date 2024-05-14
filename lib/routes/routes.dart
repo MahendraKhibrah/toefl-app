@@ -23,7 +23,9 @@ final routes = <String, Widget Function(BuildContext)>{
   RouteKey.main: (context) => const MainPage(),
   RouteKey.fullTest: (context) {
     final int? seconds = ModalRoute.of(context)?.settings.arguments as int?;
-    return FullTestPage(seconds ?? 0);
+    return FullTestPage(
+      diffInSec: seconds ?? 0,
+    );
   },
   RouteKey.regist: (context) => const RegistPage(),
   RouteKey.login: (context) => const LoginPage(),
@@ -31,5 +33,8 @@ final routes = <String, Widget Function(BuildContext)>{
   RouteKey.testresult: (context) => const TestResultPage(),
   RouteKey.profile: (context) => const ProfilePage(),
   RouteKey.editProfile: (context) => EditProfile(),
-  RouteKey.openingLoadingTest: (context) => const OpeningLoadingPage(),
+  RouteKey.openingLoadingTest: (context) {
+    final String? id = ModalRoute.of(context)?.settings.arguments as String?;
+    return OpeningLoadingPage(packetId: id ?? "");
+  },
 };
