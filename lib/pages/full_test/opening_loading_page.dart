@@ -40,11 +40,13 @@ class _OpeningLoadingPageState extends State<OpeningLoadingPage> {
     if (!mounted) {
       return;
     } else {
-      Navigator.pushReplacementNamed(
+      Navigator.pushNamed(
         context,
         RouteKey.fullTest,
         arguments: diff.inSeconds + 4,
-      );
+      ).then((value) {
+        Navigator.of(context).pop();
+      });
     }
   }
 

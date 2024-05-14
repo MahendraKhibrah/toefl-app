@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 import 'package:toefl/remote/api/full_test_api.dart';
 import 'package:toefl/remote/local/shared_pref/test_shared_preferences.dart';
 import 'package:toefl/routes/route_key.dart';
@@ -26,6 +27,7 @@ class _SimulationPageState extends State<SimulationPage> {
   TestStatus? testStatus;
 
   void _onInit() async {
+    isLoading = true;
     try {
       testStatus = await _testSharedPref.getStatus();
       final allPacket = await _fullTestApi.getAllPacket();
@@ -54,16 +56,28 @@ class _SimulationPageState extends State<SimulationPage> {
           ),
           centerTitle: true,
         ),
-        body: isLoading
-            ? const Center(
-                child: CircularProgressIndicator(),
-              )
-            : Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: packets.isNotEmpty
+        body: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+          child: SingleChildScrollView(
+            child: Skeletonizer(
+              enabled: isLoading,
+              child: Column(
+                children: isLoading
+                    ? List.generate(
+                        4,
+                        (index) => Padding(
+                          padding: const EdgeInsets.only(bottom: 14),
+                          child: Skeleton.leaf(
+                              child: PacketCard(
+                                  title: "",
+                                  questionCount: 0,
+                                  accuracy: 0,
+                                  onTap: () {},
+                                  isOnGoing: false,
+                                  isDisabled: true)),
+                        ),
+                      )
+                    : packets.isNotEmpty
                         ? List.generate(packets.length, (index) {
                             return Padding(
                               padding: const EdgeInsets.only(bottom: 16),
@@ -73,7 +87,7 @@ class _SimulationPageState extends State<SimulationPage> {
                                   isDisabled:
                                       !(packets[index].questionCount == 140),
                                   accuracy: packets[index].accuracy,
-                                  onTap: () {
+                                  onTap: () async {
                                     if (testStatus != null &&
                                         testStatus!.id == packets[index].id) {
                                       Navigator.of(context)
@@ -81,9 +95,7 @@ class _SimulationPageState extends State<SimulationPage> {
                                               RouteKey.openingLoadingTest,
                                               arguments: packets[index].id)
                                           .then((value) {
-                                        if (value != null) {
-                                          debugPrint("error: $value");
-                                        }
+                                        _onInit();
                                       });
                                     } else if (testStatus == null) {
                                       Navigator.of(context)
@@ -91,9 +103,7 @@ class _SimulationPageState extends State<SimulationPage> {
                                               RouteKey.openingLoadingTest,
                                               arguments: packets[index].id)
                                           .then((value) {
-                                        if (value != null) {
-                                          debugPrint("error: $value");
-                                        }
+                                        _onInit();
                                       });
                                     }
                                   },
@@ -102,9 +112,10 @@ class _SimulationPageState extends State<SimulationPage> {
                             );
                           })
                         : [],
-                  ),
-                ),
-              ));
+              ),
+            ),
+          ),
+        ));
   }
 }
 

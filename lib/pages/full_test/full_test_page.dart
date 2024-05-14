@@ -1,5 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lottie/lottie.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:slide_countdown/slide_countdown.dart';
 import 'package:toefl/pages/full_test/close_app_dialog.dart';
@@ -22,6 +24,7 @@ class FullTestPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final screenWidth = MediaQuery.of(context).size.width;
     final FullTestProviderState state = ref.watch(fullTestProvider);
+
     return PopScope(
       canPop: false,
       onPopInvoked: (val) async {
@@ -29,7 +32,6 @@ class FullTestPage extends ConsumerWidget {
           barrierDismissible: false,
           context: context,
           builder: (BuildContext context) {
-            debugPrint("exitConfirmed");
             return AlertDialog(
                 backgroundColor: Colors.transparent,
                 contentPadding:
@@ -46,7 +48,7 @@ class FullTestPage extends ConsumerWidget {
         ).then((value) {
           final bool shouldPop = value ?? false;
           if (context.mounted && shouldPop) {
-            Navigator.pop(context);
+            Navigator.of(context).pop();
           }
         });
       },
@@ -84,7 +86,7 @@ class FullTestPage extends ConsumerWidget {
                                 showDialog(
                                   barrierDismissible: false,
                                   context: context,
-                                  builder: (BuildContext context) {
+                                  builder: (BuildContext submitContext) {
                                     return AlertDialog(
                                       backgroundColor: Colors.transparent,
                                       contentPadding:
@@ -92,10 +94,23 @@ class FullTestPage extends ConsumerWidget {
                                               horizontal: 0, vertical: 0),
                                       content: SubmitDialog(
                                           onNo: () {
-                                            Navigator.pop(context);
+                                            Navigator.pop(submitContext);
                                           },
-                                          onYes: () {
-                                            Navigator.pop(context);
+                                          onYes: () async {
+                                            Navigator.pop(submitContext);
+                                            bool submitResult = await ref
+                                                .read(fullTestProvider.notifier)
+                                                .submitAnswer();
+                                            if (submitResult) {
+                                              bool resetResult = await ref
+                                                  .read(
+                                                      fullTestProvider.notifier)
+                                                  .resetAll();
+                                              if (resetResult &&
+                                                  context.mounted) {
+                                                Navigator.pop(context);
+                                              }
+                                            }
                                           },
                                           unAnsweredQuestion: ref
                                               .watch(fullTestProvider)
@@ -150,29 +165,42 @@ class FullTestPage extends ConsumerWidget {
                               size: 18,
                             ),
                             SlideCountdown(
-                                duration: diffInSec >=
-                                        const Duration(hours: 2).inSeconds
-                                    ? const Duration(seconds: 2)
-                                    : const Duration(hours: 2) -
-                                        Duration(seconds: diffInSec),
-                                style: CustomTextStyle.bold16.copyWith(
-                                  color: HexColor(colorSuccess),
-                                  fontSize: 14,
-                                ),
-                                separator: ":",
-                                separatorStyle: CustomTextStyle.bold16.copyWith(
-                                  color: HexColor(colorSuccess),
-                                  fontSize: 14,
-                                ),
-                                padding: const EdgeInsets.only(left: 8),
-                                separatorPadding:
-                                    const EdgeInsets.symmetric(horizontal: 1),
-                                decoration: const BoxDecoration(
-                                  color: Colors.transparent,
-                                )),
-                            // Text(
-                            //   "0:30:37",
-                            // ),
+                              duration: diffInSec >=
+                                      const Duration(hours: 2).inSeconds
+                                  ? const Duration(seconds: 2)
+                                  : const Duration(hours: 2) -
+                                      Duration(seconds: diffInSec),
+                              style: CustomTextStyle.bold16.copyWith(
+                                color: HexColor(colorSuccess),
+                                fontSize: 14,
+                              ),
+                              separator: ":",
+                              separatorStyle: CustomTextStyle.bold16.copyWith(
+                                color: HexColor(colorSuccess),
+                                fontSize: 14,
+                              ),
+                              padding: const EdgeInsets.only(left: 8),
+                              separatorPadding:
+                                  const EdgeInsets.symmetric(horizontal: 1),
+                              decoration: const BoxDecoration(
+                                color: Colors.transparent,
+                              ),
+                              onDone: () async {
+                                ref
+                                    .read(fullTestProvider.notifier)
+                                    .submitAnswer()
+                                    .then((value) {
+                                  if (value) {
+                                    ref
+                                        .read(fullTestProvider.notifier)
+                                        .resetAll()
+                                        .then((value) {
+                                      Navigator.pop(context);
+                                    });
+                                  }
+                                });
+                              },
+                            ),
                           ],
                         ),
                         const SizedBox(
@@ -181,7 +209,19 @@ class FullTestPage extends ConsumerWidget {
                         Consumer(
                           builder: (context, ref, child) {
                             final state = ref.watch(fullTestProvider);
-                            if (state.isLoading) {
+                            if (state.isSubmitLoading) {
+                              return Column(children: [
+                                Lottie.network(
+                                    "https://lottie.host/61d1d16f-3171-4938-8112-e22de35c9943/5CS2iho5Gd.json",
+                                    width: 400,
+                                    height: 400),
+                                Transform.translate(
+                                    offset: const Offset(0, -50),
+                                    child: Text("Sending data..",
+                                        style: CustomTextStyle.bold16
+                                            .copyWith(fontSize: 26))),
+                              ]);
+                            } else if (state.isLoading) {
                               return const Skeletonizer(
                                 child: FormSection(
                                   questions: [],
@@ -196,7 +236,6 @@ class FullTestPage extends ConsumerWidget {
                             }
                           },
                         ),
-                        // const FormSection(),
                       ],
                     ),
                   ),

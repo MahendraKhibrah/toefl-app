@@ -11,12 +11,13 @@ part 'full_test_provider.freezed.dart';
 
 @freezed
 class FullTestProviderState with _$FullTestProviderState {
-  const factory FullTestProviderState({
-    required PacketDetail packetDetail,
-    @Default([]) List<Question> selectedQuestions,
-    @Default(true) bool isLoading,
-    @Default([]) List<bool> questionsFilledStatus,
-  }) = _FullTestProviderState;
+  const factory FullTestProviderState(
+      {required PacketDetail packetDetail,
+      @Default([]) List<Question> selectedQuestions,
+      @Default(true) bool isLoading,
+      @Default(false) bool isSubmitLoading,
+      @Default([]) List<bool> questionsFilledStatus,
+      required TestStatus testStatus}) = _FullTestProviderState;
 
   const FullTestProviderState._();
 }
@@ -26,7 +27,8 @@ class FullTestProvider extends StateNotifier<FullTestProviderState> {
       : super(FullTestProviderState(
             packetDetail: PacketDetail(id: '', name: '', questions: []),
             selectedQuestions: [],
-            questionsFilledStatus: [])) {
+            questionsFilledStatus: [],
+            testStatus: TestStatus(id: '', startTime: '', resetTable: false))) {
     _onInit();
   }
 
@@ -37,20 +39,20 @@ class FullTestProvider extends StateNotifier<FullTestProviderState> {
   void _onInit() async {
     try {
       state = state.copyWith(isLoading: true);
-      final testStatus = await _testSharedPref.getStatus();
-      if (testStatus != null) {
-        _testSharedPref.saveStatus(TestStatus(
-            id: testStatus.id,
-            startTime: testStatus.startTime,
-            resetTable: false));
-
-        if (testStatus.resetTable) {
-          await initPacketDetail(testStatus.id).then((val) {
+      final testStat = await _testSharedPref.getStatus();
+      if (testStat != null) {
+        if (testStat.resetTable) {
+          await _testSharedPref.saveStatus(TestStatus(
+              id: testStat.id,
+              startTime: testStat.startTime,
+              resetTable: false));
+          await initPacketDetail(testStat.id).then((val) {
             getQuestionByNumber(1);
           });
         } else {
           getQuestionByNumber(1);
         }
+        state = state.copyWith(testStatus: testStat);
       }
     } catch (e) {
       debugPrint("error: $e");
@@ -59,7 +61,10 @@ class FullTestProvider extends StateNotifier<FullTestProviderState> {
 
   Future<void> resetPacketTable() async {
     await _fullTestTable.resetDatabase();
-    _fullTestTable.getFullTestTest();
+  }
+
+  Future<void> resetTestStatus() async {
+    await _testSharedPref.removeStatus();
   }
 
   Future<bool> initPacketDetail(String id) async {
@@ -148,15 +153,57 @@ class FullTestProvider extends StateNotifier<FullTestProviderState> {
   Future<List<bool>> getQuestionsFilledStatus() async {
     try {
       final questions = await _fullTestTable.getAllAnswer();
-      return questions.map((e) => e != null).toList();
+      return questions.map((e) {
+        return e?.answer.isNotEmpty ?? false;
+      }).toList();
     } catch (e) {
       debugPrint("error: $e");
       return [];
     }
   }
 
-  void makeLoading() {
-    state = state.copyWith(isLoading: true);
+  Future<bool> submitAnswer() async {
+    state = state.copyWith(isSubmitLoading: true);
+    try {
+      final questions = await _fullTestTable.getAllAnswer();
+
+      final request = questions
+          .map((e) => {
+                "question_id": e?.id ?? "",
+                "bookmark": (e?.bookmarked ?? 0) > 0,
+                "answer_user":
+                    ((e?.answer)?.isNotEmpty ?? false) ? e!.answer : "-"
+              })
+          .toList();
+      final response =
+          await _fullTestApi.submitAnswer(request, state.testStatus.id);
+      if (response) {
+        debugPrint("success submit answer");
+        return true;
+      } else {
+        debugPrint("failed submit answer");
+        return false;
+      }
+    } catch (e) {
+      debugPrint("error: $e");
+      return false;
+    } finally {
+      // state = state.copyWith(isSubmitLoading: false);
+    }
+  }
+
+  Future<bool> resetAll() async {
+    state = state.copyWith(isSubmitLoading: true);
+    try {
+      await resetPacketTable();
+      await resetTestStatus();
+      return true;
+    } catch (e) {
+      return false;
+    } finally {
+      await Future.delayed(const Duration(seconds: 4));
+      state = state.copyWith(isSubmitLoading: false);
+    }
   }
 }
 

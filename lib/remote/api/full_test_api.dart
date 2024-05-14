@@ -36,4 +36,25 @@ class FullTestApi {
       return [];
     }
   }
+
+  Future<bool> submitAnswer(
+      List<Map<String, dynamic>> request, String packetId) async {
+    try {
+      final Response rawResponse = await DioToefl.instance.post(
+        '${Env.apiUrl}/submit-paket/$packetId',
+        data: {"answers": request},
+      );
+
+      debugPrint('response cok: ${rawResponse.statusCode}');
+      if ((rawResponse.statusCode ?? 0) >= 200 &&
+          (rawResponse.statusCode ?? 0) < 300) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      debugPrint('error submit answer: $e');
+      return false;
+    }
+  }
 }
