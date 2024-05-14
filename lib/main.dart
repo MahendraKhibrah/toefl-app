@@ -46,7 +46,7 @@ class MyApp extends StatelessWidget {
             .colorScheme
             .copyWith(outline: HexColor(mariner800)),
       ),
-      initialRoute: RouteKey.fullTest,
+      initialRoute: RouteKey.root,
       routes: routes,
       navigatorKey: navigatorKey,
       navigatorObservers: [
