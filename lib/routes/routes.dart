@@ -1,4 +1,6 @@
 import 'package:flutter/cupertino.dart';
+import 'package:toefl/pages/grammar_page.dart';
+import 'package:toefl/pages/quiz_page.dart';
 import 'package:toefl/pages/edit_profile_page.dart';
 import 'package:toefl/pages/full_test/opening_loading_page.dart';
 import 'package:toefl/pages/profile_page.dart';
@@ -12,6 +14,8 @@ import 'package:toefl/routes/route_key.dart';
 import 'package:toefl/pages/main_page.dart';
 
 final routes = <String, Widget Function(BuildContext)>{
+  RouteKey.grammar: (context) => const GrammarPage(),
+  RouteKey.quiz: (context) => const QuizPage(),
   RouteKey.root: (context) => const SplashPage(),
   RouteKey.main: (context) => const MainPage(),
   RouteKey.fullTest: (context) {

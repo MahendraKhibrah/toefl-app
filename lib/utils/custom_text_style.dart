@@ -11,6 +11,11 @@ class CustomTextStyle {
     fontWeight: FontWeight.bold,
   );
 
+  static TextStyle bold18 = GoogleFonts.nunito(
+    fontSize: 18,
+    fontWeight: FontWeight.bold,
+  );
+
   static TextStyle light13 = GoogleFonts.nunito(
     fontSize: 13,
     fontWeight: FontWeight.w400,
