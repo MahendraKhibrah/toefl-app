@@ -5,4 +5,6 @@ class RouteKey {
   static const fullTest = '/full-test';
   static const regist = '/regist';
   static const login = '/login';
+  static const testresult = '/test-result';
+  static const simulationpage = '/simulation-page';
 }

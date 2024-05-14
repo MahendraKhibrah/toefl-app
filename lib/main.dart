@@ -10,6 +10,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:toefl/utils/locale.dart';
 
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
@@ -41,7 +42,7 @@ class MyApp extends StatelessWidget {
         secondaryHeaderColor: HexColor(mariner100),
         fontFamily: GoogleFonts.nunito().fontFamily,
       ),
-      initialRoute: RouteKey.login,
+      initialRoute: RouteKey.testresult,
       routes: routes,
       navigatorKey: navigatorKey,
     );
