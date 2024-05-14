@@ -2,7 +2,7 @@ import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:skeletonizer/skeletonizer.dart';
-import 'package:toefl/models/packet_detail.dart';
+import 'package:toefl/models/test/packet_detail.dart';
 
 import '../../state_management/full_test_provider.dart';
 import '../../widgets/answer_button.dart';

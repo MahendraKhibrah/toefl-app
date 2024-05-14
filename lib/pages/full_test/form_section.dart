@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:skeletonizer/skeletonizer.dart';
-import 'package:toefl/models/packet_detail.dart';
+import 'package:toefl/models/test/packet_detail.dart';
 import 'package:toefl/pages/full_test/multiple_choices.dart';
 import 'package:toefl/pages/full_test/toefl_audio_player.dart';
 import 'package:toefl/remote/env.dart';

@@ -8,4 +8,5 @@ class RouteKey {
   static const main = '/main';
   static const profile = '/profile';
   static const editProfile = '/editProfile ';
+  static const openingLoadingTest = '/opening-loading-test';
 }

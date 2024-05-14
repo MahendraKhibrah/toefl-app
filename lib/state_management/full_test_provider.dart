@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:toefl/models/packet_detail.dart';
+import 'package:toefl/models/test/packet_detail.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:toefl/remote/api/full_test_api.dart';
 import 'package:toefl/remote/local/sqlite/full_test_table.dart';
