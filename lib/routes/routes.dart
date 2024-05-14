@@ -32,4 +32,5 @@ final routes = <String, Widget Function(BuildContext)>{
   RouteKey.profile: (context) => const ProfilePage(),
   RouteKey.editProfile: (context) => EditProfile(),
   RouteKey.openingLoadingTest: (context) => const OpeningLoadingPage(),
+  RouteKey.gamepage: (context) => const GamesPage(),
 };

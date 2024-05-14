@@ -51,11 +51,7 @@ class GameButton extends StatelessWidget {
           margin: EdgeInsets.only(bottom: 35),
           child: InkWell(
             onTap: () async {
-              ScaffoldMessenger.of(context).hideCurrentSnackBar();
-              quiz = await quizApi.fetchQuiz();
-              // print(quiz!.quizName);
-              // user = await userApi.getProfile();
-              // print(user!.nameUser);
+              quiz = await quizApi.fetchQuiz('6633127d3a99f7fe4cf8a83f');
               final snackBar = SnackBar(
                 backgroundColor: Colors.white,
                 padding: EdgeInsets.all(0),
@@ -79,7 +75,7 @@ class GameButton extends StatelessWidget {
 
               // Find the ScaffoldMessenger in the widget tree
               // and use it to show a SnackBar.
-              ScaffoldMessenger.of(context).showSnackBar(snackBar);
+              // ScaffoldMessenger.of(context).showSnackBar(snackBar);
             },
             child: Container(
               alignment: Alignment.center,
