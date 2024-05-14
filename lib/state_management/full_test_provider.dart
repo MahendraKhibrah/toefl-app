@@ -29,14 +29,14 @@ class FullTestProvider extends StateNotifier<FullTestProviderState> {
             selectedQuestions: [],
             questionsFilledStatus: [],
             testStatus: TestStatus(id: '', startTime: '', resetTable: false))) {
-    _onInit();
+    // _onInit();
   }
 
   final FullTestTable _fullTestTable = FullTestTable();
   final FullTestApi _fullTestApi = FullTestApi();
   final TestSharedPreference _testSharedPref = TestSharedPreference();
 
-  void _onInit() async {
+  Future<void> onInit() async {
     try {
       state = state.copyWith(isLoading: true);
       final testStat = await _testSharedPref.getStatus();
@@ -56,6 +56,8 @@ class FullTestProvider extends StateNotifier<FullTestProviderState> {
       }
     } catch (e) {
       debugPrint("error: $e");
+    } finally {
+      state = state.copyWith(isLoading: false);
     }
   }
 
@@ -205,8 +207,26 @@ class FullTestProvider extends StateNotifier<FullTestProviderState> {
       state = state.copyWith(isSubmitLoading: false);
     }
   }
+
+  void resetState() {
+    state = FullTestProviderState(
+      packetDetail: PacketDetail(id: '', name: '', questions: []),
+      selectedQuestions: [],
+      isLoading: true,
+      isSubmitLoading: false,
+      questionsFilledStatus: [],
+      testStatus: TestStatus(id: '', startTime: '', resetTable: false),
+    );
+  }
 }
 
 final fullTestProvider =
-    StateNotifierProvider<FullTestProvider, FullTestProviderState>(
-        (ref) => FullTestProvider());
+    StateNotifierProvider<FullTestProvider, FullTestProviderState>((ref) {
+  final provider = FullTestProvider();
+  ref.onDispose(() {
+    debugPrint("dispose full test provider");
+    provider.resetState();
+  });
+
+  return provider;
+});

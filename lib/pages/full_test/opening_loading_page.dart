@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lottie/lottie.dart';
 import 'package:toefl/models/test/test_status.dart';
 import 'package:toefl/remote/local/shared_pref/test_shared_preferences.dart';
 import 'package:toefl/routes/route_key.dart';
+import 'package:toefl/state_management/full_test_provider.dart';
 
-class OpeningLoadingPage extends StatefulWidget {
+class OpeningLoadingPage extends ConsumerStatefulWidget {
   const OpeningLoadingPage({super.key, required this.packetId});
 
   final String packetId;
 
   @override
-  State<OpeningLoadingPage> createState() => _OpeningLoadingPageState();
+  ConsumerState<OpeningLoadingPage> createState() => _OpeningLoadingPageState();
 }
 
-class _OpeningLoadingPageState extends State<OpeningLoadingPage> {
+class _OpeningLoadingPageState extends ConsumerState<OpeningLoadingPage> {
   @override
   void initState() {
     super.initState();
@@ -33,7 +35,7 @@ class _OpeningLoadingPageState extends State<OpeningLoadingPage> {
           startTime: DateTime.now().toIso8601String(),
           resetTable: true));
     }
-
+    await ref.read(fullTestProvider.notifier).onInit();
     await Future.delayed(const Duration(seconds: 4));
 
     final diff = DateTime.now().difference(startDate);

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:skeletonizer/skeletonizer.dart';
+import 'package:toefl/pages/full_test/finished_packet_dialog.dart';
 import 'package:toefl/remote/api/full_test_api.dart';
 import 'package:toefl/remote/local/shared_pref/test_shared_preferences.dart';
 import 'package:toefl/routes/route_key.dart';
@@ -88,23 +89,47 @@ class _SimulationPageState extends State<SimulationPage> {
                                       !(packets[index].questionCount == 140),
                                   accuracy: packets[index].accuracy,
                                   onTap: () async {
-                                    if (testStatus != null &&
-                                        testStatus!.id == packets[index].id) {
-                                      Navigator.of(context)
-                                          .pushNamed(
-                                              RouteKey.openingLoadingTest,
-                                              arguments: packets[index].id)
-                                          .then((value) {
-                                        _onInit();
-                                      });
-                                    } else if (testStatus == null) {
-                                      Navigator.of(context)
-                                          .pushNamed(
-                                              RouteKey.openingLoadingTest,
-                                              arguments: packets[index].id)
-                                          .then((value) {
-                                        _onInit();
-                                      });
+                                    if (packets[index].accuracy <= 0) {
+                                      if (testStatus != null &&
+                                          testStatus!.id == packets[index].id) {
+                                        Navigator.of(context)
+                                            .pushNamed(
+                                                RouteKey.openingLoadingTest,
+                                                arguments: packets[index].id)
+                                            .then((value) {
+                                          _onInit();
+                                        });
+                                      } else if (testStatus == null) {
+                                        Navigator.of(context)
+                                            .pushNamed(
+                                                RouteKey.openingLoadingTest,
+                                                arguments: packets[index].id)
+                                            .then((value) {
+                                          _onInit();
+                                        });
+                                      }
+                                    } else {
+                                      showDialog(
+                                        barrierDismissible: false,
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return AlertDialog(
+                                              backgroundColor:
+                                                  Colors.transparent,
+                                              contentPadding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 0,
+                                                      vertical: 0),
+                                              content: FinishedPacketDialog(
+                                                onRetake: () {
+                                                  Navigator.of(context).pop();
+                                                },
+                                                onReview: () {
+                                                  Navigator.of(context).pop();
+                                                },
+                                              ));
+                                        },
+                                      );
                                     }
                                   },
                                   isOnGoing: testStatus != null &&
