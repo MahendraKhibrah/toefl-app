@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:toefl/utils/colors.dart';
 import 'package:toefl/utils/hex_color.dart';
 
-import '../../models/packet_detail.dart';
+import '../../models/test/packet_detail.dart';
 import '../../state_management/full_test_provider.dart';
 
 class BookmarkButton extends ConsumerStatefulWidget {

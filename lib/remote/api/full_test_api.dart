@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
-import 'package:toefl/models/packet_detail.dart';
+import 'package:toefl/models/test/packet_detail.dart';
 import 'package:toefl/remote/dio_toefl.dart';
 
 import '../base_response.dart';
