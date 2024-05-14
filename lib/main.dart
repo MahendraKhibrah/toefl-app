@@ -12,6 +12,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:toefl/utils/locale.dart';
 
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
@@ -46,7 +47,7 @@ class MyApp extends StatelessWidget {
             .colorScheme
             .copyWith(outline: HexColor(mariner800)),
       ),
-      initialRoute: RouteKey.quiz,
+      initialRoute: RouteKey.root,
       routes: routes,
       navigatorKey: navigatorKey,
       navigatorObservers: [

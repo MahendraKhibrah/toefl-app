@@ -11,4 +11,6 @@ class RouteKey {
   static const profile = '/profile';
   static const editProfile = '/editProfile ';
   static const openingLoadingTest = '/opening-loading-test';
+  static const testresult = '/test-result';
+  static const simulationpage = '/simulation-page';
 }
