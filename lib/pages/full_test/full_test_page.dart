@@ -65,15 +65,18 @@ class FullTestPage extends ConsumerWidget {
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     child: Column(
                       children: [
-                        Center(
-                          child: SizedBox(
-                            width: screenWidth,
-                            child: Center(
-                              child: Text(
-                                "TEST 1",
-                                style: CustomTextStyle.extraBold16
-                                    .copyWith(fontSize: 20),
-                              ),
+                        SizedBox(
+                          width: screenWidth,
+                          child: Center(
+                            child: Consumer(
+                              builder: (context, ref, child) {
+                                final state = ref.watch(fullTestProvider);
+                                return Text(
+                                  state.packetDetail.name,
+                                  style: CustomTextStyle.extraBold16
+                                      .copyWith(fontSize: 20),
+                                );
+                              },
                             ),
                           ),
                         ),
