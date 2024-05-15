@@ -3,7 +3,7 @@ import 'package:sqflite/sqlite_api.dart';
 import 'package:toefl/remote/local_database_service.dart';
 import 'package:toefl/utils/utils.dart';
 
-import '../../../models/packet_detail.dart';
+import '../../../models/test/packet_detail.dart';
 
 class FullTestTable {
   final tableName = 'full_test';

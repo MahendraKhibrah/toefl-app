@@ -19,7 +19,7 @@ class _MainPageState extends State<MainPage> {
   static const List<Widget> _widgetOptions = <Widget>[
     HomePage(),
     GamesPage(),
-    ProfilePage()
+    ProfilePage(),
   ];
 
   @override
