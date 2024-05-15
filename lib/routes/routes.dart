@@ -42,6 +42,7 @@ final routes = <String, Widget Function(BuildContext)>{
     return OpeningLoadingPage(
       packetId: data?["id"] ?? "",
       isRetake: data?["isRetake"] ?? false,
+      packetName: data?["packetName"] ?? "",
     );
   },
 };

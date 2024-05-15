@@ -89,7 +89,10 @@ class _SimulationPageState extends State<SimulationPage> {
                                       !(packets[index].questionCount == 140),
                                   accuracy: packets[index].accuracy,
                                   onTap: () async {
-                                    if (packets[index].accuracy <= 0) {
+                                    if (packets[index].accuracy <= 0 ||
+                                        testStatus != null &&
+                                            testStatus!.id ==
+                                                packets[index].id) {
                                       if (testStatus != null &&
                                           testStatus!.id == packets[index].id) {
                                         Navigator.of(context).pushNamed(
@@ -97,7 +100,8 @@ class _SimulationPageState extends State<SimulationPage> {
                                             arguments: {
                                               "id": packets[index].id,
                                               "isRetake":
-                                                  packets[index].accuracy > 0
+                                                  packets[index].accuracy > 0,
+                                              "packetName": packets[index].name
                                             }).then((value) {
                                           _onInit();
                                         });
@@ -106,6 +110,7 @@ class _SimulationPageState extends State<SimulationPage> {
                                             RouteKey.openingLoadingTest,
                                             arguments: {
                                               "id": packets[index].id,
+                                              "packetName": packets[index].name,
                                               "isRetake":
                                                   packets[index].accuracy > 0
                                             }).then((value) {
@@ -132,6 +137,8 @@ class _SimulationPageState extends State<SimulationPage> {
                                                           .openingLoadingTest,
                                                       arguments: {
                                                         "id": packets[index].id,
+                                                        "packetName":
+                                                            packets[index].name,
                                                         "isRetake":
                                                             packets[index]
                                                                     .accuracy >
