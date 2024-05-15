@@ -22,9 +22,11 @@ final routes = <String, Widget Function(BuildContext)>{
   RouteKey.root: (context) => const SplashPage(),
   RouteKey.main: (context) => const MainPage(),
   RouteKey.fullTest: (context) {
-    final int? seconds = ModalRoute.of(context)?.settings.arguments as int?;
+    final Map<String, dynamic>? data =
+        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
     return FullTestPage(
-      diffInSec: seconds ?? 0,
+      diffInSec: data?["diffInSeconds"] ?? 0,
+      isRetake: data?["isRetake"] ?? false,
     );
   },
   RouteKey.regist: (context) => const RegistPage(),
@@ -34,7 +36,11 @@ final routes = <String, Widget Function(BuildContext)>{
   RouteKey.profile: (context) => const ProfilePage(),
   RouteKey.editProfile: (context) => EditProfile(),
   RouteKey.openingLoadingTest: (context) {
-    final String? id = ModalRoute.of(context)?.settings.arguments as String?;
-    return OpeningLoadingPage(packetId: id ?? "");
+    final Map<String, dynamic>? data =
+        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+    return OpeningLoadingPage(
+      packetId: data?["id"] ?? "",
+      isRetake: data?["isRetake"] ?? false,
+    );
   },
 };

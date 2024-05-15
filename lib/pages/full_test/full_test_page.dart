@@ -16,9 +16,11 @@ import 'bookmark_button.dart';
 import 'bottom_sheet_full_test.dart';
 
 class FullTestPage extends ConsumerWidget {
-  const FullTestPage({super.key, required this.diffInSec});
+  const FullTestPage(
+      {super.key, required this.diffInSec, required this.isRetake});
 
   final int diffInSec;
+  final bool isRetake;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -98,9 +100,18 @@ class FullTestPage extends ConsumerWidget {
                                           },
                                           onYes: () async {
                                             Navigator.pop(submitContext);
-                                            bool submitResult = await ref
-                                                .read(fullTestProvider.notifier)
-                                                .submitAnswer();
+                                            bool submitResult = false;
+                                            if (isRetake) {
+                                              submitResult = await ref
+                                                  .read(
+                                                      fullTestProvider.notifier)
+                                                  .resubmitAnswer();
+                                            } else {
+                                              submitResult = await ref
+                                                  .read(
+                                                      fullTestProvider.notifier)
+                                                  .submitAnswer();
+                                            }
                                             if (submitResult) {
                                               bool resetResult = await ref
                                                   .read(

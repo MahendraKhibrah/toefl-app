@@ -45,7 +45,26 @@ class FullTestApi {
         data: {"answers": request},
       );
 
-      debugPrint('response cok: ${rawResponse.statusCode}');
+      if ((rawResponse.statusCode ?? 0) >= 200 &&
+          (rawResponse.statusCode ?? 0) < 300) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      debugPrint('error submit answer: $e');
+      return false;
+    }
+  }
+
+  Future<bool> resubmitAnswer(
+      List<Map<String, dynamic>> request, String packetId) async {
+    try {
+      final Response rawResponse = await DioToefl.instance.patch(
+        '${Env.apiUrl}/retake-test/$packetId',
+        data: {"answers": request},
+      );
+
       if ((rawResponse.statusCode ?? 0) >= 200 &&
           (rawResponse.statusCode ?? 0) < 300) {
         return true;

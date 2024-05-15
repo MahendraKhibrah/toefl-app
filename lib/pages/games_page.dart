@@ -4,6 +4,8 @@ import 'package:toefl/pages/games/games_level_page.dart';
 import 'package:toefl/utils/custom_text_style.dart';
 import 'package:toefl/widgets/games/bottom_bar_games.dart';
 
+import '../routes/route_key.dart';
+
 class GamesPage extends StatefulWidget {
   const GamesPage({super.key});
 
@@ -54,7 +56,8 @@ class _GamesPageState extends State<GamesPage> {
                 description: 'Hello World LoremIpsum DOor ISmet'),
             onPressed: () {
               setState(() {
-                _isActive = !_isActive;
+                // _isActive = !_isActive;
+                Navigator.pushNamed(context, RouteKey.simulationpage);
               });
             },
           ),

@@ -194,6 +194,36 @@ class FullTestProvider extends StateNotifier<FullTestProviderState> {
     }
   }
 
+  Future<bool> resubmitAnswer() async {
+    state = state.copyWith(isSubmitLoading: true);
+    try {
+      final questions = await _fullTestTable.getAllAnswer();
+
+      final request = questions
+          .map((e) => {
+                "question_id": e?.id ?? "",
+                "bookmark": (e?.bookmarked ?? 0) > 0,
+                "answer_user":
+                    ((e?.answer)?.isNotEmpty ?? false) ? e!.answer : "-"
+              })
+          .toList();
+      final response =
+          await _fullTestApi.resubmitAnswer(request, state.testStatus.id);
+      if (response) {
+        debugPrint("success submit answer");
+        return true;
+      } else {
+        debugPrint("failed submit answer");
+        return false;
+      }
+    } catch (e) {
+      debugPrint("error: $e");
+      return false;
+    } finally {
+      // state = state.copyWith(isSubmitLoading: false);
+    }
+  }
+
   Future<bool> resetAll() async {
     state = state.copyWith(isSubmitLoading: true);
     try {

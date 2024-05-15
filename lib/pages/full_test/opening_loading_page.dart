@@ -7,9 +7,11 @@ import 'package:toefl/routes/route_key.dart';
 import 'package:toefl/state_management/full_test_provider.dart';
 
 class OpeningLoadingPage extends ConsumerStatefulWidget {
-  const OpeningLoadingPage({super.key, required this.packetId});
+  const OpeningLoadingPage(
+      {super.key, required this.packetId, required this.isRetake});
 
   final String packetId;
+  final bool isRetake;
 
   @override
   ConsumerState<OpeningLoadingPage> createState() => _OpeningLoadingPageState();
@@ -45,7 +47,10 @@ class _OpeningLoadingPageState extends ConsumerState<OpeningLoadingPage> {
       Navigator.pushNamed(
         context,
         RouteKey.fullTest,
-        arguments: diff.inSeconds + 4,
+        arguments: {
+          "diffInSeconds": diff.inSeconds + 4,
+          "isRetake": widget.isRetake,
+        },
       ).then((value) {
         Navigator.of(context).pop();
       });

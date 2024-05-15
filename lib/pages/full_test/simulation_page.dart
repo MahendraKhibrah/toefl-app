@@ -92,27 +92,30 @@ class _SimulationPageState extends State<SimulationPage> {
                                     if (packets[index].accuracy <= 0) {
                                       if (testStatus != null &&
                                           testStatus!.id == packets[index].id) {
-                                        Navigator.of(context)
-                                            .pushNamed(
-                                                RouteKey.openingLoadingTest,
-                                                arguments: packets[index].id)
-                                            .then((value) {
+                                        Navigator.of(context).pushNamed(
+                                            RouteKey.openingLoadingTest,
+                                            arguments: {
+                                              "id": packets[index].id,
+                                              "isRetake":
+                                                  packets[index].accuracy > 0
+                                            }).then((value) {
                                           _onInit();
                                         });
                                       } else if (testStatus == null) {
-                                        Navigator.of(context)
-                                            .pushNamed(
-                                                RouteKey.openingLoadingTest,
-                                                arguments: packets[index].id)
-                                            .then((value) {
+                                        Navigator.of(context).pushNamed(
+                                            RouteKey.openingLoadingTest,
+                                            arguments: {
+                                              "id": packets[index].id,
+                                              "isRetake":
+                                                  packets[index].accuracy > 0
+                                            }).then((value) {
                                           _onInit();
                                         });
                                       }
                                     } else {
                                       showDialog(
-                                        barrierDismissible: false,
                                         context: context,
-                                        builder: (BuildContext context) {
+                                        builder: (BuildContext submitContext) {
                                           return AlertDialog(
                                               backgroundColor:
                                                   Colors.transparent,
@@ -122,10 +125,24 @@ class _SimulationPageState extends State<SimulationPage> {
                                                       vertical: 0),
                                               content: FinishedPacketDialog(
                                                 onRetake: () {
-                                                  Navigator.of(context).pop();
+                                                  Navigator.of(submitContext)
+                                                      .pop();
+                                                  Navigator.of(context).pushNamed(
+                                                      RouteKey
+                                                          .openingLoadingTest,
+                                                      arguments: {
+                                                        "id": packets[index].id,
+                                                        "isRetake":
+                                                            packets[index]
+                                                                    .accuracy >
+                                                                0
+                                                      }).then((value) {
+                                                    _onInit();
+                                                  });
                                                 },
                                                 onReview: () {
-                                                  Navigator.of(context).pop();
+                                                  Navigator.of(submitContext)
+                                                      .pop();
                                                 },
                                               ));
                                         },
