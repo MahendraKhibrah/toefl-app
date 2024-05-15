@@ -11,7 +11,7 @@ class QuizQuestion {
   String id;
   @JsonKey(name: 'quiz_id')
   String quizId;
-  List<QuizContent> content;
+  List<QuizContent>? content;
 
   QuizQuestion({
     required this.id,

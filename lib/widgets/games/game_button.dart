@@ -3,21 +3,23 @@ import 'package:toefl/models/quiz.dart';
 import 'package:toefl/models/user.dart';
 import 'package:toefl/remote/api/quiz_api.dart';
 import 'package:toefl/remote/api/user_api.dart';
+import 'package:toefl/routes/route_key.dart';
 import 'package:toefl/utils/colors.dart';
 import 'package:toefl/utils/custom_text_style.dart';
 import 'package:toefl/utils/hex_color.dart';
 
 class GameButton extends StatelessWidget {
+  final Quiz quiz;
   const GameButton({
     super.key,
+    required this.quiz,
   });
 
   @override
   Widget build(BuildContext context) {
-    final quizApi = QuizApi();
-    Quiz? quiz;
-    final userApi = UserApi();
-    User? user;
+    // final quizApi = QuizApi();
+    // Quiz? quiz;
+
     return Stack(
       clipBehavior: Clip.none,
       alignment: Alignment.bottomCenter,
@@ -41,7 +43,7 @@ class GameButton extends StatelessWidget {
                 color: HexColor(mariner500),
                 borderRadius: BorderRadius.circular(100)),
             child: Text(
-              'Listening',
+              quiz.type.name,
               style: CustomTextStyle.gamePartTitle,
               overflow: TextOverflow.fade,
             ),
@@ -51,31 +53,41 @@ class GameButton extends StatelessWidget {
           margin: EdgeInsets.only(bottom: 35),
           child: InkWell(
             onTap: () async {
-              quiz = await quizApi.fetchQuiz('6633127d3a99f7fe4cf8a83f');
+              ScaffoldMessenger.of(context).hideCurrentSnackBar();
+              // quiz = await quizApi.fetchQuiz('6633127d3a99f7fe4cf8a83f');
               final snackBar = SnackBar(
                 backgroundColor: Colors.white,
                 padding: EdgeInsets.all(0),
                 duration: Duration(days: 365),
                 content: Container(
-                  alignment: Alignment.topCenter,
-                  padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-                  height: 120,
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(32.0),
-                        topRight: Radius.circular(32.0),
-                      ),
-                      border: Border.all(width: 0.1)),
-                  child: CustomPaint(
-                    painter: SliderPaint(),
-                  ),
-                ),
+                    alignment: Alignment.topCenter,
+                    padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                    height: 120,
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(32.0),
+                          topRight: Radius.circular(32.0),
+                        ),
+                        border: Border.all(width: 0.1)),
+                    child: Column(
+                      children: [
+                        CustomPaint(
+                          painter: SliderPaint(),
+                        ),
+                        TextButton(
+                            onPressed: () {
+                              Navigator.of(context)
+                                  .pushReplacementNamed(RouteKey.quiz);
+                            },
+                            child: Text('test'))
+                      ],
+                    )),
               );
 
               // Find the ScaffoldMessenger in the widget tree
               // and use it to show a SnackBar.
-              // ScaffoldMessenger.of(context).showSnackBar(snackBar);
+              ScaffoldMessenger.of(context).showSnackBar(snackBar);
             },
             child: Container(
               alignment: Alignment.center,

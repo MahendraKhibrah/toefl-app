@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:toefl/models/game.dart';
+import 'package:toefl/models/game_data.dart';
 import 'package:toefl/models/games/game_detail.dart';
 import 'package:toefl/pages/games/games_level_page.dart';
 import 'package:toefl/remote/api/game_api.dart';
@@ -15,24 +15,32 @@ class GamesPage extends StatefulWidget {
 
 class _GamesPageState extends State<GamesPage> {
   late Future<List<Game>> futureGames;
-
+  late List<Game> _games = [];
   late PageController _pageController;
-  late int _index;
-  late bool _isActive;
+  late int _index = 0;
+  late bool _isActive = false;
 
   @override
   void initState() {
+    super.initState();
+    futureGames = _getGames();
     _pageController = PageController();
     _index = 0;
     _isActive = false;
-    futureGames = GameApi().fetchGames();
-    super.initState();
   }
 
   @override
   void dispose() {
     _pageController.dispose();
     super.dispose();
+  }
+
+  Future<List<Game>> _getGames() async {
+    List<Game> temp = await GameApi().fetchGames();
+    setState(() {
+      _games = temp;
+    });
+    return temp;
   }
 
   @override
@@ -52,10 +60,16 @@ class _GamesPageState extends State<GamesPage> {
         bottom: BottomBarGames(
           isActive: _isActive,
           preferredSize: _isActive ? Size.fromHeight(100) : Size.fromHeight(60),
-          game: GameDetail(
-              title: 'G',
-              level: 1,
-              description: 'Hello World LoremIpsum DOor ISmet'),
+          game: _games.isNotEmpty
+              ? GameDetail(
+                  title: _games[_index].title,
+                  level: _games[_index].level,
+                  description: _games[_index].description)
+              : GameDetail(
+                  title: 'Beginner',
+                  level: 1,
+                  description:
+                      'You Need Here'), // Provide a default GameDetail if _games is empty
           onPressed: () {
             setState(() {
               _isActive = !_isActive;
@@ -79,12 +93,14 @@ class _GamesPageState extends State<GamesPage> {
               scrollDirection: Axis.vertical,
               itemCount: games.length,
               itemBuilder: (context, index) {
-                return GamesLevelPage();
+                return GamesLevelPage(
+                  quizs: games[index].gameList!,
+                );
               },
               onPageChanged: (value) {
                 print(value);
                 setState(() {
-                  // Update any state you need here
+                  _index = value;
                 });
               },
             );

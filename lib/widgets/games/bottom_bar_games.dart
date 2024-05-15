@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:toefl/models/game.dart';
+import 'package:toefl/models/game_data.dart';
 import 'package:toefl/models/games/game_detail.dart';
 import 'package:toefl/utils/colors.dart';
 import 'package:toefl/utils/hex_color.dart';
