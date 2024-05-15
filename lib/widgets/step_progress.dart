@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:toefl/utils/colors.dart';
 import 'package:toefl/utils/custom_text_style.dart';
 import 'package:toefl/utils/hex_color.dart';
-import 'package:http/http.dart' as http;
 
 class StepProgress extends StatefulWidget {
   final double currentStep;
@@ -20,20 +19,6 @@ class StepProgress extends StatefulWidget {
 class _StepProgressState extends State<StepProgress> {
   double widthProgress = 0;
   List randomWordsList = [];
-  final randomWordUrl = Uri.parse('https://random-word-api.herokuapp.com/word');
-
-  Future<void> fetchRandomWord() async {
-    try {
-      final randomWordResponse = await http.get(randomWordUrl);
-      if (randomWordResponse.statusCode == 200) {
-        final randomWord = jsonDecode(randomWordResponse.body);
-        setState(() {
-          randomWordsList.add(randomWord[0]);
-          loading = false;
-        });
-      }
-    } catch (error) {}
-  }
 
   bool loading = false;
 
