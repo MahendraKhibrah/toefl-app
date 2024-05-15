@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:toefl/pages/edit_profile_page.dart';
+import 'package:toefl/pages/home_page.dart';
 import 'package:toefl/pages/profile_page.dart';
 import 'package:toefl/pages/full_test/full_test_page.dart';
 import 'package:toefl/pages/login_page.dart';
