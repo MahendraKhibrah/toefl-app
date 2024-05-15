@@ -10,9 +10,11 @@ import 'package:toefl/pages/full_test/full_test_page.dart';
 import 'package:toefl/pages/full_test/simulation_page.dart';
 import 'package:toefl/pages/full_test/test_result_page.dart';
 import 'package:toefl/pages/login_page.dart';
+import 'package:toefl/pages/on_boarding.dart';
 import 'package:toefl/pages/regist_page.dart';
 import 'package:toefl/pages/games_page.dart';
 import 'package:toefl/pages/review_test/review_test_page.dart';
+import 'package:toefl/pages/setgoal_page.dart';
 import 'package:toefl/pages/splash_page.dart';
 import 'package:toefl/pages/template_page.dart';
 import 'package:toefl/routes/route_key.dart';
@@ -33,6 +35,8 @@ final routes = <String, Widget Function(BuildContext)>{
   },
   RouteKey.regist: (context) => const RegistPage(),
   RouteKey.login: (context) => const LoginPage(),
+  RouteKey.setGoal: (context) => const SetGoal(),
+  RouteKey.onBoarding: (context) => const OnBoarding(),
   RouteKey.simulationpage: (context) => const SimulationPage(),
   RouteKey.testresult: (context) => const TestResultPage(),
   RouteKey.profile: (context) => const ProfilePage(),

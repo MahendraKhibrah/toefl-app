@@ -27,7 +27,7 @@ class _SplashPageState extends State<SplashPage> {
         if (isLogin) {
           Navigator.of(context).pushReplacementNamed(RouteKey.main);
         } else {
-          Navigator.of(context).pushReplacementNamed(RouteKey.login);
+          Navigator.of(context).pushReplacementNamed(RouteKey.onBoarding);
         }
       }
     });
