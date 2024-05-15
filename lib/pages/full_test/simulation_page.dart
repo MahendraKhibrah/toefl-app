@@ -61,7 +61,7 @@ class _SimulationPageState extends ConsumerState<SimulationPage> {
 
         if (diffInHours >= 2) {
           bool submitResult = false;
-          if (runningPacket.accuracy > 0) {
+          if (runningPacket.wasFilled) {
             submitResult =
                 await ref.read(fullTestProvider.notifier).resubmitAnswer();
           } else {
@@ -126,10 +126,11 @@ class _SimulationPageState extends ConsumerState<SimulationPage> {
                                       !(packets[index].questionCount == 140),
                                   accuracy: packets[index].accuracy,
                                   onTap: () async {
-                                    if (packets[index].accuracy <= 0 ||
+                                    if ((!packets[index].wasFilled) ||
                                         testStatus != null &&
                                             testStatus!.id ==
                                                 packets[index].id) {
+                                      debugPrint("test status : $testStatus");
                                       if (testStatus != null &&
                                           testStatus!.id == packets[index].id) {
                                         Navigator.of(context).pushNamed(
@@ -137,7 +138,7 @@ class _SimulationPageState extends ConsumerState<SimulationPage> {
                                             arguments: {
                                               "id": packets[index].id,
                                               "isRetake":
-                                                  packets[index].accuracy > 0,
+                                                  packets[index].wasFilled,
                                               "packetName": packets[index].name
                                             }).then((value) {
                                           _onInit();
@@ -149,7 +150,7 @@ class _SimulationPageState extends ConsumerState<SimulationPage> {
                                               "id": packets[index].id,
                                               "packetName": packets[index].name,
                                               "isRetake":
-                                                  packets[index].accuracy > 0
+                                                  packets[index].wasFilled
                                             }).then((value) {
                                           _onInit();
                                         });
@@ -178,8 +179,7 @@ class _SimulationPageState extends ConsumerState<SimulationPage> {
                                                             packets[index].name,
                                                         "isRetake":
                                                             packets[index]
-                                                                    .accuracy >
-                                                                0
+                                                                .wasFilled
                                                       }).then((value) {
                                                     _onInit();
                                                   });
@@ -187,6 +187,10 @@ class _SimulationPageState extends ConsumerState<SimulationPage> {
                                                 onReview: () {
                                                   Navigator.of(submitContext)
                                                       .pop();
+                                                  Navigator.pushNamed(context,
+                                                      RouteKey.reviewTestPage,
+                                                      arguments:
+                                                          packets[index].id);
                                                 },
                                               ));
                                         },

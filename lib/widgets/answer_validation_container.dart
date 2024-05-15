@@ -54,8 +54,8 @@ class AnswerValidationContainer extends StatelessWidget {
                     style: CustomTextStyle.bold16.copyWith(fontSize: 12),
                   ),
                 ),
-                const SizedBox(
-                  height: 5,
+                SizedBox(
+                  height: explanation.isEmpty ? 0 : 5,
                 ),
                 SizedBox(
                   width: MediaQuery.of(context).size.width * 0.65,
