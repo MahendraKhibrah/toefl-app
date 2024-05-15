@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:toefl/models/quiz.dart';
+import 'package:toefl/pages/quiz_page.dart';
+import 'package:toefl/routes/route_key.dart';
 import 'package:toefl/utils/colors.dart';
 import 'package:toefl/utils/hex_color.dart';
 
@@ -11,8 +14,8 @@ class TopicInterest extends StatelessWidget {
       "title": "Daily Practice",
       "image": "assets/images/daily_practice.svg",
       "color": "#D0AFFC",
-      "onTap": () {
-        print("Daily Practice");
+      "onTap": (context) {
+        Navigator.pushNamed(context, RouteKey.quiz);
       }
     },
     {
@@ -74,7 +77,7 @@ class TopicInterest extends StatelessWidget {
           return InkWell(
             splashColor: Colors.transparent,
             highlightColor: Colors.transparent,
-            onTap: topic["onTap"],
+            onTap: () => topic["onTap"](context),
             child: Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.all(

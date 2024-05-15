@@ -1,7 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:toefl/utils/colors.dart';
 import 'package:toefl/utils/custom_text_style.dart';
 import 'package:toefl/utils/hex_color.dart';
+import 'package:http/http.dart' as http;
 
 class StepProgress extends StatefulWidget {
   final double currentStep;
@@ -16,6 +19,23 @@ class StepProgress extends StatefulWidget {
 
 class _StepProgressState extends State<StepProgress> {
   double widthProgress = 0;
+  List randomWordsList = [];
+  final randomWordUrl = Uri.parse('https://random-word-api.herokuapp.com/word');
+
+  Future<void> fetchRandomWord() async {
+    try {
+      final randomWordResponse = await http.get(randomWordUrl);
+      if (randomWordResponse.statusCode == 200) {
+        final randomWord = jsonDecode(randomWordResponse.body);
+        setState(() {
+          randomWordsList.add(randomWord[0]);
+          loading = false;
+        });
+      }
+    } catch (error) {}
+  }
+
+  bool loading = false;
 
   @override
   void initState() {
@@ -47,13 +67,16 @@ class _StepProgressState extends State<StepProgress> {
       children: [
         Row(
           children: [
-            IconButton(
-              onPressed: () {
+            GestureDetector(
+              onTap: () {
                 Navigator.pop(context);
               },
-              icon: const Icon(Icons.close),
-              padding: EdgeInsets.zero,
-              constraints: BoxConstraints(),
+              child: Padding(
+                padding: const EdgeInsets.only(right: 10.0),
+                child: const Icon(
+                  Icons.close,
+                ),
+              ),
             ),
             Expanded(
               child: Container(
@@ -69,6 +92,10 @@ class _StepProgressState extends State<StepProgress> {
                         borderRadius: BorderRadius.circular(8),
                       ),
                     ),
+                    // LinearProgressIndicator(
+                    //     value: randomWordsList.length / 10,
+                    //     color: HexColor(mariner800),
+                    //     borderRadius: BorderRadius.circular(8)),
                   ],
                 ),
                 decoration: BoxDecoration(
