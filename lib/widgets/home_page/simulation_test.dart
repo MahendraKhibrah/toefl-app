@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:path/path.dart';
+import 'package:toefl/routes/navigator_key.dart';
+import 'package:toefl/routes/route_key.dart';
 import 'package:toefl/utils/colors.dart';
 import 'package:toefl/utils/hex_color.dart';
 
@@ -19,7 +22,11 @@ class SimulationTest extends StatelessWidget {
       "subtitle": "A test that contains 140 questions",
       "color": mariner200,
       "onTap": () {
-        print("Full tes");
+        final context = navigatorKey.currentState?.overlay?.context;
+
+        if (context != null && context.mounted) {
+          Navigator.of(context).pushNamed(RouteKey.simulationpage);
+        }
       }
     },
   ];
@@ -51,7 +58,8 @@ class SimulationTest extends StatelessWidget {
               margin: EdgeInsets.only(left: 0),
               width: MediaQuery.of(context).size.width / 2.43,
               child: Padding(
-                padding: EdgeInsetsDirectional.symmetric(horizontal: 15, vertical: 15),
+                padding: EdgeInsetsDirectional.symmetric(
+                    horizontal: 15, vertical: 15),
                 child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.center,
