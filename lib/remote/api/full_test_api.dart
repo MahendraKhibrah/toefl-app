@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:toefl/models/test/answer.dart';
 import 'package:toefl/models/test/packet_detail.dart';
 import 'package:toefl/remote/dio_toefl.dart';
 
@@ -74,6 +75,21 @@ class FullTestApi {
     } catch (e) {
       debugPrint('error submit answer: $e');
       return false;
+    }
+  }
+
+  Future<List<Answer>> getAnswers(String packetId) async {
+    try {
+      final Response rawResponse =
+          await DioToefl.instance.get('${Env.apiUrl}/answer/users/$packetId');
+
+      final response = BaseResponse.fromJson(json.decode(rawResponse.data));
+      return (response.data as List<dynamic>)
+          .map((e) => Answer.fromJson(e))
+          .toList();
+    } catch (e) {
+      debugPrint('error get all answers: $e');
+      return [];
     }
   }
 }

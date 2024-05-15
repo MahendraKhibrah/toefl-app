@@ -13,4 +13,5 @@ class RouteKey {
   static const openingLoadingTest = '/opening-loading-test';
   static const testresult = '/test-result';
   static const simulationpage = '/simulation-page';
+  static const reviewTestPage = '/review-test-page';
 }
