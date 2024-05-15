@@ -1,5 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:toefl/remote/local/shared_pref/auth_shared_preferences.dart';
+import 'package:toefl/remote/local/shared_pref/test_shared_preferences.dart';
+import 'package:toefl/remote/local/sqlite/full_test_table.dart';
+import 'package:toefl/routes/route_key.dart';
 import 'package:toefl/utils/colors.dart';
 import 'package:toefl/utils/hex_color.dart';
 
@@ -17,6 +21,9 @@ class _SettingState extends State<Setting> {
     'English',
     'Indonesia',
   ];
+  final AuthSharedPreference authSharedPreference = AuthSharedPreference();
+  final TestSharedPreference testSharedPreference = TestSharedPreference();
+  final FullTestTable fullTestTable = FullTestTable();
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +57,12 @@ class _SettingState extends State<Setting> {
           InkWell(
             splashColor: Color(0xffE7E7E7).withOpacity(0.3),
             highlightColor: Colors.transparent,
-            onTap: () {},
+            onTap: () async {
+              await authSharedPreference.removeBearerToken();
+              await testSharedPreference.removeStatus();
+              await fullTestTable.resetDatabase();
+              Navigator.pushReplacementNamed(context, RouteKey.login);
+            },
             child:
                 _listTileCustom(Icons.logout_sharp, 'Logout', islogout: true),
           )

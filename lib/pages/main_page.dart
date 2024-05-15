@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:toefl/pages/games_page.dart';
+import 'package:toefl/pages/home_page.dart';
 import 'package:toefl/pages/profile_page.dart';
 import 'package:toefl/utils/colors.dart';
 import 'package:toefl/utils/hex_color.dart';
@@ -16,9 +17,7 @@ class _MainPageState extends State<MainPage> {
   late int _index;
 
   static const List<Widget> _widgetOptions = <Widget>[
-    Text(
-      'Index 0: Home',
-    ),
+    HomePage(),
     GamesPage(),
     ProfilePage(),
   ];

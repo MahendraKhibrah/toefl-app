@@ -24,6 +24,7 @@ class _RegistPageState extends State<RegistPage> {
   final passwordController = TextEditingController();
   final confirmPasswordController = TextEditingController();
   final userApi = UserApi();
+  bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -94,26 +95,36 @@ class _RegistPageState extends State<RegistPage> {
                     ),
                   ),
                   const SizedBox(height: 30.0),
-                  BlueButton(
-                    title: 'Sign Up',
-                    onTap: () async {
-                      var val = false;
-                      if (_formKey.currentState!.validate()) {
-                        val = await userApi.postRegist(
-                          Regist(
-                            name: nameController.text,
-                            email: emailController.text,
-                            password: passwordController.text,
-                            passwordConfirmation:
-                                confirmPasswordController.text,
-                          ),
-                        );
-                      }
-                      if (val) {
-                        Navigator.popAndPushNamed(context, RouteKey.main);
-                      }
-                    },
-                  ),
+                  isLoading
+                      ? const Center(
+                          child: CircularProgressIndicator(),
+                        )
+                      : BlueButton(
+                          title: 'Sign Up',
+                          onTap: () async {
+                            setState(() {
+                              isLoading = true;
+                            });
+                            var val = false;
+                            if (_formKey.currentState!.validate()) {
+                              val = await userApi.postRegist(
+                                Regist(
+                                  name: nameController.text,
+                                  email: emailController.text,
+                                  password: passwordController.text,
+                                  passwordConfirmation:
+                                      confirmPasswordController.text,
+                                ),
+                              );
+                            }
+                            setState(() {
+                              isLoading = false;
+                            });
+                            if (val) {
+                              Navigator.popAndPushNamed(context, RouteKey.main);
+                            }
+                          },
+                        ),
                   const SizedBox(height: 15.0),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,

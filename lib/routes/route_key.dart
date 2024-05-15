@@ -7,6 +7,8 @@ class RouteKey {
   static const fullTest = '/full-test';
   static const regist = '/regist';
   static const login = '/login';
+  static const setGoal = '/set-goal';
+  static const onBoarding = '/on-boarding';
   static const main = '/main';
   static const profile = '/profile';
   static const editProfile = '/editProfile ';

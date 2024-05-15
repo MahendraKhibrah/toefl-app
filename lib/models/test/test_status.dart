@@ -12,10 +12,16 @@ class TestStatus {
   final String id;
   @JsonKey(name: 'start_time', defaultValue: '')
   final String startTime;
+  @JsonKey(name: 'reset_table', defaultValue: false)
+  final bool resetTable;
+  @JsonKey(name: 'name', defaultValue: '')
+  final String name;
 
   TestStatus({
     required this.id,
     required this.startTime,
+    required this.resetTable,
+    required this.name,
   });
 
   factory TestStatus.fromJson(Map<String, dynamic> json) =>
