@@ -27,6 +27,8 @@ class Answer {
   final List<Choice> choices;
   @JsonKey(defaultValue: false)
   final bool bookmark;
+  @JsonKey(defaultValue: '', name: 'nama_packet')
+  final String packetName;
 
   Answer({
     required this.id,
@@ -39,6 +41,7 @@ class Answer {
     required this.nestedQuestion,
     required this.choices,
     required this.bookmark,
+    required this.packetName,
   });
 
   factory Answer.fromJson(Map<String, dynamic> json) => _$AnswerFromJson(json);

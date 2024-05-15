@@ -64,7 +64,7 @@ class _ReviewTestPageState extends State<ReviewTestPage> {
                               width: screenWidth,
                               child: Center(
                                 child: Text(
-                                  "Review Test",
+                                  answers.first.packetName,
                                   style: CustomTextStyle.extraBold16
                                       .copyWith(fontSize: 20),
                                 ),
@@ -182,6 +182,7 @@ class _ReviewTestPageState extends State<ReviewTestPage> {
             nestedQuestionId: answers[selectedIndex].nestedQuestionId,
             nestedQuestion: answers[selectedIndex].nestedQuestion,
             choices: answers[selectedIndex].choices,
+            packetName: answers[selectedIndex].packetName,
           );
           isLoading = false;
         });
