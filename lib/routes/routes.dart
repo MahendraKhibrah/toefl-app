@@ -3,6 +3,7 @@ import 'package:path/path.dart';
 import 'package:toefl/pages/grammar_page.dart';
 import 'package:toefl/pages/quiz_page.dart';
 import 'package:toefl/pages/edit_profile_page.dart';
+import 'package:toefl/pages/home_page.dart';
 import 'package:toefl/pages/full_test/opening_loading_page.dart';
 import 'package:toefl/pages/profile_page.dart';
 import 'package:toefl/pages/full_test/full_test_page.dart';
