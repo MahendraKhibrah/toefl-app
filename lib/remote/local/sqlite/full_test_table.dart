@@ -34,11 +34,6 @@ class FullTestTable {
     ''');
   }
 
-  void getFullTestTest() async {
-    final database = await LocalDatabaseService().database;
-    final result = await database.query(tableName);
-  }
-
   Future<void> resetDatabase() async {
     final database = await LocalDatabaseService().database;
     await database.execute('DROP TABLE IF EXISTS $tableName');
@@ -122,13 +117,25 @@ class FullTestTable {
     await database.rawUpdate(rawQuery, [answer, number]);
   }
 
-  Future<List<String?>> getAllAnswer() async {
+  Future<List<Question?>> getAllAnswer() async {
     final database = await LocalDatabaseService().database;
     final rawQuery = '''
-      SELECT answer FROM $tableName
+      SELECT * FROM $tableName
     ''';
     final result = await database.rawQuery(rawQuery);
-    return result.map((e) => e['answer'] as String?).toList();
+    return result
+        .map((e) => Question.fromJson({
+              'id': e['id_question'],
+              'question': e['question'],
+              'type_question': e['category'],
+              'nested_question_id': e['id'],
+              'multiple_choices': multipleChoiceMapper(e['option'] as String),
+              'nested_question': e['reference_question'],
+              'answer': e['answer'],
+              'bookmarked': e['bookmarked'],
+              'number': e['number'],
+            }))
+        .toList();
   }
 
   List<Map<String, dynamic>> multipleChoiceMapper(String multipleChoices) {

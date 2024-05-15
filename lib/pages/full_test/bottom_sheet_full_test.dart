@@ -65,7 +65,9 @@ class _BottomSheetFullTestState extends State<BottomSheetFullTest> {
             ),
             Row(
               children: [
-                buildMenu("All(40)", selectedPage == 0, () {
+                buildMenu(
+                    "All(${widget.filledStatus.length})", selectedPage == 0,
+                    () {
                   setState(() {
                     selectedPage = 0;
                     pageController.animateToPage(0,
@@ -74,7 +76,9 @@ class _BottomSheetFullTestState extends State<BottomSheetFullTest> {
                   });
                 }),
                 const Spacer(),
-                buildMenu("Answered(4)", selectedPage == 1, () {
+                buildMenu(
+                    "Answered(${widget.filledStatus.where((element) => element == true).length})",
+                    selectedPage == 1, () {
                   setState(() {
                     selectedPage = 1;
                     pageController.animateToPage(1,
@@ -83,7 +87,9 @@ class _BottomSheetFullTestState extends State<BottomSheetFullTest> {
                   });
                 }),
                 const Spacer(),
-                buildMenu("Unanswered(16)", selectedPage == 2, () {
+                buildMenu(
+                    "Unanswered(${widget.filledStatus.where((element) => element == false).length})",
+                    selectedPage == 2, () {
                   setState(() {
                     selectedPage = 2;
                     pageController.animateToPage(2,
