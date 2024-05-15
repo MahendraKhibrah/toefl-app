@@ -8,11 +8,17 @@ import 'package:toefl/remote/base_response.dart';
 import 'package:toefl/remote/dio_toefl.dart';
 import 'package:toefl/remote/env.dart';
 
-class QuizApi {
+abstract class IQuizApi {
+  Future<Quiz> fetchQuiz(String id);
+}
+
+class QuizApi implements IQuizApi {
+  
+  @override
   Future<Quiz> fetchQuiz(String id) async {
     try {
-      final Response rawResponse = await DioToefl.instance
-          .get('${Env.apiUrl}/quizs/6633127d3a99f7fe4cf8a83f');
+      final Response rawResponse =
+          await DioToefl.instance.get('${Env.apiUrl}/quizs/$id');
 
       final response = BaseResponse.fromJson(json.decode(rawResponse.data));
       return Quiz.fromJson(response.data);

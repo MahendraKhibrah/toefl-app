@@ -77,8 +77,11 @@ class GameButton extends StatelessWidget {
                         ),
                         TextButton(
                             onPressed: () {
-                              Navigator.of(context)
-                                  .pushReplacementNamed(RouteKey.quiz);
+                              ScaffoldMessenger.of(context)
+                                  .hideCurrentSnackBar();
+
+                              Navigator.of(context).pushNamed(RouteKey.quiz,
+                                  arguments: {"quizId": quiz.id});
                             },
                             child: Text('test'))
                       ],

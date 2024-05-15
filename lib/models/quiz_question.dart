@@ -11,11 +11,13 @@ class QuizQuestion {
   String id;
   @JsonKey(name: 'quiz_id')
   String quizId;
+  String question;
   List<QuizContent>? content;
 
   QuizQuestion({
     required this.id,
     required this.quizId,
+    required this.question,
     required this.content,
   });
 

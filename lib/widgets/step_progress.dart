@@ -1,16 +1,15 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:toefl/utils/colors.dart';
 import 'package:toefl/utils/custom_text_style.dart';
 import 'package:toefl/utils/hex_color.dart';
 
 class StepProgress extends StatefulWidget {
-  final double currentStep;
-  final double steps;
+  final int currentStep;
+  final int steps;
 
-  const StepProgress({Key? key, required this.currentStep, required this.steps})
-      : super(key: key);
+  const StepProgress(
+      {super.key, required this.currentStep, required this.steps});
 
   @override
   State<StepProgress> createState() => _StepProgressState();
@@ -35,7 +34,7 @@ class _StepProgressState extends State<StepProgress> {
   }
 
   void _onSizeWidget() {
-    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       if (context.size != null && widget.steps > 1) {
         setState(() {
           Size size = context.size!;
@@ -52,14 +51,59 @@ class _StepProgressState extends State<StepProgress> {
       children: [
         Row(
           children: [
-            GestureDetector(
-              onTap: () {
-                Navigator.pop(context);
+            PopScope(
+              canPop: false,
+              onPopInvoked: (didPop) async {
+                if (didPop) {
+                  return;
+                }
+                final bool shouldPop = await showDialog<bool>(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: const Text('Are you sure?'),
+                          content: const Text(
+                            'Are you sure you want to leave this page?',
+                          ),
+                          actions: <Widget>[
+                            TextButton(
+                              style: TextButton.styleFrom(
+                                textStyle:
+                                    Theme.of(context).textTheme.labelLarge,
+                              ),
+                              child: const Text('Nevermind'),
+                              onPressed: () {
+                                Navigator.pop(context, false);
+                              },
+                            ),
+                            TextButton(
+                              style: TextButton.styleFrom(
+                                textStyle:
+                                    Theme.of(context).textTheme.labelLarge,
+                              ),
+                              child: const Text('Leave'),
+                              onPressed: () {
+                                Navigator.pop(context, true);
+                              },
+                            ),
+                          ],
+                        );
+                      },
+                    ) ??
+                    false;
+                if (context.mounted && shouldPop) {
+                  Navigator.pop(context);
+                }
               },
-              child: Padding(
-                padding: const EdgeInsets.only(right: 10.0),
-                child: const Icon(
-                  Icons.close,
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 10.0),
+                  child: const Icon(
+                    Icons.close,
+                  ),
                 ),
               ),
             ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:toefl/models/quiz_question.dart';
 import 'package:toefl/widgets/answer_button.dart';
 import 'package:toefl/widgets/answer_validation_container.dart';
 import 'package:toefl/widgets/blue_button.dart';
@@ -6,8 +7,10 @@ import 'package:toefl/widgets/blue_container.dart';
 import 'package:toefl/widgets/next_button.dart';
 
 class GrammarPage extends StatefulWidget {
+  final QuizQuestion question;
   const GrammarPage({
     super.key,
+    required this.question,
   });
 
   @override
@@ -22,15 +25,15 @@ class _GrammarPageState extends State<GrammarPage> {
     return Scaffold(
       body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 24.0),
+          padding: EdgeInsets.symmetric(horizontal: 24.0, vertical: 24.0),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              const Padding(
+              Padding(
                 padding: EdgeInsets.symmetric(horizontal: 10.0),
                 child: BlueContainer(
-                  child: Text("My mother did not ____ rice at my house."),
+                  child: Text(widget.question.content!.first.content),
                 ),
               ),
               Padding(
@@ -42,7 +45,7 @@ class _GrammarPageState extends State<GrammarPage> {
                 ),
               ),
               ...List.generate(
-                  5,
+                  widget.question.content!.first.options!.length,
                   (indexList) => Padding(
                         padding: const EdgeInsets.only(
                             bottom: 15, left: 10, right: 10),
@@ -53,20 +56,21 @@ class _GrammarPageState extends State<GrammarPage> {
                               selectedIndex = indexList;
                             });
                           },
-                          title: 'indexList $indexList',
+                          title: widget.question.content!.first
+                              .options![indexList].options,
                           isActive: selectedIndex == indexList,
                         ),
                       )),
-              const AnswerValidationContainer(
+              AnswerValidationContainer(
                 isCorrect: true,
-                keyAnswer: '(B) Leaving a message',
+                keyAnswer:
+                    widget.question.content!.first.answerKey.option.options,
                 explanation:
-                    'Because lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+                    widget.question.content!.first.answerKey.explanation,
               ),
               const SizedBox(
                 height: 20,
               ),
-              NextButton(pageController: _controller)
             ],
           ),
         ),

@@ -10,9 +10,8 @@ class NextButton extends StatelessWidget {
     return BlueButton(
       title: 'Next',
       onTap: () {
-        pageController.previousPage(
-            duration: Duration(milliseconds: 500), 
-            curve: Curves.ease);
+        pageController.nextPage(
+            duration: Duration(milliseconds: 200), curve: Curves.ease);
       },
     );
   }
