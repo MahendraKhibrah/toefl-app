@@ -8,13 +8,18 @@ import 'package:toefl/utils/hex_color.dart';
 
 class SimulationTest extends StatelessWidget {
   SimulationTest({super.key});
+
   List<Map<String, dynamic>> topics = [
     {
       "title": "Mini Test",
       "subtitle": "A test that contains 70 questions",
       "color": mariner100,
       "onTap": () {
-        print("Mini Tes");
+        final context = navigatorKey.currentState?.overlay?.context;
+
+        if (context != null && context.mounted) {
+          Navigator.of(context).pushNamed(RouteKey.miniSimulationTest);
+        }
       }
     },
     {
@@ -30,6 +35,7 @@ class SimulationTest extends StatelessWidget {
       }
     },
   ];
+
   @override
   Widget build(BuildContext context) {
     return Container(

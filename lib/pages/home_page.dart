@@ -33,6 +33,15 @@ class _HomePageState extends State<HomePage> {
         "packetName": fullTestStatus.name
       });
     }
+
+    final miniTestStatus = await _testSharedPref.getMiniStatus();
+    if (miniTestStatus != null && mounted) {
+      Navigator.of(context).pushNamed(RouteKey.openingMiniTest, arguments: {
+        "id": miniTestStatus.id,
+        "isRetake": miniTestStatus.isRetake,
+        "packetName": miniTestStatus.name
+      });
+    }
   }
 
   @override

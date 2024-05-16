@@ -2,6 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:path/path.dart';
 import 'package:toefl/pages/bookmarked_page.dart';
 import 'package:toefl/pages/grammar_page.dart';
+import 'package:toefl/pages/mini_test/mini_opening_page.dart';
+import 'package:toefl/pages/mini_test/mini_simulation_page.dart';
+import 'package:toefl/pages/mini_test/mini_test_page.dart';
 import 'package:toefl/pages/quiz_page.dart';
 import 'package:toefl/pages/edit_profile_page.dart';
 import 'package:toefl/pages/home_page.dart';
@@ -29,6 +32,7 @@ final routes = <String, Widget Function(BuildContext)>{
   RouteKey.fullTest: (context) {
     final Map<String, dynamic>? data =
         ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+    debugPrint("data: $data");
     return FullTestPage(
       diffInSec: data?["diffInSeconds"] ?? 0,
       isRetake: data?["isRetake"] ?? false,
@@ -59,4 +63,23 @@ final routes = <String, Widget Function(BuildContext)>{
       packetId: packetId ?? "",
     );
   },
+  RouteKey.openingMiniTest: (context) {
+    final Map<String, dynamic>? data =
+        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+    return MiniOpeningPage(
+      packetId: data?["id"] ?? "",
+      isRetake: data?["isRetake"] ?? false,
+      packetName: data?["packetName"] ?? "",
+    );
+  },
+  RouteKey.miniTest: (context) {
+    final Map<String, dynamic>? data =
+        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+    debugPrint("data: $data");
+    return MiniTestPage(
+      diffInSec: data?["diffInSeconds"] ?? 0,
+      isRetake: data?["isRetake"] ?? false,
+    );
+  },
+  RouteKey.miniSimulationTest: (context) => const MiniSimulationPage(),
 };

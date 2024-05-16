@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:toefl/remote/local/shared_pref/auth_shared_preferences.dart';
 import 'package:toefl/remote/local/shared_pref/test_shared_preferences.dart';
 import 'package:toefl/remote/local/sqlite/full_test_table.dart';
+import 'package:toefl/remote/local/sqlite/mini_test_table.dart';
 import 'package:toefl/routes/route_key.dart';
 import 'package:toefl/utils/colors.dart';
 import 'package:toefl/utils/hex_color.dart';
@@ -24,6 +25,7 @@ class _SettingState extends State<Setting> {
   final AuthSharedPreference authSharedPreference = AuthSharedPreference();
   final TestSharedPreference testSharedPreference = TestSharedPreference();
   final FullTestTable fullTestTable = FullTestTable();
+  final MiniTestTable miniTestTable = MiniTestTable();
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +62,9 @@ class _SettingState extends State<Setting> {
             onTap: () async {
               await authSharedPreference.removeBearerToken();
               await testSharedPreference.removeStatus();
+              await testSharedPreference.removeMiniStatus();
               await fullTestTable.resetDatabase();
+              await miniTestTable.resetDatabase();
               Navigator.pushReplacementNamed(context, RouteKey.login);
             },
             child:
