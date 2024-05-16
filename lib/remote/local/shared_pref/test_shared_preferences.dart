@@ -28,4 +28,27 @@ class TestSharedPreference {
     final pref = await SharedPreferences.getInstance();
     await pref.remove(SharedPreferenceKeys.finalTestStatus);
   }
+
+  Future<TestStatus?> getMiniStatus() async {
+    final pref = await SharedPreferences.getInstance();
+    final data = pref.getString(SharedPreferenceKeys.miniTestStatus);
+    if (data != null) {
+      return TestStatus.fromJsonString(data);
+    } else {
+      return null;
+    }
+  }
+
+  FutureOr<void> saveMiniStatus(TestStatus status) async {
+    final pref = await SharedPreferences.getInstance();
+    await pref.setString(
+      SharedPreferenceKeys.miniTestStatus,
+      status.toStringJson(),
+    );
+  }
+
+  FutureOr<void> removeMiniStatus() async {
+    final pref = await SharedPreferences.getInstance();
+    await pref.remove(SharedPreferenceKeys.miniTestStatus);
+  }
 }
