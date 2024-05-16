@@ -34,12 +34,14 @@ class _SimulationPageState extends ConsumerState<SimulationPage> {
       isLoading = true;
     });
     try {
-      await _handleOnAutoSubmit();
-      testStatus = await _testSharedPref.getStatus();
-
       final allPacket = await _fullTestApi.getAllPacket();
       setState(() {
         packets = allPacket;
+      });
+      _handleOnAutoSubmit();
+      testStatus = await _testSharedPref.getStatus();
+
+      setState(() {
         isLoading = false;
       });
     } catch (e) {
@@ -57,9 +59,8 @@ class _SimulationPageState extends ConsumerState<SimulationPage> {
 
       if (testStatus != null) {
         DateTime startTime = DateTime.parse(testStatus!.startTime);
-        int diffInHours = DateTime.now().difference(startTime).inHours;
-
-        if (diffInHours >= 2) {
+        int diffInSecs = DateTime.now().difference(startTime).inSeconds;
+        if (diffInSecs >= 7200) {
           bool submitResult = false;
           if (runningPacket.wasFilled) {
             submitResult =
@@ -130,7 +131,6 @@ class _SimulationPageState extends ConsumerState<SimulationPage> {
                                         testStatus != null &&
                                             testStatus!.id ==
                                                 packets[index].id) {
-                                      debugPrint("test status : $testStatus");
                                       if (testStatus != null &&
                                           testStatus!.id == packets[index].id) {
                                         Navigator.of(context).pushNamed(
