@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:path/path.dart';
+import 'package:toefl/pages/bookmarked_page.dart';
 import 'package:toefl/pages/grammar_page.dart';
 import 'package:toefl/pages/quiz_page.dart';
 import 'package:toefl/pages/edit_profile_page.dart';
@@ -41,6 +42,7 @@ final routes = <String, Widget Function(BuildContext)>{
   RouteKey.testresult: (context) => const TestResultPage(),
   RouteKey.profile: (context) => const ProfilePage(),
   RouteKey.editProfile: (context) => EditProfile(),
+  RouteKey.bookmarkedpage: (context) => const BookmarkedPage(),
   RouteKey.openingLoadingTest: (context) {
     final Map<String, dynamic>? data =
         ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;

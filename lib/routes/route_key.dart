@@ -16,4 +16,5 @@ class RouteKey {
   static const testresult = '/test-result';
   static const simulationpage = '/simulation-page';
   static const reviewTestPage = '/review-test-page';
+  static const bookmarkedpage = '/bookmarked-page';
 }

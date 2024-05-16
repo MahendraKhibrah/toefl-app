@@ -30,7 +30,7 @@ class _SplashPageState extends State<SplashPage> {
         //   Navigator.of(context).pushReplacementNamed(RouteKey.onBoarding);
         // }
 
-      Navigator.of(context).pushReplacementNamed(RouteKey.testresult);
+        Navigator.of(context).pushReplacementNamed(RouteKey.bookmarkedpage);
       }
     });
   }
