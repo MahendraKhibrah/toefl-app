@@ -9,9 +9,11 @@ import 'package:toefl/utils/custom_text_style.dart';
 import 'package:toefl/utils/hex_color.dart';
 
 class ReviewTestPage extends StatefulWidget {
-  const ReviewTestPage({super.key, required this.packetId});
+  const ReviewTestPage(
+      {super.key, required this.packetId, required this.isFull});
 
   final String packetId;
+  final bool isFull;
 
   @override
   State<ReviewTestPage> createState() => _ReviewTestPageState();
@@ -125,6 +127,7 @@ class _ReviewTestPageState extends State<ReviewTestPage> {
                                     builder: (context) {
                                       return BottomSheetReviewTest(
                                         answers: answers,
+                                        isFullTest: widget.isFull,
                                         onTap: (number) {},
                                       );
                                     }).then((value) {

@@ -185,8 +185,11 @@ class _SimulationPageState extends ConsumerState<MiniSimulationPage> {
                                                       .pop();
                                                   Navigator.pushNamed(context,
                                                       RouteKey.reviewTestPage,
-                                                      arguments:
-                                                          packets[index].id);
+                                                      arguments: {
+                                                        "packetId":
+                                                            packets[index].id,
+                                                        "isFull": false
+                                                      });
                                                 },
                                               ));
                                         },

@@ -57,10 +57,10 @@ final routes = <String, Widget Function(BuildContext)>{
     );
   },
   RouteKey.reviewTestPage: (context) {
-    final String? packetId =
-        ModalRoute.of(context)?.settings.arguments as String?;
+    final Map? data = ModalRoute.of(context)?.settings.arguments as Map?;
     return ReviewTestPage(
-      packetId: packetId ?? "",
+      packetId: data?['packetId'] ?? "",
+      isFull: data?['isFull'] ?? false,
     );
   },
   RouteKey.openingMiniTest: (context) {
