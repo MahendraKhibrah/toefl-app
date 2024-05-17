@@ -92,7 +92,7 @@ class _RankPageState extends State<RankPage> {
                     ),
                     Expanded(
                       child: ProfileRank(
-                          name: "Arsyita D",
+                          name: "Arsyita Devanaya Arianto",
                           score: 660,
                           category: "Gold",
                           rank: 1),

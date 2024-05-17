@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -46,6 +47,7 @@ class _ProfileRankState extends State<ProfileRank> {
 
   @override
   Widget build(BuildContext context) {
+    String firstName = widget.name.split(' ').first;
     return Row(
       children: [
         Column(
@@ -79,13 +81,17 @@ class _ProfileRankState extends State<ProfileRank> {
               ],
             ),
             const SizedBox(height: 30),
-            Text(
-              widget.name,
-              style: TextStyle(
-                fontSize: 12,
-                color: HexColor(mariner600),
+            SizedBox(
+                width: 100,
+                child: Text(
+                  firstName,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: HexColor(mariner700),
+                  ),
+                ),
               ),
-            ),
             const SizedBox(height: 4),
             Container(
               alignment: Alignment.center,
