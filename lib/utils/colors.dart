@@ -12,9 +12,9 @@ const softRed = "#FCC8D1";
 const menuPurple = "#A160FB";
 const menuGreen = "#24CE85";
 const menuRed = "#FD7366";
-const neutral20 = "#F6F6F6";
+const neutral20 = "#F8F8F8";
 
-const neutral10 = "#F6F6F6";
+const neutral10 = "#FFFFFF";
 const neutral90 = "#191919";
 // BLUE
 const mariner50 = "#F1F8FD";
