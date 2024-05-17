@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:path/path.dart';
 import 'package:toefl/pages/bookmarked_page.dart';
+import 'package:toefl/pages/full_test/set_target_page.dart';
 import 'package:toefl/pages/grammar_page.dart';
 import 'package:toefl/pages/mini_test/mini_opening_page.dart';
 import 'package:toefl/pages/mini_test/mini_simulation_page.dart';
@@ -47,6 +48,7 @@ final routes = <String, Widget Function(BuildContext)>{
   RouteKey.profile: (context) => const ProfilePage(),
   RouteKey.editProfile: (context) => EditProfile(),
   RouteKey.bookmarkedpage: (context) => const BookmarkedPage(),
+  RouteKey.setTargetPage: (context) => const SetTargetPage(),
   RouteKey.openingLoadingTest: (context) {
     final Map<String, dynamic>? data =
         ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;

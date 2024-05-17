@@ -58,4 +58,10 @@ class CustomTextStyle {
 
   static TextStyle extrabold24 =
       GoogleFonts.nunito(fontSize: 24, fontWeight: FontWeight.w800);
+
+  static TextStyle extrabold20 =
+      GoogleFonts.nunito(fontSize: 20, fontWeight: FontWeight.w800);
+
+  static TextStyle medium15 =
+      GoogleFonts.nunito(fontSize: 15, fontWeight: FontWeight.w500);
 }
