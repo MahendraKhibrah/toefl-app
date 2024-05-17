@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:toefl/pages/games/quiz/finish_quiz_page.dart';
+import 'package:toefl/pages/games/quiz/splash_perfect.dart';
 import 'package:toefl/widgets/answer_button.dart';
 import 'package:toefl/widgets/answer_validation_container.dart';
 import 'package:toefl/widgets/blue_button.dart';
 import 'package:toefl/widgets/blue_container.dart';
-import 'package:toefl/widgets/next_button.dart';
+import 'package:toefl/widgets/games/quiz/next_button.dart';
 
 class GrammarPage extends StatefulWidget {
   const GrammarPage({
@@ -66,7 +68,16 @@ class _GrammarPageState extends State<GrammarPage> {
               const SizedBox(
                 height: 20,
               ),
-              NextButton(pageController: _controller)
+              BlueButton(
+                title: "Next",
+                onTap: () {
+                  showDialog(
+                    barrierColor: Colors.transparent,
+                    context: context,
+                    builder: (context) => SplashPerfect(),
+                  );
+                },
+              )
             ],
           ),
         ),
