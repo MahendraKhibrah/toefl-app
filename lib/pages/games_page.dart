@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:toefl/models/game_data.dart';
 import 'package:toefl/models/games/game_detail.dart';
@@ -68,10 +69,7 @@ class _GamesPageState extends State<GamesPage> {
                   level: _games[_index].level,
                   description: _games[_index].description)
               : GameDetail(
-                  title: 'Beginner',
-                  level: 1,
-                  description:
-                      'You Need Here'), // Provide a default GameDetail if _games is empty
+                  title: 'Beginner', level: 1, description: 'You Need Here'),
           onPressed: () {
             setState(() {
               _isActive = !_isActive;
@@ -97,6 +95,7 @@ class _GamesPageState extends State<GamesPage> {
               itemBuilder: (context, index) {
                 return GamesLevelPage(
                   quizs: games[index].gameList!,
+                  index: index,
                 );
               },
               onPageChanged: (value) {

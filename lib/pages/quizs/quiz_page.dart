@@ -17,6 +17,7 @@ class _QuizPageState extends State<QuizPage> {
   late Future<Quiz> _quizFuture;
   late PageController _controller;
   int _currentPage = 0;
+  List<List<int>> selectedIndex = [];
 
   @override
   void initState() {
@@ -26,7 +27,15 @@ class _QuizPageState extends State<QuizPage> {
   }
 
   Future<Quiz> _fetchQuizData() async {
-    return QuizApi().fetchQuiz(widget.quizId);
+    Quiz quiz = await QuizApi().fetchQuiz(widget.quizId);
+    selectedIndex = List.generate(
+      quiz.questions!.length,
+      (index) => List.generate(
+        quiz.questions![index].content!.length,
+        (index) => -1,
+      ),
+    );
+    return quiz;
   }
 
   Widget _buildQuizPage(Quiz quiz) {
@@ -73,33 +82,55 @@ class _QuizPageState extends State<QuizPage> {
         }
       },
       child: Scaffold(
-        body: SafeArea(
-          child: Column(
-            children: <Widget>[
-              SizedBox(height: 20),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                child: StepProgress(
-                    currentStep: _currentPage, steps: quiz.questions!.length),
+        body: Column(
+          children: <Widget>[
+            SizedBox(height: 20),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24.0),
+              child: StepProgress(
+                  quizType: quiz.type.name,
+                  currentStep: _currentPage,
+                  steps: quiz.questions!.length),
+            ),
+            Expanded(
+              child: PageView.builder(
+                physics: NeverScrollableScrollPhysics(),
+                controller: _controller,
+                itemCount: quiz.questions!.length,
+                itemBuilder: (context, index) {
+                  return GrammarPage(
+                    question: quiz.questions![index],
+                    setButton: (selectedIndex) =>
+                        setButtonState(_currentPage, selectedIndex),
+                  );
+                },
+                onPageChanged: (value) {
+                  setState(() {
+                    _currentPage = value;
+                  });
+                },
               ),
-              Expanded(
-                child: PageView.builder(
-                  controller: _controller,
-                  itemCount: quiz.questions!.length,
-                  itemBuilder: (context, index) {
-                    return GrammarPage(question: quiz.questions![index]);
-                  },
-                ),
+            ),
+            // Text(selectedIndex[_currentPage].toString()),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 20),
+              child: NextButton(
+                pageController: _controller,
+                isDisabled: selectedIndex[_currentPage].contains(-1),
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 20),
-                child: NextButton(pageController: _controller),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
+  }
+
+  setButtonState(int row, List<int> index) {
+    setState(() {
+      selectedIndex[row] = index;
+    });
+    print(selectedIndex);
+    print(selectedIndex[_currentPage].contains(-1));
   }
 
   @override

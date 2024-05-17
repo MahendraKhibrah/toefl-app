@@ -36,7 +36,7 @@ class BottomBarGames extends StatelessWidget implements PreferredSizeWidget {
                     width: 50,
                     height: 50,
                     decoration: BoxDecoration(
-                        color: Colors.black,
+                        color: HexColor(mariner50),
                         borderRadius: BorderRadius.circular(6)),
                   )
                 : null,

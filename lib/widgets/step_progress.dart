@@ -7,9 +7,10 @@ import 'package:toefl/utils/hex_color.dart';
 class StepProgress extends StatefulWidget {
   final int currentStep;
   final int steps;
+  final String quizType;
 
   const StepProgress(
-      {super.key, required this.currentStep, required this.steps});
+      {super.key, required this.currentStep, required this.steps, required this.quizType});
 
   @override
   State<StepProgress> createState() => _StepProgressState();
@@ -141,7 +142,7 @@ class _StepProgressState extends State<StepProgress> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                'Vocab: Questions ${(widget.currentStep + 1).toInt()} of ${widget.steps.toInt()}',
+                '${widget.quizType}: Questions ${(widget.currentStep + 1).toInt()} of ${widget.steps.toInt()}',
                 style: CustomTextStyle.bold18.copyWith(color: Colors.black),
               ),
             ],
