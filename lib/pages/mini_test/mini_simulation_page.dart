@@ -1,29 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:skeletonizer/skeletonizer.dart';
+import 'package:toefl/models/test/packet.dart';
+import 'package:toefl/models/test/test_status.dart';
 import 'package:toefl/pages/full_test/finished_packet_dialog.dart';
-import 'package:toefl/remote/api/full_test_api.dart';
+import 'package:toefl/pages/full_test/simulation_page.dart';
+import 'package:toefl/remote/api/mini_test_api.dart';
 import 'package:toefl/remote/local/shared_pref/test_shared_preferences.dart';
 import 'package:toefl/routes/route_key.dart';
-import 'package:toefl/state_management/full_test_provider.dart';
-import 'package:toefl/utils/colors.dart';
+import 'package:toefl/state_management/mini_test_provider.dart';
 import 'package:toefl/utils/custom_text_style.dart';
-import 'package:toefl/utils/hex_color.dart';
-import 'package:toefl/widgets/blue_container.dart';
 
-import '../../models/test/packet.dart';
-import '../../models/test/test_status.dart';
-
-class SimulationPage extends ConsumerStatefulWidget {
-  const SimulationPage({super.key});
+class MiniSimulationPage extends ConsumerStatefulWidget {
+  const MiniSimulationPage({super.key});
 
   @override
-  ConsumerState<SimulationPage> createState() => _SimulationPageState();
+  ConsumerState<MiniSimulationPage> createState() => _SimulationPageState();
 }
 
-class _SimulationPageState extends ConsumerState<SimulationPage> {
-  final FullTestApi _fullTestApi = FullTestApi();
+class _SimulationPageState extends ConsumerState<MiniSimulationPage> {
+  final MiniTestApi _miniTestApi = MiniTestApi();
   final TestSharedPreference _testSharedPref = TestSharedPreference();
   bool isLoading = true;
   List<Packet> packets = [];
@@ -34,12 +30,12 @@ class _SimulationPageState extends ConsumerState<SimulationPage> {
       isLoading = true;
     });
     try {
-      final allPacket = await _fullTestApi.getAllPacket();
+      final allPacket = await _miniTestApi.getAllPacket();
       setState(() {
         packets = allPacket;
       });
       _handleOnAutoSubmit();
-      testStatus = await _testSharedPref.getStatus();
+      testStatus = await _testSharedPref.getMiniStatus();
 
       setState(() {
         isLoading = false;
@@ -53,7 +49,7 @@ class _SimulationPageState extends ConsumerState<SimulationPage> {
 
   Future<void> _handleOnAutoSubmit() async {
     try {
-      testStatus = await _testSharedPref.getStatus();
+      testStatus = await _testSharedPref.getMiniStatus();
       if (testStatus != null) {
         final runningPacket =
             packets.where((element) => element.id == testStatus!.id).first;
@@ -63,13 +59,13 @@ class _SimulationPageState extends ConsumerState<SimulationPage> {
           bool submitResult = false;
           if (runningPacket.wasFilled) {
             submitResult =
-                await ref.read(fullTestProvider.notifier).resubmitAnswer();
+                await ref.read(miniTestProvider.notifier).resubmitAnswer();
           } else {
             submitResult =
-                await ref.read(fullTestProvider.notifier).submitAnswer();
+                await ref.read(miniTestProvider.notifier).submitAnswer();
           }
           if (submitResult) {
-            await ref.read(fullTestProvider.notifier).resetAll();
+            await ref.read(miniTestProvider.notifier).resetAll();
           }
         }
       }
@@ -89,7 +85,7 @@ class _SimulationPageState extends ConsumerState<SimulationPage> {
     return Scaffold(
         appBar: AppBar(
           title: Text(
-            "FULL TEST",
+            "MINI TEST",
             style: CustomTextStyle.extraBold16,
           ),
           centerTitle: true,
@@ -121,9 +117,9 @@ class _SimulationPageState extends ConsumerState<SimulationPage> {
                               padding: const EdgeInsets.only(bottom: 16),
                               child: PacketCard(
                                   title: packets[index].name,
-                                  questionCount: 140,
+                                  questionCount: 70,
                                   isDisabled:
-                                      !(packets[index].questionCount == 140),
+                                      !(packets[index].questionCount == 70),
                                   accuracy: packets[index].accuracy,
                                   onTap: () async {
                                     if ((!packets[index].wasFilled) ||
@@ -133,7 +129,7 @@ class _SimulationPageState extends ConsumerState<SimulationPage> {
                                       if (testStatus != null &&
                                           testStatus!.id == packets[index].id) {
                                         Navigator.of(context).pushNamed(
-                                            RouteKey.openingLoadingTest,
+                                            RouteKey.openingMiniTest,
                                             arguments: {
                                               "id": packets[index].id,
                                               "isRetake":
@@ -144,7 +140,7 @@ class _SimulationPageState extends ConsumerState<SimulationPage> {
                                         });
                                       } else if (testStatus == null) {
                                         Navigator.of(context).pushNamed(
-                                            RouteKey.openingLoadingTest,
+                                            RouteKey.openingMiniTest,
                                             arguments: {
                                               "id": packets[index].id,
                                               "packetName": packets[index].name,
@@ -169,10 +165,11 @@ class _SimulationPageState extends ConsumerState<SimulationPage> {
                                                 onRetake: () {
                                                   Navigator.of(submitContext)
                                                       .pop();
-                                                  Navigator.of(context).pushNamed(
-                                                      RouteKey
-                                                          .openingLoadingTest,
-                                                      arguments: {
+                                                  Navigator.of(context)
+                                                      .pushNamed(
+                                                          RouteKey
+                                                              .openingMiniTest,
+                                                          arguments: {
                                                         "id": packets[index].id,
                                                         "packetName":
                                                             packets[index].name,
@@ -191,7 +188,7 @@ class _SimulationPageState extends ConsumerState<SimulationPage> {
                                                       arguments: {
                                                         "packetId":
                                                             packets[index].id,
-                                                        "isFull": true
+                                                        "isFull": false
                                                       });
                                                 },
                                               ));
@@ -208,126 +205,5 @@ class _SimulationPageState extends ConsumerState<SimulationPage> {
             ),
           ),
         ));
-  }
-}
-
-class PacketCard extends StatelessWidget {
-  const PacketCard(
-      {super.key,
-      required this.title,
-      required this.questionCount,
-      required this.accuracy,
-      required this.onTap,
-      required this.isOnGoing,
-      this.isDisabled = true});
-
-  final String title;
-  final int questionCount;
-  final int accuracy;
-  final Function() onTap;
-  final bool isOnGoing;
-  final isDisabled;
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        if (!isDisabled) {
-          onTap();
-        }
-      },
-      child: Stack(
-        children: [
-          BlueContainer(
-            showShadow: true,
-            child: Row(
-              // Icon Gaming
-              children: [
-                Container(
-                  width: MediaQuery.of(context).size.width * 1 / 8,
-                  height: MediaQuery.of(context).size.height * 1 / 16,
-                  decoration: BoxDecoration(
-                    color: HexColor(mariner600),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: IconButton(
-                    icon: SvgPicture.asset(
-                      'assets/icons/ic_buku.svg',
-                    ),
-                    onPressed: () {},
-                  ),
-                ),
-                const SizedBox(width: 10),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.62,
-                      child: Padding(
-                        padding: const EdgeInsets.only(bottom: 2.0),
-                        child: Row(
-                          children: [
-                            Text(
-                              title,
-                              style: CustomTextStyle.bold16,
-                            ),
-                            const Spacer(),
-                            isOnGoing
-                                ? Text(
-                                    "On Going",
-                                    style: CustomTextStyle.medium14.copyWith(
-                                      color: HexColor(colorSuccess),
-                                    ),
-                                  )
-                                : const SizedBox(),
-                          ],
-                        ),
-                      ),
-                    ),
-                    Row(
-                      children: [
-                        Text(
-                          "$questionCount Questions",
-                          style: CustomTextStyle.normal12,
-                        ),
-                        const SizedBox(width: 10),
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(10),
-                          child: SizedBox(
-                            width: MediaQuery.of(context).size.width * 1 / 3,
-                            height: MediaQuery.of(context).size.height * 1 / 64,
-                            child: LinearProgressIndicator(
-                              backgroundColor: HexColor(neutral40),
-                              valueColor: AlwaysStoppedAnimation<Color>(
-                                  HexColor(mariner700)),
-                              value: accuracy / 100,
-                            ),
-                          ),
-                        ),
-                        const SizedBox(width: 10),
-                        Text("$accuracy%",
-                            style: CustomTextStyle.bold16
-                                .copyWith(color: HexColor(mariner700)))
-                      ],
-                    )
-                  ],
-                ),
-              ],
-            ),
-          ),
-          Positioned.fill(
-            child: Container(
-              decoration: BoxDecoration(
-                color: isDisabled
-                    ? HexColor(neutral40).withOpacity(0.5)
-                    : Colors.transparent,
-                borderRadius: BorderRadius.circular(15),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
   }
 }

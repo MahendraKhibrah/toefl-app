@@ -3,20 +3,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:toefl/models/test/packet_detail.dart';
+import 'package:toefl/state_management/mini_test_provider.dart';
+import 'package:toefl/widgets/answer_button.dart';
 
-import '../../state_management/full_test_provider.dart';
-import '../../widgets/answer_button.dart';
-
-class MultipleChoices extends ConsumerStatefulWidget {
-  const MultipleChoices({super.key, required this.question});
+class MiniMultipleChoices extends ConsumerStatefulWidget {
+  const MiniMultipleChoices({super.key, required this.question});
 
   final Question question;
 
   @override
-  ConsumerState<MultipleChoices> createState() => _MultipleChoicesState();
+  ConsumerState<MiniMultipleChoices> createState() => _MultipleChoicesState();
 }
 
-class _MultipleChoicesState extends ConsumerState<MultipleChoices> {
+class _MultipleChoicesState extends ConsumerState<MiniMultipleChoices> {
   var selectedAnswer = "";
   var choices = [];
 
@@ -43,7 +42,7 @@ class _MultipleChoicesState extends ConsumerState<MultipleChoices> {
                         if (selectedAnswer != choices[index].choice) {
                           EasyDebounce.debounce("multiple_choices",
                               const Duration(milliseconds: 500), () {
-                            ref.read(fullTestProvider.notifier).updateAnswer(
+                            ref.read(miniTestProvider.notifier).updateAnswer(
                                 widget.question.number, selectedAnswer);
                           });
                         }
@@ -52,7 +51,7 @@ class _MultipleChoicesState extends ConsumerState<MultipleChoices> {
                     });
                   },
                   title:
-                      "(${String.fromCharCode(65 + index)})  ${choices.length >= 4 ? choices[index].choice : "Choice $index"}",
+                      "(${String.fromCharCode(65 + index)})  ${choices.length >= 4 ? choices[index].choice : ""}",
                   isActive: choices.length >= 4
                       ? selectedAnswer == choices[index].choice
                       : false),

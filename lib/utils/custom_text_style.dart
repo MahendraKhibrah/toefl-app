@@ -47,6 +47,18 @@ class CustomTextStyle {
     fontWeight: FontWeight.w600,
   );
 
+  static TextStyle semibold12 =
+      GoogleFonts.nunito(fontSize: 12, fontWeight: FontWeight.w600);
+
+  static TextStyle bold12 =
+      GoogleFonts.nunito(fontSize: 12, fontWeight: FontWeight.bold);
+
+  static TextStyle regular10 =
+      GoogleFonts.nunito(fontSize: 10, fontWeight: FontWeight.w400);
+
+  static TextStyle extrabold24 =
+      GoogleFonts.nunito(fontSize: 24, fontWeight: FontWeight.w800);
+
   static TextStyle gameScoreResult = GoogleFonts.nunito(
       fontSize: 20, fontWeight: FontWeight.bold, color: HexColor(mariner700));
 

@@ -1,30 +1,31 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:toefl/models/test/packet_detail.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:toefl/models/test/packet_detail.dart';
 import 'package:toefl/models/test/test_status.dart';
-import 'package:toefl/remote/api/full_test_api.dart';
 import 'package:toefl/remote/local/shared_pref/test_shared_preferences.dart';
-import 'package:toefl/remote/local/sqlite/full_test_table.dart';
+import 'package:toefl/remote/local/sqlite/mini_test_table.dart';
 
-part 'full_test_provider.freezed.dart';
+import '../remote/api/mini_test_api.dart';
+
+part 'mini_test_provider.freezed.dart';
 
 @freezed
-class FullTestProviderState with _$FullTestProviderState {
-  const factory FullTestProviderState(
+class MiniTestProviderState with _$MiniTestProviderState {
+  const factory MiniTestProviderState(
       {required PacketDetail packetDetail,
       @Default([]) List<Question> selectedQuestions,
       @Default(true) bool isLoading,
       @Default(false) bool isSubmitLoading,
       @Default([]) List<bool> questionsFilledStatus,
-      required TestStatus testStatus}) = _FullTestProviderState;
+      required TestStatus testStatus}) = _MiniTestProviderState;
 
-  const FullTestProviderState._();
+  const MiniTestProviderState._();
 }
 
-class FullTestProvider extends StateNotifier<FullTestProviderState> {
-  FullTestProvider()
-      : super(FullTestProviderState(
+class MiniTestProvider extends StateNotifier<MiniTestProviderState> {
+  MiniTestProvider()
+      : super(MiniTestProviderState(
           packetDetail: PacketDetail(id: '', name: '', questions: []),
           selectedQuestions: [],
           questionsFilledStatus: [],
@@ -38,8 +39,8 @@ class FullTestProvider extends StateNotifier<FullTestProviderState> {
     // _onInit();
   }
 
-  final FullTestTable _fullTestTable = FullTestTable();
-  final FullTestApi _fullTestApi = FullTestApi();
+  final MiniTestTable _miniTestTable = MiniTestTable();
+  final MiniTestApi _miniTestApi = MiniTestApi();
   final TestSharedPreference _testSharedPref = TestSharedPreference();
 
   Future<void> onInit() async {
@@ -49,10 +50,10 @@ class FullTestProvider extends StateNotifier<FullTestProviderState> {
           name: state.packetDetail.name,
           questions: state.packetDetail.questions);
       state = state.copyWith(isLoading: true, packetDetail: newPacketDetail);
-      final testStat = await _testSharedPref.getStatus();
+      final testStat = await _testSharedPref.getMiniStatus();
       if (testStat != null) {
         if (testStat.resetTable) {
-          await _testSharedPref.saveStatus(
+          await _testSharedPref.saveMiniStatus(
             TestStatus(
               id: testStat.id,
               startTime: testStat.startTime,
@@ -77,11 +78,11 @@ class FullTestProvider extends StateNotifier<FullTestProviderState> {
   }
 
   Future<void> resetPacketTable() async {
-    await _fullTestTable.resetDatabase();
+    await _miniTestTable.resetDatabase();
   }
 
   Future<void> resetTestStatus() async {
-    await _testSharedPref.removeStatus();
+    await _testSharedPref.removeMiniStatus();
   }
 
   Future<bool> initPacketDetail(String id) async {
@@ -99,7 +100,7 @@ class FullTestProvider extends StateNotifier<FullTestProviderState> {
 
   Future<void> _getPacketDetailFromApi(String id) async {
     try {
-      final packetDetail = await _fullTestApi.getPacketDetail(id);
+      final packetDetail = await _miniTestApi.getPacketDetail(id);
       state = state.copyWith(packetDetail: packetDetail);
     } catch (e) {
       rethrow;
@@ -111,7 +112,7 @@ class FullTestProvider extends StateNotifier<FullTestProviderState> {
       final packetDetail = state.packetDetail;
       for (var i = 0; i < packetDetail.questions.length; i++) {
         final question = packetDetail.questions[i];
-        _fullTestTable.insertQuestion(question, (i + 1));
+        _miniTestTable.insertQuestion(question, (i + 1));
       }
     } catch (e) {
       rethrow;
@@ -130,9 +131,9 @@ class FullTestProvider extends StateNotifier<FullTestProviderState> {
       state = state.copyWith(isLoading: true, selectedQuestions: []);
       await Future.delayed(const Duration(milliseconds: 50));
       try {
-        final question = await _fullTestTable.getQuestionByNumber(number);
+        final question = await _miniTestTable.getQuestionByNumber(number);
         if (question.nestedQuestionId.isNotEmpty) {
-          final nestedQuestion = await _fullTestTable
+          final nestedQuestion = await _miniTestTable
               .getQuestionsByGroupId(question.nestedQuestionId);
           state = state.copyWith(selectedQuestions: nestedQuestion);
         } else {
@@ -152,7 +153,7 @@ class FullTestProvider extends StateNotifier<FullTestProviderState> {
   Future<void> updateBookmark(List<Question> questions, int bookmarked) async {
     try {
       for (var element in questions) {
-        await _fullTestTable.updateBookmark(element.number, bookmarked);
+        await _miniTestTable.updateBookmark(element.number, bookmarked);
       }
     } catch (e) {
       debugPrint("error: $e");
@@ -161,7 +162,7 @@ class FullTestProvider extends StateNotifier<FullTestProviderState> {
 
   Future<void> updateAnswer(int number, String answer) async {
     try {
-      await _fullTestTable.updateAnswer(number, answer);
+      await _miniTestTable.updateAnswer(number, answer);
     } catch (e) {
       debugPrint("error: $e");
     }
@@ -169,7 +170,7 @@ class FullTestProvider extends StateNotifier<FullTestProviderState> {
 
   Future<List<bool>> getQuestionsFilledStatus() async {
     try {
-      final questions = await _fullTestTable.getAllAnswer();
+      final questions = await _miniTestTable.getAllAnswer();
       return questions.map((e) {
         return e?.answer.isNotEmpty ?? false;
       }).toList();
@@ -182,7 +183,7 @@ class FullTestProvider extends StateNotifier<FullTestProviderState> {
   Future<bool> submitAnswer() async {
     state = state.copyWith(isSubmitLoading: true);
     try {
-      final questions = await _fullTestTable.getAllAnswer();
+      final questions = await _miniTestTable.getAllAnswer();
 
       final request = questions
           .map((e) => {
@@ -193,7 +194,7 @@ class FullTestProvider extends StateNotifier<FullTestProviderState> {
               })
           .toList();
       final response =
-          await _fullTestApi.submitAnswer(request, state.testStatus.id);
+          await _miniTestApi.submitAnswer(request, state.testStatus.id);
       if (response) {
         debugPrint("success submit answer");
         return true;
@@ -212,7 +213,7 @@ class FullTestProvider extends StateNotifier<FullTestProviderState> {
   Future<bool> resubmitAnswer() async {
     state = state.copyWith(isSubmitLoading: true);
     try {
-      final questions = await _fullTestTable.getAllAnswer();
+      final questions = await _miniTestTable.getAllAnswer();
 
       final request = questions
           .map((e) => {
@@ -223,7 +224,7 @@ class FullTestProvider extends StateNotifier<FullTestProviderState> {
               })
           .toList();
       final response =
-          await _fullTestApi.resubmitAnswer(request, state.testStatus.id);
+          await _miniTestApi.resubmitAnswer(request, state.testStatus.id);
       if (response) {
         debugPrint("success submit answer");
         return true;
@@ -254,7 +255,7 @@ class FullTestProvider extends StateNotifier<FullTestProviderState> {
   }
 
   void resetState() {
-    state = FullTestProviderState(
+    state = MiniTestProviderState(
       packetDetail: PacketDetail(id: '', name: '', questions: []),
       selectedQuestions: [],
       isLoading: true,
@@ -266,11 +267,11 @@ class FullTestProvider extends StateNotifier<FullTestProviderState> {
   }
 }
 
-final fullTestProvider =
-    StateNotifierProvider<FullTestProvider, FullTestProviderState>((ref) {
-  final provider = FullTestProvider();
+final miniTestProvider =
+    StateNotifierProvider<MiniTestProvider, MiniTestProviderState>((ref) {
+  final provider = MiniTestProvider();
   ref.onDispose(() {
-    debugPrint("dispose full test provider");
+    debugPrint("dispose mini test provider");
     provider.resetState();
   });
 
