@@ -100,26 +100,30 @@ class ReviewFormSection extends StatelessWidget {
               child: AnswerButton(
                 onTap: () {
                   debugPrint(
-                      "key : ${answer.keyQuestion} : ${answer.choices[index].id}");
+                      "key : ${answer.keyQuestion} : ${answer.choices.length >= 4 ? answer.choices[index].id : "x"}");
                 },
                 isActive: false,
                 title:
-                    "(${String.fromCharCode(65 + index)}) ${answer.choices[index].choice}",
-                isAnswerTrue:
-                    answer.keyQuestion == answer.choices[index].choice,
-                isAnswerFalse:
-                    (answer.userAnswer == answer.choices[index].choice &&
-                        !answer.isCorrect),
+                    "(${String.fromCharCode(65 + index)}) ${answer.choices.length >= 4 ? answer.choices[index].choice : ""}",
+                isAnswerTrue: answer.choices.length >= 4
+                    ? answer.keyQuestion == answer.choices[index].choice
+                    : false,
+                isAnswerFalse: answer.choices.length >= 4
+                    ? (answer.userAnswer == answer.choices[index].choice &&
+                        !answer.isCorrect)
+                    : false,
               ));
         }),
       ),
       const SizedBox(
         height: 12,
       ),
-      AnswerValidationContainer(
-          isCorrect: answer.isCorrect,
-          keyAnswer: answer.keyQuestion,
-          explanation: "")
+      answer.choices.length >= 4
+          ? AnswerValidationContainer(
+              isCorrect: answer.isCorrect,
+              keyAnswer: answer.keyQuestion,
+              explanation: "")
+          : const SizedBox()
     ];
   }
 
