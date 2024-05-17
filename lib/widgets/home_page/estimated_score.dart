@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:toefl/routes/route_key.dart';
 import 'package:toefl/utils/colors.dart';
 import 'package:toefl/utils/hex_color.dart';
 
@@ -98,6 +99,21 @@ class EstimatedScore extends StatelessWidget {
                 borderRadius: BorderRadius.circular(10),
                 color: HexColor(mariner900)),
             margin: EdgeInsets.symmetric(horizontal: 24),
+            child: TextButton(
+                            onPressed: () {
+                              Navigator.pushNamed(context, RouteKey.rank);
+                            },
+                            child: Text(
+                              "Try",
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w800,
+                                  color: HexColor(mariner900)),
+                            ),
+                            style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.all<Color>(
+                                  Colors.white),
+                            )),
           ),
         ],
       ),

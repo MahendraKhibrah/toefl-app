@@ -30,3 +30,7 @@ const mariner500 = "#569BDB";
 const mariner950 = "#20304B";
 const menuSoftBlue = "#2BBDFB";
 const softBlue = "#D9D9D9";
+
+const goldMedal = "#F7B64C";
+const silverMedal = "#959799";
+const bronzeMedal = "#DF9154";

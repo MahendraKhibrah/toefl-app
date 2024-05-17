@@ -11,6 +11,7 @@ import 'package:toefl/pages/full_test/simulation_page.dart';
 import 'package:toefl/pages/full_test/test_result_page.dart';
 import 'package:toefl/pages/login_page.dart';
 import 'package:toefl/pages/on_boarding.dart';
+import 'package:toefl/pages/rank_page.dart';
 import 'package:toefl/pages/regist_page.dart';
 import 'package:toefl/pages/games_page.dart';
 import 'package:toefl/pages/review_test/review_test_page.dart';
@@ -41,6 +42,7 @@ final routes = <String, Widget Function(BuildContext)>{
   RouteKey.testresult: (context) => const TestResultPage(),
   RouteKey.profile: (context) => const ProfilePage(),
   RouteKey.editProfile: (context) => EditProfile(),
+  RouteKey.rank:(context) => const RankPage(),
   RouteKey.openingLoadingTest: (context) {
     final Map<String, dynamic>? data =
         ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
