@@ -45,9 +45,9 @@ class LearningPath extends StatelessWidget {
       "title": "Listening",
       "image": "assets/images/listening.svg",
       "course": "2",
-      "border": "#FFF48E",
+      "border": "#FFC93D",
       "color": "#FFD66B",
-      "background": "#FFF9C2",
+      "background": "#FFFAD0",
       "onTap": () {
         print("Listening");
       }
@@ -138,7 +138,7 @@ class LearningPath extends StatelessWidget {
                                           3.8,
                                       height: 25,
                                       decoration: BoxDecoration(
-                                          color: Colors.white,
+                                          color: HexColor(learning["border"]),
                                           borderRadius:
                                               BorderRadius.circular(100)),
                                       child: Center(
@@ -147,7 +147,7 @@ class LearningPath extends StatelessWidget {
                                           style: TextStyle(
                                               fontSize: 12,
                                               fontWeight: FontWeight.w800,
-                                              color: HexColor(mariner900)),
+                                              color: HexColor(neutral10)),
                                         ),
                                       ))
                                 ],
