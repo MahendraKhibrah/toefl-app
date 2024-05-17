@@ -8,7 +8,9 @@ import 'package:toefl/widgets/blue_container.dart';
 import 'package:toefl/widgets/toefl_progress_indicator.dart';
 
 class TestResultPage extends StatefulWidget {
-  const TestResultPage({Key? key}) : super(key: key);
+  const TestResultPage({super.key, required this.packetId});
+
+  final String packetId;
 
   @override
   State<TestResultPage> createState() => _TestResultPageState();

@@ -43,7 +43,10 @@ final routes = <String, Widget Function(BuildContext)>{
   RouteKey.setGoal: (context) => const SetGoal(),
   RouteKey.onBoarding: (context) => const OnBoarding(),
   RouteKey.simulationpage: (context) => const SimulationPage(),
-  RouteKey.testresult: (context) => const TestResultPage(),
+  RouteKey.testresult: (context) {
+    final String? data = ModalRoute.of(context)?.settings.arguments as String?;
+    return TestResultPage(packetId: data ?? "");
+  },
   RouteKey.profile: (context) => const ProfilePage(),
   RouteKey.editProfile: (context) => EditProfile(),
   RouteKey.bookmarkedpage: (context) => const BookmarkedPage(),
