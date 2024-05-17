@@ -23,17 +23,14 @@ class _FinishQuizPageState extends State<FinishQuizPage> {
           margin: EdgeInsets.symmetric(horizontal: 24),
           child: Column(
             children: [
-              SvgPicture.asset(
-                'assets/images/login.svg',
-                width: MediaQuery.of(context).size.width,
-              ),
-              SizedBox(
+              // diisi maskot
+              const SizedBox(
                 height: 60,
               ),
               SizedBox(
                 child: ResultQuiz(),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 60,
               ),
               BlueButton(
