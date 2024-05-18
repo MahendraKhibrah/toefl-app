@@ -159,6 +159,17 @@ class _ReviewTestPageState extends State<ReviewTestPage> {
                     ),
                   ),
                 ),
+                Positioned(
+                    top: 44,
+                    left: 18,
+                    child: IconButton(
+                      icon: const Icon(
+                        Icons.arrow_back_ios,
+                      ),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    )),
               ],
             ),
     );
@@ -172,7 +183,6 @@ class _ReviewTestPageState extends State<ReviewTestPage> {
         });
         final bookmarkStatus =
             await bookmarkApi.updateBookmark(answers[selectedIndex].id);
-        debugPrint("bookmark status: $bookmarkStatus");
         setState(() {
           answers[selectedIndex] = Answer(
             id: answers[selectedIndex].id,
