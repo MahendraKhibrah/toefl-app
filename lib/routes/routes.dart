@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:path/path.dart';
-import 'package:toefl/pages/bookmarked_page.dart';
+import 'package:toefl/pages/bookmark/bookmark_detail_page.dart';
+import 'package:toefl/pages/bookmark/bookmarked_page.dart';
 import 'package:toefl/pages/full_test/set_target_page.dart';
 import 'package:toefl/pages/grammar_page.dart';
 import 'package:toefl/pages/mini_test/mini_opening_page.dart';
@@ -92,4 +93,8 @@ final routes = <String, Widget Function(BuildContext)>{
   },
   RouteKey.miniSimulationTest: (context) => const MiniSimulationPage(),
   RouteKey.bookmark: (context) => const BookmarkedPage(),
+  RouteKey.bookmarkDetail: (context) {
+    final String? data = ModalRoute.of(context)?.settings.arguments as String?;
+    return BookmarkDetailPage(bookmarkId: data ?? "");
+  },
 };

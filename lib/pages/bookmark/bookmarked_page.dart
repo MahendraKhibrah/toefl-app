@@ -8,7 +8,8 @@ import 'package:toefl/utils/custom_text_style.dart';
 import 'package:toefl/utils/hex_color.dart';
 import 'package:toefl/widgets/blue_container.dart';
 
-import '../models/bookmark.dart';
+import '../../models/bookmark/bookmark.dart';
+import '../../routes/route_key.dart';
 
 class BookmarkedPage extends StatefulWidget {
   const BookmarkedPage({super.key});
@@ -72,7 +73,12 @@ class _BookmarkedPageState extends State<BookmarkedPage> {
                               padding: const EdgeInsets.only(bottom: 8.0),
                               child: GenerateContainer(
                                 text: bookmarks[index].question,
-                                onTap: () {},
+                                onTap: () {
+                                  Navigator.of(context).pushNamed(
+                                    RouteKey.bookmarkDetail,
+                                    arguments: bookmarks[index].id,
+                                  );
+                                },
                                 onDelete: () async {
                                   setState(() {
                                     isLoading = true;
