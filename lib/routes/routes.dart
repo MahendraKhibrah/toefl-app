@@ -43,7 +43,14 @@ final routes = <String, Widget Function(BuildContext)>{
   RouteKey.setGoal: (context) => const SetGoal(),
   RouteKey.onBoarding: (context) => const OnBoarding(),
   RouteKey.simulationpage: (context) => const SimulationPage(),
-  RouteKey.testresult: (context) => const TestResultPage(),
+  RouteKey.testresult: (context) {
+    final Map? data = ModalRoute.of(context)?.settings.arguments as Map?;
+    return TestResultPage(
+      packetId: data?["packetId"] ?? "",
+      isMiniTest: data?["isMiniTest"] ?? false,
+      packetName: data?["packetName"] ?? "",
+    );
+  },
   RouteKey.profile: (context) => const ProfilePage(),
   RouteKey.editProfile: (context) => EditProfile(),
   RouteKey.bookmarkedpage: (context) => const BookmarkedPage(),
