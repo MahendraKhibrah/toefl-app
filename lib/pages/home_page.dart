@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:toefl/pages/template_page.dart';
 import 'package:toefl/remote/local/shared_pref/test_shared_preferences.dart';
 import 'package:toefl/routes/route_key.dart';
 import 'package:toefl/utils/colors.dart';
 import 'package:toefl/utils/hex_color.dart';
 import 'package:toefl/widgets/home_page/estimated_score.dart';
+import 'package:toefl/widgets/home_page/learning_path.dart';
 import 'package:toefl/widgets/home_page/simulation_test.dart';
 import 'package:toefl/widgets/home_page/topic_interest.dart';
 
@@ -51,7 +53,7 @@ class _HomePageState extends State<HomePage> {
           scrolledUnderElevation: 0,
           titleSpacing: 0,
           title: Padding(
-            padding: EdgeInsets.only(left: 24),
+            padding: EdgeInsets.only(left: 24.0),
             child: Text(
               'Start Learning Today!',
               style: TextStyle(fontSize: 21, fontWeight: FontWeight.w800),
@@ -87,7 +89,7 @@ class _HomePageState extends State<HomePage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              EstimatedScore(),
+              EstimatedScoreWidget(),
               SizedBox(
                 height: 30,
               ),
@@ -133,7 +135,39 @@ class _HomePageState extends State<HomePage> {
               SizedBox(
                 height: 15,
               ),
-              SimulationTest()
+              SimulationTestWidget(),
+              SizedBox(
+                height: 30,
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 24),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Learning Path",
+                      style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: HexColor(neutral90)),
+                    ),
+                    Text(
+                      "TOEFL Part",
+                      style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                          color: HexColor(neutral50)),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 15,
+              ),
+              LearningPath(),
+              SizedBox(
+                height: 30,
+              ),
             ],
           ),
         ));
