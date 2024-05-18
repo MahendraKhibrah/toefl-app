@@ -60,6 +60,10 @@ class Result {
   final int totalReading;
   @JsonKey(defaultValue: 0, name: 'accuracy_reading')
   final int accuracyReading;
+  @JsonKey(defaultValue: 0, name: 'target_user')
+  final int targetUser;
+  @JsonKey(defaultValue: 0, name: 'answered_question')
+  final int answeredQuestion;
 
   Result({
     required this.id,
@@ -89,6 +93,8 @@ class Result {
     required this.correctReading,
     required this.totalReading,
     required this.accuracyReading,
+    required this.targetUser,
+    required this.answeredQuestion,
   });
 
   factory Result.fromJson(Map<String, dynamic> json) => _$ResultFromJson(json);

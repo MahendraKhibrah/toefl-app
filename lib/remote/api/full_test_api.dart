@@ -131,6 +131,8 @@ class FullTestApi {
         correctReading: 0,
         totalReading: 0,
         accuracyReading: 0,
+        targetUser: 0,
+        answeredQuestion: 0,
       );
     }
   }

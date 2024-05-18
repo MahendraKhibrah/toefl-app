@@ -78,6 +78,19 @@ class _SimulationPageState extends ConsumerState<SimulationPage> {
     }
   }
 
+  void _pushReviewPage(Packet packet) {
+    Navigator.pushNamed(context, RouteKey.testresult, arguments: {
+      "packetId": packet.id,
+      "isMiniTest": false,
+      "packetName": packet.name
+    }).then((afterRetake) {
+      if (afterRetake == true) {
+        _onInit();
+        _pushReviewPage(packet);
+      }
+    });
+  }
+
   @override
   void initState() {
     _onInit();
@@ -141,6 +154,7 @@ class _SimulationPageState extends ConsumerState<SimulationPage> {
                                               "packetName": packets[index].name
                                             }).then((value) {
                                           _onInit();
+                                          _pushReviewPage(packets[index]);
                                         });
                                       } else if (testStatus == null) {
                                         Navigator.of(context).pushNamed(
@@ -152,6 +166,7 @@ class _SimulationPageState extends ConsumerState<SimulationPage> {
                                                   packets[index].wasFilled
                                             }).then((value) {
                                           _onInit();
+                                          _pushReviewPage(packets[index]);
                                         });
                                       }
                                     } else {
@@ -181,18 +196,28 @@ class _SimulationPageState extends ConsumerState<SimulationPage> {
                                                                 .wasFilled
                                                       }).then((value) {
                                                     _onInit();
+                                                    _pushReviewPage(
+                                                        packets[index]);
                                                   });
                                                 },
                                                 onReview: () {
                                                   Navigator.of(submitContext)
                                                       .pop();
                                                   Navigator.pushNamed(context,
-                                                      RouteKey.reviewTestPage,
+                                                      RouteKey.testresult,
                                                       arguments: {
                                                         "packetId":
                                                             packets[index].id,
-                                                        "isFull": true
-                                                      });
+                                                        "isMiniTest": false,
+                                                        "packetName":
+                                                            packets[index].name
+                                                      }).then((afterRetake) {
+                                                    if (afterRetake == true) {
+                                                      _onInit();
+                                                      _pushReviewPage(
+                                                          packets[index]);
+                                                    }
+                                                  });
                                                 },
                                               ));
                                         },
