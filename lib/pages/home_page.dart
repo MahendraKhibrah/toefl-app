@@ -68,17 +68,20 @@ class _HomePageState extends State<HomePage> {
                 child: Ink(
                     child: IconButton(
                   icon: Ink(
+                      decoration: BoxDecoration(
+                        color: HexColor(mariner100),
+                        borderRadius: BorderRadius.circular(6.0),
+                      ),
                       child: IconButton(
                           icon: Icon(
                             Icons.bookmarks,
                             color: HexColor(mariner900),
                             size: 18,
                           ),
-                          onPressed: null),
-                      decoration: BoxDecoration(
-                        color: HexColor(mariner100),
-                        borderRadius: BorderRadius.circular(6.0),
-                      )),
+                          onPressed: () {
+                            Navigator.of(context)
+                                .pushNamed(RouteKey.bookmarkedpage);
+                          })),
                   onPressed: () {},
                 )),
               ),

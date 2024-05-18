@@ -91,4 +91,5 @@ final routes = <String, Widget Function(BuildContext)>{
     );
   },
   RouteKey.miniSimulationTest: (context) => const MiniSimulationPage(),
+  RouteKey.bookmark: (context) => const BookmarkedPage(),
 };
