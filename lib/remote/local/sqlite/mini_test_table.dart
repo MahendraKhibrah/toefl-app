@@ -5,8 +5,8 @@ import 'package:toefl/utils/utils.dart';
 
 import '../../../models/test/packet_detail.dart';
 
-class FullTestTable {
-  final tableName = 'full_test';
+class MiniTestTable {
+  final tableName = 'mini_test';
 
   Future<void> createTable(Database database) async {
     const idType = 'STRING';
@@ -92,7 +92,7 @@ class FullTestTable {
               'question': e['question'],
               'type_question': e['category'],
               'nested_question_id': e['id'],
-              'multiple_choices': multipleChoiceMapper(e['option'] as String?),
+              'multiple_choices': multipleChoiceMapper(e['option'] as String),
               'nested_question': e['reference_question'],
               'answer': e['answer'],
               'bookmarked': e['bookmarked'],
@@ -123,20 +123,21 @@ class FullTestTable {
       SELECT * FROM $tableName
     ''';
     final result = await database.rawQuery(rawQuery);
-    return result
+    var test = result
         .map((e) => Question.fromJson({
               'id': e['id_question'],
               'question': e['question'],
               'type_question': e['category'],
               'nested_question_id': e['id'],
-              'multiple_choices':
-                  multipleChoiceMapper((e['option']) as String?),
+              'multiple_choices': multipleChoiceMapper(e['option'] as String?),
               'nested_question': e['reference_question'],
               'answer': e['answer'],
               'bookmarked': e['bookmarked'],
               'number': e['number'],
             }))
         .toList();
+    debugPrint("test : $test");
+    return test;
   }
 
   List<Map<String, dynamic>> multipleChoiceMapper(String? multipleChoices) {

@@ -4,10 +4,11 @@ import 'package:lottie/lottie.dart';
 import 'package:toefl/models/test/test_status.dart';
 import 'package:toefl/remote/local/shared_pref/test_shared_preferences.dart';
 import 'package:toefl/routes/route_key.dart';
-import 'package:toefl/state_management/full_test_provider.dart';
 
-class OpeningLoadingPage extends ConsumerStatefulWidget {
-  const OpeningLoadingPage(
+import '../../state_management/mini_test_provider.dart';
+
+class MiniOpeningPage extends ConsumerStatefulWidget {
+  const MiniOpeningPage(
       {super.key,
       required this.packetId,
       required this.isRetake,
@@ -18,10 +19,10 @@ class OpeningLoadingPage extends ConsumerStatefulWidget {
   final String packetName;
 
   @override
-  ConsumerState<OpeningLoadingPage> createState() => _OpeningLoadingPageState();
+  ConsumerState<MiniOpeningPage> createState() => _OpeningLoadingPageState();
 }
 
-class _OpeningLoadingPageState extends ConsumerState<OpeningLoadingPage> {
+class _OpeningLoadingPageState extends ConsumerState<MiniOpeningPage> {
   @override
   void initState() {
     super.initState();
@@ -30,20 +31,20 @@ class _OpeningLoadingPageState extends ConsumerState<OpeningLoadingPage> {
 
   Future<void> _onInit() async {
     final TestSharedPreference sharedPref = TestSharedPreference();
-    final status = await sharedPref.getStatus();
+    final status = await sharedPref.getMiniStatus();
 
     DateTime startDate = DateTime.now();
     if (status != null) {
       startDate = DateTime.parse(status.startTime);
     } else {
-      await sharedPref.saveStatus(TestStatus(
+      await sharedPref.saveMiniStatus(TestStatus(
           id: widget.packetId,
           startTime: DateTime.now().toIso8601String(),
           name: widget.packetName,
           resetTable: true,
           isRetake: widget.isRetake));
     }
-    await ref.read(fullTestProvider.notifier).onInit();
+    await ref.read(miniTestProvider.notifier).onInit();
     await Future.delayed(const Duration(seconds: 4));
 
     final diff = DateTime.now().difference(startDate);
@@ -52,7 +53,7 @@ class _OpeningLoadingPageState extends ConsumerState<OpeningLoadingPage> {
     } else {
       Navigator.pushNamed(
         context,
-        RouteKey.fullTest,
+        RouteKey.miniTest,
         arguments: {
           "diffInSeconds": diff.inSeconds + 4,
           "isRetake": widget.isRetake,

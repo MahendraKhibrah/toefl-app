@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:toefl/utils/colors.dart';
 import 'package:toefl/utils/custom_text_style.dart';
@@ -16,6 +18,9 @@ class StepProgress extends StatefulWidget {
 
 class _StepProgressState extends State<StepProgress> {
   double widthProgress = 0;
+  List randomWordsList = [];
+
+  bool loading = false;
 
   @override
   void initState() {
@@ -47,13 +52,16 @@ class _StepProgressState extends State<StepProgress> {
       children: [
         Row(
           children: [
-            IconButton(
-              onPressed: () {
+            GestureDetector(
+              onTap: () {
                 Navigator.pop(context);
               },
-              icon: const Icon(Icons.close),
-              padding: EdgeInsets.zero,
-              constraints: BoxConstraints(),
+              child: Padding(
+                padding: const EdgeInsets.only(right: 10.0),
+                child: const Icon(
+                  Icons.close,
+                ),
+              ),
             ),
             Expanded(
               child: Container(
@@ -69,6 +77,10 @@ class _StepProgressState extends State<StepProgress> {
                         borderRadius: BorderRadius.circular(8),
                       ),
                     ),
+                    // LinearProgressIndicator(
+                    //     value: randomWordsList.length / 10,
+                    //     color: HexColor(mariner800),
+                    //     borderRadius: BorderRadius.circular(8)),
                   ],
                 ),
                 decoration: BoxDecoration(

@@ -1,22 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:toefl/routes/navigator_key.dart';
+import 'package:toefl/utils/colors.dart';
+import 'package:toefl/utils/custom_text_style.dart';
+import 'package:toefl/utils/hex_color.dart';
 
-import '../../utils/colors.dart';
-import '../../utils/custom_text_style.dart';
-import '../../utils/hex_color.dart';
-
-class BottomSheetFullTest extends StatefulWidget {
-  const BottomSheetFullTest(
+class BottomSheetMiniTest extends StatefulWidget {
+  const BottomSheetMiniTest(
       {super.key, required this.filledStatus, required this.onTap});
 
   final List<bool> filledStatus;
   final Function(int) onTap;
 
   @override
-  State<BottomSheetFullTest> createState() => _BottomSheetFullTestState();
+  State<BottomSheetMiniTest> createState() => _BottomSheetMiniTestState();
 }
 
-class _BottomSheetFullTestState extends State<BottomSheetFullTest> {
+class _BottomSheetMiniTestState extends State<BottomSheetMiniTest> {
   var selectedPage = 0;
   var pageController = PageController();
 
@@ -126,11 +124,11 @@ class _BottomSheetFullTestState extends State<BottomSheetFullTest> {
                           ),
                         ),
                         ...buildSection(
-                            "Part A : Short Talks", widget.onTap, 30, 1),
+                            "Part A : Short Talks", widget.onTap, 15, 1),
                         ...buildSection(
-                            "Part B : Long Conversations", widget.onTap, 8, 31),
+                            "Part B : Long Conversations", widget.onTap, 5, 16),
                         ...buildSection(
-                            "Part C : Mini-Lectures", widget.onTap, 12, 39),
+                            "Part C : Mini-Lectures", widget.onTap, 6, 20),
                         Padding(
                           padding: const EdgeInsets.only(top: 15, bottom: 2),
                           child: Text(
@@ -140,9 +138,9 @@ class _BottomSheetFullTestState extends State<BottomSheetFullTest> {
                           ),
                         ),
                         ...buildSection("Part A: Sentence Completitions",
-                            widget.onTap, 15, 51),
+                            widget.onTap, 7, 26),
                         ...buildSection(
-                            "Part B: Error Recognition", widget.onTap, 25, 66),
+                            "Part B: Error Recognition", widget.onTap, 12, 33),
                         Padding(
                           padding: const EdgeInsets.only(top: 15, bottom: 2),
                           child: Text(
@@ -151,7 +149,7 @@ class _BottomSheetFullTestState extends State<BottomSheetFullTest> {
                                 CustomTextStyle.bold16.copyWith(fontSize: 15),
                           ),
                         ),
-                        ...buildSection("", widget.onTap, 50, 91),
+                        ...buildSection("", widget.onTap, 26, 45),
                       ],
                     ),
                   ),
@@ -168,11 +166,11 @@ class _BottomSheetFullTestState extends State<BottomSheetFullTest> {
                           ),
                         ),
                         ...buildSectionAnswered(
-                            "Part A : Short Talks", widget.onTap, 30, 1),
+                            "Part A : Short Talks", widget.onTap, 15, 1),
                         ...buildSectionAnswered(
-                            "Part B : Long Conversations", widget.onTap, 8, 31),
+                            "Part B : Long Conversations", widget.onTap, 4, 16),
                         ...buildSectionAnswered(
-                            "Part C : Mini-Lectures", widget.onTap, 12, 39),
+                            "Part C : Mini-Lectures", widget.onTap, 6, 20),
                         Padding(
                           padding: const EdgeInsets.only(top: 15, bottom: 2),
                           child: Text(
@@ -184,10 +182,10 @@ class _BottomSheetFullTestState extends State<BottomSheetFullTest> {
                         ...buildSectionAnswered(
                             "Part A: Sentence Completitions",
                             widget.onTap,
-                            15,
-                            51),
+                            7,
+                            26),
                         ...buildSectionAnswered(
-                            "Part B: Error Recognition", widget.onTap, 25, 66),
+                            "Part B: Error Recognition", widget.onTap, 12, 33),
                         Padding(
                           padding: const EdgeInsets.only(top: 15, bottom: 2),
                           child: Text(
@@ -196,7 +194,7 @@ class _BottomSheetFullTestState extends State<BottomSheetFullTest> {
                                 CustomTextStyle.bold16.copyWith(fontSize: 15),
                           ),
                         ),
-                        ...buildSectionAnswered("", widget.onTap, 50, 91),
+                        ...buildSectionAnswered("", widget.onTap, 26, 45),
                       ],
                     ),
                   ),
@@ -213,11 +211,11 @@ class _BottomSheetFullTestState extends State<BottomSheetFullTest> {
                           ),
                         ),
                         ...buildSectionUnanswered(
-                            "Part A : Short Talks", widget.onTap, 30, 1),
+                            "Part A : Short Talks", widget.onTap, 15, 1),
                         ...buildSectionUnanswered(
-                            "Part B : Long Conversations", widget.onTap, 8, 31),
+                            "Part B : Long Conversations", widget.onTap, 4, 16),
                         ...buildSectionUnanswered(
-                            "Part C : Mini-Lectures", widget.onTap, 12, 39),
+                            "Part C : Mini-Lectures", widget.onTap, 6, 20),
                         Padding(
                           padding: const EdgeInsets.only(top: 15, bottom: 2),
                           child: Text(
@@ -229,10 +227,10 @@ class _BottomSheetFullTestState extends State<BottomSheetFullTest> {
                         ...buildSectionUnanswered(
                             "Part A: Sentence Completitions",
                             widget.onTap,
-                            15,
-                            51),
+                            7,
+                            26),
                         ...buildSectionUnanswered(
-                            "Part B: Error Recognition", widget.onTap, 25, 66),
+                            "Part B: Error Recognition", widget.onTap, 12, 33),
                         Padding(
                           padding: const EdgeInsets.only(top: 15, bottom: 2),
                           child: Text(
@@ -241,7 +239,7 @@ class _BottomSheetFullTestState extends State<BottomSheetFullTest> {
                                 CustomTextStyle.bold16.copyWith(fontSize: 15),
                           ),
                         ),
-                        ...buildSectionUnanswered("", widget.onTap, 50, 91),
+                        ...buildSectionUnanswered("", widget.onTap, 26, 45),
                       ],
                     ),
                   ),
@@ -331,7 +329,7 @@ class _BottomSheetFullTestState extends State<BottomSheetFullTest> {
       Padding(
         padding: const EdgeInsets.symmetric(vertical: 15),
         child: Wrap(
-          crossAxisAlignment: WrapCrossAlignment.center,
+          runAlignment: WrapAlignment.center,
           spacing: screenWidth * 0.03,
           runSpacing: screenWidth * 0.03,
           children: List.generate(total, (index) {

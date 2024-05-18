@@ -11,13 +11,14 @@ import '../../models/test/packet.dart';
 import '../base_response.dart';
 import '../env.dart';
 
-class FullTestApi {
+class MiniTestApi {
   Future<PacketDetail> getPacketDetail(String id) async {
     try {
       final Response rawResponse =
           await DioToefl.instance.get('${Env.apiUrl}/get-pakets/$id');
 
       final response = BaseResponse.fromJson(json.decode(rawResponse.data));
+      debugPrint("response: ${PacketDetail.fromJson(response.data).questions}");
       return PacketDetail.fromJson(response.data);
     } catch (e) {
       return PacketDetail(id: "", name: "", questions: []);
@@ -27,7 +28,7 @@ class FullTestApi {
   Future<List<Packet>> getAllPacket() async {
     try {
       final Response rawResponse =
-          await DioToefl.instance.get('${Env.apiUrl}/get-all-paket/full-test');
+          await DioToefl.instance.get('${Env.apiUrl}/get-all-paket/mini-test');
 
       final response = BaseResponse.fromJson(json.decode(rawResponse.data));
       return (response.data as List<dynamic>)

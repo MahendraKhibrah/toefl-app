@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:path/path.dart';
+import 'package:toefl/routes/navigator_key.dart';
+import 'package:toefl/routes/route_key.dart';
 import 'package:toefl/utils/colors.dart';
 import 'package:toefl/utils/hex_color.dart';
 
 class SimulationTestWidget extends StatelessWidget {
   SimulationTestWidget({super.key});
+
   List<Map<String, dynamic>> topics = [
     {
       "title": "Mini Test",
@@ -12,7 +16,11 @@ class SimulationTestWidget extends StatelessWidget {
       "color": mariner100,
       "icon": "assets/images/pesawat.svg",
       "onTap": () {
-        print("Mini Tes");
+        final context = navigatorKey.currentState?.overlay?.context;
+
+        if (context != null && context.mounted) {
+          Navigator.of(context).pushNamed(RouteKey.miniSimulationTest);
+        }
       }
     },
     {
@@ -21,10 +29,15 @@ class SimulationTestWidget extends StatelessWidget {
       "color": mariner400,
       "icon": "assets/images/medali.svg",
       "onTap": () {
-        print("Full tes");
+        final context = navigatorKey.currentState?.overlay?.context;
+
+        if (context != null && context.mounted) {
+          Navigator.of(context).pushNamed(RouteKey.simulationpage);
+        }
       }
     },
   ];
+
   @override
   Widget build(BuildContext context) {
     return Container(

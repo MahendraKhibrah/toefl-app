@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:toefl/pages/template_page.dart';
+import 'package:toefl/remote/local/shared_pref/test_shared_preferences.dart';
+import 'package:toefl/routes/route_key.dart';
 import 'package:toefl/utils/colors.dart';
 import 'package:toefl/utils/hex_color.dart';
 import 'package:toefl/widgets/home_page/estimated_score.dart';
@@ -8,8 +10,41 @@ import 'package:toefl/widgets/home_page/learning_path.dart';
 import 'package:toefl/widgets/home_page/simulation_test.dart';
 import 'package:toefl/widgets/home_page/topic_interest.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  final TestSharedPreference _testSharedPref = TestSharedPreference();
+
+  @override
+  void initState() {
+    super.initState();
+    _init();
+  }
+
+  void _init() async {
+    final fullTestStatus = await _testSharedPref.getStatus();
+    if (fullTestStatus != null && mounted) {
+      Navigator.of(context).pushNamed(RouteKey.openingLoadingTest, arguments: {
+        "id": fullTestStatus.id,
+        "isRetake": fullTestStatus.isRetake,
+        "packetName": fullTestStatus.name
+      });
+    }
+
+    final miniTestStatus = await _testSharedPref.getMiniStatus();
+    if (miniTestStatus != null && mounted) {
+      Navigator.of(context).pushNamed(RouteKey.openingMiniTest, arguments: {
+        "id": miniTestStatus.id,
+        "isRetake": miniTestStatus.isRetake,
+        "packetName": miniTestStatus.name
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

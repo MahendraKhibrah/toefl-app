@@ -14,12 +14,15 @@ class Packet {
   final int accuracy;
   @JsonKey(name: 'question_count', defaultValue: 0)
   final int questionCount;
+  @JsonKey(name: 'status_test', defaultValue: false)
+  final bool wasFilled;
 
   Packet({
     required this.id,
     required this.name,
     required this.accuracy,
     required this.questionCount,
+    required this.wasFilled,
   });
 
   factory Packet.fromJson(Map<String, dynamic> json) => _$PacketFromJson(json);
