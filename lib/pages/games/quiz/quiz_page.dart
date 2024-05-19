@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:toefl/models/quiz.dart';
-import 'package:toefl/pages/grammar_page.dart';
+import 'package:toefl/pages/games/quiz/grammar_page.dart';
 import 'package:toefl/remote/api/quiz_api.dart';
-import 'package:toefl/widgets/next_button.dart';
-import 'package:toefl/widgets/step_progress.dart';
+import 'package:toefl/widgets/games/quiz/step_progress.dart';
+import 'package:toefl/widgets/games/quiz/next_button.dart';
 
 class QuizPage extends StatefulWidget {
   final String quizId;

@@ -55,23 +55,7 @@ class GameProviderStates extends _$GameProviderStates {
     return notCompletedYetId;
   }
 
-  Future<bool> insertOrUpdateGameClaimSession(String gameSetId) async {
-    List<GameClaim> listGameClaim = await ref
-        .read(gameProviderStatesProvider.notifier)
-        .getUserGameClaim(gameSetId);
-
-    String idNotCompleted = await ref
-        .read(gameProviderStatesProvider.notifier)
-        .findGameNotCompletedYetByUser();
-    bool isRetake = false;
-    if (idNotCompleted != '') {
-      tableGameSession.insertQuizGameSession(
-          QuizGameSession(quizGameClaimId: idNotCompleted, isCompleted: false));
-    } else {
-      if (listGameClaim.length > 1) {
-        isRetake = true;
-      }
-    }
-    return isRetake;
-  }
+  // Future<bool> insertOrUpdateGameClaim(String gameSetId) async {
+    
+  // }
 }

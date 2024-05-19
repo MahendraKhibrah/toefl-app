@@ -36,11 +36,11 @@ class _FinishQuizPageState extends State<FinishQuizPage> {
               BlueButton(
                 title: "Continue",
                 onTap: () {
-                  Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(
-                      builder: (context) => QuizPage(),
-                    ),
-                  );
+                  // Navigator.of(context).pushReplacement(
+                  //   MaterialPageRoute(
+                  //     builder: (context) => QuizPage(),
+                  //   ),
+                  // );
                 },
               ),
             ],
