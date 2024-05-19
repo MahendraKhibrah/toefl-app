@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:toefl/models/quiz_question.dart';
+import 'package:toefl/pages/games/quiz/finish_quiz_page.dart';
+import 'package:toefl/pages/games/quiz/splash_perfect.dart';
 import 'package:toefl/widgets/answer_button.dart';
 import 'package:toefl/widgets/answer_validation_container.dart';
 import 'package:toefl/widgets/blue_button.dart';
 import 'package:toefl/widgets/blue_container.dart';
-import 'package:toefl/widgets/next_button.dart';
+import 'package:toefl/widgets/games/quiz/next_button.dart';
 
 typedef void ListCallback(List<int> selectedIndex);
 

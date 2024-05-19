@@ -76,7 +76,9 @@ class Question {
 
 @JsonSerializable()
 class Choice {
+  @JsonKey(defaultValue: '')
   final String id;
+  @JsonKey(defaultValue: '')
   final String choice;
 
   Choice({

@@ -13,11 +13,15 @@ import '../../utils/custom_text_style.dart';
 import '../../widgets/blue_container.dart';
 
 class ReviewFormSection extends StatelessWidget {
-  const ReviewFormSection(
-      {super.key, required this.answer, required this.number});
+  ReviewFormSection(
+      {super.key,
+      required this.answer,
+      required this.number,
+      this.heightMultiplier = 0.78});
 
   final Answer answer;
   final int number;
+  double heightMultiplier;
 
   @override
   Widget build(BuildContext context) {
@@ -28,14 +32,14 @@ class ReviewFormSection extends StatelessWidget {
       children: [
         SizedBox(
           width: screenWidth * 0.92,
-          height: screenHeight * 0.78,
+          height: screenHeight * heightMultiplier,
           child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const SizedBox(
-                  height: 10,
-                ),
+                // const SizedBox(
+                //   height: 10,
+                // ),
                 answer.typeQuestion == "Reading"
                     ? BlueContainer(
                         child: Column(
@@ -52,7 +56,7 @@ class ReviewFormSection extends StatelessWidget {
                             url: '${Env.storageUrl}/${answer.nestedQuestion}',
                           )
                         : const SizedBox(
-                            height: 20,
+                            height: 0,
                           ),
                 const SizedBox(
                   height: 20,

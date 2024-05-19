@@ -22,4 +22,7 @@ class RouteKey {
   static const openingMiniTest = '/opening-mini-test';
   static const miniTest = '/mini-test';
   static const miniSimulationTest = '/mini-simulation-test';
+  static const setTargetPage = '/set-target-page';
+  static const bookmark = '/bookmark';
+  static const bookmarkDetail = '/bookmark-detail';
 }

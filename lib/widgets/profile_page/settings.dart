@@ -48,7 +48,9 @@ class _SettingState extends State<Setting> {
           InkWell(
             splashColor: Color(0xffE7E7E7).withOpacity(0.3),
             highlightColor: Colors.transparent,
-            onTap: () {},
+            onTap: () {
+              Navigator.pushNamed(context, RouteKey.setTargetPage);
+            },
             child:
                 _listTileCustom(Icons.bar_chart_rounded, 'Set my TOEFL Target'),
           ),
