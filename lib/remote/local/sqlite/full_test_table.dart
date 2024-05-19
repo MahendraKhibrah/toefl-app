@@ -92,7 +92,7 @@ class FullTestTable {
               'question': e['question'],
               'type_question': e['category'],
               'nested_question_id': e['id'],
-              'multiple_choices': multipleChoiceMapper(e['option'] as String),
+              'multiple_choices': multipleChoiceMapper(e['option'] as String?),
               'nested_question': e['reference_question'],
               'answer': e['answer'],
               'bookmarked': e['bookmarked'],
@@ -129,7 +129,8 @@ class FullTestTable {
               'question': e['question'],
               'type_question': e['category'],
               'nested_question_id': e['id'],
-              'multiple_choices': multipleChoiceMapper(e['option'] as String),
+              'multiple_choices':
+                  multipleChoiceMapper((e['option']) as String?),
               'nested_question': e['reference_question'],
               'answer': e['answer'],
               'bookmarked': e['bookmarked'],
@@ -138,8 +139,13 @@ class FullTestTable {
         .toList();
   }
 
-  List<Map<String, dynamic>> multipleChoiceMapper(String multipleChoices) {
-    final List<String> choices = Utils.stringToListWithAt(multipleChoices);
-    return choices.map((e) => Choice.fromJsonString(e).toJson()).toList();
+  List<Map<String, dynamic>> multipleChoiceMapper(String? multipleChoices) {
+    final List<String> choices =
+        Utils.stringToListWithAt(multipleChoices ?? '');
+    return choices.map((e) {
+      return e.isEmpty
+          ? <String, dynamic>{"id": "", "choice": ""}
+          : Choice.fromJsonString(e).toJson();
+    }).toList();
   }
 }

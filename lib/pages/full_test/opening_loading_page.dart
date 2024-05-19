@@ -8,10 +8,14 @@ import 'package:toefl/state_management/full_test_provider.dart';
 
 class OpeningLoadingPage extends ConsumerStatefulWidget {
   const OpeningLoadingPage(
-      {super.key, required this.packetId, required this.isRetake});
+      {super.key,
+      required this.packetId,
+      required this.isRetake,
+      required this.packetName});
 
   final String packetId;
   final bool isRetake;
+  final String packetName;
 
   @override
   ConsumerState<OpeningLoadingPage> createState() => _OpeningLoadingPageState();
@@ -35,7 +39,9 @@ class _OpeningLoadingPageState extends ConsumerState<OpeningLoadingPage> {
       await sharedPref.saveStatus(TestStatus(
           id: widget.packetId,
           startTime: DateTime.now().toIso8601String(),
-          resetTable: true));
+          name: widget.packetName,
+          resetTable: true,
+          isRetake: widget.isRetake));
     }
     await ref.read(fullTestProvider.notifier).onInit();
     await Future.delayed(const Duration(seconds: 4));

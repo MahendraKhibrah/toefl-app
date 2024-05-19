@@ -25,10 +25,16 @@ class FullTestProviderState with _$FullTestProviderState {
 class FullTestProvider extends StateNotifier<FullTestProviderState> {
   FullTestProvider()
       : super(FullTestProviderState(
-            packetDetail: PacketDetail(id: '', name: '', questions: []),
-            selectedQuestions: [],
-            questionsFilledStatus: [],
-            testStatus: TestStatus(id: '', startTime: '', resetTable: false))) {
+          packetDetail: PacketDetail(id: '', name: '', questions: []),
+          selectedQuestions: [],
+          questionsFilledStatus: [],
+          testStatus: TestStatus(
+              id: '',
+              startTime: '',
+              resetTable: false,
+              name: '',
+              isRetake: false),
+        )) {
     // _onInit();
   }
 
@@ -38,14 +44,23 @@ class FullTestProvider extends StateNotifier<FullTestProviderState> {
 
   Future<void> onInit() async {
     try {
-      state = state.copyWith(isLoading: true);
+      var newPacketDetail = PacketDetail(
+          id: state.packetDetail.id,
+          name: state.packetDetail.name,
+          questions: state.packetDetail.questions);
+      state = state.copyWith(isLoading: true, packetDetail: newPacketDetail);
       final testStat = await _testSharedPref.getStatus();
       if (testStat != null) {
         if (testStat.resetTable) {
-          await _testSharedPref.saveStatus(TestStatus(
+          await _testSharedPref.saveStatus(
+            TestStatus(
               id: testStat.id,
               startTime: testStat.startTime,
-              resetTable: false));
+              name: testStat.name,
+              resetTable: false,
+              isRetake: testStat.isRetake,
+            ),
+          );
           await initPacketDetail(testStat.id).then((val) {
             getQuestionByNumber(1);
           });
@@ -245,7 +260,8 @@ class FullTestProvider extends StateNotifier<FullTestProviderState> {
       isLoading: true,
       isSubmitLoading: false,
       questionsFilledStatus: [],
-      testStatus: TestStatus(id: '', startTime: '', resetTable: false),
+      testStatus: TestStatus(
+          id: '', startTime: '', resetTable: false, name: '', isRetake: false),
     );
   }
 }

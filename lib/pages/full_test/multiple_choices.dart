@@ -39,7 +39,7 @@ class _MultipleChoicesState extends ConsumerState<MultipleChoices> {
               child: AnswerButton(
                   onTap: () {
                     setState(() {
-                      if (choices.isNotEmpty) {
+                      if (choices.length >= 4) {
                         if (selectedAnswer != choices[index].choice) {
                           EasyDebounce.debounce("multiple_choices",
                               const Duration(milliseconds: 500), () {
@@ -52,8 +52,8 @@ class _MultipleChoicesState extends ConsumerState<MultipleChoices> {
                     });
                   },
                   title:
-                      "(${String.fromCharCode(65 + index)})  ${choices.isNotEmpty ? choices[index].choice : "Choice $index"}",
-                  isActive: choices.isNotEmpty
+                      "(${String.fromCharCode(65 + index)})  ${choices.length >= 4 ? choices[index].choice : "Choice $index"}",
+                  isActive: choices.length >= 4
                       ? selectedAnswer == choices[index].choice
                       : false),
             ));

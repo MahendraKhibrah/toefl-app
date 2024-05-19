@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:toefl/pages/full_test/finished_packet_dialog.dart';
 import 'package:toefl/remote/api/full_test_api.dart';
 import 'package:toefl/remote/local/shared_pref/test_shared_preferences.dart';
 import 'package:toefl/routes/route_key.dart';
+import 'package:toefl/state_management/full_test_provider.dart';
 import 'package:toefl/utils/colors.dart';
 import 'package:toefl/utils/custom_text_style.dart';
 import 'package:toefl/utils/hex_color.dart';
@@ -13,14 +15,14 @@ import 'package:toefl/widgets/blue_container.dart';
 import '../../models/test/packet.dart';
 import '../../models/test/test_status.dart';
 
-class SimulationPage extends StatefulWidget {
+class SimulationPage extends ConsumerStatefulWidget {
   const SimulationPage({super.key});
 
   @override
-  State<SimulationPage> createState() => _SimulationPageState();
+  ConsumerState<SimulationPage> createState() => _SimulationPageState();
 }
 
-class _SimulationPageState extends State<SimulationPage> {
+class _SimulationPageState extends ConsumerState<SimulationPage> {
   final FullTestApi _fullTestApi = FullTestApi();
   final TestSharedPreference _testSharedPref = TestSharedPreference();
   bool isLoading = true;
@@ -28,17 +30,65 @@ class _SimulationPageState extends State<SimulationPage> {
   TestStatus? testStatus;
 
   void _onInit() async {
-    isLoading = true;
+    setState(() {
+      isLoading = true;
+    });
     try {
-      testStatus = await _testSharedPref.getStatus();
       final allPacket = await _fullTestApi.getAllPacket();
       setState(() {
         packets = allPacket;
+      });
+      _handleOnAutoSubmit();
+      testStatus = await _testSharedPref.getStatus();
+
+      setState(() {
         isLoading = false;
       });
     } catch (e) {
-      isLoading = false;
+      setState(() {
+        isLoading = false;
+      });
     }
+  }
+
+  Future<void> _handleOnAutoSubmit() async {
+    try {
+      testStatus = await _testSharedPref.getStatus();
+      if (testStatus != null) {
+        final runningPacket =
+            packets.where((element) => element.id == testStatus!.id).first;
+        DateTime startTime = DateTime.parse(testStatus!.startTime);
+        int diffInSecs = DateTime.now().difference(startTime).inSeconds;
+        if (diffInSecs >= 7200) {
+          bool submitResult = false;
+          if (runningPacket.wasFilled) {
+            submitResult =
+                await ref.read(fullTestProvider.notifier).resubmitAnswer();
+          } else {
+            submitResult =
+                await ref.read(fullTestProvider.notifier).submitAnswer();
+          }
+          if (submitResult) {
+            await ref.read(fullTestProvider.notifier).resetAll();
+          }
+        }
+      }
+    } catch (e) {
+      debugPrint("error ho : $e");
+    }
+  }
+
+  void _pushReviewPage(Packet packet) {
+    Navigator.pushNamed(context, RouteKey.testresult, arguments: {
+      "packetId": packet.id,
+      "isMiniTest": false,
+      "packetName": packet.name
+    }).then((afterRetake) {
+      if (afterRetake == true) {
+        _onInit();
+        _pushReviewPage(packet);
+      }
+    });
   }
 
   @override
@@ -89,7 +139,10 @@ class _SimulationPageState extends State<SimulationPage> {
                                       !(packets[index].questionCount == 140),
                                   accuracy: packets[index].accuracy,
                                   onTap: () async {
-                                    if (packets[index].accuracy <= 0) {
+                                    if ((!packets[index].wasFilled) ||
+                                        testStatus != null &&
+                                            testStatus!.id ==
+                                                packets[index].id) {
                                       if (testStatus != null &&
                                           testStatus!.id == packets[index].id) {
                                         Navigator.of(context).pushNamed(
@@ -97,19 +150,23 @@ class _SimulationPageState extends State<SimulationPage> {
                                             arguments: {
                                               "id": packets[index].id,
                                               "isRetake":
-                                                  packets[index].accuracy > 0
+                                                  packets[index].wasFilled,
+                                              "packetName": packets[index].name
                                             }).then((value) {
                                           _onInit();
+                                          _pushReviewPage(packets[index]);
                                         });
                                       } else if (testStatus == null) {
                                         Navigator.of(context).pushNamed(
                                             RouteKey.openingLoadingTest,
                                             arguments: {
                                               "id": packets[index].id,
+                                              "packetName": packets[index].name,
                                               "isRetake":
-                                                  packets[index].accuracy > 0
+                                                  packets[index].wasFilled
                                             }).then((value) {
                                           _onInit();
+                                          _pushReviewPage(packets[index]);
                                         });
                                       }
                                     } else {
@@ -132,17 +189,35 @@ class _SimulationPageState extends State<SimulationPage> {
                                                           .openingLoadingTest,
                                                       arguments: {
                                                         "id": packets[index].id,
+                                                        "packetName":
+                                                            packets[index].name,
                                                         "isRetake":
                                                             packets[index]
-                                                                    .accuracy >
-                                                                0
+                                                                .wasFilled
                                                       }).then((value) {
                                                     _onInit();
+                                                    _pushReviewPage(
+                                                        packets[index]);
                                                   });
                                                 },
                                                 onReview: () {
                                                   Navigator.of(submitContext)
                                                       .pop();
+                                                  Navigator.pushNamed(context,
+                                                      RouteKey.testresult,
+                                                      arguments: {
+                                                        "packetId":
+                                                            packets[index].id,
+                                                        "isMiniTest": false,
+                                                        "packetName":
+                                                            packets[index].name
+                                                      }).then((afterRetake) {
+                                                    if (afterRetake == true) {
+                                                      _onInit();
+                                                      _pushReviewPage(
+                                                          packets[index]);
+                                                    }
+                                                  });
                                                 },
                                               ));
                                         },
@@ -238,7 +313,7 @@ class PacketCard extends StatelessWidget {
                     Row(
                       children: [
                         Text(
-                          "140 Questions",
+                          "$questionCount Questions",
                           style: CustomTextStyle.normal12,
                         ),
                         const SizedBox(width: 10),

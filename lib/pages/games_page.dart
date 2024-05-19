@@ -56,8 +56,7 @@ class _GamesPageState extends State<GamesPage> {
                 description: 'Hello World LoremIpsum DOor ISmet'),
             onPressed: () {
               setState(() {
-                // _isActive = !_isActive;
-                Navigator.pushNamed(context, RouteKey.simulationpage);
+                _isActive = !_isActive;
               });
             },
           ),

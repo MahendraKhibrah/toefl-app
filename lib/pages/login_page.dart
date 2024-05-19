@@ -24,6 +24,8 @@ class _LoginPageState extends State<LoginPage> {
   late final FocusNode _passwordFocusNode;
   final userApi = UserApi();
 
+  bool isLoading = false;
+
   @override
   void initState() {
     super.initState();
@@ -95,23 +97,34 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                   const SizedBox(height: 30),
-                  BlueButton(
-                    title: 'Login',
-                    onTap: () async {
-                      var val = false;
-                      if (_formKey.currentState!.validate()) {
-                        val = await userApi.postLogin(
-                          Login(
-                            email: emailController.text,
-                            password: passwordController.text,
-                          ),
-                        );
-                        if (val) {
-                          Navigator.popAndPushNamed(context, RouteKey.main);
-                        }
-                      }
-                    },
-                  ),
+                  isLoading
+                      ? const Center(
+                          child: CircularProgressIndicator(),
+                        )
+                      : BlueButton(
+                          title: 'Login',
+                          onTap: () async {
+                            setState(() {
+                              isLoading = true;
+                            });
+                            var val = false;
+                            if (_formKey.currentState!.validate()) {
+                              val = await userApi.postLogin(
+                                Login(
+                                  email: emailController.text,
+                                  password: passwordController.text,
+                                ),
+                              );
+                              if (val) {
+                                Navigator.popAndPushNamed(
+                                    context, RouteKey.main);
+                              }
+                            }
+                            setState(() {
+                              isLoading = false;
+                            });
+                          },
+                        ),
                   const SizedBox(height: 15.0),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
