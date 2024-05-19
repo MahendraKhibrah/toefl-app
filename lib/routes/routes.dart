@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:toefl/pages/games/init_game.dart';
+import 'package:toefl/pages/quizs/init_quiz.dart';
 import 'package:toefl/pages/bookmarked_page.dart';
 import 'package:toefl/pages/grammar_page.dart';
 import 'package:toefl/pages/mini_test/mini_opening_page.dart';
@@ -31,13 +31,13 @@ final routes = <String, Widget Function(BuildContext)>{
       quizId: data?["quizId"] ?? "",
     );
   },
-  // RouteKey.initQuiz: (context) {
-  //   final Map<String, dynamic>? data =
-  //       ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
-  //   return InitQuiz(
-  //     quizId: data?["quizId"] ?? "",
-  //   );
-  // },
+  RouteKey.initQuiz: (context) {
+    final Map<String, dynamic>? data =
+        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+    return InitQuiz(
+      quizId: data?["quizId"] ?? "",
+    );
+  },
   RouteKey.root: (context) => const SplashPage(),
   RouteKey.main: (context) => const MainPage(),
   RouteKey.fullTest: (context) {

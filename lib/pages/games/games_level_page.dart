@@ -10,8 +10,13 @@ import 'package:toefl/widgets/games/game_button.dart';
 class GamesLevelPage extends StatelessWidget {
   final int index;
   final List<GameList> quizs;
+  final bool isLevelLocked;
 
-  GamesLevelPage({super.key, required this.quizs, required this.index});
+  GamesLevelPage(
+      {super.key,
+      required this.quizs,
+      required this.index,
+      required this.isLevelLocked});
   final GlobalKey<State<StatefulWidget>> _keyPage = GlobalKey();
   @override
   Widget build(BuildContext context) {
@@ -20,7 +25,7 @@ class GamesLevelPage extends StatelessWidget {
         final height = constraints.biggest.height;
         final width = constraints.biggest.width;
         final List<Offset> pointButtons = [
-          Offset(width / 20 * 3, 0 + 10),
+          Offset(width / 20 * 3, 0),
           Offset(width / 20 * 9, height / 48 * 14),
           Offset(width / 20 * 3, height / 48 * 26),
           Offset(width / 20 * 9, height / 48 * 37.4),
@@ -28,6 +33,7 @@ class GamesLevelPage extends StatelessWidget {
 
         return Stack(
           clipBehavior: Clip.none,
+          alignment: Alignment.bottomCenter,
           children: [
             Container(color: Colors.white),
             Positioned.fill(
@@ -40,9 +46,29 @@ class GamesLevelPage extends StatelessWidget {
               Offset point = entry.value;
               return Positioned(
                 left: point.dx,
-                top: point.dy,
+                top: point.dy +
+                    ((quizs[index].gameClaim!.isEmpty)
+                        ? index != 0
+                            ? height > 520
+                                ? -12
+                                : -15
+                            : height > 520
+                                ? 15
+                                : 10
+                        : index != 0
+                            ? height > 520
+                                ? 25
+                                : 10
+                            : height > 520
+                                ? 50
+                                : 20),
                 child: GameButton(
-                  quiz: quizs[index].quiz,
+                  gameList: quizs[index],
+                  isLocked: index > 0
+                      ? (quizs[index - 1].gameClaim!.isEmpty)
+                      : (quizs[index].gameClaim!.isEmpty)
+                          ? isLevelLocked
+                          : false,
                 ),
               );
             }).toList()

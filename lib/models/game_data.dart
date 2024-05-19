@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:toefl/models/game_claim.dart';
 import 'package:toefl/models/quiz.dart';
 import 'package:toefl/utils/utils.dart';
 
@@ -36,6 +37,7 @@ class Game {
   String description;
   @JsonKey(name: "game_list")
   List<GameList>? gameList;
+  
 
   Game({
     required this.id,
@@ -64,12 +66,16 @@ class GameList {
   String quizId;
   @JsonKey(name: "quiz")
   Quiz quiz;
+  @JsonKey(name: "game_claim")
+  List<GameClaim>? gameClaim;
 
   GameList({
     required this.id,
     required this.gameId,
     required this.quizId,
     required this.quiz,
+    required this.gameClaim,
+
   });
 
   factory GameList.fromJson(Map<String, dynamic> json) =>

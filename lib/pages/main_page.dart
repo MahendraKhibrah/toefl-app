@@ -31,10 +31,12 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: _widgetOptions.elementAt(_index),
       bottomNavigationBar: Container(
         height: 75,
-        decoration: const BoxDecoration(boxShadow: [BoxShadow()]),
+        decoration:
+            const BoxDecoration(boxShadow: [BoxShadow()], color: Colors.white),
         child: BottomNavigationBar(
           iconSize: 30,
           currentIndex: _index,

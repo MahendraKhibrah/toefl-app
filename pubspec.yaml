@@ -26,6 +26,7 @@ dependencies:
   flutter_widget_from_html: ^0.15.0
   slide_countdown: ^1.6.1
   lottie: ^3.1.1
+  riverpod_annotation: ^2.3.5
 
 
 dev_dependencies:
@@ -35,6 +36,7 @@ dev_dependencies:
   build_runner: ^2.4.9
   json_serializable: ^6.8.0
   freezed: ^2.5.2
+  riverpod_generator: ^2.4.0
 
 flutter:
   uses-material-design: true

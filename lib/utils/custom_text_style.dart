@@ -79,9 +79,5 @@ class CustomTextStyle {
     color: HexColor(neutral90),
     fontWeight: FontWeight.bold,
   );
-  static TextStyle gameCardStartTitle = GoogleFonts.nunito(
-    fontSize: 16,
-    color: HexColor(neutral10),
-    fontWeight: FontWeight.bold,
-  );
+
 }
