@@ -44,19 +44,21 @@ class FinishedPacketDialog extends StatelessWidget {
             ),
             Row(
               children: [
+                const Spacer(),
                 BorderButton(
                     title: "Review",
                     onTap: () {
                       onReview();
                     },
-                    size: screenWidth * 0.34),
+                    size: screenWidth * 0.3),
                 const Spacer(),
                 BlueButton(
                     title: "Retake",
                     onTap: () {
                       onRetake();
                     },
-                    size: screenWidth * 0.34)
+                    size: screenWidth * 0.3),
+                const Spacer(),
               ],
             )
           ],

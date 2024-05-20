@@ -1,7 +1,6 @@
 import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:skeletonizer/skeletonizer.dart';
 import 'package:toefl/models/test/packet_detail.dart';
 
 import '../../state_management/full_test_provider.dart';
@@ -33,30 +32,26 @@ class _MultipleChoicesState extends ConsumerState<MultipleChoices> {
       children: List.generate(4, (index) {
         return Padding(
             padding: const EdgeInsets.only(bottom: 15),
-            child: Skeleton.replace(
-              width: MediaQuery.of(context).size.width,
-              height: 50,
-              child: AnswerButton(
-                  onTap: () {
-                    setState(() {
-                      if (choices.length >= 4) {
-                        if (selectedAnswer != choices[index].choice) {
-                          EasyDebounce.debounce("multiple_choices",
-                              const Duration(milliseconds: 500), () {
-                            ref.read(fullTestProvider.notifier).updateAnswer(
-                                widget.question.number, selectedAnswer);
-                          });
-                        }
-                        selectedAnswer = choices[index].choice;
+            child: AnswerButton(
+                onTap: () {
+                  setState(() {
+                    if (choices.length >= 4) {
+                      if (selectedAnswer != choices[index].choice) {
+                        EasyDebounce.debounce("multiple_choices",
+                            const Duration(milliseconds: 500), () {
+                          ref.read(fullTestProvider.notifier).updateAnswer(
+                              widget.question.number, selectedAnswer);
+                        });
                       }
-                    });
-                  },
-                  title:
-                      "(${String.fromCharCode(65 + index)})  ${choices.length >= 4 ? choices[index].choice : "Choice $index"}",
-                  isActive: choices.length >= 4
-                      ? selectedAnswer == choices[index].choice
-                      : false),
-            ));
+                      selectedAnswer = choices[index].choice;
+                    }
+                  });
+                },
+                title:
+                    "(${String.fromCharCode(65 + index)})  ${choices.length >= 4 ? choices[index].choice : "Choice $index"}",
+                isActive: choices.length >= 4
+                    ? selectedAnswer == choices[index].choice
+                    : false));
       }),
     );
   }
