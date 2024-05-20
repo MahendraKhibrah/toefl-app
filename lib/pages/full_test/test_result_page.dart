@@ -83,6 +83,7 @@ class _TestResultPageState extends State<TestResultPage> {
                                   size:
                                       MediaQuery.of(context).size.width * 1 / 5,
                                   strokeWidth: 18,
+                                  strokeScaler: 0.95,
                                 ),
                               ),
                               Positioned(
@@ -130,15 +131,16 @@ class _TestResultPageState extends State<TestResultPage> {
                                         style: CustomTextStyle.medium14,
                                       ),
                                     ),
-                                    SizedBox(
-                                      width: 100,
-                                      child: Text(
-                                        widget.isMiniTest
-                                            ? "${result?.answeredQuestion ?? 0}/${result?.totalQuestionAll ?? 0}"
-                                            : "${result?.toeflScore ?? 0}/${result?.targetUser ?? 0}",
-                                        style: CustomTextStyle.bold16,
-                                        textAlign: TextAlign.center,
-                                      ),
+                                    const Spacer(),
+                                    Text(
+                                      widget.isMiniTest
+                                          ? "${result?.answeredQuestion ?? 0}/${result?.totalQuestionAll ?? 0}"
+                                          : "${result?.toeflScore ?? 0}/${result?.targetUser ?? 0}",
+                                      style: CustomTextStyle.bold16,
+                                      textAlign: TextAlign.center,
+                                    ),
+                                    const SizedBox(
+                                      width: 20,
                                     )
                                   ],
                                 ),
@@ -169,13 +171,14 @@ class _TestResultPageState extends State<TestResultPage> {
                                         textAlign: TextAlign.left,
                                       ),
                                     ),
-                                    SizedBox(
-                                      width: 100,
-                                      child: Text(
-                                        "${result?.correctQuestionAll ?? "0"}/${result?.totalQuestionAll ?? "0"}",
-                                        style: CustomTextStyle.bold16,
-                                        textAlign: TextAlign.center,
-                                      ),
+                                    const Spacer(),
+                                    Text(
+                                      "${result?.correctQuestionAll ?? "0"}/${result?.totalQuestionAll ?? "0"}",
+                                      style: CustomTextStyle.bold16,
+                                      textAlign: TextAlign.center,
+                                    ),
+                                    const SizedBox(
+                                      width: 20,
                                     )
                                   ],
                                 ),

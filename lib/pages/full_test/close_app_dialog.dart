@@ -44,19 +44,21 @@ class CloseAppDialog extends StatelessWidget {
             ),
             Row(
               children: [
+                const Spacer(),
                 BorderButton(
                     title: "No",
                     onTap: () {
                       onNo();
                     },
-                    size: screenWidth * 0.35),
+                    size: screenWidth * 0.3),
                 const Spacer(),
                 BlueButton(
                     title: "Yes",
                     onTap: () {
                       onYes();
                     },
-                    size: screenWidth * 0.35)
+                    size: screenWidth * 0.3),
+                const Spacer(),
               ],
             )
           ],
