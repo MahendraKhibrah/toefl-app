@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 import '../../utils/utils.dart';
@@ -7,7 +8,7 @@ import '../../utils/utils.dart';
 part 'packet_detail.g.dart';
 
 @JsonSerializable()
-class PacketDetail {
+class PacketDetail extends Equatable {
   final String id;
   @JsonKey(name: 'name_packet')
   final String name;
@@ -29,6 +30,9 @@ class PacketDetail {
   Map<String, dynamic> toJson() => _$PacketDetailToJson(this);
 
   String toStringJson() => toJson().toString();
+
+  @override
+  List<Object?> get props => [id, name, questions];
 }
 
 @JsonSerializable()

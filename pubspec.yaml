@@ -26,6 +26,8 @@ dependencies:
   flutter_widget_from_html: ^0.15.0
   slide_countdown: ^1.6.1
   lottie: ^3.1.1
+  mockito: ^5.4.4
+  equatable: ^2.0.5
 
 
 dev_dependencies:
