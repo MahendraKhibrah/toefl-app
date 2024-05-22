@@ -1,10 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lottie/lottie.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:slide_countdown/slide_countdown.dart';
-import 'package:toefl/pages/full_test/close_app_dialog.dart';
 import 'package:toefl/pages/full_test/form_section.dart';
 import 'package:toefl/pages/full_test/submit_dialog.dart';
 import 'package:toefl/state_management/full_test_provider.dart';
@@ -201,7 +199,7 @@ class FullTestPage extends ConsumerWidget {
                   ],
                 ),
                 width: screenWidth,
-                height: 80,
+                height: MediaQuery.of(context).size.height * 0.075,
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Row(
@@ -223,7 +221,7 @@ class FullTestPage extends ConsumerWidget {
                           },
                           icon: const Icon(
                             Icons.chevron_left,
-                            size: 50,
+                            size: 30,
                           )),
                       const Spacer(),
                       Consumer(
@@ -235,7 +233,7 @@ class FullTestPage extends ConsumerWidget {
                                 onPressed: () {},
                                 icon: const Icon(
                                   Icons.bookmark_border,
-                                  size: 35,
+                                  size: 28,
                                 ));
                           } else {
                             return BookmarkButton(
@@ -270,7 +268,7 @@ class FullTestPage extends ConsumerWidget {
                           },
                           icon: const Icon(
                             Icons.list,
-                            size: 50,
+                            size: 30,
                           )),
                       const Spacer(),
                       IconButton(
@@ -290,7 +288,7 @@ class FullTestPage extends ConsumerWidget {
                         },
                         icon: const Icon(
                           Icons.chevron_right,
-                          size: 50,
+                          size: 30,
                         ),
                       ),
                     ],

@@ -100,7 +100,7 @@ class _ReviewTestPageState extends State<ReviewTestPage> {
                       ],
                     ),
                     width: screenWidth,
-                    height: 80,
+                    height: MediaQuery.of(context).size.height * 0.075,
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Row(
@@ -115,7 +115,7 @@ class _ReviewTestPageState extends State<ReviewTestPage> {
                               },
                               icon: const Icon(
                                 Icons.chevron_left,
-                                size: 50,
+                                size: 30,
                               )),
                           const Spacer(),
                           _buildBookmark(),
@@ -138,7 +138,7 @@ class _ReviewTestPageState extends State<ReviewTestPage> {
                               },
                               icon: const Icon(
                                 Icons.list,
-                                size: 50,
+                                size: 30,
                               )),
                           const Spacer(),
                           IconButton(
@@ -151,7 +151,7 @@ class _ReviewTestPageState extends State<ReviewTestPage> {
                             },
                             icon: const Icon(
                               Icons.chevron_right,
-                              size: 50,
+                              size: 30,
                             ),
                           ),
                         ],
@@ -204,11 +204,11 @@ class _ReviewTestPageState extends State<ReviewTestPage> {
           ? Icon(
               Icons.bookmark,
               color: HexColor(mariner700),
-              size: 35,
+              size: 28,
             )
           : const Icon(
               Icons.bookmark_border,
-              size: 35,
+              size: 28,
             ),
     );
   }
