@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
-import 'package:toefl/pages/full_test/bottom_sheet_transcript.dart';
 import 'package:toefl/pages/full_test/toefl_audio_player.dart';
-import 'package:toefl/utils/colors.dart';
-import 'package:toefl/utils/hex_color.dart';
 import 'package:toefl/widgets/answer_button.dart';
 import 'package:toefl/widgets/answer_validation_container.dart';
 
@@ -17,7 +14,7 @@ class ReviewFormSection extends StatelessWidget {
       {super.key,
       required this.answer,
       required this.number,
-      this.heightMultiplier = 0.78});
+      this.heightMultiplier = 0.85});
 
   final Answer answer;
   final int number;
@@ -69,12 +66,6 @@ class ReviewFormSection extends StatelessWidget {
             ),
           ),
         ),
-        Positioned(
-            bottom: 20,
-            right: 0,
-            child: answer.typeQuestion == "Reading"
-                ? _buildFloatingButton(context)
-                : const SizedBox())
       ],
     );
   }
@@ -129,51 +120,5 @@ class ReviewFormSection extends StatelessWidget {
               explanation: "")
           : const SizedBox()
     ];
-  }
-
-  Widget _buildFloatingButton(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        showModalBottomSheet(
-            context: context,
-            builder: (context) {
-              return BottomSheetTranscript(htmlText: answer.nestedQuestion);
-            });
-      },
-      child: Container(
-        width: 70,
-        height: 70,
-        decoration: BoxDecoration(
-            color: HexColor(mariner500),
-            borderRadius: BorderRadius.circular(40),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.withOpacity(0.5),
-                spreadRadius: 3,
-                blurRadius: 5,
-                offset: const Offset(1, 3),
-              ),
-            ]),
-        child: Column(
-          children: [
-            const SizedBox(
-              height: 6,
-            ),
-            Text(
-              "See\nTranscript",
-              textAlign: TextAlign.center,
-              style: CustomTextStyle.bold16.copyWith(
-                color: Colors.white,
-                fontSize: 10,
-              ),
-            ),
-            const Icon(
-              Icons.menu_book_outlined,
-              color: Colors.white,
-            ),
-          ],
-        ),
-      ),
-    );
   }
 }

@@ -45,11 +45,11 @@ class _BookmarkButtonState extends ConsumerState<BookmarkButton> {
             ? Icon(
                 Icons.bookmark,
                 color: HexColor(mariner700),
-                size: 35,
+                size: 28,
               )
             : const Icon(
                 Icons.bookmark_border,
-                size: 35,
+                size: 28,
               ));
   }
 }

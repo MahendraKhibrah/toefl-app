@@ -199,7 +199,7 @@ class MiniTestPage extends ConsumerWidget {
                   ],
                 ),
                 width: screenWidth,
-                height: 80,
+                height: MediaQuery.of(context).size.height * 0.075,
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Row(
@@ -221,7 +221,7 @@ class MiniTestPage extends ConsumerWidget {
                           },
                           icon: const Icon(
                             Icons.chevron_left,
-                            size: 50,
+                            size: 30,
                           )),
                       const Spacer(),
                       Consumer(
@@ -233,7 +233,7 @@ class MiniTestPage extends ConsumerWidget {
                                 onPressed: () {},
                                 icon: const Icon(
                                   Icons.bookmark_border,
-                                  size: 35,
+                                  size: 28,
                                 ));
                           } else {
                             return MiniBookmarkButton(
@@ -268,7 +268,7 @@ class MiniTestPage extends ConsumerWidget {
                           },
                           icon: const Icon(
                             Icons.list,
-                            size: 50,
+                            size: 30,
                           )),
                       const Spacer(),
                       IconButton(
@@ -288,7 +288,7 @@ class MiniTestPage extends ConsumerWidget {
                         },
                         icon: const Icon(
                           Icons.chevron_right,
-                          size: 50,
+                          size: 30,
                         ),
                       ),
                     ],
