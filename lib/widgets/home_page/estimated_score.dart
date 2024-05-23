@@ -7,8 +7,8 @@ import 'package:toefl/models/estimated_score.dart' as model;
 import 'package:toefl/remote/api/estimated_score.dart';
 import 'package:toefl/utils/colors.dart';
 import 'package:toefl/utils/hex_color.dart';
+import 'package:toefl/widgets/quiz/modal/modal_confirmation.dart';
 import 'package:toefl/widgets/toefl_progress_indicator.dart';
-
 
 class EstimatedScoreWidget extends StatefulWidget {
   EstimatedScoreWidget({super.key});
@@ -195,8 +195,10 @@ class _EstimatedScoreWidgetState extends State<EstimatedScoreWidget> {
                     builder: (context) {
                       return ModalConfirmation(
                         message: "Are you sure want to logout this account?",
-                        disbleName: "Cancel",
-                        enableName: "Logout",
+                        leftTitle: "Cancel",
+                        rightTitle: "Logout",
+                        leftFunction: () => Navigator.pop(context),
+                        rightFunction: () => Navigator.pop(context),
                       );
                     },
                   );
