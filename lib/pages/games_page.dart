@@ -99,7 +99,7 @@ class _GamesPageState extends State<GamesPage> {
                           ? games.valueOrNull![index - 1].gameList
                                   ?.any((e) => e.gameClaim!.isEmpty) ??
                               false
-                          : true,
+                          : false,
                     );
                   },
                   onPageChanged: (value) {

@@ -27,6 +27,8 @@ dependencies:
   slide_countdown: ^1.6.1
   lottie: ^3.1.1
   riverpod_annotation: ^2.3.5
+  mockito: ^5.4.4
+  equatable: ^2.0.5
 
 
 dev_dependencies:

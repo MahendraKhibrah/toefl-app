@@ -116,7 +116,7 @@ class _GameButtonState extends State<GameButton> {
                           isResume: isResume,
                           isLocked: widget.isLocked,
                           isAlready: isAlready,
-                          quiz: quiz),
+                          id: widget.gameList.id),
                     ),
                   ),
                 ],
@@ -135,14 +135,14 @@ class GameButtonSheetButton extends StatelessWidget {
     super.key,
     required this.isAlready,
     required this.isResume,
-    required this.quiz,
+    required this.id,
     required this.isLocked,
   });
 
   final bool isLocked;
   final bool isAlready;
   final bool isResume;
-  final Quiz quiz;
+  final String id;
 
   @override
   Widget build(BuildContext context) {
@@ -169,8 +169,10 @@ class GameButtonSheetButton extends StatelessWidget {
       onPressed: () {
         if (!isLocked) {
           ScaffoldMessenger.of(context).removeCurrentSnackBar();
-          Navigator.of(context)
-              .pushNamed(RouteKey.initQuiz, arguments: {'quizId': quiz.id});
+          Navigator.of(context).pushNamed(
+            RouteKey.initQuiz,
+            arguments: {'id': id, 'isGame': true},
+          );
         }
       },
       child: Container(
@@ -186,10 +188,10 @@ class GameButtonSheetButton extends StatelessWidget {
                 child: Icon(Icons.lock, size: 18),
               ),
             Text(
-              isAlready
-                  ? 'Start'
-                  : isResume
-                      ? 'Resume'
+              isResume
+                  ? 'Resume'
+                  : isAlready
+                      ? 'Start'
                       : 'Review',
               style: GoogleFonts.nunito(
                 fontSize: 16,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:toefl/routes/route_key.dart';
 import 'package:toefl/utils/colors.dart';
 import 'package:toefl/utils/custom_text_style.dart';
 import 'package:toefl/utils/hex_color.dart';
@@ -10,7 +11,10 @@ class StepProgress extends StatefulWidget {
   final String quizType;
 
   const StepProgress(
-      {super.key, required this.currentStep, required this.steps, required this.quizType});
+      {super.key,
+      required this.currentStep,
+      required this.steps,
+      required this.quizType});
 
   @override
   State<StepProgress> createState() => _StepProgressState();
@@ -52,59 +56,20 @@ class _StepProgressState extends State<StepProgress> {
       children: [
         Row(
           children: [
-            PopScope(
-              canPop: false,
-              onPopInvoked: (didPop) async {
-                if (didPop) {
-                  return;
-                }
-                final bool shouldPop = await showDialog<bool>(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          title: const Text('Are you sure?'),
-                          content: const Text(
-                            'Are you sure you want to leave this page?',
-                          ),
-                          actions: <Widget>[
-                            TextButton(
-                              style: TextButton.styleFrom(
-                                textStyle:
-                                    Theme.of(context).textTheme.labelLarge,
-                              ),
-                              child: const Text('Nevermind'),
-                              onPressed: () {
-                                Navigator.pop(context, false);
-                              },
-                            ),
-                            TextButton(
-                              style: TextButton.styleFrom(
-                                textStyle:
-                                    Theme.of(context).textTheme.labelLarge,
-                              ),
-                              child: const Text('Leave'),
-                              onPressed: () {
-                                Navigator.pop(context, true);
-                              },
-                            ),
-                          ],
-                        );
-                      },
-                    ) ??
-                    false;
-                if (context.mounted && shouldPop) {
-                  Navigator.pop(context);
-                }
+            GestureDetector(
+              onTap: () async {
+                bool back = false;
+
+                Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  RouteKey.main,
+                  (route) => false,
+                );
               },
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.pop(context);
-                },
-                child: Padding(
-                  padding: const EdgeInsets.only(right: 10.0),
-                  child: const Icon(
-                    Icons.close,
-                  ),
+              child: Padding(
+                padding: const EdgeInsets.only(right: 10.0),
+                child: const Icon(
+                  Icons.close,
                 ),
               ),
             ),

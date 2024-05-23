@@ -1,23 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:toefl/models/quiz.dart';
+import 'package:toefl/models/quiz_type.dart';
 import 'package:toefl/pages/games/quiz/grammar_page.dart';
 import 'package:toefl/remote/api/quiz_api.dart';
+import 'package:toefl/state_management/quiz/quiz_provider_state.dart';
 import 'package:toefl/widgets/games/quiz/step_progress.dart';
 import 'package:toefl/widgets/games/quiz/next_button.dart';
 
-class QuizPage extends StatefulWidget {
-  final String quizId;
-  const QuizPage({super.key, required this.quizId});
+class QuizPage extends ConsumerStatefulWidget {
+  final QuizGame quizGame;
+  const QuizPage({
+    super.key,
+    required this.quizGame,
+  });
 
   @override
-  State<QuizPage> createState() => _QuizPageState();
+  ConsumerState<QuizPage> createState() => _QuizPageState();
 }
 
-class _QuizPageState extends State<QuizPage> {
-  late Future<Quiz> _quizFuture;
+class _QuizPageState extends ConsumerState<QuizPage> {
+  late Quiz _quizFuture;
   late PageController _controller;
   int _currentPage = 0;
-  List<List<int>> selectedIndex = [];
+  List<List<String>> selectedIndex = [];
 
   @override
   void initState() {
@@ -26,13 +32,16 @@ class _QuizPageState extends State<QuizPage> {
     _quizFuture = _fetchQuizData();
   }
 
-  Future<Quiz> _fetchQuizData() async {
-    Quiz quiz = await QuizApi().fetchQuiz(widget.quizId);
+  Quiz _fetchQuizData() {
+    print(widget.quizGame);
+
+    Quiz quiz = widget.quizGame.quiz;
+
     selectedIndex = List.generate(
       quiz.questions!.length,
       (index) => List.generate(
         quiz.questions![index].content!.length,
-        (index) => -1,
+        (index) => '',
       ),
     );
     return quiz;
@@ -99,9 +108,11 @@ class _QuizPageState extends State<QuizPage> {
                 itemCount: quiz.questions!.length,
                 itemBuilder: (context, index) {
                   return GrammarPage(
+                    quizGame: widget.quizGame,
                     question: quiz.questions![index],
                     setButton: (selectedIndex) =>
                         setButtonState(_currentPage, selectedIndex),
+                    quizGameAnswer: widget.quizGame.userAnswer,
                   );
                 },
                 onPageChanged: (value) {
@@ -116,7 +127,9 @@ class _QuizPageState extends State<QuizPage> {
               padding: const EdgeInsets.symmetric(vertical: 20),
               child: NextButton(
                 pageController: _controller,
-                isDisabled: selectedIndex[_currentPage].contains(-1),
+                isDisabled: selectedIndex[_currentPage].contains(''),
+                claimId: widget.quizGame.id,
+                isGame: widget.quizGame.isGame,
               ),
             ),
           ],
@@ -125,27 +138,14 @@ class _QuizPageState extends State<QuizPage> {
     );
   }
 
-  setButtonState(int row, List<int> index) {
+  setButtonState(int row, List<String> index) {
     setState(() {
       selectedIndex[row] = index;
     });
-    print(selectedIndex);
-    print(selectedIndex[_currentPage].contains(-1));
   }
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<Quiz>(
-      future: _quizFuture,
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: CircularProgressIndicator());
-        } else if (snapshot.hasError) {
-          return Center(child: Text('Error: ${snapshot.error}'));
-        } else {
-          return _buildQuizPage(snapshot.data!);
-        }
-      },
-    );
+    return _buildQuizPage(_quizFuture);
   }
 }

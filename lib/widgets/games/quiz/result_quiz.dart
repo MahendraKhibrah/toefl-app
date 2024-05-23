@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:toefl/models/quiz_game_result.dart';
 import 'package:toefl/utils/colors.dart';
 import 'package:toefl/utils/hex_color.dart';
 
 class ResultQuiz extends StatelessWidget {
-  ResultQuiz({super.key});
+  final QuizGameResult result;
+  ResultQuiz({super.key, required this.result});
 
   final List<Map<String, dynamic>> results = [
     {"title": "Correct"},
@@ -13,6 +15,12 @@ class ResultQuiz extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final List<String> content = [
+      result.benar.toString(),
+      (result.total - result.benar).toString(),
+      // ((result.benar / result.total * 100)).toStringAsFixed(0) + '%'
+      result.score.toString()
+    ];
     return Container(
       margin: EdgeInsets.symmetric(
           horizontal: MediaQuery.of(context).size.width * 0.08),
@@ -49,7 +57,7 @@ class ResultQuiz extends StatelessWidget {
                       ),
                       child: Center(
                         child: Text(
-                          "13",
+                          content[resultIndex],
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 35,

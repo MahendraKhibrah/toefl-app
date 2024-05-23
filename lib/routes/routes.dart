@@ -1,4 +1,6 @@
 import 'package:flutter/cupertino.dart';
+import 'package:toefl/models/quiz.dart';
+import 'package:toefl/models/quiz_type.dart';
 import 'package:toefl/pages/games/quiz/init_quiz.dart';
 import 'package:toefl/pages/games/quiz/grammar_page.dart';
 import 'package:toefl/pages/games/quiz/quiz_page.dart';
@@ -26,6 +28,7 @@ import 'package:toefl/pages/setgoal_page.dart';
 import 'package:toefl/pages/splash_page.dart';
 import 'package:toefl/routes/route_key.dart';
 import 'package:toefl/pages/main_page.dart';
+import 'package:toefl/state_management/quiz/quiz_provider_state.dart';
 
 final routes = <String, Widget Function(BuildContext)>{
   // RouteKey.grammar: (context) => const GrammarPage(),
@@ -33,14 +36,26 @@ final routes = <String, Widget Function(BuildContext)>{
     final Map<String, dynamic>? data =
         ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
     return QuizPage(
-      quizId: data?["quizId"] ?? "",
+      quizGame: data?['quizGame'] ??
+          QuizGame(
+              id: '',
+              isGame: false,
+              userAnswer: [],
+              quiz: Quiz(
+                  id: '',
+                  questions: [],
+                  quizName: 'defaultNull',
+                  quizTypeId: '',
+                  type: QuizType(id: '', name: '', desc: ''))),
     );
   },
+  // RouteKey.quiz: (context) => const QuizPage(),
   RouteKey.initQuiz: (context) {
     final Map<String, dynamic>? data =
         ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
     return InitQuiz(
-      quizId: data?["quizId"] ?? "",
+      id: data?["id"] ?? "",
+      isGame: data?["isGame"] ?? false,
     );
   },
   RouteKey.root: (context) => const SplashPage(),
