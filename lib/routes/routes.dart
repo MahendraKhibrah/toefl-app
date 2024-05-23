@@ -21,6 +21,7 @@ import 'package:toefl/pages/full_test/simulation_page.dart';
 import 'package:toefl/pages/full_test/test_result_page.dart';
 import 'package:toefl/pages/login_page.dart';
 import 'package:toefl/pages/on_boarding.dart';
+import 'package:toefl/pages/rank_page.dart';
 import 'package:toefl/pages/regist_page.dart';
 import 'package:toefl/pages/games_page.dart';
 import 'package:toefl/pages/review_test/review_test_page.dart';
@@ -84,6 +85,7 @@ final routes = <String, Widget Function(BuildContext)>{
   },
   RouteKey.profile: (context) => const ProfilePage(),
   RouteKey.editProfile: (context) => EditProfile(),
+  RouteKey.rank:(context) => const RankPage(),
   RouteKey.gamepage: (context) => const GamesPage(),
   RouteKey.bookmarkedpage: (context) => const BookmarkedPage(),
   RouteKey.setTargetPage: (context) => const SetTargetPage(),

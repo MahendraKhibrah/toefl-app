@@ -18,6 +18,8 @@ class RouteKey {
   static const simulationpage = '/simulation-page';
   static const gamepage = '/game-page';
   static const reviewTestPage = '/review-test-page';
+
+  static const rank = '/rank';
   static const bookmarkedpage = '/bookmarked-page';
   static const openingMiniTest = '/opening-mini-test';
   static const miniTest = '/mini-test';

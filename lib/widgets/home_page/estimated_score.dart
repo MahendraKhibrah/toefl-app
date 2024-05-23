@@ -9,6 +9,7 @@ import 'package:toefl/utils/colors.dart';
 import 'package:toefl/utils/hex_color.dart';
 import 'package:toefl/widgets/toefl_progress_indicator.dart';
 
+
 class EstimatedScoreWidget extends StatefulWidget {
   EstimatedScoreWidget({super.key});
 
@@ -187,6 +188,30 @@ class _EstimatedScoreWidgetState extends State<EstimatedScoreWidget> {
                 borderRadius: BorderRadius.circular(10),
                 color: HexColor(mariner900)),
             margin: EdgeInsets.symmetric(horizontal: 24),
+            child: TextButton(
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return ModalConfirmation(
+                        message: "Are you sure want to logout this account?",
+                        disbleName: "Cancel",
+                        enableName: "Logout",
+                      );
+                    },
+                  );
+                },
+                child: Text(
+                  "Try",
+                  style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w800,
+                      color: HexColor(mariner900)),
+                ),
+                style: ButtonStyle(
+                  backgroundColor:
+                      MaterialStateProperty.all<Color>(Colors.white),
+                )),
           ),
         ],
       ),
