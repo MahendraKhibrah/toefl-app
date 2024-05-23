@@ -15,7 +15,7 @@ class Quiz {
   @JsonKey(name: 'quiz_type_id')
   String quizTypeId;
   QuizType type;
-  List<QuizQuestion> questions;
+  List<QuizQuestion>? questions;
 
   Quiz({
     required this.id,

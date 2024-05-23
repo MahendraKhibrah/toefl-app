@@ -12,6 +12,7 @@ class SubmitDialog extends StatelessWidget {
       required this.onNo,
       required this.onYes,
       required this.unAnsweredQuestion});
+
   final Function onNo;
   final Function onYes;
   final int unAnsweredQuestion;
@@ -46,19 +47,21 @@ class SubmitDialog extends StatelessWidget {
             ),
             Row(
               children: [
+                const Spacer(),
                 BorderButton(
                     title: "No",
                     onTap: () {
                       onNo();
                     },
-                    size: screenWidth * 0.35),
+                    size: screenWidth * 0.3),
                 const Spacer(),
                 BlueButton(
                     title: "Yes",
                     onTap: () {
                       onYes();
                     },
-                    size: screenWidth * 0.35)
+                    size: screenWidth * 0.3),
+                const Spacer(),
               ],
             )
           ],

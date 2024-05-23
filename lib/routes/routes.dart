@@ -1,9 +1,19 @@
 import 'package:flutter/cupertino.dart';
-import 'package:path/path.dart';
-import 'package:toefl/pages/grammar_page.dart';
-import 'package:toefl/pages/quiz_page.dart';
+import 'package:toefl/models/quiz.dart';
+import 'package:toefl/models/quiz_type.dart';
+import 'package:toefl/pages/games/quiz/init_quiz.dart';
+import 'package:toefl/pages/games/quiz/grammar_page.dart';
+import 'package:toefl/pages/games/quiz/quiz_page.dart';
+import 'package:toefl/pages/bookmark/bookmark_detail_page.dart';
+import 'package:toefl/pages/bookmark/bookmarked_page.dart';
+import 'package:toefl/pages/full_test/set_target_page.dart';
+
+import 'package:toefl/pages/mini_test/mini_opening_page.dart';
+import 'package:toefl/pages/mini_test/mini_simulation_page.dart';
+import 'package:toefl/pages/mini_test/mini_test_page.dart';
+
+import 'package:toefl/pages/games/quiz/quiz_page.dart';
 import 'package:toefl/pages/edit_profile_page.dart';
-import 'package:toefl/pages/home_page.dart';
 import 'package:toefl/pages/full_test/opening_loading_page.dart';
 import 'package:toefl/pages/profile_page.dart';
 import 'package:toefl/pages/full_test/full_test_page.dart';
@@ -17,18 +27,44 @@ import 'package:toefl/pages/games_page.dart';
 import 'package:toefl/pages/review_test/review_test_page.dart';
 import 'package:toefl/pages/setgoal_page.dart';
 import 'package:toefl/pages/splash_page.dart';
-import 'package:toefl/pages/template_page.dart';
 import 'package:toefl/routes/route_key.dart';
 import 'package:toefl/pages/main_page.dart';
+import 'package:toefl/state_management/quiz/quiz_provider_state.dart';
 
 final routes = <String, Widget Function(BuildContext)>{
-  RouteKey.grammar: (context) => const GrammarPage(),
-  RouteKey.quiz: (context) => const QuizPage(),
+  // RouteKey.grammar: (context) => const GrammarPage(),
+  RouteKey.quiz: (context) {
+    final Map<String, dynamic>? data =
+        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+    return QuizPage(
+      quizGame: data?['quizGame'] ??
+          QuizGame(
+              id: '',
+              isGame: false,
+              userAnswer: [],
+              quiz: Quiz(
+                  id: '',
+                  questions: [],
+                  quizName: 'defaultNull',
+                  quizTypeId: '',
+                  type: QuizType(id: '', name: '', desc: ''))),
+    );
+  },
+  // RouteKey.quiz: (context) => const QuizPage(),
+  RouteKey.initQuiz: (context) {
+    final Map<String, dynamic>? data =
+        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+    return InitQuiz(
+      id: data?["id"] ?? "",
+      isGame: data?["isGame"] ?? false,
+    );
+  },
   RouteKey.root: (context) => const SplashPage(),
   RouteKey.main: (context) => const MainPage(),
   RouteKey.fullTest: (context) {
     final Map<String, dynamic>? data =
         ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+    debugPrint("data: $data");
     return FullTestPage(
       diffInSec: data?["diffInSeconds"] ?? 0,
       isRetake: data?["isRetake"] ?? false,
@@ -39,10 +75,20 @@ final routes = <String, Widget Function(BuildContext)>{
   RouteKey.setGoal: (context) => const SetGoal(),
   RouteKey.onBoarding: (context) => const OnBoarding(),
   RouteKey.simulationpage: (context) => const SimulationPage(),
-  RouteKey.testresult: (context) => const TestResultPage(),
+  RouteKey.testresult: (context) {
+    final Map? data = ModalRoute.of(context)?.settings.arguments as Map?;
+    return TestResultPage(
+      packetId: data?["packetId"] ?? "",
+      isMiniTest: data?["isMiniTest"] ?? false,
+      packetName: data?["packetName"] ?? "",
+    );
+  },
   RouteKey.profile: (context) => const ProfilePage(),
   RouteKey.editProfile: (context) => EditProfile(),
   RouteKey.rank:(context) => const RankPage(),
+  RouteKey.gamepage: (context) => const GamesPage(),
+  RouteKey.bookmarkedpage: (context) => const BookmarkedPage(),
+  RouteKey.setTargetPage: (context) => const SetTargetPage(),
   RouteKey.openingLoadingTest: (context) {
     final Map<String, dynamic>? data =
         ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
@@ -53,10 +99,34 @@ final routes = <String, Widget Function(BuildContext)>{
     );
   },
   RouteKey.reviewTestPage: (context) {
-    final String? packetId =
-        ModalRoute.of(context)?.settings.arguments as String?;
+    final Map? data = ModalRoute.of(context)?.settings.arguments as Map?;
     return ReviewTestPage(
-      packetId: packetId ?? "",
+      packetId: data?['packetId'] ?? "",
+      isFull: data?['isFull'] ?? false,
     );
+  },
+  RouteKey.openingMiniTest: (context) {
+    final Map<String, dynamic>? data =
+        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+    return MiniOpeningPage(
+      packetId: data?["id"] ?? "",
+      isRetake: data?["isRetake"] ?? false,
+      packetName: data?["packetName"] ?? "",
+    );
+  },
+  RouteKey.miniTest: (context) {
+    final Map<String, dynamic>? data =
+        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+    debugPrint("data: $data");
+    return MiniTestPage(
+      diffInSec: data?["diffInSeconds"] ?? 0,
+      isRetake: data?["isRetake"] ?? false,
+    );
+  },
+  RouteKey.miniSimulationTest: (context) => const MiniSimulationPage(),
+  RouteKey.bookmark: (context) => const BookmarkedPage(),
+  RouteKey.bookmarkDetail: (context) {
+    final String? data = ModalRoute.of(context)?.settings.arguments as String?;
+    return BookmarkDetailPage(bookmarkId: data ?? "");
   },
 };

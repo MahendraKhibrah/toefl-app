@@ -1,10 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lottie/lottie.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:slide_countdown/slide_countdown.dart';
-import 'package:toefl/pages/full_test/close_app_dialog.dart';
 import 'package:toefl/pages/full_test/form_section.dart';
 import 'package:toefl/pages/full_test/submit_dialog.dart';
 import 'package:toefl/state_management/full_test_provider.dart';
@@ -30,29 +28,7 @@ class FullTestPage extends ConsumerWidget {
     return PopScope(
       canPop: false,
       onPopInvoked: (val) async {
-        await showDialog(
-          barrierDismissible: false,
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-                backgroundColor: Colors.transparent,
-                contentPadding:
-                    const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
-                content: CloseAppDialog(
-                  onNo: () {
-                    Navigator.of(context).pop(false);
-                  },
-                  onYes: () {
-                    Navigator.of(context).pop(true);
-                  },
-                ));
-          },
-        ).then((value) {
-          final bool shouldPop = value ?? false;
-          if (context.mounted && shouldPop) {
-            Navigator.of(context).pop();
-          }
-        });
+        _showFinishedDialog(context, ref);
       },
       child: Scaffold(
         body: Stack(
@@ -88,53 +64,7 @@ class FullTestPage extends ConsumerWidget {
                             const Spacer(),
                             GestureDetector(
                               onTap: () async {
-                                showDialog(
-                                  barrierDismissible: false,
-                                  context: context,
-                                  builder: (BuildContext submitContext) {
-                                    return AlertDialog(
-                                      backgroundColor: Colors.transparent,
-                                      contentPadding:
-                                          const EdgeInsets.symmetric(
-                                              horizontal: 0, vertical: 0),
-                                      content: SubmitDialog(
-                                          onNo: () {
-                                            Navigator.pop(submitContext);
-                                          },
-                                          onYes: () async {
-                                            Navigator.pop(submitContext);
-                                            bool submitResult = false;
-                                            if (isRetake) {
-                                              submitResult = await ref
-                                                  .read(
-                                                      fullTestProvider.notifier)
-                                                  .resubmitAnswer();
-                                            } else {
-                                              submitResult = await ref
-                                                  .read(
-                                                      fullTestProvider.notifier)
-                                                  .submitAnswer();
-                                            }
-                                            if (submitResult) {
-                                              bool resetResult = await ref
-                                                  .read(
-                                                      fullTestProvider.notifier)
-                                                  .resetAll();
-                                              if (resetResult &&
-                                                  context.mounted) {
-                                                Navigator.pop(context);
-                                              }
-                                            }
-                                          },
-                                          unAnsweredQuestion: ref
-                                              .watch(fullTestProvider)
-                                              .questionsFilledStatus
-                                              .where(
-                                                  (element) => element == false)
-                                              .length),
-                                    );
-                                  },
-                                );
+                                _showFinishedDialog(context, ref);
                               },
                               child: Text(
                                 "Submit",
@@ -269,7 +199,7 @@ class FullTestPage extends ConsumerWidget {
                   ],
                 ),
                 width: screenWidth,
-                height: 80,
+                height: MediaQuery.of(context).size.height * 0.075,
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Row(
@@ -291,7 +221,7 @@ class FullTestPage extends ConsumerWidget {
                           },
                           icon: const Icon(
                             Icons.chevron_left,
-                            size: 50,
+                            size: 30,
                           )),
                       const Spacer(),
                       Consumer(
@@ -303,7 +233,7 @@ class FullTestPage extends ConsumerWidget {
                                 onPressed: () {},
                                 icon: const Icon(
                                   Icons.bookmark_border,
-                                  size: 35,
+                                  size: 28,
                                 ));
                           } else {
                             return BookmarkButton(
@@ -338,7 +268,7 @@ class FullTestPage extends ConsumerWidget {
                           },
                           icon: const Icon(
                             Icons.list,
-                            size: 50,
+                            size: 30,
                           )),
                       const Spacer(),
                       IconButton(
@@ -358,7 +288,7 @@ class FullTestPage extends ConsumerWidget {
                         },
                         icon: const Icon(
                           Icons.chevron_right,
-                          size: 50,
+                          size: 30,
                         ),
                       ),
                     ],
@@ -369,6 +299,48 @@ class FullTestPage extends ConsumerWidget {
           ],
         ),
       ),
+    );
+  }
+
+  Future<dynamic> _showFinishedDialog(BuildContext context, WidgetRef ref) {
+    return showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (BuildContext submitContext) {
+        return AlertDialog(
+          backgroundColor: Colors.transparent,
+          contentPadding:
+              const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
+          content: SubmitDialog(
+              onNo: () {
+                Navigator.pop(submitContext);
+              },
+              onYes: () async {
+                Navigator.pop(submitContext);
+                bool submitResult = false;
+                if (isRetake) {
+                  submitResult = await ref
+                      .read(fullTestProvider.notifier)
+                      .resubmitAnswer();
+                } else {
+                  submitResult =
+                      await ref.read(fullTestProvider.notifier).submitAnswer();
+                }
+                if (submitResult) {
+                  bool resetResult =
+                      await ref.read(fullTestProvider.notifier).resetAll();
+                  if (resetResult && context.mounted) {
+                    Navigator.pop(context);
+                  }
+                }
+              },
+              unAnsweredQuestion: ref
+                  .watch(fullTestProvider)
+                  .questionsFilledStatus
+                  .where((element) => element == false)
+                  .length),
+        );
+      },
     );
   }
 }

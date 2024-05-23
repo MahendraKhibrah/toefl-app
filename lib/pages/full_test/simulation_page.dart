@@ -34,12 +34,14 @@ class _SimulationPageState extends ConsumerState<SimulationPage> {
       isLoading = true;
     });
     try {
-      await _handleOnAutoSubmit();
-      testStatus = await _testSharedPref.getStatus();
-
       final allPacket = await _fullTestApi.getAllPacket();
       setState(() {
         packets = allPacket;
+      });
+      _handleOnAutoSubmit();
+      testStatus = await _testSharedPref.getStatus();
+
+      setState(() {
         isLoading = false;
       });
     } catch (e) {
@@ -52,14 +54,12 @@ class _SimulationPageState extends ConsumerState<SimulationPage> {
   Future<void> _handleOnAutoSubmit() async {
     try {
       testStatus = await _testSharedPref.getStatus();
-      final runningPacket =
-          packets.where((element) => element.id == testStatus!.id).first;
-
       if (testStatus != null) {
+        final runningPacket =
+            packets.where((element) => element.id == testStatus!.id).first;
         DateTime startTime = DateTime.parse(testStatus!.startTime);
-        int diffInHours = DateTime.now().difference(startTime).inHours;
-
-        if (diffInHours >= 2) {
+        int diffInSecs = DateTime.now().difference(startTime).inSeconds;
+        if (diffInSecs >= 7200) {
           bool submitResult = false;
           if (runningPacket.wasFilled) {
             submitResult =
@@ -76,6 +76,19 @@ class _SimulationPageState extends ConsumerState<SimulationPage> {
     } catch (e) {
       debugPrint("error ho : $e");
     }
+  }
+
+  void _pushReviewPage(Packet packet) {
+    Navigator.pushNamed(context, RouteKey.testresult, arguments: {
+      "packetId": packet.id,
+      "isMiniTest": false,
+      "packetName": packet.name
+    }).then((afterRetake) {
+      if (afterRetake == true) {
+        _onInit();
+        _pushReviewPage(packet);
+      }
+    });
   }
 
   @override
@@ -130,7 +143,6 @@ class _SimulationPageState extends ConsumerState<SimulationPage> {
                                         testStatus != null &&
                                             testStatus!.id ==
                                                 packets[index].id) {
-                                      debugPrint("test status : $testStatus");
                                       if (testStatus != null &&
                                           testStatus!.id == packets[index].id) {
                                         Navigator.of(context).pushNamed(
@@ -142,6 +154,7 @@ class _SimulationPageState extends ConsumerState<SimulationPage> {
                                               "packetName": packets[index].name
                                             }).then((value) {
                                           _onInit();
+                                          _pushReviewPage(packets[index]);
                                         });
                                       } else if (testStatus == null) {
                                         Navigator.of(context).pushNamed(
@@ -153,6 +166,7 @@ class _SimulationPageState extends ConsumerState<SimulationPage> {
                                                   packets[index].wasFilled
                                             }).then((value) {
                                           _onInit();
+                                          _pushReviewPage(packets[index]);
                                         });
                                       }
                                     } else {
@@ -182,15 +196,28 @@ class _SimulationPageState extends ConsumerState<SimulationPage> {
                                                                 .wasFilled
                                                       }).then((value) {
                                                     _onInit();
+                                                    _pushReviewPage(
+                                                        packets[index]);
                                                   });
                                                 },
                                                 onReview: () {
                                                   Navigator.of(submitContext)
                                                       .pop();
                                                   Navigator.pushNamed(context,
-                                                      RouteKey.reviewTestPage,
-                                                      arguments:
-                                                          packets[index].id);
+                                                      RouteKey.testresult,
+                                                      arguments: {
+                                                        "packetId":
+                                                            packets[index].id,
+                                                        "isMiniTest": false,
+                                                        "packetName":
+                                                            packets[index].name
+                                                      }).then((afterRetake) {
+                                                    if (afterRetake == true) {
+                                                      _onInit();
+                                                      _pushReviewPage(
+                                                          packets[index]);
+                                                    }
+                                                  });
                                                 },
                                               ));
                                         },
@@ -286,14 +313,14 @@ class PacketCard extends StatelessWidget {
                     Row(
                       children: [
                         Text(
-                          "140 Questions",
+                          "$questionCount Questions",
                           style: CustomTextStyle.normal12,
                         ),
                         const SizedBox(width: 10),
                         ClipRRect(
                           borderRadius: BorderRadius.circular(10),
                           child: SizedBox(
-                            width: MediaQuery.of(context).size.width * 1 / 3,
+                            width: MediaQuery.of(context).size.width * 0.3,
                             height: MediaQuery.of(context).size.height * 1 / 64,
                             child: LinearProgressIndicator(
                               backgroundColor: HexColor(neutral40),

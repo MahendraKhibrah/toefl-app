@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:toefl/models/game.dart';
+import 'package:toefl/models/game_data.dart';
+import 'package:toefl/models/games/game_detail.dart';
 import 'package:toefl/utils/colors.dart';
 import 'package:toefl/utils/hex_color.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class BottomBarGames extends StatelessWidget implements PreferredSizeWidget {
-  final Game game;
+  final GameDetail game;
   final Size preferredSize;
   final bool isActive;
   final VoidCallback onPressed;
@@ -23,7 +24,7 @@ class BottomBarGames extends StatelessWidget implements PreferredSizeWidget {
     return Container(
         width: MediaQuery.of(context).size.width,
         height: preferredSize.height,
-        decoration: BoxDecoration(  
+        decoration: BoxDecoration(
           color: HexColor(mariner100),
           // border: Border(top: BorderSide(color: Colors.black)),
         ),
@@ -35,20 +36,20 @@ class BottomBarGames extends StatelessWidget implements PreferredSizeWidget {
                     width: 50,
                     height: 50,
                     decoration: BoxDecoration(
-                        color: Colors.black,
+                        color: HexColor(mariner50),
                         borderRadius: BorderRadius.circular(6)),
                   )
                 : null,
             title: RichText(
               text: TextSpan(
-                  text: 'Beginner',
+                  text: game.title,
                   style: GoogleFonts.nunito(
                       color: HexColor(mariner900),
                       fontSize: 18,
                       fontWeight: FontWeight.w800),
                   children: [
                     TextSpan(
-                      text: ' Level 1',
+                      text: ' Level ' + game.level.toString(),
                       style: GoogleFonts.nunito(
                           color: HexColor(mariner800),
                           fontSize: 18,
@@ -58,7 +59,7 @@ class BottomBarGames extends StatelessWidget implements PreferredSizeWidget {
             ),
             subtitle: isActive
                 ? Text(
-                    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+                    game.description,
                     maxLines: 2,
                   )
                 : null,

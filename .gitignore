@@ -46,6 +46,7 @@ app.*.map.json
 *.g.dart
 *.freezed.dart
 *.config.dart
+*.mocks.dart
 local.properties
 /Payload
 Payload.ipa

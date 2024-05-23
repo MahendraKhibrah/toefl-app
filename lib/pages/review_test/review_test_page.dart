@@ -9,9 +9,11 @@ import 'package:toefl/utils/custom_text_style.dart';
 import 'package:toefl/utils/hex_color.dart';
 
 class ReviewTestPage extends StatefulWidget {
-  const ReviewTestPage({super.key, required this.packetId});
+  const ReviewTestPage(
+      {super.key, required this.packetId, required this.isFull});
 
   final String packetId;
+  final bool isFull;
 
   @override
   State<ReviewTestPage> createState() => _ReviewTestPageState();
@@ -98,7 +100,7 @@ class _ReviewTestPageState extends State<ReviewTestPage> {
                       ],
                     ),
                     width: screenWidth,
-                    height: 80,
+                    height: MediaQuery.of(context).size.height * 0.075,
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Row(
@@ -113,7 +115,7 @@ class _ReviewTestPageState extends State<ReviewTestPage> {
                               },
                               icon: const Icon(
                                 Icons.chevron_left,
-                                size: 50,
+                                size: 30,
                               )),
                           const Spacer(),
                           _buildBookmark(),
@@ -125,6 +127,7 @@ class _ReviewTestPageState extends State<ReviewTestPage> {
                                     builder: (context) {
                                       return BottomSheetReviewTest(
                                         answers: answers,
+                                        isFullTest: widget.isFull,
                                         onTap: (number) {},
                                       );
                                     }).then((value) {
@@ -135,7 +138,7 @@ class _ReviewTestPageState extends State<ReviewTestPage> {
                               },
                               icon: const Icon(
                                 Icons.list,
-                                size: 50,
+                                size: 30,
                               )),
                           const Spacer(),
                           IconButton(
@@ -148,7 +151,7 @@ class _ReviewTestPageState extends State<ReviewTestPage> {
                             },
                             icon: const Icon(
                               Icons.chevron_right,
-                              size: 50,
+                              size: 30,
                             ),
                           ),
                         ],
@@ -156,6 +159,17 @@ class _ReviewTestPageState extends State<ReviewTestPage> {
                     ),
                   ),
                 ),
+                Positioned(
+                    top: 44,
+                    left: 18,
+                    child: IconButton(
+                      icon: const Icon(
+                        Icons.arrow_back_ios,
+                      ),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    )),
               ],
             ),
     );
@@ -169,7 +183,6 @@ class _ReviewTestPageState extends State<ReviewTestPage> {
         });
         final bookmarkStatus =
             await bookmarkApi.updateBookmark(answers[selectedIndex].id);
-        debugPrint("bookmark status: $bookmarkStatus");
         setState(() {
           answers[selectedIndex] = Answer(
             id: answers[selectedIndex].id,
@@ -191,11 +204,11 @@ class _ReviewTestPageState extends State<ReviewTestPage> {
           ? Icon(
               Icons.bookmark,
               color: HexColor(mariner700),
-              size: 35,
+              size: 28,
             )
           : const Icon(
               Icons.bookmark_border,
-              size: 35,
+              size: 28,
             ),
     );
   }

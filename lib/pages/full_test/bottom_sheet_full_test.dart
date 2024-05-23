@@ -330,21 +330,19 @@ class _BottomSheetFullTestState extends State<BottomSheetFullTest> {
           : const SizedBox(),
       Padding(
         padding: const EdgeInsets.symmetric(vertical: 15),
-        child: Center(
-          child: Wrap(
-            crossAxisAlignment: WrapCrossAlignment.center,
-            spacing: screenWidth * 0.03,
-            runSpacing: screenWidth * 0.03,
-            children: List.generate(total, (index) {
-              return buildNumOption(
-                index + start,
-                () {
-                  Navigator.of(context).pop(index + start);
-                },
-                isActive: widget.filledStatus[index + start - 1],
-              );
-            }),
-          ),
+        child: Wrap(
+          crossAxisAlignment: WrapCrossAlignment.center,
+          spacing: screenWidth * 0.03,
+          runSpacing: screenWidth * 0.03,
+          children: List.generate(total, (index) {
+            return buildNumOption(
+              index + start,
+              () {
+                Navigator.of(context).pop(index + start);
+              },
+              isActive: widget.filledStatus[index + start - 1],
+            );
+          }),
         ),
       ),
     ];

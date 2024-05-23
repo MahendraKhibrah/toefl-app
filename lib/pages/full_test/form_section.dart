@@ -56,7 +56,7 @@ class _FormSectionState extends ConsumerState<FormSection> {
       children: [
         SizedBox(
           width: screenWidth * 0.92,
-          height: screenHeight * 0.7,
+          height: screenHeight * 0.8,
           child: SingleChildScrollView(
             child: Column(
               children: [
@@ -104,7 +104,7 @@ class _FormSectionState extends ConsumerState<FormSection> {
           ),
         ),
         Positioned(
-            bottom: 20,
+            bottom: screenHeight * 0.1,
             right: 0,
             child: (questions.first.typeQuestion) == "Reading"
                 ? _buildFloatingButton(context)
