@@ -32,74 +32,78 @@ class _ModalConfirmationState extends State<ModalConfirmation> {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10.0),
       ),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Padding(
-            padding: EdgeInsets.only(top: 12, left: 24, right: 24, bottom: 20),
-            child: Text(
-              widget.message,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: HexColor(neutral90),
-                fontSize: 18,
-                fontWeight: FontWeight.w600,
+      content: Container(
+        width: MediaQuery.of(context).size.width,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Padding(
+              padding:
+                  EdgeInsets.only(top: 12, left: 24, right: 24, bottom: 20),
+              child: Text(
+                widget.message,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: HexColor(neutral90),
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
             ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Expanded(
-                child: TextButton(
-                  onPressed: widget.rightFunction,
-                  style: TextButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 15, vertical: 12),
-                    backgroundColor: HexColor(neutral20),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Expanded(
+                  child: TextButton(
+                    onPressed: widget.leftFunction,
+                    style: TextButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 15, vertical: 12),
+                      backgroundColor: HexColor(neutral20),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
                     ),
-                  ),
-                  child: Text(
-                    widget.leftTitle,
-                    style: TextStyle(
-                      color: HexColor(neutral50),
-                      fontSize: 17,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(
-                width: 15,
-              ),
-              Expanded(
-                child: TextButton(
-                  onPressed: widget.rightFunction,
-                  style: TextButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 15, vertical: 12),
-                    backgroundColor: HexColor(mariner700),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                  child: Text(
-                    widget.rightTitle,
-                    style: TextStyle(
-                      color: HexColor(neutral10),
-                      fontSize: 17,
-                      fontWeight: FontWeight.bold,
+                    child: Text(
+                      widget.leftTitle,
+                      style: TextStyle(
+                        color: HexColor(neutral50),
+                        fontSize: 17,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ],
-          ),
-        ],
+                SizedBox(
+                  width: 15,
+                ),
+                Expanded(
+                  child: TextButton(
+                    onPressed: widget.rightFunction,
+                    style: TextButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 15, vertical: 12),
+                      backgroundColor: HexColor(mariner700),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                    child: Text(
+                      widget.rightTitle,
+                      style: TextStyle(
+                        color: HexColor(neutral10),
+                        fontSize: 17,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
