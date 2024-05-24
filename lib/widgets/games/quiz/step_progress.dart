@@ -59,23 +59,21 @@ class _StepProgressState extends State<StepProgress> {
           children: [
             GestureDetector(
               onTap: () async {
-                bool back = false;
-                back = await showDialog(
+                showDialog(
                   context: context,
                   builder: (context) {
                     return ModalConfirmation(
-                      message: "Are you sure want to logout this account?",
+                      message: "Are you sure want to abort this quiz?",
                       leftTitle: "Cancel",
-                      rightTitle: "Logout",
-                      leftFunction: () {},
-                      rightFunction: () {},
+                      rightTitle: "Confirm",
+                      leftFunction: () => Navigator.pop(context),
+                      rightFunction: () => Navigator.pushNamedAndRemoveUntil(
+                        context,
+                        RouteKey.main,
+                        (route) => false,
+                      ),
                     );
                   },
-                );
-                Navigator.pushNamedAndRemoveUntil(
-                  context,
-                  RouteKey.main,
-                  (route) => false,
                 );
               },
               child: Padding(

@@ -9,10 +9,12 @@ import 'package:toefl/widgets/games/quiz/step_progress.dart';
 import 'package:toefl/widgets/games/quiz/next_button.dart';
 
 class QuizPage extends ConsumerStatefulWidget {
+  final bool? isReview;
   final QuizGame quizGame;
   const QuizPage({
     super.key,
     required this.quizGame,
+    this.isReview = false,
   });
 
   @override
@@ -39,15 +41,24 @@ class _QuizPageState extends ConsumerState<QuizPage> {
 
     selectedIndex = List.generate(
       quiz.questions!.length,
-      (index) => List.generate(
-        quiz.questions![index].content!.length,
-        (index) => '',
-      ),
+      (outerIndex) =>
+          List.generate(quiz.questions![outerIndex].content!.length, (index) {
+        for (var ans in widget.quizGame.userAnswer) {
+          if (ans.quizContentId ==
+              quiz.questions![outerIndex].content![index].id) {
+            return ans.quizOptionId;
+          }
+        }
+
+        return '';
+      }),
     );
+
+    print(selectedIndex);
     return quiz;
   }
 
-  Widget _buildQuizPage(Quiz quiz) {
+  Widget _buildQuizPage(Quiz quiz, bool isReview) {
     return PopScope(
       canPop: false,
       onPopInvoked: (didPop) async {
@@ -108,8 +119,9 @@ class _QuizPageState extends ConsumerState<QuizPage> {
                 itemCount: quiz.questions!.length,
                 itemBuilder: (context, index) {
                   return GrammarPage(
+                    selectedIndex: selectedIndex[_currentPage],
                     quizGame: widget.quizGame,
-                    question: quiz.questions![index],
+                    question: quiz.questions![_currentPage],
                     setButton: (selectedIndex) =>
                         setButtonState(_currentPage, selectedIndex),
                     quizGameAnswer: widget.quizGame.userAnswer,
@@ -130,6 +142,7 @@ class _QuizPageState extends ConsumerState<QuizPage> {
                 isDisabled: selectedIndex[_currentPage].contains(''),
                 claimId: widget.quizGame.id,
                 isGame: widget.quizGame.isGame,
+                isReview: isReview,
               ),
             ),
           ],
@@ -146,6 +159,6 @@ class _QuizPageState extends ConsumerState<QuizPage> {
 
   @override
   Widget build(BuildContext context) {
-    return _buildQuizPage(_quizFuture);
+    return _buildQuizPage(_quizFuture, widget.isReview!);
   }
 }

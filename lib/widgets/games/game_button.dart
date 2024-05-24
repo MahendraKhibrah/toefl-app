@@ -13,6 +13,7 @@ import 'package:toefl/routes/route_key.dart';
 import 'package:toefl/utils/colors.dart';
 import 'package:toefl/utils/custom_text_style.dart';
 import 'package:toefl/utils/hex_color.dart';
+import 'package:toefl/widgets/quiz/modal/modal_confirmation.dart';
 
 class GameButton extends StatefulWidget {
   final GameList gameList;
@@ -108,7 +109,7 @@ class _GameButtonState extends State<GameButton> {
                             borderRadius: BorderRadius.circular(10)),
                         padding: EdgeInsets.all(8),
                         child: SvgPicture.asset(
-                          'assets/images/vocabulary.svg',
+                          'assets/images/${widget.gameList.quiz.type.name.toLowerCase()}.svg',
                           color: HexColor(mariner900),
                         ),
                       ),
@@ -169,10 +170,31 @@ class GameButtonSheetButton extends StatelessWidget {
       onPressed: () {
         if (!isLocked) {
           ScaffoldMessenger.of(context).removeCurrentSnackBar();
-          Navigator.of(context).pushNamed(
-            RouteKey.initQuiz,
-            arguments: {'id': id, 'isGame': true},
-          );
+          if (!isAlready && !isResume) {
+            showDialog(
+              context: context,
+              builder: (context) {
+                return ModalConfirmation(
+                  message: "Wanna Retake this Quiz?",
+                  leftTitle: "Review",
+                  rightTitle: "Retake",
+                  leftFunction: () => Navigator.of(context).pushNamed(
+                    RouteKey.initQuiz,
+                    arguments: {'id': id, 'isGame': true, 'isReview': true},
+                  ),
+                  rightFunction: () => Navigator.of(context).pushNamed(
+                    RouteKey.initQuiz,
+                    arguments: {'id': id, 'isGame': true},
+                  ),
+                );
+              },
+            );
+          } else {
+            Navigator.of(context).pushNamed(
+              RouteKey.initQuiz,
+              arguments: {'id': id, 'isGame': true},
+            );
+          }
         }
       },
       child: Container(
