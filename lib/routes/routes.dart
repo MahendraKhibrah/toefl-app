@@ -85,7 +85,7 @@ final routes = <String, Widget Function(BuildContext)>{
   },
   RouteKey.profile: (context) => const ProfilePage(),
   RouteKey.editProfile: (context) => EditProfile(),
-  RouteKey.rank:(context) => const RankPage(),
+  RouteKey.rank:(context) =>  RankPage(),
   RouteKey.gamepage: (context) => const GamesPage(),
   RouteKey.bookmarkedpage: (context) => const BookmarkedPage(),
   RouteKey.setTargetPage: (context) => const SetTargetPage(),

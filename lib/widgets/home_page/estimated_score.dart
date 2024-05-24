@@ -4,11 +4,12 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:toefl/models/estimated_score.dart' as model;
+import 'package:toefl/pages/rank_page.dart';
 import 'package:toefl/remote/api/estimated_score.dart';
 import 'package:toefl/utils/colors.dart';
 import 'package:toefl/utils/hex_color.dart';
+import 'package:toefl/widgets/quiz/modal/modal_confirmation.dart';
 import 'package:toefl/widgets/toefl_progress_indicator.dart';
-
 
 class EstimatedScoreWidget extends StatefulWidget {
   EstimatedScoreWidget({super.key});
@@ -190,16 +191,20 @@ class _EstimatedScoreWidgetState extends State<EstimatedScoreWidget> {
             margin: EdgeInsets.symmetric(horizontal: 24),
             child: TextButton(
                 onPressed: () {
-                  showDialog(
-                    context: context,
-                    builder: (context) {
-                      return ModalConfirmation(
-                        message: "Are you sure want to logout this account?",
-                        disbleName: "Cancel",
-                        enableName: "Logout",
-                      );
-                    },
-                  );
+                  Navigator.of(context)
+                      .push(MaterialPageRoute(builder: (context) {
+                    return RankPage();
+                  }));
+                  // showDialog(
+                  //   context: context,
+                  //   builder: (context) {
+                  //     return ModalConfirmation(
+                  //       message: "Are you sure want to logout this account?",
+                  //       disbleName: "Cancel",
+                  //       enableName: "Logout",
+                  //     );
+                  //   },
+                  // );
                 },
                 child: Text(
                   "Try",
