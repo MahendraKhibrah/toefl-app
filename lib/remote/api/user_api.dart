@@ -23,6 +23,7 @@ class UserApi {
       final response = BaseResponse.fromJson(json.decode(rawResponse.data));
       return User.fromJson(response.data);
     } catch (e) {
+      print("error: $e.toString()");
       return User(
           id: "",
           level: "",
