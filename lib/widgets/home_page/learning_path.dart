@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:toefl/pages/learning_path_page.dart';
 import 'package:toefl/utils/colors.dart';
 import 'package:toefl/utils/hex_color.dart';
 
@@ -83,7 +84,11 @@ class LearningPath extends StatelessWidget {
                     splashColor: Colors.transparent,
                     hoverColor: Colors.transparent,
                     highlightColor: Colors.transparent,
-                    onTap: learning["onTap"],
+                    onTap: (){
+                      Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+            return LearningPathPage(appBar: learning["title"]);
+          }));
+                    },
                     child: Container(
                       height: MediaQuery.of(context).size.height / 9,
                       width: double.infinity,
