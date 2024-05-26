@@ -39,15 +39,18 @@ final routes = <String, Widget Function(BuildContext)>{
     return QuizPage(
       quizGame: data?['quizGame'] ??
           QuizGame(
+            id: '',
+            isGame: false,
+            userAnswer: [],
+            quiz: Quiz(
               id: '',
-              isGame: false,
-              userAnswer: [],
-              quiz: Quiz(
-                  id: '',
-                  questions: [],
-                  quizName: 'defaultNull',
-                  quizTypeId: '',
-                  type: QuizType(id: '', name: '', desc: ''))),
+              questions: [],
+              quizName: 'defaultNull',
+              quizTypeId: '',
+              type: QuizType(id: '', name: '', desc: ''),
+            ),
+          ),
+      isReview: data?['isReview'] ?? false,
     );
   },
   // RouteKey.quiz: (context) => const QuizPage(),
@@ -85,7 +88,7 @@ final routes = <String, Widget Function(BuildContext)>{
   },
   RouteKey.profile: (context) => const ProfilePage(),
   RouteKey.editProfile: (context) => EditProfile(),
-  RouteKey.rank:(context) => const RankPage(),
+  RouteKey.rank: (context) => const RankPage(),
   RouteKey.gamepage: (context) => const GamesPage(),
   RouteKey.bookmarkedpage: (context) => const BookmarkedPage(),
   RouteKey.setTargetPage: (context) => const SetTargetPage(),
