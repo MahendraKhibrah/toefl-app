@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:toefl/pages/games/practice/pairing_game.dart';
 import 'package:toefl/pages/games/practice/scrambled_word.dart';
-import 'package:toefl/pages/games/practice/sst_word.dart';
 import 'package:toefl/pages/games/practice/word_of_the_day_page.dart';
 import 'package:toefl/pages/template_page.dart';
 import 'package:toefl/remote/api/scrambled_word_api.dart';
