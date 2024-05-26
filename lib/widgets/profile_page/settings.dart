@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:restart_app/restart_app.dart';
 import 'package:toefl/remote/local/shared_pref/auth_shared_preferences.dart';
 import 'package:toefl/remote/local/shared_pref/localization_shared_pref.dart';
 import 'package:toefl/remote/local/shared_pref/test_shared_preferences.dart';
@@ -172,14 +173,15 @@ class _SettingState extends State<Setting> {
               },
             ).then((value) async {
               if (value == true) {
-                localizationSharedPreference.saveSelectedLang(
+                await localizationSharedPreference.saveSelectedLang(
                     newValue == 'English'
                         ? LocaleEnum.en.name
                         : LocaleEnum.id.name);
+                setState(() {
+                  dropdownValue = newValue!;
+                });
+                Restart.restartApp();
               }
-              setState(() {
-                dropdownValue = newValue!;
-              });
             });
           }
         },
