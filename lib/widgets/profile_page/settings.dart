@@ -1,12 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:toefl/remote/local/shared_pref/auth_shared_preferences.dart';
+import 'package:toefl/remote/local/shared_pref/localization_shared_pref.dart';
 import 'package:toefl/remote/local/shared_pref/test_shared_preferences.dart';
 import 'package:toefl/remote/local/sqlite/full_test_table.dart';
 import 'package:toefl/remote/local/sqlite/mini_test_table.dart';
 import 'package:toefl/routes/route_key.dart';
 import 'package:toefl/utils/colors.dart';
 import 'package:toefl/utils/hex_color.dart';
+import 'package:toefl/utils/locale.dart';
 import 'package:toefl/widgets/profile_page/change_lang_dialog.dart';
 
 class Setting extends StatefulWidget {
@@ -18,15 +20,32 @@ class Setting extends StatefulWidget {
 
 class _SettingState extends State<Setting> {
   bool _switchValue = false;
-  String dropdownvalue = 'English';
+  String dropdownValue = 'English';
   var items = [
     'English',
     'Indonesia',
   ];
   final AuthSharedPreference authSharedPreference = AuthSharedPreference();
   final TestSharedPreference testSharedPreference = TestSharedPreference();
+  final LocalizationSharedPreference localizationSharedPreference =
+      LocalizationSharedPreference();
   final FullTestTable fullTestTable = FullTestTable();
   final MiniTestTable miniTestTable = MiniTestTable();
+
+  void _onInit() async {
+    final selectedLang = await localizationSharedPreference.getSelectedLang();
+    setState(() {
+      dropdownValue = (selectedLang?.startsWith(LocaleEnum.id.name) ?? false)
+          ? 'Indonesia'
+          : "English";
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _onInit();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -115,7 +134,7 @@ class _SettingState extends State<Setting> {
       child: DropdownButton(
         borderRadius: BorderRadius.circular(15),
         padding: const EdgeInsets.symmetric(horizontal: 15),
-        value: dropdownvalue,
+        value: dropdownValue,
         icon: const Icon(
           Icons.keyboard_arrow_down,
           size: 20,
@@ -133,27 +152,36 @@ class _SettingState extends State<Setting> {
             ),
           );
         }).toList(),
-        onChanged: (String? newValue) {
-          showDialog(
-            context: context,
-            builder: (BuildContext dialogContext) {
-              return AlertDialog(
-                  backgroundColor: Colors.transparent,
-                  contentPadding:
-                      const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
-                  content: ChangeLangDialog(
-                    onNo: () {
-                      Navigator.of(dialogContext).pop();
-                    },
-                    onYes: () {
-                      Navigator.of(dialogContext).pop();
-                    },
-                  ));
-            },
-          );
-          // setState(() {
-          //   dropdownvalue = newValue!;
-          // });
+        onChanged: (String? newValue) async {
+          if (newValue != dropdownValue) {
+            await showDialog(
+              context: context,
+              builder: (BuildContext dialogContext) {
+                return AlertDialog(
+                    backgroundColor: Colors.transparent,
+                    contentPadding:
+                        const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
+                    content: ChangeLangDialog(
+                      onNo: () {
+                        Navigator.of(dialogContext).pop(false);
+                      },
+                      onYes: () {
+                        Navigator.of(dialogContext).pop(true);
+                      },
+                    ));
+              },
+            ).then((value) async {
+              if (value == true) {
+                localizationSharedPreference.saveSelectedLang(
+                    newValue == 'English'
+                        ? LocaleEnum.en.name
+                        : LocaleEnum.id.name);
+              }
+              setState(() {
+                dropdownValue = newValue!;
+              });
+            });
+          }
         },
         underline: Container(),
       ),
