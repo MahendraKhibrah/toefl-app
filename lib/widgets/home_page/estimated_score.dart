@@ -30,12 +30,28 @@ class _EstimatedScoreWidgetState extends State<EstimatedScoreWidget> {
   }
 
   void fetchEstimatedScore() async {
-    setState(() {
-      isLoading = true;
-    });
+    _setLoadingState(true);
+
     try {
       model.EstimatedScore temp = await estimatedScoreApi.getEstimatedScore();
+      _updateScore(temp);
+    } catch (e) {
+      print("Error in fetchEstimatedScore: $e");
+    } finally {
+      _setLoadingState(false);
+    }
+  }
 
+  void _setLoadingState(bool isLoading) {
+    if (mounted) {
+      setState(() {
+        this.isLoading = isLoading;
+      });
+    }
+  }
+
+  void _updateScore(model.EstimatedScore temp) {
+    if (mounted) {
       setState(() {
         estimatedScore = temp;
         score = {
@@ -43,12 +59,6 @@ class _EstimatedScoreWidgetState extends State<EstimatedScoreWidget> {
           'Structure Score': temp.scoreStructure,
           'Reading Score': temp.scoreReading,
         };
-      });
-    } catch (e) {
-      print("Error in fetchEstimatedScore: $e");
-    } finally {
-      setState(() {
-        isLoading = false;
       });
     }
   }
