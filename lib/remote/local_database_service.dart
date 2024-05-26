@@ -1,7 +1,6 @@
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:toefl/remote/local/sqlite/full_test_table.dart';
-import 'package:toefl/remote/local/sqlite/games/quiz_game_session_table.dart';
 import 'package:toefl/remote/local/sqlite/mini_test_table.dart';
 
 class LocalDatabaseService {
@@ -20,7 +19,6 @@ class LocalDatabaseService {
   Future<void> create(Database database, int version) async {
     await FullTestTable().createTable(database);
     await MiniTestTable().createTable(database);
-    await QuizGameSessionTable().onCreate(database, version);
   }
 
   Future<void> close() async {
