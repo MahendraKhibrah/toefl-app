@@ -1,16 +1,21 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:toefl/routes/route_key.dart';
 import 'package:toefl/utils/colors.dart';
 import 'package:toefl/utils/custom_text_style.dart';
 import 'package:toefl/utils/hex_color.dart';
+import 'package:toefl/widgets/quiz/modal/modal_confirmation.dart';
 
 class StepProgress extends StatefulWidget {
-  final double currentStep;
-  final double steps;
+  final int currentStep;
+  final int steps;
+  final String quizType;
 
-  const StepProgress({Key? key, required this.currentStep, required this.steps})
-      : super(key: key);
+  const StepProgress(
+      {super.key,
+      required this.currentStep,
+      required this.steps,
+      required this.quizType});
 
   @override
   State<StepProgress> createState() => _StepProgressState();
@@ -35,7 +40,7 @@ class _StepProgressState extends State<StepProgress> {
   }
 
   void _onSizeWidget() {
-    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       if (context.size != null && widget.steps > 1) {
         setState(() {
           Size size = context.size!;
@@ -53,8 +58,23 @@ class _StepProgressState extends State<StepProgress> {
         Row(
           children: [
             GestureDetector(
-              onTap: () {
-                Navigator.pop(context);
+              onTap: () async {
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return ModalConfirmation(
+                      message: "Are you sure want to abort this quiz?",
+                      leftTitle: "Cancel",
+                      rightTitle: "Confirm",
+                      leftFunction: () => Navigator.pop(context),
+                      rightFunction: () => Navigator.pushNamedAndRemoveUntil(
+                        context,
+                        RouteKey.main,
+                        (route) => false,
+                      ),
+                    );
+                  },
+                );
               },
               child: Padding(
                 padding: const EdgeInsets.only(right: 10.0),
@@ -97,7 +117,7 @@ class _StepProgressState extends State<StepProgress> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                'Vocab: Questions ${(widget.currentStep + 1).toInt()} of ${widget.steps.toInt()}',
+                '${widget.quizType}: Questions ${(widget.currentStep + 1).toInt()} of ${widget.steps.toInt()}',
                 style: CustomTextStyle.bold18.copyWith(color: Colors.black),
               ),
             ],

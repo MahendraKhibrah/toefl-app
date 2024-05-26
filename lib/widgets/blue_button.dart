@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../utils/colors.dart';
 import '../utils/custom_text_style.dart';
@@ -31,12 +32,15 @@ class BlueButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(15),
         ),
         width: buttonSize,
+        height: 50,
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 11.0, horizontal: 16.0),
           child: Center(
             child: Text(
               title,
-              style: CustomTextStyle.bold16.copyWith(
+              style: GoogleFonts.nunito(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
                   color: isDisabled ? HexColor(neutral60) : Colors.white),
             ),
           ),

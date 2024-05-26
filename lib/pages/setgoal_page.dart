@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:toefl/routes/route_key.dart';
 import 'package:toefl/utils/colors.dart';
 import 'package:toefl/utils/hex_color.dart';
@@ -24,15 +25,24 @@ class _SetGoalState extends State<SetGoal> {
     "Other"
   ];
 
-  final List<IconData> icon = [
-    Icons.abc,
-    Icons.search,
-    Icons.work,
-    Icons.more_horiz
-  ];
-
   @override
   Widget build(BuildContext context) {
+    final List<Widget> icons = [
+      SvgPicture.asset(
+        'assets/images/iisma.svg',
+      ),
+      SvgPicture.asset(
+        'assets/images/graduation.svg',
+      ),
+      SvgPicture.asset(
+        'assets/images/job.svg',
+      ),
+      SvgPicture.asset(
+        'assets/images/other.svg',
+        width: 58,
+      ),
+    ];
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
@@ -59,7 +69,7 @@ class _SetGoalState extends State<SetGoal> {
               const SizedBox(height: 30),
               GridView.builder(
                 shrinkWrap: true,
-                itemCount: 4,
+                itemCount: reasons.length,
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                   crossAxisSpacing: 30,
@@ -73,16 +83,16 @@ class _SetGoalState extends State<SetGoal> {
                         isSelected = index;
                       });
                     },
-                    child: SetGoalButton(reasons[index], index, icon[index]),
+                    child: SetGoalButton(reasons[index], index, icons[index]),
                   );
                 },
               ),
               const SizedBox(height: 120),
               BlueButton(
-                title: 'Next', 
+                title: 'Next',
                 onTap: () {
                   Navigator.popAndPushNamed(context, RouteKey.login);
-                }
+                },
               ),
             ],
           ),
@@ -91,7 +101,7 @@ class _SetGoalState extends State<SetGoal> {
     );
   }
 
-  Container SetGoalButton(String text, int index, IconData icon) {
+  Container SetGoalButton(String text, int index, Widget icon) {
     return Container(
       width: 128,
       height: 150,
@@ -103,11 +113,12 @@ class _SetGoalState extends State<SetGoal> {
       child: Align(
         alignment: Alignment.bottomCenter,
         child: Container(
-          padding: const EdgeInsets.symmetric(vertical: 23),
+          padding: const EdgeInsets.symmetric(vertical: 20),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              Icon(icon),
+              icon,
+              const SizedBox(height: 20),
               Text(
                 text,
                 textAlign: TextAlign.center,

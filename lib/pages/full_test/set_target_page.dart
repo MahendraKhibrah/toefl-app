@@ -46,9 +46,11 @@ class _SetTargetPageState extends State<SetTargetPage> {
     } catch (e) {
       debugPrint("Error in _onInit: $e");
     } finally {
-      setState(() {
-        isLoading = false;
-      });
+      if (mounted) {
+        setState(() {
+          isLoading = false;
+        });
+      }
     }
   }
 

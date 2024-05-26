@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 import 'package:toefl/models/quiz.dart';
+import 'package:toefl/pages/games/practice/word_of_the_day_page.dart';
 import 'package:toefl/pages/games/quiz/quiz_page.dart';
 import 'package:toefl/routes/route_key.dart';
 import 'package:toefl/utils/colors.dart';
@@ -10,6 +12,16 @@ class TopicInterest extends StatelessWidget {
   TopicInterest({super.key});
 
   List<Map<String, dynamic>> topics = [
+    {
+      "title": "Daily Word",
+      "image": "assets/images/daily_practice.svg",
+      "decoration": "assets/images/vector_bg_tc4.svg",
+      "color": "#BC89FF",
+      "background": "#E6D4ff",
+      "onTap": () {
+        print("Daily Practice");
+      }
+    },
     {
       "title": "Daily Practice",
       "image": "assets/images/daily_practice.svg",
@@ -73,77 +85,92 @@ class TopicInterest extends StatelessWidget {
   ];
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: MediaQuery.of(context).size.height / 8,
-      width: double.infinity,
-      child: ListView.separated(
-        padding: EdgeInsets.symmetric(horizontal: 24),
-        separatorBuilder: (context, index) => const SizedBox(
-          width: 10,
+    return Skeleton.leaf(
+      child: Container(
+        height: MediaQuery.of(context).size.height / 8,
+        width: double.infinity,
+        child: ListView.separated(
+          padding: EdgeInsets.symmetric(horizontal: 24),
+          separatorBuilder: (context, index) => const SizedBox(
+            width: 10,
+          ),
+          shrinkWrap: true,
+          itemCount: topics.length,
+          scrollDirection: Axis.horizontal,
+          itemBuilder: (context, index) {
+            final topic = topics[index];
+            return index != 0 ? ForYouCard(topic: topic) : DailyWordCard();
+          },
         ),
-        shrinkWrap: true,
-        itemCount: topics.length,
-        scrollDirection: Axis.horizontal,
-        itemBuilder: (context, index) {
-          final topic = topics[index];
-          return InkWell(
-              splashColor: Colors.transparent,
-              highlightColor: Colors.transparent,
-              onTap: topic["onTap"],
-              child: LayoutBuilder(builder: ((context, constraint) {
-                return Stack(
-                  clipBehavior: Clip.none,
-                  alignment: Alignment.center,
-                  children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(10),
-                        ),
-                        color: HexColor(topic["background"]),
-                      ),
-                      width: constraint.maxHeight / 1,
-                    ),
-                    Positioned(
-                        bottom: -(constraint.maxHeight / 55),
-                        child: SvgPicture.asset(
-                          topic["decoration"],
-                          width: constraint.maxHeight / 1,
-                        )),
-                    Positioned(
-                      top: (constraint.maxHeight / 18),
-                      child: Container(
-                        width: constraint.maxHeight / 1.8, 
-                        height: constraint.maxHeight / 1.5, 
-                        decoration: BoxDecoration(
-                          color: HexColor(topic[
-                              "color"]), 
-                          shape: BoxShape.circle,
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      top: constraint.maxHeight / 4.5,
-                      child: SvgPicture.asset(
-                        topic["image"],
-                        height: constraint.maxHeight / 3,
-                      ),
-                    ),
-                    Positioned(
-                        bottom: constraint.maxHeight / 12,
-                        child: Text(
-                          topic["title"],
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontSize: constraint.maxHeight / 8,
-                              fontWeight: FontWeight.bold,
-                              color: HexColor(topic["color"])),
-                        ))
-                  ],
-                );
-              })));
-        },
       ),
     );
+  }
+}
+
+class ForYouCard extends StatelessWidget {
+  const ForYouCard({
+    super.key,
+    required this.topic,
+  });
+
+  final Map<String, dynamic> topic;
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+        splashColor: Colors.transparent,
+        highlightColor: Colors.transparent,
+        onTap: topic["onTap"],
+        child: LayoutBuilder(builder: ((context, constraint) {
+          return Stack(
+            clipBehavior: Clip.none,
+            alignment: Alignment.center,
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(10),
+                  ),
+                  color: HexColor(topic["background"]),
+                ),
+                width: constraint.maxHeight / 1,
+              ),
+              Positioned(
+                  bottom: -(constraint.maxHeight / 55),
+                  child: SvgPicture.asset(
+                    topic["decoration"],
+                    width: constraint.maxHeight / 1,
+                  )),
+              Positioned(
+                top: (constraint.maxHeight / 18),
+                child: Container(
+                  width: constraint.maxHeight / 1.8,
+                  height: constraint.maxHeight / 1.5,
+                  decoration: BoxDecoration(
+                    color: HexColor(topic["color"]),
+                    shape: BoxShape.circle,
+                  ),
+                ),
+              ),
+              Positioned(
+                top: constraint.maxHeight / 4.5,
+                child: SvgPicture.asset(
+                  topic["image"],
+                  height: constraint.maxHeight / 3,
+                ),
+              ),
+              Positioned(
+                  bottom: constraint.maxHeight / 12,
+                  child: Text(
+                    topic["title"],
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontSize: constraint.maxHeight / 8,
+                        fontWeight: FontWeight.bold,
+                        color: HexColor(topic["color"])),
+                  ))
+            ],
+          );
+        })));
   }
 }

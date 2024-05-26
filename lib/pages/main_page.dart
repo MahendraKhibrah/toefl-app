@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:toefl/pages/games_page.dart';
+import 'package:toefl/pages/games/games_page.dart';
 import 'package:toefl/pages/home_page.dart';
 import 'package:toefl/pages/profile_page.dart';
 import 'package:toefl/utils/colors.dart';
@@ -31,10 +31,12 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: _widgetOptions.elementAt(_index),
       bottomNavigationBar: Container(
         height: 75,
-        decoration: const BoxDecoration(boxShadow: [BoxShadow()]),
+        decoration:
+            const BoxDecoration(boxShadow: [BoxShadow()], color: Colors.white),
         child: BottomNavigationBar(
           iconSize: 30,
           currentIndex: _index,
