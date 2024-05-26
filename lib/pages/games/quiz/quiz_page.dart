@@ -106,7 +106,8 @@ class _QuizPageState extends ConsumerState<QuizPage> {
           children: <Widget>[
             SizedBox(height: 20),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24.0),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12),
               child: StepProgress(
                   quizType: quiz.type.name,
                   currentStep: _currentPage,
