@@ -44,7 +44,7 @@ class EditProfile extends StatelessWidget {
           customBorder: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(40),
           ),
-          child: Icon(
+          child: const Icon(
             Icons.chevron_left_rounded,
             size: 30,
           ),
@@ -52,28 +52,28 @@ class EditProfile extends StatelessWidget {
             Navigator.pop(context);
           },
         ),
-        title: Text("Edit Profile"),
+        title: const Text("Edit Profile"),
       ),
       body: ListView(
         primary: false,
         children: [
           Center(
             child: Padding(
-              padding: EdgeInsets.all(24),
+              padding: const EdgeInsets.all(24),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  CircleAvatar(
+                  const CircleAvatar(
                     backgroundColor: Colors.transparent,
                     radius: 50,
                     backgroundImage:
                         AssetImage('assets/images/avatar_profile.png'),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   InkWell(
-                    splashColor: Color(0xffE7E7E7).withOpacity(0.3),
+                    splashColor: const Color(0xffE7E7E7).withOpacity(0.3),
                     highlightColor: Colors.transparent,
                     onTap: () {},
                     child: Text(
@@ -85,7 +85,7 @@ class EditProfile extends StatelessWidget {
                       ),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   Form(
@@ -106,7 +106,7 @@ class EditProfile extends StatelessWidget {
                           validateEmail,
                           _emailController..text = 'adinda@gmail.com',
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
                         BlueButton(
