@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:toefl/models/quiz.dart';
 import 'package:toefl/models/quiz_type.dart';
 import 'package:toefl/pages/games/quiz/init_quiz.dart';
+import 'package:path/path.dart';
+import 'package:toefl/pages/forgot_password_page.dart';
 import 'package:toefl/pages/games/quiz/grammar_page.dart';
 import 'package:toefl/pages/games/quiz/quiz_page.dart';
 import 'package:toefl/pages/bookmark/bookmark_detail_page.dart';
@@ -15,6 +17,8 @@ import 'package:toefl/pages/mini_test/mini_test_page.dart';
 import 'package:toefl/pages/games/quiz/quiz_page.dart';
 import 'package:toefl/pages/edit_profile_page.dart';
 import 'package:toefl/pages/full_test/opening_loading_page.dart';
+import 'package:toefl/pages/new_password_page.dart';
+import 'package:toefl/pages/otp_verification_page.dart';
 import 'package:toefl/pages/profile_page.dart';
 import 'package:toefl/pages/full_test/full_test_page.dart';
 import 'package:toefl/pages/full_test/simulation_page.dart';
@@ -27,6 +31,8 @@ import 'package:toefl/pages/games_page.dart';
 import 'package:toefl/pages/review_test/review_test_page.dart';
 import 'package:toefl/pages/setgoal_page.dart';
 import 'package:toefl/pages/splash_page.dart';
+import 'package:toefl/pages/success_password_page.dart';
+import 'package:toefl/pages/template_page.dart';
 import 'package:toefl/routes/route_key.dart';
 import 'package:toefl/pages/main_page.dart';
 import 'package:toefl/state_management/quiz/quiz_provider_state.dart';
@@ -74,6 +80,10 @@ final routes = <String, Widget Function(BuildContext)>{
     );
   },
   RouteKey.regist: (context) => const RegistPage(),
+  RouteKey.otpVerification: (context) => const OtpVerification(),
+  RouteKey.forgotPassword: (context) => const ForgotPassword(),
+  RouteKey.resetPassword: (context) => const NewPassword(),
+  RouteKey.successPassword: (context) => const SuccessPassword(),
   RouteKey.login: (context) => const LoginPage(),
   RouteKey.setGoal: (context) => const SetGoal(),
   RouteKey.onBoarding: (context) => const OnBoarding(),

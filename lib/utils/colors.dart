@@ -4,6 +4,7 @@ const colorWarning = "#FB8A00";
 const colorError = "#F44336";
 const neutral40 = "#D1D1D1";
 const neutral60 = "#888888";
+const neutral70 = "#5D5D5D";
 const neutral50 = "#B0B0B0";
 const softGreen = "#71D076";
 const verySoftGreen = "#C7FFCA";
