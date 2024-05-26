@@ -23,4 +23,8 @@ class RouteKey {
   static const setTargetPage = '/set-target-page';
   static const bookmark = '/bookmark';
   static const bookmarkDetail = '/bookmark-detail';
+  static const otpVerification = '/otp-verification';
+  static const forgotPassword = '/forgot-password';
+  static const successPassword = '/success-password';
+  static const resetPassword = '/reset-password';
 }
