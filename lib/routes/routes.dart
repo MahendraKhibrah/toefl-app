@@ -23,7 +23,7 @@ import 'package:toefl/pages/login_page.dart';
 import 'package:toefl/pages/on_boarding.dart';
 import 'package:toefl/pages/rank_page.dart';
 import 'package:toefl/pages/regist_page.dart';
-import 'package:toefl/pages/games_page.dart';
+import 'package:toefl/pages/games/games_page.dart';
 import 'package:toefl/pages/review_test/review_test_page.dart';
 import 'package:toefl/pages/setgoal_page.dart';
 import 'package:toefl/pages/splash_page.dart';
@@ -60,6 +60,7 @@ final routes = <String, Widget Function(BuildContext)>{
     return InitQuiz(
       id: data?["id"] ?? "",
       isGame: data?["isGame"] ?? false,
+      isReview: data?["isReview"] ?? false,
     );
   },
   RouteKey.root: (context) => const SplashPage(),
