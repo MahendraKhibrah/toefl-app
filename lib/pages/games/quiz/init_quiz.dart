@@ -33,9 +33,9 @@ class InitQuizState extends ConsumerState<InitQuiz> {
 
   Future<void> init() async {
     if (widget.isReview!) {
-      ref.read(quizGamesProvider.notifier).getReview(widget.id, true);
+      ref.read(quizGamesProvider.notifier).getReview(widget.id, widget.isGame);
     } else {
-      ref.read(quizGamesProvider.notifier).getClaim(widget.id, true);
+      ref.read(quizGamesProvider.notifier).getClaim(widget.id, widget.isGame!);
     }
   }
 
