@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:toefl/models/game.dart';
 import 'package:toefl/pages/games/games_level_page.dart';
@@ -41,7 +42,7 @@ class _GamesPageState extends State<GamesPage> {
             padding: EdgeInsets.only(top: 30, bottom: 20),
             child: Center(
               child: Text(
-                'Games',
+                'appbar_games'.tr(),
                 style: CustomTextStyle.appBarTitle,
               ),
             ),

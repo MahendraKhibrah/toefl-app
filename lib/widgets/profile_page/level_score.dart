@@ -20,7 +20,7 @@ class LevelScore extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                _content("Your Level", level, context),
+                _content("Level", level, context),
                 VerticalDivider(
                   color: HexColor(mariner500),
                   thickness: 2,

@@ -1,3 +1,68 @@
 {
-  "test_local": "tes"
+  "test_local": "tes",
+  "welcome_heading": "Selamat datang kembali!",
+  "welcome_paragraph": "Halo, masuk untuk melanjutkan",
+  "forgot_password": "Lupa Password?",
+  "forgot_password_paragraph": "Jangan khawatir! Masukkan email kamu untuk melakukan permintaan reset password",
+  "btn_login": "Masuk",
+  "new_account": "Belum punya akun?",
+  "register_link": "Daftar",
+  "login_link": "Masuk",
+  "create_account": "Buat Akun Baru",
+  "create_account_paragraph": "Buat profil untuk menyimpan akun Anda. Daftar dan nikmatilah",
+  "label_name": "Nama",
+  "confirm_password": "Konfirmasi Password",
+  "warning_messages": "{} tidak boleh kosong",
+  "wrong_email": "Email Salah, Gunakan email kampus",
+  "six_char_password": "Password minimal 6 karakter",
+  "not_match_password": "Password tidak cocok",
+  "have_account": "Sudah memiliki akun?",
+  "btn_register": "Daftar",
+  "btn_send_code": "Kirim kode",
+  "remember_password": "Kamu mengingat passwordmu?",
+
+  "notification": "Notifikasi",
+  "language": "Pilih Bahasa",
+  "set_toefl_target": "Tetapkan target TOEFL",
+  "logout": "Keluar",
+
+  "first_label_navbar": "Beranda",
+  "second_label_navbar": "Permainan",
+  "third_label_navbar": "Profil",
+  "set_own_target": "TETAPKAN TARGET TOEFL",
+
+  "edit_profile": "Ubah Profil",
+  "change_picture": "Ganti Gambar",
+  "length_name": "Nama harus lebih dari 2 karakter",
+  "valid_email": "Masukkan alamat email yang valid",
+  "btn_update": "Perbarui",
+
+  "appbar_bookmarked": "Ditandai",
+  "description_bookmarked": "Mari kita tinjau pertanyaan-pertanyaan yang telah Anda tandai dalam tes terbaru!",
+  "have_bookmarked": "Anda belum menandai pertanyaan apa pun.",
+
+  "appbar_home": "Mulai Belajar Hari ini!",
+  "estimated_score": "Skor Estimasi",
+  "take_full": "*lakukan full test dahulu.",
+  "set_now": "Atur Sekarang",
+  "for_you": "Untuk Kamu",
+  "topic_interest": "Berdasarkan minat topik Anda",
+  "simulation_test": "Tes Simulasi",
+  "test_description": "Tes yang berisi",
+  "learning_path": "Jalur Belajar",
+  "part_toefl": "Bagian TOEFL",
+  "try": "Coba",
+
+  "appbar_games": "Permainan",
+
+  "test_result": "HASIL TES",
+  "btn_back_course": "Kembali ke Tes",
+  "review_test": "Tinjau",
+  "retake_test": "Ambil Ulang",
+  "answered_questions": "Terjawab",
+  "correct_questions": "Benar",
+
+  "mini_test": "MINI TES",
+
+  "appbar_profile": "Profil"
 }

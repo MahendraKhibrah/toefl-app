@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:toefl/remote/local/shared_pref/test_shared_preferences.dart';
 import 'package:toefl/routes/route_key.dart';
@@ -53,7 +54,7 @@ class _HomePageState extends State<HomePage> {
           title: Padding(
             padding: EdgeInsets.only(left: 24.0),
             child: Text(
-              'Start Learning Today!',
+              'appbar_home'.tr(),
               style: TextStyle(fontSize: 21, fontWeight: FontWeight.w800),
             ),
           ),
@@ -100,14 +101,14 @@ class _HomePageState extends State<HomePage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "For You",
+                      'for_you'.tr(),
                       style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
                           color: HexColor(neutral90)),
                     ),
                     Text(
-                      "Based on your topic interest",
+                      'topic_interest'.tr(),
                       style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.bold,
@@ -126,7 +127,7 @@ class _HomePageState extends State<HomePage> {
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 24),
                 child: Text(
-                  "Simulation Test",
+                  'simulation_test'.tr(),
                   style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
@@ -146,14 +147,14 @@ class _HomePageState extends State<HomePage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Learning Path",
+                      'learning_path'.tr(),
                       style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
                           color: HexColor(neutral90)),
                     ),
                     Text(
-                      "TOEFL Part",
+                      'part_toefl'.tr(),
                       style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.bold,

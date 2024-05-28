@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -98,7 +99,7 @@ class _SimulationPageState extends ConsumerState<MiniSimulationPage> {
     return Scaffold(
         appBar: AppBar(
           title: Text(
-            "MINI TEST",
+            'mini_test'.tr(),
             style: CustomTextStyle.extraBold16,
           ),
           centerTitle: true,

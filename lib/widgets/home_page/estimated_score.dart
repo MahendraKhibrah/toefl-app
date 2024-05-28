@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -131,7 +132,7 @@ class _EstimatedScoreWidgetState extends State<EstimatedScoreWidget> {
                             children: [
                               Text(
                                 // "Estimated score",
-                                "Estimated score",
+                                'estimated_score'.tr(),
                                 style: TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.w800,
@@ -148,7 +149,7 @@ class _EstimatedScoreWidgetState extends State<EstimatedScoreWidget> {
                                   ),
                                 ),
                               ),
-                              Text("*take a full test to show here",
+                              Text('take_full'.tr(),
                                   style: TextStyle(
                                       fontSize: 9,
                                       fontWeight: FontWeight.w300,
@@ -164,7 +165,7 @@ class _EstimatedScoreWidgetState extends State<EstimatedScoreWidget> {
                                             Colors.white),
                                   ),
                                   child: Text(
-                                    "Set Now",
+                                    'set_now'.tr(),
                                     style: TextStyle(
                                         fontSize: 12,
                                         fontWeight: FontWeight.w800,

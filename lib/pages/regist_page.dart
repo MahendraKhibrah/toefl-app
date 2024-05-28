@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:toefl/models/regist.dart';
@@ -45,21 +46,21 @@ class _RegistPageState extends State<RegistPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      "Create New Account",
+                      'create_account',
                       style: TextStyle(
                         fontSize: 30,
                         fontWeight: FontWeight.bold,
                         color: HexColor(mariner700),
                       ),
-                    ),
+                    ).tr(),
                     Text(
-                      "Create a profile to save your account. Go regist and enjoy it!",
+                      'create_account_paragraph',
                       style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w500,
                         color: HexColor(neutral50),
                       ),
-                    ),
+                    ).tr(),
                     const SizedBox(height: 15.0),
                     Form(
                       key: _formKey,
@@ -68,7 +69,7 @@ class _RegistPageState extends State<RegistPage> {
                         children: [
                           InputText(
                             controller: nameController,
-                            title: "Name",
+                            title: 'label_name'.tr(),
                             hintText: "Name",
                           ),
                           const SizedBox(height: 15.0),
@@ -87,7 +88,7 @@ class _RegistPageState extends State<RegistPage> {
                           const SizedBox(height: 15.0),
                           InputText(
                             controller: confirmPasswordController,
-                            title: "Confirm Password",
+                            title: 'confirm_password'.tr(),
                             hintText: "Confirm Password",
                             suffixIcon: Icons.visibility_off,
                             passwordController: passwordController,
@@ -101,7 +102,7 @@ class _RegistPageState extends State<RegistPage> {
                             child: CircularProgressIndicator(),
                           )
                         : BlueButton(
-                            title: 'Sign Up',
+                            title: 'btn_register'.tr(),
                             onTap: () async {
                               setState(() {
                                 isLoading = true;
@@ -132,7 +133,7 @@ class _RegistPageState extends State<RegistPage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          "Already have an account? ",
+                          'have_account'.tr(),
                           style: TextStyle(
                             color: HexColor(neutral50),
                             fontSize: 14,
@@ -142,8 +143,8 @@ class _RegistPageState extends State<RegistPage> {
                           onTap: () {
                             Navigator.popAndPushNamed(context, RouteKey.login);
                           },
-                          child: const Text(
-                            "Login",
+                          child: Text(
+                            'login_link'.tr(),
                             style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.bold,
