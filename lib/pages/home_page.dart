@@ -1,5 +1,11 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:toefl/pages/games/practice/pairing_game.dart';
+import 'package:toefl/pages/games/practice/scrambled_word.dart';
+import 'package:toefl/pages/games/practice/word_of_the_day_page.dart';
+import 'package:toefl/pages/template_page.dart';
+import 'package:toefl/remote/api/scrambled_word_api.dart';
 import 'package:toefl/remote/local/shared_pref/test_shared_preferences.dart';
 import 'package:toefl/routes/route_key.dart';
 import 'package:toefl/utils/colors.dart';
@@ -126,6 +132,31 @@ class _HomePageState extends State<HomePage> {
               ),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 24),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Featured",
+                      style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: HexColor(neutral90)),
+                    ),
+                    Text(
+                      "Challenge your knowledge",
+                      style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                          color: HexColor(neutral50)),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 15,
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 24),
                 child: Text(
                   'simulation_test'.tr(),
                   style: TextStyle(
@@ -170,6 +201,18 @@ class _HomePageState extends State<HomePage> {
               SizedBox(
                 height: 30,
               ),
+              InkWell(
+                onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => PairingGame(),
+                )),
+                child: Text('test'),
+              ),
+              InkWell(
+                onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => WordScramblePage(),
+                )),
+                child: Text('test'),
+              )
             ],
           ),
         ));

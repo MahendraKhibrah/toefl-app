@@ -41,7 +41,7 @@ class _OpeningLoadingPageState extends ConsumerState<OpeningLoadingPage> {
           startTime: DateTime.now().toIso8601String(),
           name: widget.packetName,
           resetTable: true,
-          isRetake: widget.isRetake));
+          isRetake: widget.isRetake));  
     }
     await ref.read(fullTestProvider.notifier).onInit();
     await Future.delayed(const Duration(seconds: 4));

@@ -64,4 +64,26 @@ class CustomTextStyle {
 
   static TextStyle medium15 =
       GoogleFonts.nunito(fontSize: 15, fontWeight: FontWeight.w500);
+
+  static TextStyle gameScoreResult = GoogleFonts.nunito(
+      fontSize: 20, fontWeight: FontWeight.bold, color: HexColor(mariner700));
+
+  static TextStyle gameCardTitle = GoogleFonts.nunito(
+    fontSize: 18,
+    color: HexColor(neutral90),
+    fontWeight: FontWeight.bold,
+  );
+
+  static TextStyle gameCardScoreSubTitle = GoogleFonts.nunito(
+    fontSize: 20,
+    color: HexColor(mariner700),
+    fontWeight: FontWeight.w900,
+  );
+
+  static TextStyle gameCardPredicateSubTitle = GoogleFonts.nunito(
+    fontSize: 20,
+    color: HexColor(neutral90),
+    fontWeight: FontWeight.bold,
+  );
+
 }

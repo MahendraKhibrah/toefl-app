@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:json_annotation/json_annotation.dart';
+import 'package:toefl/models/quiz_claim.dart';
 import 'package:toefl/models/quiz_question.dart';
 import 'package:toefl/models/quiz_type.dart';
 
@@ -15,7 +16,9 @@ class Quiz {
   @JsonKey(name: 'quiz_type_id')
   String quizTypeId;
   QuizType type;
-  List<QuizQuestion> questions;
+  List<QuizQuestion>? questions;
+  @JsonKey(name: 'quiz_claim')
+  List<QuizClaim>? quizClaim;
 
   Quiz({
     required this.id,
@@ -23,6 +26,7 @@ class Quiz {
     required this.quizTypeId,
     required this.type,
     required this.questions,
+    this.quizClaim,
   });
 
   factory Quiz.fromJson(Map<String, dynamic> json) => _$QuizFromJson(json);

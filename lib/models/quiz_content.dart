@@ -13,7 +13,7 @@ class QuizContent {
   @JsonKey(name: 'quiz_question_id')
   String quizQuestionId;
   String content;
-  List<QuizOption> options;
+  List<QuizOption>? options;
   @JsonKey(name: 'answer_key')
   QuizAnswerKey answerKey;
 

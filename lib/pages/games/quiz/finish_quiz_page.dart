@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:toefl/models/quiz_game_result.dart';
 import 'package:toefl/pages/games/quiz/quiz_page.dart';
 import 'package:toefl/pages/games/quiz/splash_perfect.dart';
+import 'package:toefl/routes/route_key.dart';
 import 'package:toefl/widgets/blue_button.dart';
 import 'package:toefl/widgets/games/quiz/result_quiz.dart';
 
 class FinishQuizPage extends StatefulWidget {
-  const FinishQuizPage({super.key});
+  final QuizGameResult result;
+  const FinishQuizPage({super.key, required this.result});
 
   @override
   State<FinishQuizPage> createState() => _FinishQuizPageState();
@@ -28,7 +31,9 @@ class _FinishQuizPageState extends State<FinishQuizPage> {
                 height: 60,
               ),
               SizedBox(
-                child: ResultQuiz(),
+                child: ResultQuiz(
+                  result: widget.result,
+                ),
               ),
               const SizedBox(
                 height: 60,
@@ -36,10 +41,10 @@ class _FinishQuizPageState extends State<FinishQuizPage> {
               BlueButton(
                 title: "Continue",
                 onTap: () {
-                  Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(
-                      builder: (context) => QuizPage(),
-                    ),
+                  Navigator.pushNamedAndRemoveUntil(
+                    context,
+                    RouteKey.main,
+                    (route) => false,
                   );
                 },
               ),
