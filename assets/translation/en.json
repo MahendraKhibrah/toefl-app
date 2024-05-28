@@ -49,6 +49,7 @@
   "topic_interest": "Based on your topic interest",
   "simulation_test": "Simulation Test",
   "test_description": "A test that contains",
+  "questions":"{} Questions",
   "learning_path":"Learning Path",
   "part_toefl": "TOEFL Part",
   "try":"Try",

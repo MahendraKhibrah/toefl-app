@@ -13,7 +13,7 @@ class SimulationTestWidget extends StatelessWidget {
   List<Map<String, dynamic>> topics = [
     {
       "title": "Mini Test",
-      "subtitle": "70 Questions",
+      "subtitle": 'questions'.tr(args: ["70"]),
       "color": mariner100,
       "icon": "assets/images/pesawat.svg",
       "onTap": () {
@@ -26,7 +26,7 @@ class SimulationTestWidget extends StatelessWidget {
     },
     {
       "title": "Full Test",
-      "subtitle": "140 Questions",
+      "subtitle": 'questions'.tr(args: ["140"]),
       "color": mariner400,
       "icon": "assets/images/medali.svg",
       "onTap": () {
