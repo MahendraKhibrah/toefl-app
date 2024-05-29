@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:toefl/utils/colors.dart';
 import 'package:toefl/utils/hex_color.dart';
@@ -42,15 +43,15 @@ class _InputTextState extends State<InputText> {
         TextFormField(
           validator: (value) {
             if (value == null || value.isEmpty || value.trim().isEmpty) {
-              return '${widget.hintText} cannot be empty';
+              return 'warning_messages'.tr(args: ['${widget.hintText}']);
             } else if (widget.title == 'Email' && !value.endsWith('.pens.ac.id')) {
-              return 'Invalid email. Use campus email';
+              return 'wrong_email'.tr();
             } else if ((widget.title == 'Password' || widget.title == 'New Password') && value.length < 6) {
-              return 'Password must be at least 6 characters';
+              return 'six_char_password'.tr();
             } else if (widget.title == 'Confirm Password' &&
                 widget.passwordController?.text.isNotEmpty == true &&
                 value != widget.passwordController!.text) {
-              return 'Passwords do not match';
+              return 'not_match_password'.tr();
             }
             return null;
           },

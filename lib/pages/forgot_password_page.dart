@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:toefl/routes/route_key.dart';
 import 'package:toefl/utils/colors.dart';
@@ -49,8 +50,8 @@ class _ForgotPasswordState extends State<ForgotPassword> {
               child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    const Text(
-                      "Forgot Password?",
+                    Text(
+                      'forgot_password'.tr(),
                       style:
                           TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                     ),
@@ -65,17 +66,13 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                             fontSize: 14,
                             color: HexColor(neutral70),
                           ),
-                          children: const [
+                          children: [
+                            
                             TextSpan(
-                              text: "Don’t worry! Please enter ",
-                            ),
-                            TextSpan(
-                              text: "your email address ",
+                              text: 'forgot_password_paragraph'.tr(),
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ),
-                            TextSpan(
-                              text: "to request a password reset.",
-                            ),
+                          
                           ],
                         ),
                       ),
@@ -101,7 +98,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
               height: 15,
             ),
             BlueButton(
-              title: "Send Code",
+              title: 'btn_send_code'.tr(),
               onTap: () {
                 if (_formKey.currentState?.validate() ?? false) {
                   Navigator.popAndPushNamed(context, RouteKey.otpVerification);
@@ -113,7 +110,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  "You remember your password? ",
+                  'remember_password'.tr(),
                   style: TextStyle(
                     color: HexColor(neutral50),
                     fontSize: 14,
@@ -123,8 +120,8 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                   onTap: () {
                     Navigator.popAndPushNamed(context, RouteKey.login);
                   },
-                  child: const Text(
-                    "Login",
+                  child: Text(
+                    'login_link'.tr(),
                     style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.bold,

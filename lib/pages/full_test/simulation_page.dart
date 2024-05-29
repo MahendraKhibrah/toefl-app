@@ -264,7 +264,7 @@ class PacketCard extends StatelessWidget {
       child: Stack(
         children: [
           BlueContainer(
-            showShadow: true,
+            showShadow: false,
             child: Row(
               // Icon Gaming
               children: [
@@ -282,7 +282,7 @@ class PacketCard extends StatelessWidget {
                     onPressed: () {},
                   ),
                 ),
-                const SizedBox(width: 10),
+                const SizedBox(width: 6),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,

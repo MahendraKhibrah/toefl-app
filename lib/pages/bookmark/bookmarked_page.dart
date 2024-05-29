@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -47,7 +48,7 @@ class _BookmarkedPageState extends State<BookmarkedPage> {
       appBar: AppBar(
         centerTitle: true,
         title: Text(
-          "Bookmarked",
+          'appbar_bookmarked'.tr(),
           style: CustomTextStyle.extraBold16,
         ),
       ),
@@ -60,7 +61,7 @@ class _BookmarkedPageState extends State<BookmarkedPage> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Text(
-                    "Let's review the questions you've\nbookmarked in the recent test!",
+                    'description_bookmarked'.tr(),
                     textAlign: TextAlign.center,
                     style: CustomTextStyle.bold12
                         .copyWith(color: HexColor(neutral60))),
@@ -91,7 +92,7 @@ class _BookmarkedPageState extends State<BookmarkedPage> {
                     : [
                         Center(
                           child: Text(
-                            "You haven't bookmarked any questions yet",
+                            'have_bookmarked'.tr(),
                             style: CustomTextStyle.normal12,
                           ),
                         ),

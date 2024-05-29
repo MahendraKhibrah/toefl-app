@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:toefl/pages/games/games_page.dart';
 import 'package:toefl/pages/home_page.dart';
@@ -58,11 +59,11 @@ class _MainPageState extends State<MainPage> {
           selectedIconTheme: IconThemeData(color: HexColor(mariner800)),
           unselectedItemColor: HexColor(neutral40),
           items: <BottomNavigationBarItem>[
-            const BottomNavigationBarItem(
+            BottomNavigationBarItem(
               icon: Icon(
                 Icons.home_rounded,
               ),
-              label: 'Home',
+              label: 'first_label_navbar'.tr(),
             ),
             BottomNavigationBarItem(
               icon: SizedBox(
@@ -77,13 +78,13 @@ class _MainPageState extends State<MainPage> {
                   clipBehavior: Clip.none,
                 ),
               ),
-              label: 'Games',
+              label: 'second_label_navbar'.tr(),
             ),
-            const BottomNavigationBarItem(
+            BottomNavigationBarItem(
               icon: Icon(
                 Icons.person_2_rounded,
               ),
-              label: 'Profile',
+              label: 'third_label_navbar'.tr(),
             ),
           ],
         ),
