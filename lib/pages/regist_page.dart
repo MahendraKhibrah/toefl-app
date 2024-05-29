@@ -120,11 +120,21 @@ class _RegistPageState extends State<RegistPage> {
                                     confirmPasswordController.text,
                               ),
                             );
-                            Navigator.pushNamed(
-                                context, RouteKey.otpVerification, arguments: {
-                              'isForgotOTP': false,
-                              'email': emailController.text
-                            });
+                            if (val.isSuccess) {
+                              Navigator.pushNamed(
+                                  context, RouteKey.otpVerification,
+                                  arguments: {
+                                    'isForgotOTP': false,
+                                    'email': emailController.text
+                                  });
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: const Text("email has registered"),
+                                  backgroundColor: HexColor(colorError),
+                                ),
+                              );
+                            }
                           }
                           setState(() {
                             isLoading = false;
