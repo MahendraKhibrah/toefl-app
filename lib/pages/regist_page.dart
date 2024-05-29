@@ -120,8 +120,10 @@ class _RegistPageState extends State<RegistPage> {
                                     confirmPasswordController.text,
                               ),
                             );
-                            if (val.isVerified) {
-                              Navigator.popAndPushNamed(context, RouteKey.main);
+                            final isOtpAvail = await userApi.getOtp();
+                            if (isOtpAvail) {
+                              Navigator.pushNamed(
+                                  context, RouteKey.otpVerification);
                             }
                           }
                           setState(() {

@@ -20,20 +20,15 @@ class _SplashPageState extends State<SplashPage> {
 
   Future<void> _init() async {
     final AuthSharedPreference authSharedPreference = AuthSharedPreference();
+    final isVerified = await authSharedPreference.getVerifiedAccount();
     await authSharedPreference.getBearerToken().then((value) async {
       final bool isLogin = (value ?? "").isNotEmpty;
       await Future.delayed(const Duration(seconds: 1));
       if (mounted) {
-        // if (isLogin) {
-        //   Navigator.of(context).pushReplacementNamed(RouteKey.main);
-        // } else {
-        //   Navigator.of(context).pushReplacementNamed(RouteKey.quiz);
-        // }
-        // Navigator.of(context).pushReplacementNamed(RouteKey.main);
-        if (isLogin) {
+        if (isLogin && isVerified) {
           Navigator.of(context).pushReplacementNamed(RouteKey.main);
         } else {
-          Navigator.of(context).pushReplacementNamed(RouteKey.onBoarding);
+          Navigator.of(context).pushReplacementNamed(RouteKey.login);
         }
       }
     });

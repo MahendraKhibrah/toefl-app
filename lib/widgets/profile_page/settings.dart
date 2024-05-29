@@ -73,8 +73,8 @@ class _SettingState extends State<Setting> {
             onTap: () {
               Navigator.pushNamed(context, RouteKey.setTargetPage);
             },
-            child:
-                _listTileCustom(Icons.bar_chart_rounded, 'set_toefl_target'.tr()),
+            child: _listTileCustom(
+                Icons.bar_chart_rounded, 'set_toefl_target'.tr()),
           ),
           const Divider(
             color: Color(0xffE7E7E7),
@@ -85,14 +85,15 @@ class _SettingState extends State<Setting> {
             highlightColor: Colors.transparent,
             onTap: () async {
               await authSharedPreference.removeBearerToken();
+              await authSharedPreference.removeVerifiedAccount();
               await testSharedPreference.removeStatus();
               await testSharedPreference.removeMiniStatus();
               await fullTestTable.resetDatabase();
               await miniTestTable.resetDatabase();
               Navigator.pushReplacementNamed(context, RouteKey.login);
             },
-            child:
-                _listTileCustom(Icons.logout_sharp, 'logout'.tr(), islogout: true),
+            child: _listTileCustom(Icons.logout_sharp, 'logout'.tr(),
+                islogout: true),
           )
         ],
       ),

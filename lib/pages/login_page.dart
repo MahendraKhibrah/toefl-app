@@ -139,6 +139,12 @@ class _LoginPageState extends State<LoginPage> {
                                 if (val.isVerified) {
                                   Navigator.popAndPushNamed(
                                       context, RouteKey.main);
+                                } else {
+                                  final isOtpAvail = await userApi.getOtp();
+                                  if (isOtpAvail) {
+                                    Navigator.pushNamed(
+                                        context, RouteKey.otpVerification);
+                                  }
                                 }
                               }
                               setState(() {

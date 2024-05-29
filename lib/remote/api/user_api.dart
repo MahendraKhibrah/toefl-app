@@ -43,6 +43,7 @@ class UserApi {
       final response = BaseResponse.fromJson(json.decode(rawResponse.data));
       final AuthStatus authStatus = AuthStatus.fromJson(response.data);
       await authSharedPreference.saveBearerToken(token);
+      await authSharedPreference.saveVerifiedAccount(authStatus.isVerified);
       return authStatus.copyWith(isSuccess: true);
     } catch (e) {
       return AuthStatus(isVerified: false, isSuccess: false);
@@ -60,6 +61,7 @@ class UserApi {
       final response = BaseResponse.fromJson(json.decode(rawResponse.data));
       final AuthStatus authStatus = AuthStatus.fromJson(response.data);
       await authSharedPreference.saveBearerToken(token);
+      await authSharedPreference.saveVerifiedAccount(false);
       return authStatus.copyWith(isSuccess: true);
     } catch (e) {
       return AuthStatus(isVerified: false, isSuccess: false);

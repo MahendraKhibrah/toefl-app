@@ -5,4 +5,5 @@ class SharedPreferenceKeys {
   static const finalTestStatus = 'key:finalTestStatus';
   static const miniTestStatus = 'key:miniTestStatus';
   static const selectedLanguage = 'key:selectedLanguage';
+  static const verifiedAccount = 'key:verifiedAccount';
 }
