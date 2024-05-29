@@ -6,9 +6,11 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:toefl/models/estimated_score.dart' as model;
+import 'package:toefl/pages/rank_page.dart';
 import 'package:toefl/remote/api/estimated_score.dart';
 import 'package:toefl/utils/colors.dart';
 import 'package:toefl/utils/hex_color.dart';
+import 'package:toefl/widgets/quiz/modal/modal_confirmation.dart';
 import 'package:toefl/widgets/toefl_progress_indicator.dart';
 
 import 'user_rank_card.dart';

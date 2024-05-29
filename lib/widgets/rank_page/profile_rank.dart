@@ -48,72 +48,69 @@ class _ProfileRankState extends State<ProfileRank> {
   @override
   Widget build(BuildContext context) {
     String firstName = widget.name.split(' ').first;
-    return Row(
-      children: [
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Stack(
-              alignment: Alignment.center,
-              clipBehavior: Clip.none,
-              children: [
-                Container(
-                  width: 105,
-                  height: 105,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: medalColor,
-                  ),
-                ),
-                const CircleAvatar(
-                  backgroundImage:
-                      AssetImage('assets/images/avatar_profile.png'),
-                  radius: 45,
-                ),
-                Positioned(
-                  bottom: -20,
-                  child: SvgPicture.asset(
-                        medalIcon,
-                        width: 50,
-                        height: 50,
-                      ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 30),
-            SizedBox(
-                width: 100,
-                child: Text(
-                  firstName,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 18,
-                    color: HexColor(mariner700),
-                  ),
+    return LayoutBuilder(builder: (context, constraint) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Stack(
+            alignment: Alignment.center,
+            clipBehavior: Clip.none,
+            children: [
+              Container(
+                width: 105,
+                height: 105,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: medalColor,
                 ),
               ),
-            const SizedBox(height: 4),
-            Container(
-              alignment: Alignment.center,
-              width: 65,
-              height: 30,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                shape: BoxShape.rectangle,
-                color: medalColor,
+              const CircleAvatar(
+                backgroundImage: AssetImage('assets/images/avatar_profile.png'),
+                radius: 45,
               ),
-              child: Text(
-                widget.score.toString(),
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: HexColor(neutral10),
+              Positioned(
+                bottom: -20,
+                child: SvgPicture.asset(
+                  medalIcon,
+                  width: 50,
+                  height: 50,
                 ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 30),
+          SizedBox(
+            width: 150,
+            child: Text(
+              firstName,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 18,
+                color: HexColor(mariner700),
               ),
             ),
-          ],
-        ),
-      ],
-    );
+          ),
+          const SizedBox(height: 4),
+          Container(
+            alignment: Alignment.center,
+            width: 65,
+            height: 30,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              shape: BoxShape.rectangle,
+              color: medalColor,
+            ),
+            child: Text(
+              widget.score.toString(),
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: HexColor(neutral10),
+              ),
+            ),
+          ),
+        ],
+      );
+    });
   }
 }
