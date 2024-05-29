@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:toefl/models/login.dart';
@@ -58,21 +59,21 @@ class _LoginPageState extends State<LoginPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Welcome Back!",
+                      'welcome_heading',
                       style: TextStyle(
                         fontSize: 30,
                         fontWeight: FontWeight.bold,
                         color: HexColor(mariner700),
                       ),
-                    ),
+                    ).tr(),
                     Text(
-                      "Hello there, sign in to continue",
+                      'welcome_paragraph',
                       style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w500,
                         color: HexColor(neutral50),
                       ),
-                    ),
+                    ).tr(),
                     const SizedBox(height: 15.0),
                     Form(
                       key: _formKey,
@@ -103,13 +104,13 @@ class _LoginPageState extends State<LoginPage> {
                                     context, RouteKey.forgotPassword);
                               },
                               child: Text(
-                                "Forgot Password?",
+                                'forgot_password',
                                 style: TextStyle(
                                   color: HexColor(mariner700),
                                   fontSize: 14,
                                   decoration: TextDecoration.underline,
                                 ),
-                              ),
+                              ).tr(),
                             ),
                           ),
                         ],
@@ -121,7 +122,7 @@ class _LoginPageState extends State<LoginPage> {
                             child: CircularProgressIndicator(),
                           )
                         : BlueButton(
-                            title: 'Login',
+                            title: 'btn_login'.tr(),
                             onTap: () async {
                               setState(() {
                                 isLoading = true;
@@ -149,24 +150,24 @@ class _LoginPageState extends State<LoginPage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          "Don’t have an account? ",
+                          'new_account',
                           style: TextStyle(
                             color: HexColor(neutral50),
                             fontSize: 14,
                           ),
-                        ),
+                        ).tr(),
                         GestureDetector(
                           onTap: () {
                             Navigator.popAndPushNamed(context, RouteKey.regist);
                           },
                           child: const Text(
-                            "Sign Up",
+                            'register_link',
                             style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.bold,
                               decoration: TextDecoration.underline,
                             ),
-                          ),
+                          ).tr(),
                         ),
                       ],
                     )

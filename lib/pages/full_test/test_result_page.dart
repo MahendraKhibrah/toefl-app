@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -53,14 +54,14 @@ class _TestResultPageState extends State<TestResultPage> {
       appBar: AppBar(
         centerTitle: true,
         title: Text(
-          "TEST RESULT",
+          'test_result'.tr(),
           style: CustomTextStyle.extraBold16,
         ),
       ),
       body: Skeletonizer(
         enabled: isLoading,
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
           child: SingleChildScrollView(
             child: Column(
               children: [
@@ -102,7 +103,7 @@ class _TestResultPageState extends State<TestResultPage> {
                               ),
                             ],
                           ),
-                          const SizedBox(width: 12),
+                          // const SizedBox(width: 12),
                           Column(
                             children: [
                               Container(
@@ -126,7 +127,7 @@ class _TestResultPageState extends State<TestResultPage> {
                                       width: 70,
                                       child: Text(
                                         widget.isMiniTest
-                                            ? "Answered\nquestion"
+                                            ? 'answered_questions'.tr()
                                             : "Toefl score",
                                         style: CustomTextStyle.medium14,
                                       ),
@@ -145,7 +146,7 @@ class _TestResultPageState extends State<TestResultPage> {
                                   ],
                                 ),
                               ),
-                              const SizedBox(height: 6),
+                              const SizedBox(height: 8),
                               Container(
                                 width: MediaQuery.of(context).size.width * 0.54,
                                 height:
@@ -166,7 +167,7 @@ class _TestResultPageState extends State<TestResultPage> {
                                     SizedBox(
                                       width: 70,
                                       child: Text(
-                                        "Correct\nquestion",
+                                        'correct_questions'.tr(),
                                         style: CustomTextStyle.medium14,
                                         textAlign: TextAlign.left,
                                       ),
@@ -208,7 +209,7 @@ class _TestResultPageState extends State<TestResultPage> {
                                   borderRadius: BorderRadius.circular(15),
                                   border:
                                       Border.all(color: HexColor(mariner700))),
-                              child: Text("Review",
+                              child: Text('review_test'.tr(),
                                   textAlign: TextAlign.center,
                                   style: CustomTextStyle.bold18
                                       .copyWith(color: HexColor(mariner700))),
@@ -217,7 +218,7 @@ class _TestResultPageState extends State<TestResultPage> {
                           const SizedBox(width: 4),
                           BlueButton(
                             size: MediaQuery.of(context).size.width * 0.38,
-                            title: 'Retake',
+                            title: 'retake_test'.tr(),
                             onTap: () {
                               widget.isMiniTest
                                   ? Navigator.of(context).pushNamed(
@@ -492,7 +493,7 @@ class _TestResultPageState extends State<TestResultPage> {
                         color: Colors.transparent,
                         borderRadius: BorderRadius.circular(8),
                         border: Border.all(color: HexColor(mariner700))),
-                    child: Text("Back To Course",
+                    child: Text('btn_back_course'.tr(),
                         textAlign: TextAlign.center,
                         style: CustomTextStyle.bold18
                             .copyWith(color: HexColor(mariner700))),

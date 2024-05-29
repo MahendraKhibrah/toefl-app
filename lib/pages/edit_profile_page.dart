@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:toefl/utils/colors.dart';
@@ -21,13 +22,13 @@ class EditProfile extends StatelessWidget {
     final regex = RegExp(pattern);
 
     return value!.isEmpty || !regex.hasMatch(value)
-        ? 'Enter a valid email address'
+        ? 'valid_email'.tr()
         : null;
   }
 
   String? validateName(String? value) {
     if (value!.length < 3)
-      return 'Name must be more than 2 characters';
+      return 'length_name'.tr();
     else
       return null;
   }
@@ -52,7 +53,7 @@ class EditProfile extends StatelessWidget {
             Navigator.pop(context);
           },
         ),
-        title: const Text("Edit Profile"),
+        title: Text('edit_profile'.tr()),
       ),
       body: ListView(
         primary: false,
@@ -77,7 +78,7 @@ class EditProfile extends StatelessWidget {
                     highlightColor: Colors.transparent,
                     onTap: () {},
                     child: Text(
-                      "Change Picture",
+                      'change_picture'.tr(),
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 12,
@@ -93,7 +94,7 @@ class EditProfile extends StatelessWidget {
                     child: Column(
                       children: [
                         _textField(
-                          "Name",
+                          'label_name'.tr(),
                           false,
                           "Adinda Azzahra",
                           validateName,
@@ -110,7 +111,7 @@ class EditProfile extends StatelessWidget {
                           height: 10,
                         ),
                         BlueButton(
-                          title: 'Update',
+                          title: 'btn_update'.tr(),
                           size: 300,
                           onTap: () {
                             if (_formKey.currentState!.validate()) {

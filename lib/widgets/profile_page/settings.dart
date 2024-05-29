@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:restart_app/restart_app.dart';
@@ -54,13 +55,13 @@ class _SettingState extends State<Setting> {
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Column(
         children: [
-          _listTileCustom(Icons.notifications, 'Notification',
+          _listTileCustom(Icons.notifications, 'notification'.tr(),
               trailing: _switchButton()),
           const Divider(
             color: Color(0xffE7E7E7),
             thickness: 1,
           ),
-          _listTileCustom(Icons.g_translate, 'Your Language',
+          _listTileCustom(Icons.g_translate, 'language'.tr(),
               trailing: _dropdownButton()),
           const Divider(
             color: Color(0xffE7E7E7),
@@ -73,7 +74,7 @@ class _SettingState extends State<Setting> {
               Navigator.pushNamed(context, RouteKey.setTargetPage);
             },
             child:
-                _listTileCustom(Icons.bar_chart_rounded, 'Set my TOEFL Target'),
+                _listTileCustom(Icons.bar_chart_rounded, 'set_toefl_target'.tr()),
           ),
           const Divider(
             color: Color(0xffE7E7E7),
@@ -91,7 +92,7 @@ class _SettingState extends State<Setting> {
               Navigator.pushReplacementNamed(context, RouteKey.login);
             },
             child:
-                _listTileCustom(Icons.logout_sharp, 'Logout', islogout: true),
+                _listTileCustom(Icons.logout_sharp, 'logout'.tr(), islogout: true),
           )
         ],
       ),

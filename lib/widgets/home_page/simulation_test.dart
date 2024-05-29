@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:path/path.dart';
@@ -12,7 +13,7 @@ class SimulationTestWidget extends StatelessWidget {
   List<Map<String, dynamic>> topics = [
     {
       "title": "Mini Test",
-      "subtitle": "70 questions",
+      "subtitle": 'questions'.tr(args: ["70"]),
       "color": mariner100,
       "icon": "assets/images/pesawat.svg",
       "onTap": () {
@@ -25,7 +26,7 @@ class SimulationTestWidget extends StatelessWidget {
     },
     {
       "title": "Full Test",
-      "subtitle": "140 questions",
+      "subtitle": 'questions'.tr(args: ["140"]),
       "color": mariner400,
       "icon": "assets/images/medali.svg",
       "onTap": () {
@@ -106,7 +107,7 @@ class SimulationTestWidget extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "A test that contains ",
+                            'test_description'.tr(),
                             textAlign: TextAlign.center,
                             style: TextStyle(
                                 fontSize: constraint.maxHeight / 16,
@@ -147,7 +148,7 @@ class SimulationTestWidget extends StatelessWidget {
                           child: TextButton(
                               onPressed: topic["onTap"],
                               child: Text(
-                                "Try",
+                                'try'.tr(),
                                 style: TextStyle(
                                     fontSize: constraint.maxHeight / 14,
                                     fontWeight: FontWeight.w800,
