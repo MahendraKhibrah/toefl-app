@@ -7,7 +7,9 @@ import 'package:toefl/widgets/blue_button.dart';
 import 'package:toefl/widgets/form_input.dart';
 
 class NewPassword extends StatefulWidget {
-  const NewPassword({super.key});
+  const NewPassword({super.key, this.isAuthenticated = false});
+
+  final bool? isAuthenticated;
 
   @override
   State<NewPassword> createState() => _NewPasswordState();
@@ -43,7 +45,7 @@ class _NewPasswordState extends State<NewPassword> {
             size: 30,
           ),
           onTap: () {
-            Navigator.popAndPushNamed(context, RouteKey.otpVerification);
+            Navigator.pop(context);
           },
         ),
       ),
@@ -130,6 +132,18 @@ class _NewPasswordState extends State<NewPassword> {
                             confirmPasswordController.text);
                         if (isSuccess) {
                           Navigator.popUntil(context, (route) => route.isFirst);
+                          if (!(widget.isAuthenticated ?? true)) {
+                            Navigator.pushNamed(
+                                context, RouteKey.successPassword);
+                          }
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content:
+                                  const Text("Password must be different!"),
+                              backgroundColor: HexColor(colorError),
+                            ),
+                          );
                         }
                         setState(() {
                           isLoading = false;

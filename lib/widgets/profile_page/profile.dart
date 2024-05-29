@@ -82,21 +82,21 @@ class _ProfileState extends State<Profile> {
                   ],
                 ),
               ),
-              InkWell(
-                splashColor: Color(0xffE7E7E7).withOpacity(0.3),
-                highlightColor: Colors.transparent,
-                onTap: () {
-                  Navigator.pushNamed(context, RouteKey.editProfile);
-                },
-                child: CircleAvatar(
-                    backgroundColor: HexColor(mariner100),
-                    radius: 20,
-                    child: Icon(
-                      Icons.edit_square,
-                      color: HexColor(mariner800),
-                    ) //Text
-                    ),
-              )
+              // InkWell(
+              //   splashColor: Color(0xffE7E7E7).withOpacity(0.3),
+              //   highlightColor: Colors.transparent,
+              //   onTap: () {
+              //     Navigator.pushNamed(context, RouteKey.editProfile);
+              //   },
+              //   child: CircleAvatar(
+              //       backgroundColor: HexColor(mariner100),
+              //       radius: 20,
+              //       child: Icon(
+              //         Icons.edit_square,
+              //         color: HexColor(mariner800),
+              //       ) //Text
+              //       ),
+              // )
             ],
           ),
         )
