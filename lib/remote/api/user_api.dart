@@ -38,7 +38,10 @@ class UserApi {
         '${Env.apiUrl}/login',
         data: request.toJson(),
       );
-
+      final isSuccess = json.decode(rawResponse.data)['success'];
+      if (!isSuccess) {
+        return AuthStatus(isVerified: false, isSuccess: false);
+      }
       final token = json.decode(rawResponse.data)['token'];
       final response = BaseResponse.fromJson(json.decode(rawResponse.data));
       final AuthStatus authStatus = AuthStatus.fromJson(response.data);
@@ -56,7 +59,10 @@ class UserApi {
         '${Env.apiUrl}/register',
         data: request.toJson(),
       );
-
+      final isSuccess = json.decode(rawResponse.data)['success'];
+      if (!isSuccess) {
+        return AuthStatus(isVerified: false, isSuccess: false);
+      }
       final token = json.decode(rawResponse.data)['token'];
       final response = BaseResponse.fromJson(json.decode(rawResponse.data));
       final AuthStatus authStatus = AuthStatus.fromJson(response.data);

@@ -136,16 +136,26 @@ class _LoginPageState extends State<LoginPage> {
                                     password: passwordController.text,
                                   ),
                                 );
-                                if (val.isVerified) {
-                                  Navigator.popAndPushNamed(
-                                      context, RouteKey.main);
+                                if (val.isSuccess) {
+                                  if (val.isVerified) {
+                                    Navigator.popAndPushNamed(
+                                        context, RouteKey.main);
+                                  } else {
+                                    Navigator.pushNamed(
+                                        context, RouteKey.otpVerification,
+                                        arguments: {
+                                          'isForgotOTP': false,
+                                          'email': emailController.text
+                                        });
+                                  }
                                 } else {
-                                  Navigator.pushNamed(
-                                      context, RouteKey.otpVerification,
-                                      arguments: {
-                                        'isForgotOTP': false,
-                                        'email': emailController.text
-                                      });
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content:
+                                          const Text("Wrong email or password"),
+                                      backgroundColor: HexColor(colorError),
+                                    ),
+                                  );
                                 }
                               }
                               setState(() {
