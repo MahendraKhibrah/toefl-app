@@ -6,7 +6,7 @@ import 'package:toefl/remote/base_response.dart';
 import 'package:toefl/remote/dio_toefl.dart';
 import 'package:toefl/remote/env.dart';
 
-class ProfileApi{
+class ProfileApi {
   Future<Profile> getProfile() async {
     try {
       final Response rawResponse =
@@ -15,7 +15,6 @@ class ProfileApi{
       final response = BaseResponse.fromJson(json.decode(rawResponse.data));
       return Profile.fromJson(response.data);
     } catch (e) {
-      print("error : " + e.toString());
       return Profile(
           id: "",
           level: "",
