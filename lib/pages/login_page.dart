@@ -140,15 +140,12 @@ class _LoginPageState extends State<LoginPage> {
                                   Navigator.popAndPushNamed(
                                       context, RouteKey.main);
                                 } else {
-                                  final isOtpAvail = await userApi.getOtp();
-                                  if (isOtpAvail) {
-                                    Navigator.pushNamed(
-                                        context, RouteKey.otpVerification,
-                                        arguments: {
-                                          'isForgotOTP': false,
-                                          'email': emailController.text
-                                        });
-                                  }
+                                  Navigator.pushNamed(
+                                      context, RouteKey.otpVerification,
+                                      arguments: {
+                                        'isForgotOTP': false,
+                                        'email': emailController.text
+                                      });
                                 }
                               }
                               setState(() {
