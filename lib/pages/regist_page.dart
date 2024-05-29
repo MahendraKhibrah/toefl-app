@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:toefl/models/auth_status.dart';
 import 'package:toefl/models/regist.dart';
 import 'package:toefl/routes/route_key.dart';
 import 'package:toefl/utils/colors.dart';
@@ -97,37 +98,37 @@ class _RegistPageState extends State<RegistPage> {
                       ),
                     ),
                     const SizedBox(height: 30.0),
-                    isLoading
-                        ? const Center(
-                            child: CircularProgressIndicator(),
-                          )
-                        : BlueButton(
-                            title: 'btn_register'.tr(),
-                            onTap: () async {
-                              setState(() {
-                                isLoading = true;
-                              });
-                              var val = false;
-                              if (_formKey.currentState!.validate()) {
-                                val = await userApi.postRegist(
-                                  Regist(
-                                    name: nameController.text,
-                                    email: emailController.text,
-                                    password: passwordController.text,
-                                    passwordConfirmation:
-                                        confirmPasswordController.text,
-                                  ),
-                                );
-                              }
-                              setState(() {
-                                isLoading = false;
-                              });
-                              if (val) {
-                                Navigator.popAndPushNamed(
-                                    context, RouteKey.main);
-                              }
-                            },
-                          ),
+                    if (isLoading)
+                      const Center(
+                        child: CircularProgressIndicator(),
+                      )
+                    else
+                      BlueButton(
+                        title: 'btn_register'.tr(),
+                        onTap: () async {
+                          setState(() {
+                            isLoading = true;
+                          });
+                          final AuthStatus val;
+                          if (_formKey.currentState!.validate()) {
+                            val = await userApi.postRegist(
+                              Regist(
+                                name: nameController.text,
+                                email: emailController.text,
+                                password: passwordController.text,
+                                passwordConfirmation:
+                                    confirmPasswordController.text,
+                              ),
+                            );
+                            if (val.isVerified) {
+                              Navigator.popAndPushNamed(context, RouteKey.main);
+                            }
+                          }
+                          setState(() {
+                            isLoading = false;
+                          });
+                        },
+                      ),
                     const SizedBox(height: 15.0),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,

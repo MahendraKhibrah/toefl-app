@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:toefl/models/auth_status.dart';
 import 'package:toefl/models/login.dart';
 import 'package:toefl/remote/api/user_api.dart';
 import 'package:toefl/routes/route_key.dart';
@@ -127,7 +128,7 @@ class _LoginPageState extends State<LoginPage> {
                               setState(() {
                                 isLoading = true;
                               });
-                              var val = false;
+                              final AuthStatus val;
                               if (_formKey.currentState!.validate()) {
                                 val = await userApi.postLogin(
                                   Login(
@@ -135,7 +136,7 @@ class _LoginPageState extends State<LoginPage> {
                                     password: passwordController.text,
                                   ),
                                 );
-                                if (val) {
+                                if (val.isVerified) {
                                   Navigator.popAndPushNamed(
                                       context, RouteKey.main);
                                 }
