@@ -74,27 +74,35 @@ class _SetTargetPageState extends State<SetTargetPage> {
               style: CustomTextStyle.extrabold20.copyWith(color: Colors.black),
             ),
           ),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 30),
-              child: ListView.builder(
-                itemCount: allTargets.length,
-                itemBuilder: (context, index) {
-                  return CustomListTile(
-                    containerText: allTargets[index].score.toString(),
-                    labelText: allTargets[index].name,
-                    isSelected: selectedTarget.id == allTargets[index].id,
-                    onTap: () async {
-                      setState(() {
-                        selectedTarget = allTargets[index];
-                      });
-                      await api.updateBookmark(selectedTarget.id);
-                    },
-                  );
-                },
-              ),
-            ),
-          ),
+          isLoading
+              ? SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.6,
+                  child: Center(
+                    child:
+                        CircularProgressIndicator(color: HexColor(mariner700)),
+                  ),
+                )
+              : Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 30),
+                    child: ListView.builder(
+                      itemCount: allTargets.length,
+                      itemBuilder: (context, index) {
+                        return CustomListTile(
+                          containerText: allTargets[index].score.toString(),
+                          labelText: allTargets[index].name,
+                          isSelected: selectedTarget.id == allTargets[index].id,
+                          onTap: () async {
+                            setState(() {
+                              selectedTarget = allTargets[index];
+                            });
+                            await api.updateBookmark(selectedTarget.id);
+                          },
+                        );
+                      },
+                    ),
+                  ),
+                ),
         ],
       ),
     );
