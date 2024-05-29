@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:toefl/models/auth_status.dart';
 import 'package:toefl/models/regist.dart';
+import 'package:toefl/remote/local/shared_pref/onboarding_shared_preferences.dart';
 import 'package:toefl/routes/route_key.dart';
 import 'package:toefl/utils/colors.dart';
 import 'package:toefl/utils/hex_color.dart';
@@ -106,6 +107,12 @@ class _RegistPageState extends State<RegistPage> {
                       BlueButton(
                         title: 'btn_register'.tr(),
                         onTap: () async {
+                          final OnBoardingSharedPreference
+                              onBoardingSharedPreference =
+                              OnBoardingSharedPreference();
+                          final String targetId =
+                              await onBoardingSharedPreference
+                                  .getTargetIdUser();
                           setState(() {
                             isLoading = true;
                           });
@@ -113,12 +120,12 @@ class _RegistPageState extends State<RegistPage> {
                           if (_formKey.currentState!.validate()) {
                             val = await userApi.postRegist(
                               Regist(
-                                name: nameController.text,
-                                email: emailController.text,
-                                password: passwordController.text,
-                                passwordConfirmation:
-                                    confirmPasswordController.text,
-                              ),
+                                  name: nameController.text,
+                                  email: emailController.text,
+                                  password: passwordController.text,
+                                  passwordConfirmation:
+                                      confirmPasswordController.text,
+                                  targetId: targetId),
                             );
                             if (val.isSuccess) {
                               Navigator.pushNamed(
