@@ -8,7 +8,11 @@ import 'package:toefl/widgets/blue_button.dart';
 import '../remote/api/user_api.dart';
 
 class OtpVerification extends StatefulWidget {
-  const OtpVerification({super.key});
+  const OtpVerification(
+      {super.key, this.isForgotOTP = false, required this.email});
+
+  final bool isForgotOTP;
+  final String email;
 
   @override
   State<OtpVerification> createState() => _OtpVerificationState();
@@ -19,6 +23,24 @@ class _OtpVerificationState extends State<OtpVerification> {
   late List<TextEditingController?> controls;
   var otp = "";
   var isLoading = false;
+  var resendTimer = 59;
+
+  changeTime() {
+    Future.delayed(const Duration(seconds: 1), () {
+      setState(() {
+        resendTimer--;
+      });
+      if (resendTimer > 0) {
+        changeTime();
+      }
+    });
+  }
+
+  @override
+  void initState() {
+    changeTime();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -63,16 +85,17 @@ class _OtpVerificationState extends State<OtpVerification> {
                             fontSize: 14,
                             color: HexColor(neutral70),
                           ),
-                          children: const [
-                            TextSpan(
+                          children: [
+                            const TextSpan(
                               text:
                                   "Please enter the 4-digit code sent to your email ",
                             ),
                             TextSpan(
-                              text: "adindazahra@gmail.com",
-                              style: TextStyle(fontWeight: FontWeight.bold),
+                              text: " ${widget.email} ",
+                              style:
+                                  const TextStyle(fontWeight: FontWeight.bold),
                             ),
-                            TextSpan(
+                            const TextSpan(
                               text: " for verification.",
                             ),
                           ],
@@ -124,14 +147,20 @@ class _OtpVerificationState extends State<OtpVerification> {
                       setState(() {
                         isLoading = true;
                       });
-                      final isVerified = await userApi.verifyOtp(otp);
+                      final isVerified = widget.isForgotOTP
+                          ? await userApi.verifyForgot(otp)
+                          : await userApi.verifyOtp(otp);
                       setState(() {
                         isLoading = false;
                       });
                       if (isVerified.isVerified) {
-                        Navigator.popUntil(context, (route) => route.isFirst);
-                        Navigator.pop(context);
-                        Navigator.pushNamed(context, RouteKey.main);
+                        if (widget.isForgotOTP) {
+                          Navigator.pushNamed(context, RouteKey.resetPassword);
+                        } else {
+                          Navigator.popUntil(context, (route) => route.isFirst);
+                          Navigator.pop(context);
+                          Navigator.pushNamed(context, RouteKey.main);
+                        }
                       }
                     }),
             const SizedBox(height: 15.0),
@@ -146,10 +175,21 @@ class _OtpVerificationState extends State<OtpVerification> {
                   ),
                 ),
                 GestureDetector(
-                  onTap: () {},
-                  child: const Text(
-                    "Resend (00:59)",
-                    style: TextStyle(
+                  onTap: () {
+                    if (resendTimer > 0) return;
+                    if (widget.isForgotOTP) {
+                      userApi.forgotPassword(widget.email);
+                    } else {
+                      userApi.getOtp();
+                    }
+                    setState(() {
+                      resendTimer = 59;
+                      changeTime();
+                    });
+                  },
+                  child: Text(
+                    resendTimer > 0 ? "Resend (00:$resendTimer)" : "Resend",
+                    style: const TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
                       decoration: TextDecoration.underline,

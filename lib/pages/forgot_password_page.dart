@@ -6,6 +6,8 @@ import 'package:toefl/utils/hex_color.dart';
 import 'package:toefl/widgets/blue_button.dart';
 import 'package:toefl/widgets/form_input.dart';
 
+import '../remote/api/user_api.dart';
+
 class ForgotPassword extends StatefulWidget {
   const ForgotPassword({super.key});
 
@@ -17,6 +19,8 @@ class _ForgotPasswordState extends State<ForgotPassword> {
   final _formKey = GlobalKey<FormState>();
   TextEditingController emailController = TextEditingController();
   late final FocusNode _emailFocusNode;
+  UserApi userApi = UserApi();
+  var isLoading = false;
 
   @override
   void initState() {
@@ -67,12 +71,10 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                             color: HexColor(neutral70),
                           ),
                           children: [
-                            
                             TextSpan(
                               text: 'forgot_password_paragraph'.tr(),
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ),
-                          
                           ],
                         ),
                       ),
@@ -97,14 +99,32 @@ class _ForgotPasswordState extends State<ForgotPassword> {
             const SizedBox(
               height: 15,
             ),
-            BlueButton(
-              title: 'btn_send_code'.tr(),
-              onTap: () {
-                if (_formKey.currentState?.validate() ?? false) {
-                  Navigator.popAndPushNamed(context, RouteKey.otpVerification);
-                }
-              },
-            ),
+            isLoading
+                ? CircularProgressIndicator(
+                    color: HexColor(mariner700),
+                  )
+                : BlueButton(
+                    title: 'btn_send_code'.tr(),
+                    onTap: () async {
+                      if (_formKey.currentState?.validate() ?? false) {
+                        setState(() {
+                          isLoading = true;
+                        });
+                        final isEmailExist =
+                            await userApi.forgotPassword(emailController.text);
+                        if (isEmailExist) {
+                          Navigator.pushNamed(context, RouteKey.otpVerification,
+                              arguments: {
+                                'isForgotPassword': true,
+                                'email': emailController.text
+                              });
+                        }
+                        setState(() {
+                          isLoading = false;
+                        });
+                      }
+                    },
+                  ),
             const SizedBox(height: 15.0),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -118,7 +138,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                 ),
                 GestureDetector(
                   onTap: () {
-                    Navigator.popAndPushNamed(context, RouteKey.login);
+                    Navigator.pop(context);
                   },
                   child: Text(
                     'login_link'.tr(),

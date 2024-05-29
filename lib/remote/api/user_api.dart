@@ -113,6 +113,7 @@ class UserApi {
           .post('${Env.apiUrl}/users/verify-otp', data: {'otp_register': otp});
       final response = json.decode(rawResponse.data);
       debugPrint('response: ${response['success']}');
+      await authSharedPreference.saveVerifiedAccount(true);
       return AuthStatus(isVerified: response['success'], isSuccess: true);
     } catch (e) {
       debugPrint('error verify otp: $e');
@@ -128,22 +129,26 @@ class UserApi {
       });
       final response = BaseResponse.fromJson(json.decode(rawResponse.data));
       debugPrint('success : ${response.data['token']}');
-      return true;
+      final token = response.data['token'];
+      await authSharedPreference.saveBearerToken(token);
+      return json.decode(rawResponse.data)?['success'] ?? true;
     } catch (e) {
       return false;
     }
   }
 
-  Future<bool> verifyForgot(String otp) async {
+  Future<AuthStatus> verifyForgot(String otp) async {
     try {
       final rawResponse = await (dio ?? DioToefl.instance)
           .post('${Env.apiUrl}/users/verify-otp-forgot', data: {
         'otp_forgot': otp,
       });
       debugPrint('success : ${json.decode(rawResponse.data)['success']}');
-      return json.decode(rawResponse.data)?['success'] ?? true;
+      return AuthStatus(
+          isVerified: json.decode(rawResponse.data)?['success'] ?? true,
+          isSuccess: true);
     } catch (e) {
-      return false;
+      return AuthStatus(isVerified: false, isSuccess: false);
     }
   }
 
