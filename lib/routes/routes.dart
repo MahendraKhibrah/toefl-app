@@ -82,7 +82,14 @@ final routes = <String, Widget Function(BuildContext)>{
     );
   },
   RouteKey.regist: (context) => const RegistPage(),
-  RouteKey.otpVerification: (context) => const OtpVerification(),
+  RouteKey.otpVerification: (context) {
+    final Map<String, dynamic>? data =
+        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+    return OtpVerification(
+      isForgotOTP: data?['isForgotPassword'] ?? false,
+      email: data?['email'] ?? "",
+    );
+  },
   RouteKey.forgotPassword: (context) => const ForgotPassword(),
   RouteKey.resetPassword: (context) => const NewPassword(),
   RouteKey.successPassword: (context) => const SuccessPassword(),

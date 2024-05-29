@@ -5,6 +5,7 @@ import 'package:skeletonizer/skeletonizer.dart';
 import 'package:slide_countdown/slide_countdown.dart';
 import 'package:toefl/pages/full_test/form_section.dart';
 import 'package:toefl/pages/full_test/submit_dialog.dart';
+import 'package:toefl/routes/route_key.dart';
 import 'package:toefl/state_management/full_test_provider.dart';
 import 'package:toefl/utils/colors.dart';
 import 'package:toefl/utils/custom_text_style.dart';
@@ -139,7 +140,11 @@ class FullTestPage extends ConsumerWidget {
                                         .read(fullTestProvider.notifier)
                                         .resetAll()
                                         .then((value) {
-                                      Navigator.pop(context);
+                                      Navigator.popUntil(
+                                          context,
+                                          (route) =>
+                                              RouteKey.openingLoadingTest ==
+                                              route.settings.name);
                                     });
                                   }
                                 });
@@ -330,7 +335,10 @@ class FullTestPage extends ConsumerWidget {
                   bool resetResult =
                       await ref.read(fullTestProvider.notifier).resetAll();
                   if (resetResult && context.mounted) {
-                    Navigator.pop(context);
+                    Navigator.popUntil(
+                        context,
+                        (route) =>
+                            RouteKey.openingLoadingTest == route.settings.name);
                   }
                 }
               },
