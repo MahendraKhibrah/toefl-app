@@ -29,6 +29,17 @@ class _LearningPathState extends State<LearningPath> {
       }
     },
     {
+      "title": "Listening",
+      "image": "assets/images/listening.svg",
+      "course": "1",
+      "border": "#FFC93D",
+      "color": "#FFD66B",
+      "background": "#FFFAD0",
+      "onTap": () {
+        print("Listening");
+      }
+    },
+    {
       "title": "Grammar",
       "image": "assets/images/grammar.svg",
       "course": "1",
@@ -48,17 +59,6 @@ class _LearningPathState extends State<LearningPath> {
       "background": "#C4D0FB",
       "onTap": () {
         print("Reading");
-      }
-    },
-    {
-      "title": "Listening",
-      "image": "assets/images/listening.svg",
-      "course": "1",
-      "border": "#FFC93D",
-      "color": "#FFD66B",
-      "background": "#FFFAD0",
-      "onTap": () {
-        print("Listening");
       }
     },
   ];
@@ -98,14 +98,17 @@ class _LearningPathState extends State<LearningPath> {
                       shrinkWrap: true,
                       itemCount: learnings.length,
                       itemBuilder: (context, index) {
-                        return Skeleton.leaf(
-                          child: Container(
-                            height: MediaQuery.of(context).size.height / 9,
-                            width: double.infinity,
-                            padding: EdgeInsets.symmetric(vertical: 10),
-                            decoration: BoxDecoration(
-                              color: Colors.grey.shade300,
-                              borderRadius: BorderRadius.circular(10),
+                        return Skeletonizer(
+                          enabled: true,
+                          child: Skeleton.leaf(
+                            child: Container(
+                              height: MediaQuery.of(context).size.height / 9,
+                              width: double.infinity,
+                              padding: EdgeInsets.symmetric(vertical: 10),
+                              decoration: BoxDecoration(
+                                color: Colors.grey.shade300,
+                                borderRadius: BorderRadius.circular(10),
+                              ),
                             ),
                           ),
                         );
