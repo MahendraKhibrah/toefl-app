@@ -204,31 +204,7 @@ class _EstimatedScoreWidgetState extends State<EstimatedScoreWidget> {
     );
   }
 
-  Widget _getMedalSvg(String medalType, BuildContext context) {
-    String assetPath;
-    switch (medalType) {
-      case 'gold':
-        assetPath = 'assets/images/goldmedal.svg';
-        break;
-      case 'silver':
-        assetPath = 'assets/images/silvermedal.svg';
-        break;
-      case 'bronze':
-        assetPath = 'assets/images/bronzemedal.svg';
-        break;
-      case 'below':
-        assetPath = 'assets/images/belowmedal.svg';
-        break;
-      case 'empty':
-      default:
-        assetPath = 'assets/images/emptymedal.svg';
-        break;
-    }
-    return SvgPicture.asset(
-      assetPath,
-      height: MediaQuery.of(context).size.aspectRatio * 240,
-    );
-  }
+  
 
   int _getTargetScore() {
     var tmp = estimatedScore?.targetUser ?? 0;
