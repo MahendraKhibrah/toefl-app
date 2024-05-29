@@ -10,6 +10,7 @@ import 'package:toefl/routes/route_key.dart';
 import 'package:toefl/utils/colors.dart';
 import 'package:toefl/utils/hex_color.dart';
 import 'package:toefl/widgets/home_page/estimated_score.dart';
+import 'package:toefl/widgets/home_page/featured_test.dart';
 import 'package:toefl/widgets/home_page/learning_path.dart';
 import 'package:toefl/widgets/home_page/simulation_test.dart';
 import 'package:toefl/widgets/home_page/topic_interest.dart';
@@ -154,6 +155,10 @@ class _HomePageState extends State<HomePage> {
               SizedBox(
                 height: 15,
               ),
+              FeatureTest(),
+              SizedBox(
+                height: 15,
+              ),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 24),
                 child: Text(
@@ -200,18 +205,6 @@ class _HomePageState extends State<HomePage> {
               SizedBox(
                 height: 30,
               ),
-              InkWell(
-                onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => PairingGame(),
-                )),
-                child: Text('test'),
-              ),
-              InkWell(
-                onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => WordScramblePage(),
-                )),
-                child: Text('test'),
-              )
             ],
           ),
         ));
