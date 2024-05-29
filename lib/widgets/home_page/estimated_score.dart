@@ -8,6 +8,7 @@ import 'package:skeletonizer/skeletonizer.dart';
 import 'package:toefl/models/estimated_score.dart' as model;
 import 'package:toefl/pages/rank_page.dart';
 import 'package:toefl/remote/api/estimated_score.dart';
+import 'package:toefl/routes/route_key.dart';
 import 'package:toefl/utils/colors.dart';
 import 'package:toefl/utils/hex_color.dart';
 import 'package:toefl/widgets/quiz/modal/modal_confirmation.dart';
@@ -173,7 +174,8 @@ class _EstimatedScoreWidgetState extends State<EstimatedScoreWidget> {
                               SizedBox(
                                 width: MediaQuery.of(context).size.width / 3,
                                 child: TextButton(
-                                  onPressed: () {},
+                                  onPressed: () => Navigator.pushNamed(
+                                      context, RouteKey.setTargetPage),
                                   style: ButtonStyle(
                                     backgroundColor:
                                         MaterialStateProperty.all<Color>(
@@ -203,8 +205,6 @@ class _EstimatedScoreWidgetState extends State<EstimatedScoreWidget> {
       ),
     );
   }
-
-  
 
   int _getTargetScore() {
     var tmp = estimatedScore?.targetUser ?? 0;
