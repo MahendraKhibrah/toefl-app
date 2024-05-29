@@ -21,14 +21,14 @@ class ListRank extends StatefulWidget {
 class _ListRankState extends State<ListRank> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Row(
+    return LayoutBuilder(builder: (context, constraint) {
+      return Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Row(
             children: [
               Container(
-                width: 25, // Atur lebar tetap untuk teks indeks
+                width: constraint.maxWidth / 10, // Atur lebar tetap untuk teks indeks
                 alignment: Alignment.center, // Ratakan teks ke kanan
                 child: Text(
                   widget.index.toString(),
@@ -40,13 +40,12 @@ class _ListRankState extends State<ListRank> {
               ),
               const SizedBox(width: 15),
               const CircleAvatar(
-                backgroundImage:
-                    AssetImage('assets/images/avatar_profile.png'),
+                backgroundImage: AssetImage('assets/images/avatar_profile.png'),
                 radius: 25,
               ),
               const SizedBox(width: 10),
               SizedBox(
-                width: 160, // Atur lebar maksimum teks
+                width: constraint.maxWidth / 2.3, // Atur lebar maksimum teks
                 child: Text(
                   widget.name,
                   overflow: TextOverflow.ellipsis, // Tambahkan elipsis
@@ -60,7 +59,7 @@ class _ListRankState extends State<ListRank> {
           ),
           Container(
               alignment: Alignment.center,
-              width: 65,
+              width: constraint.maxWidth / 4.5,
               height: 30,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
@@ -76,7 +75,7 @@ class _ListRankState extends State<ListRank> {
                 ),
               )),
         ],
-      ),
-    );
+      );
+    });
   }
 }
