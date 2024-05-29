@@ -5,17 +5,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 import 'package:toefl/utils/colors.dart';
 import 'package:toefl/utils/hex_color.dart';
 
-class DailyWordCard extends StatefulWidget {
-  const DailyWordCard({super.key});
+class WordOfTheDayPage extends StatefulWidget {
+  const WordOfTheDayPage({super.key});
 
   @override
-  DailyWordCardState createState() => DailyWordCardState();
+  WordOfTheDayPageState createState() => WordOfTheDayPageState();
 }
 
-class DailyWordCardState extends State<DailyWordCard>
+class WordOfTheDayPageState extends State<WordOfTheDayPage>
     with SingleTickerProviderStateMixin {
   late Map<String, dynamic> flashcard = {};
   int _currentIndex = 0;
@@ -29,13 +30,12 @@ class DailyWordCardState extends State<DailyWordCard>
     final DateTime now = DateTime.now();
     final int seed = int.parse('${now.year}${now.month}${now.day}');
     final Random random = Random(seed);
-    return random.nextInt(10000); 
+    return random.nextInt(10000);
   }
 
   Future<void> getData(int index) async {
     final String response =
         await rootBundle.loadString('assets/json/word.json');
-    print('GG ' + response);
     final List<dynamic> data = json.decode(response);
     final Map<String, dynamic> flashcardData =
         Map<String, dynamic>.from(data[index]);
@@ -149,7 +149,7 @@ class DailyWordCardState extends State<DailyWordCard>
               Positioned(
                   bottom: -(constraint.maxHeight / 55),
                   child: SvgPicture.asset(
-                    "assets/images/vector_bg_tc5.svg",
+                    "assets/images/vector_bg_tc1.svg",
                     width: constraint.maxHeight / 1,
                   )),
               Positioned(
@@ -158,7 +158,7 @@ class DailyWordCardState extends State<DailyWordCard>
                   width: constraint.maxHeight / 1.8,
                   height: constraint.maxHeight / 1.5,
                   decoration: BoxDecoration(
-                    color: HexColor('#C4D0FB'),
+                    color: HexColor('#BC89FF'),
                     shape: BoxShape.circle,
                   ),
                 ),
@@ -166,7 +166,7 @@ class DailyWordCardState extends State<DailyWordCard>
               Positioned(
                 top: constraint.maxHeight / 4.5,
                 child: SvgPicture.asset(
-                  'assets/images/reading.svg',
+                  'assets/images/daily_practice.svg',
                   height: constraint.maxHeight / 3,
                 ),
               ),
@@ -178,7 +178,7 @@ class DailyWordCardState extends State<DailyWordCard>
                     style: TextStyle(
                         fontSize: constraint.maxHeight / 8,
                         fontWeight: FontWeight.bold,
-                        color: HexColor('#8070F8')),
+                        color: HexColor('#BC89FF')),
                   ))
             ],
           );
@@ -197,16 +197,22 @@ class DailyWordCardState extends State<DailyWordCard>
         ),
         height: 350,
         alignment: Alignment.center,
-        child: Text(
-          content,
-          textAlign: TextAlign.center,
-          style: isFront
-              ? GoogleFonts.nunito(
-                  fontWeight: FontWeight.w900,
-                  fontSize: 50,
-                  color: HexColor(mariner50),
-                )
-              : GoogleFonts.nunito(fontSize: 20, color: HexColor(mariner800)),
+        child: Skeletonizer(
+          enabled: true,
+          child: Skeleton.leaf(
+            child: Text(
+              content,
+              textAlign: TextAlign.center,
+              style: isFront
+                  ? GoogleFonts.nunito(
+                      fontWeight: FontWeight.w900,
+                      fontSize: 50,
+                      color: HexColor(mariner50),
+                    )
+                  : GoogleFonts.nunito(
+                      fontSize: 20, color: HexColor(mariner800)),
+            ),
+          ),
         ),
       ),
     );

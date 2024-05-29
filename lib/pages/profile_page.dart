@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import 'package:toefl/widgets/profile_page/level_score.dart';
@@ -13,7 +14,7 @@ class ProfilePage extends StatelessWidget {
         appBar: AppBar(
           automaticallyImplyLeading: false,
           centerTitle: true,
-          title: const Text("Profile"),
+          title: Text('appbar_profile'.tr()),
         ),
         body: ListView(
           primary: false,
@@ -22,15 +23,11 @@ class ProfilePage extends StatelessWidget {
               padding: EdgeInsets.all(24.0),
               child: Column(
                 children: <Widget>[
-                  Profile(
-                    nama: 'Adinda Azzahra Q',
-                    email: 'adinda@gmail.com',
-                    foto: AssetImage('assets/images/avatar_profile.png'),
-                  ),
+                  Profile(),
                   SizedBox(
                     height: 20,
                   ),
-                  LevelScore(level: 'Special Advance', score: '630/660'),
+                  LevelScore(),
                   SizedBox(
                     height: 20,
                   ),

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -69,7 +70,7 @@ class _SetTargetPageState extends State<SetTargetPage> {
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: Text(
-              "SET YOUR OWN\nTOEFL TARGET!",
+              'set_own_target'.tr(),
               style: CustomTextStyle.extrabold20.copyWith(color: Colors.black),
             ),
           ),
