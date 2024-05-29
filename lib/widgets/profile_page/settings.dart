@@ -94,8 +94,7 @@ class _SettingState extends State<Setting> {
 
               try {
                 final bool didAuthenticate = await auth.authenticate(
-                    localizedReason:
-                        'Please authenticate to show account balance');
+                    localizedReason: 'Please authenticate to change password');
                 if (didAuthenticate) {
                   Navigator.pushNamed(context, RouteKey.resetPassword,
                       arguments: true);
