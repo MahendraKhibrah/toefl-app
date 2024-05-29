@@ -7,6 +7,7 @@ import 'package:toefl/remote/local/shared_pref/localization_shared_pref.dart';
 import 'package:toefl/remote/local/shared_pref/test_shared_preferences.dart';
 import 'package:toefl/remote/local/sqlite/full_test_table.dart';
 import 'package:toefl/remote/local/sqlite/mini_test_table.dart';
+import 'package:toefl/routes/local_notification.dart';
 import 'package:toefl/routes/route_key.dart';
 import 'package:toefl/utils/colors.dart';
 import 'package:toefl/utils/hex_color.dart';
@@ -73,8 +74,8 @@ class _SettingState extends State<Setting> {
             onTap: () {
               Navigator.pushNamed(context, RouteKey.setTargetPage);
             },
-            child:
-                _listTileCustom(Icons.bar_chart_rounded, 'set_toefl_target'.tr()),
+            child: _listTileCustom(
+                Icons.bar_chart_rounded, 'set_toefl_target'.tr()),
           ),
           const Divider(
             color: Color(0xffE7E7E7),
@@ -91,8 +92,8 @@ class _SettingState extends State<Setting> {
               await miniTestTable.resetDatabase();
               Navigator.pushReplacementNamed(context, RouteKey.login);
             },
-            child:
-                _listTileCustom(Icons.logout_sharp, 'logout'.tr(), islogout: true),
+            child: _listTileCustom(Icons.logout_sharp, 'logout'.tr(),
+                islogout: true),
           )
         ],
       ),
@@ -197,6 +198,10 @@ class _SettingState extends State<Setting> {
       onChanged: (value) {
         setState(() {
           _switchValue = value;
+          LocalNotification.showSimpleNotification(
+              title: "Ayo belajar",
+              body: "Ini adalah notifikasi reminder",
+              payload: "This is simple data");
         });
       },
       activeTrackColor: HexColor(mariner700),
