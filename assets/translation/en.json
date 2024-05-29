@@ -20,27 +20,22 @@
   "btn_register": "Sign Up",
   "btn_send_code": "Send Code",
   "remember_password": "You remember your password?",
-
   "notification": "Notification",
-  "language":"Your Language",
+  "language": "Your Language",
   "set_toefl_target": "Set my TOEFL Target",
   "logout": "Logout",
-
   "first_label_navbar": "Home",
   "second_label_navbar": "Games",
   "third_label_navbar": "Profile",
   "set_own_target": "SET YOUR OWN\nTOEFL TARGET!",
-
   "edit_profile": "Edit Profile",
   "change_picture": "Change Picture",
   "length_name": "Name must be more than 2 characters",
   "valid_email": "Enter a valid email address",
   "btn_update": "Update",
-
   "appbar_bookmarked": "Bookmarked",
   "description_bookmarked": "Let's review the questions you've\nbookmarked in the recent test!",
   "have_bookmarked": "You haven't bookmarked any questions yet",
-
   "appbar_home": "Start Learning Today!",
   "estimated_score": "Estimated Score",
   "take_full": "*take a full test to show here",
@@ -49,23 +44,18 @@
   "topic_interest": "Based on your topic interest",
   "simulation_test": "Simulation Test",
   "test_description": "A test that contains",
-  "questions":"{} Questions",
-  "learning_path":"Learning Path",
+  "questions": "{} Questions",
+  "learning_path": "Learning Path",
   "part_toefl": "TOEFL Part",
-  "try":"Try",
-
+  "try": "Try",
   "appbar_games": "Games",
-
   "test_result": "TEST RESULT",
   "btn_back_course": "Back To Course",
   "review_test": "Review",
   "retake_test": "Retake",
   "answered_questions": "Answered\nquestion",
   "correct_questions": "Correct\nquestion",
-
   "mini_test": "MINI TEST",
-  
-  "appbar_profile": "Profile"
-
-  
+  "appbar_profile": "Profile",
+  "change_password": "Change Password"
 }

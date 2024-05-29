@@ -91,7 +91,12 @@ final routes = <String, Widget Function(BuildContext)>{
     );
   },
   RouteKey.forgotPassword: (context) => const ForgotPassword(),
-  RouteKey.resetPassword: (context) => const NewPassword(),
+  RouteKey.resetPassword: (context) {
+    final bool? data = ModalRoute.of(context)?.settings.arguments as bool?;
+    return NewPassword(
+      isAuthenticated: data ?? false,
+    );
+  },
   RouteKey.successPassword: (context) => const SuccessPassword(),
   RouteKey.login: (context) => const LoginPage(),
   RouteKey.setGoal: (context) => const SetGoal(),

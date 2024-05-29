@@ -118,6 +118,13 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                                 'isForgotPassword': true,
                                 'email': emailController.text
                               });
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: const Text("Email does not exist!"),
+                              backgroundColor: HexColor(colorError),
+                            ),
+                          );
                         }
                         setState(() {
                           isLoading = false;

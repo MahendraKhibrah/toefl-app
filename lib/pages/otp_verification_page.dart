@@ -155,7 +155,8 @@ class _OtpVerificationState extends State<OtpVerification> {
                       });
                       if (isVerified.isVerified) {
                         if (widget.isForgotOTP) {
-                          Navigator.pushNamed(context, RouteKey.resetPassword);
+                          Navigator.pushNamed(context, RouteKey.resetPassword,
+                              arguments: false);
                         } else {
                           Navigator.popUntil(context, (route) => route.isFirst);
                           Navigator.pop(context);
