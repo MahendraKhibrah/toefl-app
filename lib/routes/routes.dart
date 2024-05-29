@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:toefl/models/games/user_rank.dart';
 import 'package:toefl/models/quiz.dart';
 import 'package:toefl/models/quiz_type.dart';
 import 'package:toefl/pages/games/quiz/init_quiz.dart';
@@ -106,7 +107,12 @@ final routes = <String, Widget Function(BuildContext)>{
   },
   RouteKey.profile: (context) => const ProfilePage(),
   RouteKey.editProfile: (context) => EditProfile(),
-  RouteKey.rank: (context) => const RankPage(),
+  RouteKey.rank: (context) {
+    final Map? data = ModalRoute.of(context)?.settings.arguments as Map?;
+    return RankPage(
+      dataRank: data?["dataRank"] ?? UserRank(userId: ''),
+    );
+  },
   RouteKey.gamepage: (context) => const GamesPage(),
   RouteKey.bookmarkedpage: (context) => const BookmarkedPage(),
   RouteKey.setTargetPage: (context) => const SetTargetPage(),

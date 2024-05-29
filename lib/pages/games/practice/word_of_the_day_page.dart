@@ -23,7 +23,7 @@ class WordOfTheDayPageState extends State<WordOfTheDayPage>
   bool _showAnswer = false;
   late AnimationController _controller;
   late Animation<double> _animation;
-
+  bool isLoading = true;
   List<Map<String, String>> flashcards = [];
 
   int _getCurrentIndex() {
@@ -34,6 +34,11 @@ class WordOfTheDayPageState extends State<WordOfTheDayPage>
   }
 
   Future<void> getData(int index) async {
+    if (mounted) {
+      setState(() {
+        isLoading = true;
+      });
+    }
     final String response =
         await rootBundle.loadString('assets/json/word.json');
     final List<dynamic> data = json.decode(response);
@@ -43,6 +48,12 @@ class WordOfTheDayPageState extends State<WordOfTheDayPage>
     setState(() {
       flashcard = flashcardData;
     });
+
+    if (mounted) {
+      setState(() {
+        isLoading = false;
+      });
+    }
   }
 
   @override
@@ -198,7 +209,7 @@ class WordOfTheDayPageState extends State<WordOfTheDayPage>
         height: 350,
         alignment: Alignment.center,
         child: Skeletonizer(
-          enabled: true,
+          enabled: isLoading,
           child: Skeleton.leaf(
             child: Text(
               content,

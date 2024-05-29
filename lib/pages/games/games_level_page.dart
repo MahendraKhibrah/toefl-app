@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:toefl/models/game_data.dart';
 import 'package:toefl/models/quiz.dart';
 import 'package:toefl/utils/colors.dart';
@@ -71,7 +72,53 @@ class GamesLevelPage extends StatelessWidget {
                           : false,
                 ),
               );
-            }).toList()
+            }).toList(),
+            if (index % 3 == 0)
+              Positioned(
+                  top: -10,
+                  right: 4,
+                  width: 120,
+                  child: SvgPicture.asset('assets/images/maskot_1.svg')),
+            if (index % 3 == 1)
+              Positioned(
+                  bottom: 0,
+                  left: 10,
+                  width: 110,
+                  child: SvgPicture.asset('assets/images/maskot_2.svg')),
+            if (index % 3 == 2)
+              Positioned(
+                  right: 20,
+                  width: 130,
+                  bottom: height / 5,
+                  child: SvgPicture.asset('assets/images/maskot_3.svg')),
+            if (index % 3 == 0)
+              Positioned(
+                  bottom: 0,
+                  left: 30,
+                  width: 80,
+                  child:
+                      SvgPicture.asset('assets/images/game_decoration_1.svg')),
+            if (index % 3 == 0)
+              Positioned(
+                  right: width / 7,
+                  width: 80,
+                  bottom: height / 3,
+                  child:
+                      SvgPicture.asset('assets/images/game_decoration_2.svg')),
+            if (index % 3 == 1)
+              Positioned(
+                  top: height / 16,
+                  right: width / 7,
+                  width: 70,
+                  child:
+                      SvgPicture.asset('assets/images/game_decoration_3.svg')),
+            if (index % 3 == 2)
+              Positioned(
+                  top: height / 4,
+                  left: width / 8,
+                  width: 70,
+                  child:
+                      SvgPicture.asset('assets/images/game_decoration_4.svg')),
           ],
         );
       },

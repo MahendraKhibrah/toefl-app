@@ -30,15 +30,18 @@ class _ProfileState extends State<Profile> {
     });
     try {
       model.Profile temp = await profileApi.getProfile();
+      print(temp);
       setState(() {
         profile = temp;
       });
     } catch (e) {
       print("Error : $e");
     } finally {
-      setState(() {
-        isLoading = false;
-      });
+      if (mounted) {
+        setState(() {
+          isLoading = false;
+        });
+      }
     }
   }
 
