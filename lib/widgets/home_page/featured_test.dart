@@ -11,7 +11,7 @@ class FeatureTest extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, constraint) {
       return Container(
-          height: constraint.maxHeight / 1,
+          height: MediaQuery.of(context).size.height / 5,
           width: constraint.maxWidth / 1,
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 24),
@@ -27,7 +27,7 @@ class FeatureTest extends StatelessWidget {
                     title: "Synonim Pairing",
                     subtitle: "A game that contains synonymous words",
                     child: Positioned(
-                      bottom: -(constraint.maxWidth / 5),
+                      bottom: -(constraint.maxWidth / 4.5),
                         child: SvgPicture.asset(
                       "assets/images/avatar_featured2.svg",width:constraint.maxWidth / 2.8,
                     )),
@@ -41,8 +41,8 @@ class FeatureTest extends StatelessWidget {
                     title: "Word Scramble",
                     subtitle: "Rearrange the letters to form the correct word",
                     child: Positioned(
-                      bottom: -(constraint.maxWidth / 5),
-                      right: -(constraint.maxWidth / 9),
+                      bottom: -(constraint.maxWidth / 4.5),
+                      right: -(constraint.maxWidth / 8),
                         child: SvgPicture.asset(
                       "assets/images/avatar_featured1.svg",width:constraint.maxWidth / 2.6,
                     )),

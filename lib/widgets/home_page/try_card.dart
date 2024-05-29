@@ -9,6 +9,7 @@ class TryCard extends StatelessWidget {
       this.title = "title",
       this.subtitle = "subtitle",
       this.isBgLight = true,
+      
       this.onPressed});
 
   final Widget? child;
@@ -68,7 +69,7 @@ class TryCard extends StatelessWidget {
                     ],
                   ),
                 )),
-            if (child != null) child!,
+             if (child != null) child!, 
           ],
         );
       },
