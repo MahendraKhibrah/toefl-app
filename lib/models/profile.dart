@@ -9,7 +9,7 @@ class Profile {
   final String id;
   final String level;
   @JsonKey(name: 'current_score')
-  int currentScore;
+  String currentScore;
   @JsonKey(name: 'target_score')
   int targetScore;
   @JsonKey(name: 'name_user')

@@ -14,11 +14,12 @@ class ProfileApi {
 
       final response = BaseResponse.fromJson(json.decode(rawResponse.data));
       return Profile.fromJson(response.data);
-    } catch (e) {
+    } catch (e, stackTrace) {
+      print(stackTrace);
       return Profile(
           id: "",
           level: "",
-          currentScore: 0,
+          currentScore: "",
           targetScore: 0,
           nameUser: "",
           emailUser: "");
