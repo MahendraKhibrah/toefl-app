@@ -120,15 +120,11 @@ class _RegistPageState extends State<RegistPage> {
                                     confirmPasswordController.text,
                               ),
                             );
-                            final isOtpAvail = await userApi.getOtp();
-                            if (isOtpAvail) {
-                              Navigator.pushNamed(
-                                  context, RouteKey.otpVerification,
-                                  arguments: {
-                                    'isForgotOTP': false,
-                                    'email': emailController.text
-                                  });
-                            }
+                            Navigator.pushNamed(
+                                context, RouteKey.otpVerification, arguments: {
+                              'isForgotOTP': false,
+                              'email': emailController.text
+                            });
                           }
                           setState(() {
                             isLoading = false;
@@ -152,7 +148,7 @@ class _RegistPageState extends State<RegistPage> {
                           },
                           child: Text(
                             'login_link'.tr(),
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.bold,
                               decoration: TextDecoration.underline,
