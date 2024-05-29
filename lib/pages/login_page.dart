@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:toefl/models/login.dart';
@@ -43,118 +44,138 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            SvgPicture.asset(
-              'assets/images/login.svg',
-              width: MediaQuery.of(context).size.width,
-            ),
-            Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 24.0, vertical: 30),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Welcome Back!",
-                    style: TextStyle(
-                      fontSize: 30,
-                      fontWeight: FontWeight.bold,
-                      color: HexColor(mariner700),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              SvgPicture.asset(
+                'assets/images/login.svg',
+                width: MediaQuery.of(context).size.width,
+              ),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 24.0, vertical: 30),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'welcome_heading',
+                      style: TextStyle(
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold,
+                        color: HexColor(mariner700),
+                      ),
+                    ).tr(),
+                    Text(
+                      'welcome_paragraph',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        color: HexColor(neutral50),
+                      ),
+                    ).tr(),
+                    const SizedBox(height: 15.0),
+                    Form(
+                      key: _formKey,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          InputText(
+                            controller: emailController,
+                            title: "Email",
+                            hintText: "Email",
+                            suffixIcon: null,
+                            focusNode: _emailFocusNode,
+                          ),
+                          const SizedBox(height: 15.0),
+                          InputText(
+                            controller: passwordController,
+                            title: "Password",
+                            hintText: "Password",
+                            suffixIcon: Icons.visibility_off,
+                            focusNode: _passwordFocusNode,
+                          ),
+                          const SizedBox(height: 6.0),
+                          Align(
+                            alignment: Alignment.centerRight,
+                            child: GestureDetector(
+                              onTap: () {
+                                Navigator.pushNamed(
+                                    context, RouteKey.forgotPassword);
+                              },
+                              child: Text(
+                                'forgot_password',
+                                style: TextStyle(
+                                  color: HexColor(mariner700),
+                                  fontSize: 14,
+                                  decoration: TextDecoration.underline,
+                                ),
+                              ).tr(),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                  Text(
-                    "Hello there, sign in to continue",
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500,
-                      color: HexColor(neutral50),
-                    ),
-                  ),
-                  const SizedBox(height: 15.0),
-                  Form(
-                    key: _formKey,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                    const SizedBox(height: 30),
+                    isLoading
+                        ? const Center(
+                            child: CircularProgressIndicator(),
+                          )
+                        : BlueButton(
+                            title: 'btn_login'.tr(),
+                            onTap: () async {
+                              setState(() {
+                                isLoading = true;
+                              });
+                              var val = false;
+                              if (_formKey.currentState!.validate()) {
+                                val = await userApi.postLogin(
+                                  Login(
+                                    email: emailController.text,
+                                    password: passwordController.text,
+                                  ),
+                                );
+                                if (val) {
+                                  Navigator.popAndPushNamed(
+                                      context, RouteKey.main);
+                                }
+                              }
+                              setState(() {
+                                isLoading = false;
+                              });
+                            },
+                          ),
+                    const SizedBox(height: 15.0),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        InputText(
-                          controller: emailController,
-                          title: "Email",
-                          hintText: "Email",
-                          suffixIcon: null,
-                          focusNode: _emailFocusNode,
-                        ),
-                        const SizedBox(height: 15.0),
-                        InputText(
-                          controller: passwordController,
-                          title: "Password",
-                          hintText: "Password",
-                          suffixIcon: Icons.visibility_off,
-                          focusNode: _passwordFocusNode,
+                        Text(
+                          'new_account',
+                          style: TextStyle(
+                            color: HexColor(neutral50),
+                            fontSize: 14,
+                          ),
+                        ).tr(),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.popAndPushNamed(context, RouteKey.regist);
+                          },
+                          child: const Text(
+                            'register_link',
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              decoration: TextDecoration.underline,
+                            ),
+                          ).tr(),
                         ),
                       ],
-                    ),
-                  ),
-                  const SizedBox(height: 30),
-                  isLoading
-                      ? const Center(
-                          child: CircularProgressIndicator(),
-                        )
-                      : BlueButton(
-                          title: 'Login',
-                          onTap: () async {
-                            setState(() {
-                              isLoading = true;
-                            });
-                            var val = false;
-                            if (_formKey.currentState!.validate()) {
-                              val = await userApi.postLogin(
-                                Login(
-                                  email: emailController.text,
-                                  password: passwordController.text,
-                                ),
-                              );
-                              if (val) {
-                                Navigator.popAndPushNamed(
-                                    context, RouteKey.main);
-                              }
-                            }
-                            setState(() {
-                              isLoading = false;
-                            });
-                          },
-                        ),
-                  const SizedBox(height: 15.0),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "Don’t have an account? ",
-                        style: TextStyle(
-                          color: HexColor(neutral50),
-                          fontSize: 14,
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.popAndPushNamed(context, RouteKey.regist);
-                        },
-                        child: const Text(
-                          "Sign Up",
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                            decoration: TextDecoration.underline,
-                          ),
-                        ),
-                      ),
-                    ],
-                  )
-                ],
+                    )
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

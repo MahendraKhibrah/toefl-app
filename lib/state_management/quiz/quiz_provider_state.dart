@@ -47,4 +47,9 @@ class QuizGames extends _$QuizGames {
     QuizGame data = await QuizApi().getClaim(id, isGame);
     state = AsyncData(data);
   }
+
+  Future<void> getReview(String id, isGame) async {
+    QuizGame data = await QuizApi().getReview(id, isGame);
+    state = AsyncData(data);
+  }
 }

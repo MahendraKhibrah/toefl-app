@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:toefl/models/quiz_game_answer.dart';
 import 'package:toefl/models/quiz_question.dart';
+import 'package:toefl/pages/full_test/toefl_audio_player.dart';
 import 'package:toefl/pages/games/quiz/finish_quiz_page.dart';
 import 'package:toefl/pages/games/quiz/splash_perfect.dart';
 import 'package:toefl/remote/api/quiz_api.dart';
+import 'package:toefl/remote/env.dart';
 import 'package:toefl/state_management/quiz/quiz_provider_state.dart';
 import 'package:toefl/widgets/answer_button.dart';
 import 'package:toefl/widgets/answer_validation_container.dart';
@@ -15,6 +17,7 @@ typedef void ListCallback(List<String> selectedIndex);
 
 class GrammarPage extends StatefulWidget {
   final QuizQuestion question;
+  final List<String> selectedIndex;
   final ListCallback? setButton;
   final List<QuizGameAnswer> quizGameAnswer;
   final QuizGame quizGame;
@@ -24,6 +27,7 @@ class GrammarPage extends StatefulWidget {
     this.setButton,
     required this.quizGameAnswer,
     required this.quizGame,
+    required this.selectedIndex,
   });
 
   @override
@@ -31,33 +35,15 @@ class GrammarPage extends StatefulWidget {
 }
 
 class _GrammarPageState extends State<GrammarPage> {
-  List<String> selectedIndex = [];
-
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    selectedIndex = List.generate(
-        widget.question.content!.length,
-        (index) => (index < widget.quizGameAnswer.length)
-            ? widget.question.content!.any((element) =>
-                    element.id == widget.quizGameAnswer[index].quizContentId)
-                ? widget.quizGameAnswer[index].quizOptionId
-                : ''
-            : '');
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      populate();
-    });
-  }
-
-  void populate() {
-    widget.setButton!(selectedIndex);
   }
 
   @override
   Widget build(BuildContext context) {
-    print(selectedIndex);
-
+    print('Test _ ' + widget.selectedIndex.toString());
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
@@ -68,9 +54,13 @@ class _GrammarPageState extends State<GrammarPage> {
             children: <Widget>[
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 10.0),
-                child: BlueContainer(
-                  child: Text(widget.question.question),
-                ),
+                child: widget.quizGame.quiz.type.name.toLowerCase() !=
+                        'listening'
+                    ? BlueContainer(
+                        child: Text(widget.question.question),
+                      )
+                    : ToeflAudioPlayer(
+                        url: '${Env.storageUrl}/${widget.question.question}'),
               ),
               ...List.generate(
                 widget.question.content!.length,
@@ -92,46 +82,46 @@ class _GrammarPageState extends State<GrammarPage> {
                         padding: const EdgeInsets.only(
                             bottom: 15, left: 10, right: 10),
                         child: AnswerButton(
-                          isAnswerTrue: selectedIndex[indexCol] != '' &&
+                          isAnswerTrue: widget.selectedIndex[indexCol] != '' &&
                               widget.question.content![indexCol]
                                       .options![indexList].id ==
                                   widget.question.content![indexCol].answerKey
                                       .option.id,
-                          isAnswerFalse: selectedIndex[indexCol] ==
+                          isAnswerFalse: widget.selectedIndex[indexCol] ==
                                   widget.question.content![indexCol]
                                       .options![indexList].id &&
-                              (selectedIndex[indexCol] !=
+                              (widget.selectedIndex[indexCol] !=
                                   widget.question.content![indexCol].answerKey
                                       .option.id),
                           onTap: () {
-                            if (selectedIndex[indexCol] == '') {
+                            if (widget.selectedIndex[indexCol] == '') {
                               setState(() {
-                                selectedIndex[indexCol] = widget.question
+                                widget.selectedIndex[indexCol] = widget.question
                                     .content![indexCol].options![indexList].id;
                               });
                               postAnswer(
-                                  selectedIndex[indexCol],
+                                  widget.selectedIndex[indexCol],
                                   widget.question.content![indexCol]
                                       .options![indexList].quizContentId,
                                   widget.quizGame.id,
                                   widget.quizGame.isGame);
-                              widget.setButton!(selectedIndex);
+                              widget.setButton!(widget.selectedIndex);
                             }
                           },
                           title:
                               '${String.fromCharCode(65 + indexList)}. ${widget.question.content![indexCol].options![indexList].options}',
-                          // isActive: (selectedIndex[indexCol] == -1 &&
-                          //     selectedIndex[indexCol] == indexList),
+                          // isActive: (widget.selectedIndex[indexCol] == -1 &&
+                          //     widget.selectedIndex[indexCol] == indexList),
                           isActive: false,
-                          isDisabled: selectedIndex[indexCol] !=
+                          isDisabled: widget.selectedIndex[indexCol] !=
                               widget.question.content![indexCol]
                                   .options![indexList].id,
                         ),
                       ),
                     ),
-                    selectedIndex[indexCol] != ''
+                    widget.selectedIndex[indexCol] != ''
                         ? AnswerValidationContainer(
-                            isCorrect: selectedIndex[indexCol] ==
+                            isCorrect: widget.selectedIndex[indexCol] ==
                                 widget.question.content![indexCol].answerKey
                                     .option.id,
                             keyAnswer:

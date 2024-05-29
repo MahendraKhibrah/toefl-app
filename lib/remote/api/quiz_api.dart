@@ -73,6 +73,29 @@ class QuizApi implements IQuizApi {
     }
   }
 
+  Future<QuizGame> getReview(String id, bool isGame) async {
+    try {
+      final Response rawResponse = await DioToefl.instance
+          .get('${Env.apiUrl}/${isGame ? 'gameclaims' : 'quizclaims'}/$id');
+      final response = BaseResponse.fromJson(json.decode(rawResponse.data));
+      final Map<String, dynamic> dataResponse = response.data;
+      dataResponse['isGame'] = isGame;
+      // print(response.toString());
+      return QuizGame.fromJson(dataResponse);
+    } catch (e) {
+      return QuizGame(
+          id: '',
+          isGame: false,
+          userAnswer: [],
+          quiz: Quiz(
+              id: '',
+              questions: [],
+              quizName: '',
+              quizTypeId: '',
+              type: QuizType(id: '', name: '', desc: '')));
+    }
+  }
+
   Future<bool> postAnswer(String quizOptionId, String quizContentId,
       String claim, bool isGame) async {
     try {

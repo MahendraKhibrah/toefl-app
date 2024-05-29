@@ -7,8 +7,14 @@ import 'package:toefl/state_management/quiz/quiz_provider_state.dart';
 class InitQuiz extends ConsumerStatefulWidget {
   final String id;
   final bool? isGame;
+  final bool? isReview;
 
-  const InitQuiz({super.key, required this.id, this.isGame = false});
+  const InitQuiz({
+    super.key,
+    required this.id,
+    this.isGame = false,
+    this.isReview = false,
+  });
 
   @override
   InitQuizState createState() => InitQuizState();
@@ -20,11 +26,17 @@ class InitQuizState extends ConsumerState<InitQuiz> {
   @override
   void initState() {
     super.initState();
+    print("REVIEW:" + widget.isReview.toString());
+
     init();
   }
 
   Future<void> init() async {
-    final test = ref.read(quizGamesProvider.notifier).getClaim(widget.id, true);
+    if (widget.isReview!) {
+      ref.read(quizGamesProvider.notifier).getReview(widget.id, widget.isGame);
+    } else {
+      ref.read(quizGamesProvider.notifier).getClaim(widget.id, widget.isGame!);
+    }
   }
 
   @override
@@ -38,10 +50,10 @@ class InitQuizState extends ConsumerState<InitQuiz> {
             _hasNavigated = true;
           });
           Future.delayed(Duration(seconds: 3)).then((_) {
-            Navigator.pushNamed(
+            Navigator.pushReplacementNamed(
               context,
               RouteKey.quiz,
-              arguments: {'quizGame': quizGame},
+              arguments: {'quizGame': quizGame, 'isReview': widget.isReview},
             );
           });
         }

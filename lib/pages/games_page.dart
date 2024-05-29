@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -9,7 +10,7 @@ import 'package:toefl/state_management/quiz/game_provider_state.dart';
 import 'package:toefl/utils/custom_text_style.dart';
 import 'package:toefl/widgets/games/bottom_bar_games.dart';
 
-import '../routes/route_key.dart';
+import '../../routes/route_key.dart';
 
 class GamesPage extends StatefulWidget {
   const GamesPage({super.key});
@@ -61,7 +62,7 @@ class _GamesPageState extends State<GamesPage> {
               padding: EdgeInsets.only(top: 30, bottom: 20),
               child: Center(
                 child: Text(
-                  'Games',
+                  'appbar_games'.tr(),
                   style: CustomTextStyle.appBarTitle,
                 ),
               ),

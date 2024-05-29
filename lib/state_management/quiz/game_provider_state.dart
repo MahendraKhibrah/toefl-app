@@ -6,7 +6,6 @@ import 'package:toefl/models/games/game_session.dart';
 import 'package:toefl/models/quiz.dart';
 import 'package:toefl/remote/api/game_api.dart';
 import 'package:toefl/remote/api/quiz_api.dart';
-import 'package:toefl/remote/local/sqlite/games/quiz_game_session_table.dart';
 
 part 'game_provider_state.freezed.dart';
 part 'game_provider_state.g.dart';
@@ -20,7 +19,6 @@ class GameProviderState with _$GameProviderState {
 
 @riverpod
 class GameProviderStates extends _$GameProviderStates {
-  final QuizGameSessionTable tableGameSession = QuizGameSessionTable();
 
   @override
   Future<List<Game>> build() async {
@@ -41,20 +39,7 @@ class GameProviderStates extends _$GameProviderStates {
     return await GameApi().getUserGameById(gameClaimId);
   }
 
-  Future<String> findGameNotCompletedYetByUser() async {
-    List<QuizGameSession> storedGameSession =
-        await tableGameSession.getQuizGameSessions();
-    String notCompletedYetId = '';
-    for (var session in storedGameSession) {
-      if (session.isCompleted == false) {
-        notCompletedYetId = session.quizGameClaimId;
-        break;
-      }
-    }
-
-    return notCompletedYetId;
-  }
-
+  
   // Future<bool> insertOrUpdateGameClaim(String gameSetId) async {
     
   // }
