@@ -243,10 +243,12 @@ class _LearningPathState extends State<LearningPath> {
 }
 
 class MySeparator extends StatelessWidget {
-  const MySeparator({Key? key, this.width = 1, this.color = Colors.black})
+  const MySeparator(
+      {Key? key, this.width = 1, this.color = Colors.black, this.child})
       : super(key: key);
   final double width;
   final Color color;
+  final Widget? child;
 
   @override
   Widget build(BuildContext context) {
