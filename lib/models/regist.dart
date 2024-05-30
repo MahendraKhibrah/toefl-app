@@ -11,14 +11,12 @@ class Regist {
   final String password;
   @JsonKey(name: 'password_confirmation')
   final String passwordConfirmation;
-  @JsonKey(name: 'target_id')
-  final String targetId;
   Regist(
       {required this.name,
       required this.email,
       required this.password,
       required this.passwordConfirmation,
-      required this.targetId});
+      });
 
   factory Regist.fromJson(Map<String, dynamic> json) => _$RegistFromJson(json);
 
