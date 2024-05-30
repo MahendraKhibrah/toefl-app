@@ -198,18 +198,21 @@ class _TestResultPageState extends State<TestResultPage> {
                               });
                             },
                             child: Container(
+                              height: 50,
                               width: MediaQuery.of(context).size.width * 0.38,
                               padding: const EdgeInsets.symmetric(
                                   vertical: 8, horizontal: 24),
                               decoration: BoxDecoration(
                                   color: Colors.transparent,
-                                  borderRadius: BorderRadius.circular(15),
+                                  borderRadius: BorderRadius.circular(10),
                                   border:
                                       Border.all(color: HexColor(mariner700))),
-                              child: Text('review_test'.tr(),
-                                  textAlign: TextAlign.center,
-                                  style: CustomTextStyle.bold18
-                                      .copyWith(color: HexColor(mariner700))),
+                              child: Center(
+                                child: Text('review_test'.tr(),
+                                    textAlign: TextAlign.center,
+                                    style: CustomTextStyle.bold18
+                                        .copyWith(color: HexColor(mariner700))),
+                              ),
                             ),
                           ),
                           const SizedBox(width: 4),
