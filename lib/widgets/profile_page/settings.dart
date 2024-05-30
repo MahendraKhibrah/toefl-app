@@ -3,11 +3,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:restart_app/restart_app.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toefl/remote/local/shared_pref/auth_shared_preferences.dart';
 import 'package:toefl/remote/local/shared_pref/localization_shared_pref.dart';
 import 'package:toefl/remote/local/shared_pref/test_shared_preferences.dart';
 import 'package:toefl/remote/local/sqlite/full_test_table.dart';
 import 'package:toefl/remote/local/sqlite/mini_test_table.dart';
+import 'package:toefl/routes/local_notification.dart';
 import 'package:toefl/routes/route_key.dart';
 import 'package:toefl/utils/colors.dart';
 import 'package:toefl/utils/hex_color.dart';
@@ -39,10 +41,12 @@ class _SettingState extends State<Setting> {
 
   void _onInit() async {
     final selectedLang = await localizationSharedPreference.getSelectedLang();
+    SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       dropdownValue = (selectedLang?.startsWith(LocaleEnum.id.name) ?? false)
           ? 'Indonesia'
           : "English";
+      _switchValue = (prefs.getBool('switchState') ?? false);
     });
   }
 
@@ -50,6 +54,11 @@ class _SettingState extends State<Setting> {
   void initState() {
     super.initState();
     _onInit();
+  }
+
+  _saveSwitchState(bool value) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool('switchState', value);
   }
 
   @override
@@ -227,7 +236,14 @@ class _SettingState extends State<Setting> {
       onChanged: (value) {
         setState(() {
           _switchValue = value;
+          _saveSwitchState(value);
+
+          if (value) {
+            NotificationHelper.showScheduleDailyNotification(
+                title: "SUROTOOO", body: "HAHAHHA");
+          }
         });
+        
       },
       activeTrackColor: HexColor(mariner700),
       inactiveTrackColor: Colors.white,
