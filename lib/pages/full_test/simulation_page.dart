@@ -12,6 +12,7 @@ import 'package:toefl/utils/colors.dart';
 import 'package:toefl/utils/custom_text_style.dart';
 import 'package:toefl/utils/hex_color.dart';
 import 'package:toefl/widgets/blue_container.dart';
+import 'package:toefl/widgets/quiz/modal/modal_confirmation.dart';
 
 import '../../models/test/packet.dart';
 import '../../models/test/test_status.dart';
@@ -169,53 +170,45 @@ class _SimulationPageState extends ConsumerState<SimulationPage> {
                                       showDialog(
                                         context: context,
                                         builder: (BuildContext submitContext) {
-                                          return AlertDialog(
-                                              backgroundColor:
-                                                  Colors.transparent,
-                                              contentPadding:
-                                                  const EdgeInsets.symmetric(
-                                                      horizontal: 0,
-                                                      vertical: 0),
-                                              content: FinishedPacketDialog(
-                                                onRetake: () {
-                                                  Navigator.of(submitContext)
-                                                      .pop();
-                                                  Navigator.of(context).pushNamed(
-                                                      RouteKey
-                                                          .openingLoadingTest,
-                                                      arguments: {
-                                                        "id": packets[index].id,
-                                                        "packetName":
-                                                            packets[index].name,
-                                                        "isRetake":
-                                                            packets[index]
-                                                                .wasFilled
-                                                      }).then((value) {
-                                                    _onInit();
-                                                    _pushReviewPage(
-                                                        packets[index]);
-                                                  });
-                                                },
-                                                onReview: () {
-                                                  Navigator.of(submitContext)
-                                                      .pop();
-                                                  Navigator.pushNamed(context,
-                                                      RouteKey.testresult,
-                                                      arguments: {
-                                                        "packetId":
-                                                            packets[index].id,
-                                                        "isMiniTest": false,
-                                                        "packetName":
-                                                            packets[index].name
-                                                      }).then((afterRetake) {
-                                                    if (afterRetake == true) {
-                                                      _onInit();
-                                                      _pushReviewPage(
-                                                          packets[index]);
-                                                    }
-                                                  });
-                                                },
-                                              ));
+                                          return ModalConfirmation(
+                                            message:
+                                                "You've finished yout test.",
+                                            leftTitle: 'Review',
+                                            rightTitle: 'Retake',
+                                            rightFunction: () {
+                                              Navigator.of(submitContext).pop();
+                                              Navigator.of(context).pushNamed(
+                                                  RouteKey.openingLoadingTest,
+                                                  arguments: {
+                                                    "id": packets[index].id,
+                                                    "packetName":
+                                                        packets[index].name,
+                                                    "isRetake":
+                                                        packets[index].wasFilled
+                                                  }).then((value) {
+                                                _onInit();
+                                                _pushReviewPage(packets[index]);
+                                              });
+                                            },
+                                            leftFunction: () {
+                                              Navigator.of(submitContext).pop();
+                                              Navigator.pushNamed(
+                                                  context, RouteKey.testresult,
+                                                  arguments: {
+                                                    "packetId":
+                                                        packets[index].id,
+                                                    "isMiniTest": false,
+                                                    "packetName":
+                                                        packets[index].name
+                                                  }).then((afterRetake) {
+                                                if (afterRetake == true) {
+                                                  _onInit();
+                                                  _pushReviewPage(
+                                                      packets[index]);
+                                                }
+                                              });
+                                            },
+                                          );
                                         },
                                       );
                                     }
