@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:toefl/pages/games/practice/pairing_game.dart';
 import 'package:toefl/remote/api/scrambled_word_api.dart';
 import 'package:toefl/routes/route_key.dart';
 import 'package:toefl/utils/colors.dart';
@@ -17,6 +18,8 @@ import 'package:toefl/widgets/blue_button.dart';
 import 'package:collection/collection.dart';
 import 'package:toefl/widgets/blue_container.dart';
 import 'package:toefl/widgets/quiz/modal/modal_confirmation.dart';
+
+import '../../../widgets/games/game_app_bar.dart';
 
 class WordScramblePage extends StatefulWidget {
   const WordScramblePage({super.key});
@@ -122,39 +125,8 @@ class _WordScramblePageState extends State<WordScramblePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        scrolledUnderElevation: 0,
-        centerTitle: true,
-        leading: GestureDetector(
-          onTap: () async {
-            showDialog(
-              context: context,
-              builder: (context) {
-                return ModalConfirmation(
-                  message: "Are you sure want to leave?",
-                  leftTitle: "Cancel",
-                  rightTitle: "Confirm",
-                  leftFunction: () => Navigator.pop(context),
-                  rightFunction: () => Navigator.pushNamedAndRemoveUntil(
-                    context,
-                    RouteKey.main,
-                    (route) => false,
-                  ),
-                );
-              },
-            );
-          },
-          child: Padding(
-            padding: const EdgeInsets.only(right: 10.0),
-            child: const Icon(
-              Icons.close,
-            ),
-          ),
-        ),
-        title: Text(
-          'Word Scramble',
-          style: CustomTextStyle.bold18,
-        ),
+      appBar: GameAppBar(
+        title: 'Synonym Pairing',
       ),
       body: Column(
         children: [

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:toefl/models/test/result.dart';
+import 'package:toefl/pages/bookmark/bookmarked_page.dart';
 import 'package:toefl/remote/api/full_test_api.dart';
 import 'package:toefl/routes/route_key.dart';
 import 'package:toefl/utils/colors.dart';
@@ -11,6 +12,8 @@ import 'package:toefl/utils/hex_color.dart';
 import 'package:toefl/widgets/blue_button.dart';
 import 'package:toefl/widgets/blue_container.dart';
 import 'package:toefl/widgets/toefl_progress_indicator.dart';
+
+import '../../widgets/common_app_bar.dart';
 
 class TestResultPage extends StatefulWidget {
   const TestResultPage(
@@ -51,13 +54,7 @@ class _TestResultPageState extends State<TestResultPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text(
-          'test_result'.tr(),
-          style: CustomTextStyle.extraBold16,
-        ),
-      ),
+      appBar: CommonAppBar(title: 'test_result'.tr()),
       body: Skeletonizer(
         enabled: isLoading,
         child: Padding(

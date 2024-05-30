@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:toefl/models/test/packet.dart';
 import 'package:toefl/models/test/test_status.dart';
+import 'package:toefl/pages/bookmark/bookmarked_page.dart';
 import 'package:toefl/pages/full_test/finished_packet_dialog.dart';
 import 'package:toefl/pages/full_test/simulation_page.dart';
 import 'package:toefl/remote/api/mini_test_api.dart';
@@ -11,6 +12,8 @@ import 'package:toefl/remote/local/shared_pref/test_shared_preferences.dart';
 import 'package:toefl/routes/route_key.dart';
 import 'package:toefl/state_management/mini_test_provider.dart';
 import 'package:toefl/utils/custom_text_style.dart';
+
+import '../../widgets/common_app_bar.dart';
 
 class MiniSimulationPage extends ConsumerStatefulWidget {
   const MiniSimulationPage({super.key});
@@ -97,13 +100,7 @@ class _SimulationPageState extends ConsumerState<MiniSimulationPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text(
-            'mini_test'.tr(),
-            style: CustomTextStyle.extraBold16,
-          ),
-          centerTitle: true,
-        ),
+        appBar: CommonAppBar(title: 'mini_test'.tr()),
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
           child: SingleChildScrollView(
