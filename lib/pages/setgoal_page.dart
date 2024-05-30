@@ -3,8 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:skeletonizer/skeletonizer.dart';
+import 'package:toefl/models/profile.dart';
 import 'package:toefl/models/target_onboarding.dart';
+import 'package:toefl/models/user.dart';
 import 'package:toefl/remote/api/onboarding_api.dart';
+import 'package:toefl/remote/api/profile_api.dart';
+import 'package:toefl/remote/api/user_api.dart';
 import 'package:toefl/remote/local/shared_pref/onboarding_shared_preferences.dart';
 import 'package:toefl/routes/route_key.dart';
 import 'package:toefl/utils/colors.dart';
@@ -116,9 +120,8 @@ class _SetGoalState extends State<SetGoal> {
                         } else {
                           return GestureDetector(
                             onTap: () {
-                              onBoardingSharedPreference
-                                  .storeTargetIdUser(snapshot.data![index].id!);
-
+                              UserApi()
+                                  .updateBookmark(snapshot.data![index].id!);
                               setState(() {
                                 isSelected = index;
                               });
@@ -133,12 +136,9 @@ class _SetGoalState extends State<SetGoal> {
               const SizedBox(height: 120),
               BlueButton(
                 isDisabled: isSelected == -1,
-                title: 'Next',
-                onTap: () {
-                  if (isSelected != -1) {
-                    onBoardingSharedPreference.setOnboardingFalse();
-                  }
-                  Navigator.popAndPushNamed(context, RouteKey.login);
+                title: 'Confirm',
+                onTap: () async {
+                  Navigator.popAndPushNamed(context, RouteKey.main);
                 },
               ),
             ],
