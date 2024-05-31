@@ -1,19 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 import 'package:toefl/models/profile.dart' as model;
 import 'package:toefl/remote/api/profile_api.dart';
-import 'package:toefl/routes/route_key.dart';
-import 'package:toefl/utils/colors.dart';
-import 'package:toefl/utils/hex_color.dart';
 
-class Profile extends StatefulWidget {
-  const Profile({super.key});
+class ProfileNameSection extends StatefulWidget {
+  const ProfileNameSection({super.key});
 
   @override
-  State<Profile> createState() => _ProfileState();
+  State<ProfileNameSection> createState() => _ProfileNameSectionState();
 }
 
-class _ProfileState extends State<Profile> {
+class _ProfileNameSectionState extends State<ProfileNameSection> {
   final profileApi = ProfileApi();
   model.Profile? profile;
   bool isLoading = false;
@@ -66,18 +64,28 @@ class _ProfileState extends State<Profile> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      "${profile?.nameUser}",
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                    Skeletonizer(
+                      enabled: isLoading,
+                      child: Skeleton.leaf(
+                        child: Text(
+                          "${profile?.nameUser ?? 'My Name is Qeli'}",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 16),
+                        ),
+                      ),
                     ),
-                    Text(
-                      "${profile?.emailUser}",
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                          fontWeight: FontWeight.normal,
-                          fontSize: 12,
-                          color: Color(0xFFB0B0B0)),
+                    Skeletonizer(
+                      enabled: isLoading,
+                      child: Skeleton.leaf(
+                        child: Text(
+                          "${profile?.emailUser ?? 'myemail@prodi.student.pens.ac.id'}",
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                              fontWeight: FontWeight.normal,
+                              fontSize: 12,
+                              color: Color(0xFFB0B0B0)),
+                        ),
+                      ),
                     ),
                   ],
                 ),

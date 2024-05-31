@@ -71,6 +71,7 @@ class _SettingState extends State<Setting> {
             thickness: 1,
           ),
           InkWell(
+            borderRadius: BorderRadius.circular(10),
             splashColor: const Color(0xffE7E7E7).withOpacity(0.3),
             highlightColor: Colors.transparent,
             onTap: () {
@@ -84,6 +85,7 @@ class _SettingState extends State<Setting> {
             thickness: 1,
           ),
           InkWell(
+            borderRadius: BorderRadius.circular(10),
             splashColor: const Color(0xffE7E7E7).withOpacity(0.3),
             highlightColor: Colors.transparent,
             onTap: () async {
@@ -110,6 +112,7 @@ class _SettingState extends State<Setting> {
             thickness: 1,
           ),
           InkWell(
+            borderRadius: BorderRadius.circular(10),
             splashColor: const Color(0xffE7E7E7).withOpacity(0.3),
             highlightColor: Colors.transparent,
             onTap: () async {
@@ -132,7 +135,7 @@ class _SettingState extends State<Setting> {
   Widget _listTileCustom(IconData icon, String text,
       {Widget? trailing, bool islogout = false}) {
     return ListTile(
-      contentPadding: const EdgeInsets.all(0),
+      contentPadding: const EdgeInsets.symmetric(horizontal: 10),
       leading: Icon(
         icon,
         color: (islogout ? const Color(0xffF44336) : HexColor(mariner800)),
