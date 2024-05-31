@@ -1,7 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:toefl/models/auth_status.dart';
 import 'package:toefl/models/regist.dart';
+import 'package:toefl/remote/local/shared_pref/onboarding_shared_preferences.dart';
 import 'package:toefl/routes/route_key.dart';
 import 'package:toefl/utils/colors.dart';
 import 'package:toefl/utils/hex_color.dart';
@@ -97,37 +99,49 @@ class _RegistPageState extends State<RegistPage> {
                       ),
                     ),
                     const SizedBox(height: 30.0),
-                    isLoading
-                        ? const Center(
-                            child: CircularProgressIndicator(),
-                          )
-                        : BlueButton(
-                            title: 'btn_register'.tr(),
-                            onTap: () async {
-                              setState(() {
-                                isLoading = true;
-                              });
-                              var val = false;
-                              if (_formKey.currentState!.validate()) {
-                                val = await userApi.postRegist(
-                                  Regist(
-                                    name: nameController.text,
-                                    email: emailController.text,
-                                    password: passwordController.text,
-                                    passwordConfirmation:
-                                        confirmPasswordController.text,
-                                  ),
-                                );
-                              }
-                              setState(() {
-                                isLoading = false;
-                              });
-                              if (val) {
-                                Navigator.popAndPushNamed(
-                                    context, RouteKey.main);
-                              }
-                            },
-                          ),
+                    if (isLoading)
+                      const Center(
+                        child: CircularProgressIndicator(),
+                      )
+                    else
+                      BlueButton(
+                        title: 'btn_register'.tr(),
+                        onTap: () async {
+                          setState(() {
+                            isLoading = true;
+                          });
+                          final AuthStatus val;
+                          if (_formKey.currentState!.validate()) {
+                            val = await userApi.postRegist(
+                              Regist(
+                                name: nameController.text,
+                                email: emailController.text,
+                                password: passwordController.text,
+                                passwordConfirmation:
+                                    confirmPasswordController.text,
+                              ),
+                            );
+                            if (val.isSuccess) {
+                              Navigator.pushNamed(
+                                  context, RouteKey.otpVerification,
+                                  arguments: {
+                                    'isForgotOTP': false,
+                                    'email': emailController.text
+                                  });
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: const Text("email has registered"),
+                                  backgroundColor: HexColor(colorError),
+                                ),
+                              );
+                            }
+                          }
+                          setState(() {
+                            isLoading = false;
+                          });
+                        },
+                      ),
                     const SizedBox(height: 15.0),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -145,7 +159,7 @@ class _RegistPageState extends State<RegistPage> {
                           },
                           child: Text(
                             'login_link'.tr(),
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.bold,
                               decoration: TextDecoration.underline,

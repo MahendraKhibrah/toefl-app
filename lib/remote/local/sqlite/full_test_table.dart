@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:sqflite/sqlite_api.dart';
 import 'package:toefl/remote/local_database_service.dart';
@@ -142,10 +144,14 @@ class FullTestTable {
   List<Map<String, dynamic>> multipleChoiceMapper(String? multipleChoices) {
     final List<String> choices =
         Utils.stringToListWithAt(multipleChoices ?? '');
-    return choices.map((e) {
+    List<Map<String, dynamic>> mappedChoices = choices.map((e) {
       return e.isEmpty
           ? <String, dynamic>{"id": "", "choice": ""}
           : Choice.fromJsonString(e).toJson();
     }).toList();
+
+    mappedChoices.shuffle(Random());
+
+    return mappedChoices;
   }
 }

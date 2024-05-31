@@ -29,7 +29,7 @@ class BlueButton extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           color: HexColor(isDisabled ? neutral20 : mariner700),
-          borderRadius: BorderRadius.circular(15),
+          borderRadius: BorderRadius.circular(10),
         ),
         width: buttonSize,
         height: 50,

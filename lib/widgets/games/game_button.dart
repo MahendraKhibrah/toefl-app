@@ -126,7 +126,11 @@ class _GameButtonState extends State<GameButton> {
 
         ScaffoldMessenger.of(context).showSnackBar(snackBar);
       },
-      child: GameButtonContent(quiz: quiz, isAlready: isAlready),
+      child: GameButtonContent(
+        quiz: quiz,
+        isAlready: isAlready,
+        isLocked: widget.isLocked,
+      ),
     );
   }
 }
@@ -233,14 +237,15 @@ class GameButtonSheetButton extends StatelessWidget {
 }
 
 class GameButtonContent extends StatelessWidget {
-  const GameButtonContent({
-    super.key,
-    required this.quiz,
-    required this.isAlready,
-  });
+  const GameButtonContent(
+      {super.key,
+      required this.quiz,
+      required this.isAlready,
+      required this.isLocked});
 
   final Quiz quiz;
   final bool isAlready;
+  final bool isLocked;
 
   @override
   Widget build(BuildContext context) {
@@ -277,13 +282,9 @@ class GameButtonContent extends StatelessWidget {
             ? Container(
                 margin: EdgeInsets.only(bottom: 35),
                 alignment: Alignment.center,
-                // height: 30,
                 width: 120,
-                // decoration: BoxDecoration(
-                //     color: HexColor(mariner500),
-                //     borderRadius: BorderRadius.circular(6)),
                 child: SvgPicture.asset(
-                  'assets/images/game_book.svg',
+                  'assets/images/game_book${isLocked ? '_locked' : ''}.svg',
                   height: 80,
                   colorFilter: ColorFilter.mode(
                       Color.fromARGB(0, 0, 0, 0), BlendMode.dstOut),

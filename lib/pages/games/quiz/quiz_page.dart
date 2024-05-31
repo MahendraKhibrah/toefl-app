@@ -4,9 +4,11 @@ import 'package:toefl/models/quiz.dart';
 import 'package:toefl/models/quiz_type.dart';
 import 'package:toefl/pages/games/quiz/grammar_page.dart';
 import 'package:toefl/remote/api/quiz_api.dart';
+import 'package:toefl/routes/route_key.dart';
 import 'package:toefl/state_management/quiz/quiz_provider_state.dart';
 import 'package:toefl/widgets/games/quiz/step_progress.dart';
 import 'package:toefl/widgets/games/quiz/next_button.dart';
+import 'package:toefl/widgets/quiz/modal/modal_confirmation.dart';
 
 class QuizPage extends ConsumerStatefulWidget {
   final bool? isReview;
@@ -68,31 +70,13 @@ class _QuizPageState extends ConsumerState<QuizPage> {
         final bool shouldPop = await showDialog<bool>(
               context: context,
               builder: (BuildContext context) {
-                return AlertDialog(
-                  title: const Text('Are you sure?'),
-                  content: const Text(
-                    'Are you sure you want to leave this page?',
-                  ),
-                  actions: <Widget>[
-                    TextButton(
-                      style: TextButton.styleFrom(
-                        textStyle: Theme.of(context).textTheme.labelLarge,
-                      ),
-                      child: const Text('Nevermind'),
-                      onPressed: () {
-                        Navigator.pop(context, false);
-                      },
-                    ),
-                    TextButton(
-                      style: TextButton.styleFrom(
-                        textStyle: Theme.of(context).textTheme.labelLarge,
-                      ),
-                      child: const Text('Leave'),
-                      onPressed: () {
-                        Navigator.pop(context, true);
-                      },
-                    ),
-                  ],
+                return ModalConfirmation(
+                  message: 'Are you want to abort?, change saved',
+                  leftTitle: 'Nevermind',
+                  rightTitle: 'Abort',
+                  leftFunction: () => Navigator.of(context).pop(),
+                  rightFunction: () => Navigator.of(context)
+                      .pushNamedAndRemoveUntil(RouteKey.main, (route) => false),
                 );
               },
             ) ??
@@ -102,17 +86,13 @@ class _QuizPageState extends ConsumerState<QuizPage> {
         }
       },
       child: Scaffold(
+        appBar: StepProgress(
+            quizType: quiz.type.name,
+            currentStep: _currentPage,
+            steps: quiz.questions!.length),
         body: Column(
           children: <Widget>[
             SizedBox(height: 20),
-            Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12),
-              child: StepProgress(
-                  quizType: quiz.type.name,
-                  currentStep: _currentPage,
-                  steps: quiz.questions!.length),
-            ),
             Expanded(
               child: PageView.builder(
                 physics: NeverScrollableScrollPhysics(),

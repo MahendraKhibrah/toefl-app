@@ -22,4 +22,22 @@ class AuthSharedPreference {
     final pref = await SharedPreferences.getInstance();
     await pref.remove(SharedPreferenceKeys.bearerToken);
   }
+
+  FutureOr<void> removeVerifiedAccount() async {
+    final pref = await SharedPreferences.getInstance();
+    await pref.remove(SharedPreferenceKeys.verifiedAccount);
+  }
+
+  Future<bool> getVerifiedAccount() async {
+    final pref = await SharedPreferences.getInstance();
+    return pref.getBool(SharedPreferenceKeys.verifiedAccount) ?? false;
+  }
+
+  FutureOr<void> saveVerifiedAccount(bool verified) async {
+    final pref = await SharedPreferences.getInstance();
+    await pref.setBool(
+      SharedPreferenceKeys.verifiedAccount,
+      verified,
+    );
+  }
 }

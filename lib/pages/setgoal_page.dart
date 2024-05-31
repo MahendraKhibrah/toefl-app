@@ -2,6 +2,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:skeletonizer/skeletonizer.dart';
+import 'package:toefl/models/profile.dart';
+import 'package:toefl/models/target_onboarding.dart';
+import 'package:toefl/models/user.dart';
+import 'package:toefl/remote/api/onboarding_api.dart';
+import 'package:toefl/remote/api/profile_api.dart';
+import 'package:toefl/remote/api/user_api.dart';
+import 'package:toefl/remote/local/shared_pref/onboarding_shared_preferences.dart';
 import 'package:toefl/routes/route_key.dart';
 import 'package:toefl/utils/colors.dart';
 import 'package:toefl/utils/hex_color.dart';
@@ -17,22 +25,40 @@ class SetGoal extends StatefulWidget {
 }
 
 class _SetGoalState extends State<SetGoal> {
-  int isSelected = 0;
+  int isSelected = -1;
   final List<String> reasons = [
-    "IISMA",
     "Graduation Requirement",
+    "IISMA",
     "Job",
     "Other"
   ];
+  final OnBoardingSharedPreference onBoardingSharedPreference =
+      OnBoardingSharedPreference();
+
+  late Future<List<TargetOnboarding>> targetList;
+
+  Future<void> getTargetId() async {
+    Future<List<TargetOnboarding>> data = OnBoardingApi().getTarget();
+    setState(() {
+      targetList = data;
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getTargetId();
+  }
 
   @override
   Widget build(BuildContext context) {
     final List<Widget> icons = [
       SvgPicture.asset(
-        'assets/images/iisma.svg',
+        'assets/images/graduation.svg',
       ),
       SvgPicture.asset(
-        'assets/images/graduation.svg',
+        'assets/images/iisma.svg',
       ),
       SvgPicture.asset(
         'assets/images/job.svg',
@@ -67,31 +93,52 @@ class _SetGoalState extends State<SetGoal> {
                 ),
               ),
               const SizedBox(height: 30),
-              GridView.builder(
-                shrinkWrap: true,
-                itemCount: reasons.length,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 30,
-                  mainAxisSpacing: 30,
-                  mainAxisExtent: 180,
-                ),
-                itemBuilder: (context, index) {
-                  return GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        isSelected = index;
-                      });
-                    },
-                    child: SetGoalButton(reasons[index], index, icons[index]),
-                  );
-                },
-              ),
+              FutureBuilder<List<TargetOnboarding>>(
+                  future: targetList,
+                  builder: (context, snapshot) {
+                    return GridView.builder(
+                      shrinkWrap: true,
+                      itemCount: reasons.length,
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        crossAxisSpacing: 30,
+                        mainAxisSpacing: 30,
+                        mainAxisExtent: 180,
+                      ),
+                      itemBuilder: (context, index) {
+                        if (snapshot.connectionState ==
+                                ConnectionState.waiting ||
+                            snapshot.data!.isEmpty) {
+                          return Skeletonizer(
+                            enabled: true,
+                            child: Skeleton.leaf(
+                              child: SetGoalButton(
+                                  reasons[index], index, icons[index]),
+                            ),
+                          );
+                        } else {
+                          return GestureDetector(
+                            onTap: () {
+                              UserApi()
+                                  .updateBookmark(snapshot.data![index].id!);
+                              setState(() {
+                                isSelected = index;
+                              });
+                            },
+                            child: SetGoalButton(
+                                reasons[index], index, icons[index]),
+                          );
+                        }
+                      },
+                    );
+                  }),
               const SizedBox(height: 120),
               BlueButton(
-                title: 'Next',
-                onTap: () {
-                  Navigator.popAndPushNamed(context, RouteKey.login);
+                isDisabled: isSelected == -1,
+                title: 'Confirm',
+                onTap: () async {
+                  Navigator.popAndPushNamed(context, RouteKey.main);
                 },
               ),
             ],

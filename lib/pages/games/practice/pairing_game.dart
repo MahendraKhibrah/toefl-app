@@ -14,6 +14,8 @@ import 'package:toefl/utils/custom_text_style.dart';
 import 'package:toefl/utils/hex_color.dart';
 import 'package:toefl/widgets/quiz/modal/modal_confirmation.dart';
 
+import '../../../widgets/games/game_app_bar.dart';
+
 class PairingGame extends StatefulWidget {
   const PairingGame({super.key});
 
@@ -78,39 +80,8 @@ class _PairingGameState extends State<PairingGame> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        scrolledUnderElevation: 0,
-        centerTitle: true,
-        leading: GestureDetector(
-          onTap: () async {
-            showDialog(
-              context: context,
-              builder: (context) {
-                return ModalConfirmation(
-                  message: "Are you sure want to leave?",
-                  leftTitle: "Cancel",
-                  rightTitle: "Confirm",
-                  leftFunction: () => Navigator.pop(context),
-                  rightFunction: () => Navigator.pushNamedAndRemoveUntil(
-                    context,
-                    RouteKey.main,
-                    (route) => false,
-                  ),
-                );
-              },
-            );
-          },
-          child: Padding(
-            padding: const EdgeInsets.only(right: 10.0),
-            child: const Icon(
-              Icons.close,
-            ),
-          ),
-        ),
-        title: Text(
-          'Synonym Pairing',
-          style: CustomTextStyle.bold18,
-        ),
+      appBar: GameAppBar(
+        title: 'Synonym Pairing',
       ),
       body: Center(
         child: Column(
