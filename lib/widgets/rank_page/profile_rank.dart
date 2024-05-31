@@ -10,12 +10,14 @@ class ProfileRank extends StatefulWidget {
   final int score;
   final int rank;
   final String category;
+  final bool? isMiddle;
   const ProfileRank(
       {super.key,
       required this.name,
       required this.score,
       required this.category,
-      required this.rank});
+      required this.rank,
+      this.isMiddle = false});
 
   @override
   State<ProfileRank> createState() => _ProfileRankState();
@@ -57,33 +59,34 @@ class _ProfileRankState extends State<ProfileRank> {
             clipBehavior: Clip.none,
             children: [
               Container(
-                width: 105,
-                height: 105,
+                width: widget.isMiddle! ? 160 : 105,
+                height: widget.isMiddle! ? 160 : 105,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   color: medalColor,
                 ),
               ),
-              const CircleAvatar(
+              CircleAvatar(
                 backgroundImage: AssetImage('assets/images/avatar_profile.png'),
-                radius: 45,
+                radius: widget.isMiddle! ? 53 : 45,
               ),
               Positioned(
-                bottom: -20,
+                bottom: widget.isMiddle! ? -10 : -20,
                 child: SvgPicture.asset(
                   medalIcon,
-                  width: 50,
-                  height: 50,
+                  width: widget.isMiddle! ? 60 : 50,
+                  height: widget.isMiddle! ? 60 : 50,
                 ),
               ),
             ],
           ),
-          const SizedBox(height: 30),
+          SizedBox(height: widget.isMiddle! ? 20 : 30),
           SizedBox(
             width: 150,
             child: Text(
               firstName,
               textAlign: TextAlign.center,
+              overflow: TextOverflow.ellipsis,
               style: TextStyle(
                 fontSize: 18,
                 color: HexColor(mariner700),

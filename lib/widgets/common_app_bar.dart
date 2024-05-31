@@ -7,16 +7,19 @@ import 'package:toefl/utils/hex_color.dart';
 class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
   final double height;
   final String title;
+  final Color? backgroundColor;
 
   const CommonAppBar({
     super.key,
     this.height = kToolbarHeight,
     required this.title,
+    this.backgroundColor = Colors.white,
   });
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      backgroundColor: backgroundColor,
       scrolledUnderElevation: 0,
       centerTitle: true,
       leading: IconButton(
