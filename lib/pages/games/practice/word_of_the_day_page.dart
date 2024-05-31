@@ -132,57 +132,57 @@ class WordOfTheDayPageState extends State<WordOfTheDayPage>
         splashColor: Colors.transparent,
         highlightColor: Colors.transparent,
         onTap: _showFlashcardDialog,
-        child: LayoutBuilder(builder: ((context, constraint) {
-          return Stack(
-            clipBehavior: Clip.none,
-            alignment: Alignment.center,
-            children: [
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(10),
-                  ),
-                  color: HexColor('#8070F8'),
-                ),
-                width: constraint.maxHeight / 1,
-              ),
-              Positioned(
-                  bottom: -(constraint.maxHeight / 55),
-                  child: SvgPicture.asset(
-                    "assets/images/vector_bg_tc1.svg",
-                    width: constraint.maxHeight / 1,
-                  )),
-              Positioned(
-                top: (constraint.maxHeight / 18),
-                child: Container(
-                  width: constraint.maxHeight / 1.8,
-                  height: constraint.maxHeight / 1.5,
+        child: ClipRRect(
+          borderRadius: BorderRadius.all(
+            Radius.circular(10),
+          ),
+          child: LayoutBuilder(builder: ((context, constraint) {
+            return Stack(
+              clipBehavior: Clip.none,
+              alignment: Alignment.center,
+              children: [
+                Container(
                   decoration: BoxDecoration(
-                    color: HexColor('#BC89FF'),
-                    shape: BoxShape.circle,
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(10),
+                    ),
+                    color: HexColor('#FFE9D4'),
+                  ),
+                  width: constraint.maxHeight / 1,
+                ),
+           
+                Positioned(
+                  top: (constraint.maxHeight / 18),
+                  child: Container(
+                    width: constraint.maxHeight / 1.8,
+                    height: constraint.maxHeight / 1.5,
+                    decoration: BoxDecoration(
+                      color: HexColor('#FFBB89'),
+                      shape: BoxShape.circle,
+                    ),
                   ),
                 ),
-              ),
-              Positioned(
-                top: constraint.maxHeight / 4.5,
-                child: SvgPicture.asset(
-                  'assets/images/daily_practice.svg',
-                  height: constraint.maxHeight / 3,
+                Positioned(
+                  top: constraint.maxHeight / 4.5,
+                  child: SvgPicture.asset(
+                    'assets/images/daily_word.svg',
+                    height: constraint.maxHeight / 3,
+                  ),
                 ),
-              ),
-              Positioned(
-                  bottom: constraint.maxHeight / 12,
-                  child: Text(
-                    'Daily Word',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        fontSize: constraint.maxHeight / 8,
-                        fontWeight: FontWeight.bold,
-                        color: HexColor('#BC89FF')),
-                  ))
-            ],
-          );
-        })));
+                Positioned(
+                    bottom: constraint.maxHeight / 12,
+                    child: Text(
+                      'Daily Word',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontSize: constraint.maxHeight / 8,
+                          fontWeight: FontWeight.bold,
+                          color: HexColor('#FFBB89')),
+                    )),
+              ],
+            );
+          })),
+        ));
   }
 
   Widget _buildCard(String content, bool isFront) {
