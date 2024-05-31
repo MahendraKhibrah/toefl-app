@@ -301,7 +301,7 @@ class GameButtonContent extends StatelessWidget {
                 child: Column(
                   children: [
                     Text(
-                      '80',
+                      '',
                       textAlign: TextAlign.center,
                       style: CustomTextStyle.gameScoreResult,
                     ),

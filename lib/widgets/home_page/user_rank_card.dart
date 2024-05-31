@@ -166,30 +166,38 @@ class _UserRankCardState extends State<UserRankCard> {
                               color: Colors.white,
                             ),
                           ),
-                          ElevatedButton(
-                            onPressed: () => Navigator.pushNamed(
-                                context, RouteKey.rank,
-                                arguments: {"dataRank": dataRank}),
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.white,
-                              minimumSize: Size(100, 24),
-                              padding: EdgeInsets.symmetric(
-                                  horizontal:
-                                      MediaQuery.of(context).size.aspectRatio *
+                          Skeletonizer(
+                            enabled: isLoading,
+                            child: Skeleton.leaf(
+                              child: ElevatedButton(
+                                onPressed: () => Navigator.pushNamed(
+                                    context, RouteKey.rank,
+                                    arguments: {"dataRank": dataRank}),
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.white,
+                                  minimumSize: Size(100, 24),
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: MediaQuery.of(context)
+                                              .size
+                                              .aspectRatio *
                                           15),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(
-                                    MediaQuery.of(context).size.aspectRatio *
-                                        125),
-                              ),
-                            ),
-                            child: Text(
-                              'See Ranks',
-                              style: TextStyle(
-                                fontSize: 12,
-                                fontFamily: GoogleFonts.nunito().fontFamily,
-                                fontWeight: FontWeight.w900,
-                                color: Colors.black,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(
+                                        MediaQuery.of(context)
+                                                .size
+                                                .aspectRatio *
+                                            125),
+                                  ),
+                                ),
+                                child: Text(
+                                  'See Ranks',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    fontFamily: GoogleFonts.nunito().fontFamily,
+                                    fontWeight: FontWeight.w900,
+                                    color: Colors.black,
+                                  ),
+                                ),
                               ),
                             ),
                           ),

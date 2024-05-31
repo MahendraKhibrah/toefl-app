@@ -9,7 +9,7 @@ class Profile {
   final String id;
   final String level;
   @JsonKey(name: 'current_score')
-  String currentScore;
+  int currentScore;
   @JsonKey(name: 'target_score')
   int targetScore;
   @JsonKey(name: 'name_user')
@@ -18,15 +18,16 @@ class Profile {
   final String emailUser;
 
   Profile({
-    required this.id, 
-    required this.level, 
-    required this.currentScore, 
-    required this.targetScore, 
-    required this.nameUser, 
+    required this.id,
+    required this.level,
+    required this.currentScore,
+    required this.targetScore,
+    required this.nameUser,
     required this.emailUser,
   });
 
-  factory Profile.fromJson(Map<String, dynamic> json) => _$ProfileFromJson(json);
+  factory Profile.fromJson(Map<String, dynamic> json) =>
+      _$ProfileFromJson(json);
 
   factory Profile.fromJsonString(String jsonString) =>
       _$ProfileFromJson(jsonDecode(jsonString));

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:toefl/models/games/user_rank.dart';
 import 'package:toefl/models/quiz.dart';
 import 'package:toefl/models/quiz_type.dart';
+import 'package:toefl/pages/games/quiz/finish_quiz_page.dart';
 import 'package:toefl/pages/games/quiz/init_quiz.dart';
 import 'package:path/path.dart';
 import 'package:toefl/pages/forgot_password_page.dart';
@@ -160,5 +161,10 @@ final routes = <String, Widget Function(BuildContext)>{
   RouteKey.bookmarkDetail: (context) {
     final String? data = ModalRoute.of(context)?.settings.arguments as String?;
     return BookmarkDetailPage(bookmarkId: data ?? "");
+  },
+  RouteKey.finishQuizResult: (context) {
+    final Map<String, dynamic>? data =
+        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+    return FinishQuizPage(result: data?["result"] ?? "");
   },
 };

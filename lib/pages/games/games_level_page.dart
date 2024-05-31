@@ -72,12 +72,12 @@ class GamesLevelPage extends StatelessWidget {
                           : false,
                 ),
               );
-            }).toList(),
+            }),
             if (index % 3 == 0)
               Positioned(
                   top: -10,
                   right: 4,
-                  width: 120,
+                  width: 110,
                   child: SvgPicture.asset('assets/images/maskot_1.svg')),
             if (index % 3 == 1)
               Positioned(
@@ -88,7 +88,7 @@ class GamesLevelPage extends StatelessWidget {
             if (index % 3 == 2)
               Positioned(
                   right: 20,
-                  width: 130,
+                  width: 120,
                   bottom: height / 5,
                   child: SvgPicture.asset('assets/images/maskot_3.svg')),
             if (index % 3 == 0)

@@ -8,12 +8,13 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
   final double height;
   final String title;
   final Color? backgroundColor;
-
+  final bool? withBack;
   const CommonAppBar({
     super.key,
     this.height = kToolbarHeight,
     required this.title,
     this.backgroundColor = Colors.white,
+    this.withBack = true,
   });
 
   @override
@@ -22,15 +23,17 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
       backgroundColor: backgroundColor,
       scrolledUnderElevation: 0,
       centerTitle: true,
-      leading: IconButton(
-        icon: Icon(
-          Icons.chevron_left_rounded,
-          size: 30,
-        ),
-        onPressed: () {
-          Navigator.pop(context);
-        },
-      ),
+      leading: withBack!
+          ? IconButton(
+              icon: Icon(
+                Icons.chevron_left_rounded,
+                size: 30,
+              ),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            )
+          : null,
       title: Text(
         title,
         style: GoogleFonts.nunito(
