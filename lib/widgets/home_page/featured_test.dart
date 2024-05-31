@@ -20,6 +20,7 @@ class FeatureTest extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 InkWell(
+                  borderRadius: BorderRadius.circular(10),
                   onTap: () => Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) => PairingGame(),
                   )),
@@ -31,6 +32,7 @@ class FeatureTest extends StatelessWidget {
                   ),
                 ),
                 InkWell(
+                  borderRadius: BorderRadius.circular(10),
                   onTap: () => Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) => WordScramblePage(),
                   )),
