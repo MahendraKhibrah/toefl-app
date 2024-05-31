@@ -171,11 +171,6 @@ class _LearningPathState extends State<LearningPath> {
                                             color: HexColor(learning["color"]),
                                             borderRadius:
                                                 BorderRadius.circular(10),
-                                            border: Border.all(
-                                              color:
-                                                  HexColor(learning["border"]),
-                                              width: 3,
-                                            ),
                                           ),
                                         ),
                                         SvgPicture.asset(
