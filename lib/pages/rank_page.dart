@@ -9,6 +9,7 @@ import 'package:toefl/remote/api/leader_board_api.dart';
 import 'package:toefl/utils/colors.dart';
 import 'package:toefl/utils/custom_text_style.dart';
 import 'package:toefl/utils/hex_color.dart';
+import 'package:toefl/widgets/common_app_bar.dart';
 import 'package:toefl/widgets/rank_page/list_rank.dart';
 import 'package:toefl/widgets/rank_page/profile_rank.dart';
 import 'dart:math' as math;
@@ -48,26 +49,9 @@ class _RankPageState extends State<RankPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          scrolledUnderElevation: 0,
+        appBar: CommonAppBar(
+          title: 'Leaderboard',
           backgroundColor: HexColor(mariner100),
-          centerTitle: true,
-          leading: InkWell(
-            customBorder: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(40),
-            ),
-            child: const Icon(
-              Icons.chevron_left_rounded,
-              size: 30,
-            ),
-            onTap: () {
-              Navigator.pop(context);
-            },
-          ),
-          title: Text(
-            'Leaderboard',
-            style: CustomTextStyle.bold18,
-          ),
         ),
         body: RefreshIndicator(
           onRefresh: () => refreshData(),
@@ -75,10 +59,39 @@ class _RankPageState extends State<RankPage> {
               enabled: isLoading,
               child: Skeleton.leaf(
                 child: Stack(
+                  alignment: Alignment.bottomCenter,
                   children: [
-                    SvgPicture.asset(
-                      'assets/images/bg_rank.svg',
-                      fit: BoxFit.fitWidth,
+                    Container(
+                      height: MediaQuery.of(context).size.height / 2,
+                      alignment: Alignment.bottomCenter,
+                      child: ListView.builder(
+                        itemCount: math.max(0, listRank.data!.length - 3),
+                        itemBuilder: (context, index) {
+                          return Padding(
+                            padding: EdgeInsets.only(
+                                top: index == 0 ? 90 : 8,
+                                bottom: index ==
+                                        math.max(0, listRank.data!.length - 3) -
+                                            1
+                                    ? 20
+                                    : 8,
+                                left: 24,
+                                right: 24),
+                            child: ListRank(
+                              index: index + 4,
+                              name: listRank.data![index + 3].nama,
+                              score: listRank.data![index + 3].totalScore,
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                    Positioned(
+                      top: -200,
+                      child: CustomPaint(
+                        size: Size(650, 600),
+                        painter: BgRank(),
+                      ),
                     ),
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 24.0),
@@ -117,6 +130,7 @@ class _RankPageState extends State<RankPage> {
                               ),
                               Expanded(
                                 child: ProfileRank(
+                                  isMiddle: true,
                                   name: listRank.data!.isNotEmpty
                                       ? listRank.data![0].nama
                                       : "",
@@ -135,7 +149,7 @@ class _RankPageState extends State<RankPage> {
                                         ? listRank.data![2].nama
                                         : "",
                                     score: listRank.data!.length > 2
-                                        ? listRank.data![2].gameScore
+                                        ? listRank.data![2].totalScore
                                         : 0,
                                     category: "Bronze",
                                     rank: 3,
@@ -144,23 +158,7 @@ class _RankPageState extends State<RankPage> {
                               ),
                             ],
                           ),
-                          const SizedBox(height: 170),
-                          Expanded(
-                            child: ListView.builder(
-                              itemCount: math.max(0, listRank.data!.length - 3),
-                              itemBuilder: (context, index) {
-                                return Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 8.0),
-                                  child: ListRank(
-                                    index: index + 4,
-                                    name: listRank.data![index + 3].nama,
-                                    score: listRank.data![index + 3].totalScore,
-                                  ),
-                                );
-                              },
-                            ),
-                          ),
+                          // const SizedBox(height: 170),
                         ],
                       ),
                     ),
@@ -168,5 +166,25 @@ class _RankPageState extends State<RankPage> {
                 ),
               )),
         ));
+  }
+}
+
+class BgRank extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    final Paint paint = Paint()
+      ..color = HexColor(mariner100)
+      ..strokeWidth = 4
+      ..style = PaintingStyle.fill;
+
+    final center = Offset(size.width / 2, size.height / 2);
+    final radius = size.width / 2;
+
+    canvas.drawCircle(center, radius, paint);
+  }
+
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) {
+    return false;
   }
 }
