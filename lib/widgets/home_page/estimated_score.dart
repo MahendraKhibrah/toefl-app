@@ -168,7 +168,8 @@ class _EstimatedScoreWidgetState extends State<EstimatedScoreWidget> {
                                         color: HexColor(neutral10),
                                         height: 2)),
                                 ElevatedButton(
-                                  onPressed: () {},
+                                  onPressed: () => Navigator.pushNamed(
+                                      context, RouteKey.setTargetPage),
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor: Colors.white,
                                     minimumSize: Size(100, 24),
@@ -188,13 +189,11 @@ class _EstimatedScoreWidgetState extends State<EstimatedScoreWidget> {
                                   child: Text(
                                     'set_now'.tr(),
                                     style: TextStyle(
-                                      fontSize: 12,
-                                      fontFamily:
-                                          GoogleFonts.nunito().fontFamily,
-                                      fontWeight: FontWeight.w900,
-                                        color: HexColor(mariner900)
-
-                                    ),
+                                        fontSize: 12,
+                                        fontFamily:
+                                            GoogleFonts.nunito().fontFamily,
+                                        fontWeight: FontWeight.w900,
+                                        color: HexColor(mariner900)),
                                   ),
                                 ),
                               ],
@@ -206,117 +205,7 @@ class _EstimatedScoreWidgetState extends State<EstimatedScoreWidget> {
                   }),
                 ),
               ),
-              Container(
-                margin: EdgeInsets.symmetric(
-                    horizontal: MediaQuery.of(context).size.aspectRatio * 50),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(
-                        MediaQuery.of(context).size.aspectRatio * 25),
-                    color: HexColor(mariner700)),
-                child: Stack(
-                  children: [
-                    Positioned.fill(
-                      child: SvgPicture.asset(
-                        'assets/images/bgrankcard.svg',
-                        fit: BoxFit.fill,
-                      ),
-                    ),
-                    Column(
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.only(
-                              top: MediaQuery.of(context).size.aspectRatio * 50,
-                              left:
-                                  MediaQuery.of(context).size.aspectRatio * 60),
-                          child: SvgPicture.asset(
-                            'assets/images/goldmedal.svg',
-                            height:
-                                MediaQuery.of(context).size.aspectRatio * 240,
-                          ),
-                        )
-                      ],
-                    ),
-                    Column(
-                      children: [
-                        Row(
-                          children: [
-                            Expanded(
-                              child: Padding(
-                                padding: EdgeInsets.only(
-                                    left: MediaQuery.of(context)
-                                            .size
-                                            .aspectRatio *
-                                        330,
-                                    right: MediaQuery.of(context)
-                                            .size
-                                            .aspectRatio *
-                                        20,
-                                    top: MediaQuery.of(context)
-                                            .size
-                                            .aspectRatio *
-                                        50),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      'GOLD MEDALIST',
-                                      style: TextStyle(
-                                        fontSize: 20,
-                                        fontFamily:
-                                            GoogleFonts.passionOne().fontFamily,
-                                        fontWeight: FontWeight.normal,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                    Text(
-                                      'Congratulations to our top achievers! Keep up the great work!',
-                                      style: TextStyle(
-                                        fontSize: 12,
-                                        fontFamily:
-                                            GoogleFonts.nunito().fontFamily,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                    ElevatedButton(
-                                      onPressed: () {},
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor: Colors.white,
-                                        minimumSize: Size(100, 24),
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: MediaQuery.of(context)
-                                                    .size
-                                                    .aspectRatio *
-                                                15),
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(
-                                              MediaQuery.of(context)
-                                                      .size
-                                                      .aspectRatio *
-                                                  125),
-                                        ),
-                                      ),
-                                      child: Text(
-                                        'See Ranks',
-                                        style: TextStyle(
-                                          fontSize: 12,
-                                          fontFamily:
-                                              GoogleFonts.nunito().fontFamily,
-                                          fontWeight: FontWeight.w900,
-                                          color: Colors.black,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
+              UserRankCard(),
             ],
           ),
         ),
