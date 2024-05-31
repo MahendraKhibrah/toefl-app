@@ -25,6 +25,7 @@ class SimulationTestWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 InkWell(
+                  borderRadius: BorderRadius.circular(10),
                   onTap: () =>
                       Navigator.of(context).pushNamed(RouteKey.simulationpage),
                   child: TryCard(
@@ -42,6 +43,7 @@ class SimulationTestWidget extends StatelessWidget {
                   ),
                 ),
                 InkWell(
+                  borderRadius: BorderRadius.circular(10),
                   onTap: () => Navigator.of(context)
                       .pushNamed(RouteKey.miniSimulationTest),
                   child: TryCard(
