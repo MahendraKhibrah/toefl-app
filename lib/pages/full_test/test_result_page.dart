@@ -74,14 +74,18 @@ class _TestResultPageState extends State<TestResultPage> {
                                 width: 90,
                                 height: 120,
                                 child: ToeflProgressIndicator(
-                                  value: (result?.precentage ?? 0).toDouble() /
-                                      100,
+                                  value:
+                                      ((result?.precentage ?? 0).toDouble() < 9
+                                              ? 9
+                                              : (result?.precentage ?? 0)
+                                                  .toDouble()) /
+                                          100,
                                   activeHexColor: mariner800,
                                   nonActiveHexColor: neutral40,
                                   size:
                                       MediaQuery.of(context).size.width * 1 / 5,
                                   strokeWidth: 18,
-                                  strokeScaler: 0.95,
+                                  strokeScaler: 1.2,
                                 ),
                               ),
                               Positioned(

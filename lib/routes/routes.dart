@@ -91,7 +91,12 @@ final routes = <String, Widget Function(BuildContext)>{
       email: data?['email'] ?? "",
     );
   },
-  RouteKey.forgotPassword: (context) => const ForgotPassword(),
+  RouteKey.forgotPassword: (context) {
+    final String? data = ModalRoute.of(context)?.settings.arguments as String?;
+    return ForgotPassword(
+      initialEmail: data ?? "",
+    );
+  },
   RouteKey.resetPassword: (context) {
     final bool? data = ModalRoute.of(context)?.settings.arguments as bool?;
     return NewPassword(

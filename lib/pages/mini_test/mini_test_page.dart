@@ -177,8 +177,12 @@ class MiniTestPage extends ConsumerWidget {
                                 ),
                               );
                             } else if (state.selectedQuestions.isNotEmpty) {
-                              return MiniFormSection(
-                                questions: state.selectedQuestions,
+                              return Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 16),
+                                child: MiniFormSection(
+                                  questions: state.selectedQuestions,
+                                ),
                               );
                             } else {
                               return const SizedBox();

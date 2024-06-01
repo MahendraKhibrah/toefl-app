@@ -328,21 +328,23 @@ class _BottomSheetFullTestState extends State<BottomSheetFullTest> {
               style: CustomTextStyle.normal12,
             )
           : const SizedBox(),
-      Padding(
-        padding: const EdgeInsets.symmetric(vertical: 15),
-        child: Wrap(
-          crossAxisAlignment: WrapCrossAlignment.center,
-          spacing: screenWidth * 0.03,
-          runSpacing: screenWidth * 0.03,
-          children: List.generate(total, (index) {
-            return buildNumOption(
-              index + start,
-              () {
-                Navigator.of(context).pop(index + start);
-              },
-              isActive: widget.filledStatus[index + start - 1],
-            );
-          }),
+      Center(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 15),
+          child: Wrap(
+            crossAxisAlignment: WrapCrossAlignment.center,
+            spacing: screenWidth * 0.03,
+            runSpacing: screenWidth * 0.03,
+            children: List.generate(total, (index) {
+              return buildNumOption(
+                index + start,
+                () {
+                  Navigator.of(context).pop(index + start);
+                },
+                isActive: widget.filledStatus[index + start - 1],
+              );
+            }),
+          ),
         ),
       ),
     ];
@@ -371,21 +373,23 @@ class _BottomSheetFullTestState extends State<BottomSheetFullTest> {
             )
           : const SizedBox(),
       answeredNumberList.isNotEmpty
-          ? Padding(
-              padding: const EdgeInsets.symmetric(vertical: 15),
-              child: Wrap(
-                crossAxisAlignment: WrapCrossAlignment.center,
-                spacing: screenWidth * 0.03,
-                runSpacing: screenWidth * 0.03,
-                children: List.generate(answeredNumberList.length, (index) {
-                  return buildNumOption(
-                    answeredNumberList[index],
-                    () {
-                      Navigator.of(context).pop(index + start);
-                    },
-                    isActive: true,
-                  );
-                }),
+          ? Center(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 15),
+                child: Wrap(
+                  crossAxisAlignment: WrapCrossAlignment.center,
+                  spacing: screenWidth * 0.03,
+                  runSpacing: screenWidth * 0.03,
+                  children: List.generate(answeredNumberList.length, (index) {
+                    return buildNumOption(
+                      answeredNumberList[index],
+                      () {
+                        Navigator.of(context).pop(index + start);
+                      },
+                      isActive: true,
+                    );
+                  }),
+                ),
               ),
             )
           : const SizedBox(),
@@ -415,21 +419,23 @@ class _BottomSheetFullTestState extends State<BottomSheetFullTest> {
             )
           : const SizedBox(),
       answeredNumberList.isNotEmpty
-          ? Padding(
-              padding: const EdgeInsets.symmetric(vertical: 15),
-              child: Wrap(
-                crossAxisAlignment: WrapCrossAlignment.center,
-                spacing: screenWidth * 0.03,
-                runSpacing: screenWidth * 0.03,
-                children: List.generate(answeredNumberList.length, (index) {
-                  return buildNumOption(
-                    answeredNumberList[index],
-                    () {
-                      Navigator.of(context).pop(index + start);
-                    },
-                    isActive: false,
-                  );
-                }),
+          ? Center(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 15),
+                child: Wrap(
+                  crossAxisAlignment: WrapCrossAlignment.center,
+                  spacing: screenWidth * 0.03,
+                  runSpacing: screenWidth * 0.03,
+                  children: List.generate(answeredNumberList.length, (index) {
+                    return buildNumOption(
+                      answeredNumberList[index],
+                      () {
+                        Navigator.of(context).pop(index + start);
+                      },
+                      isActive: false,
+                    );
+                  }),
+                ),
               ),
             )
           : const SizedBox(),

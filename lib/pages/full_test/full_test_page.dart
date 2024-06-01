@@ -177,8 +177,12 @@ class FullTestPage extends ConsumerWidget {
                                 ),
                               );
                             } else if (state.selectedQuestions.isNotEmpty) {
-                              return FormSection(
-                                questions: state.selectedQuestions,
+                              return Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 16),
+                                child: FormSection(
+                                  questions: state.selectedQuestions,
+                                ),
                               );
                             } else {
                               return const SizedBox();

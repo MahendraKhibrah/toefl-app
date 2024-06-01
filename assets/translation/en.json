@@ -57,5 +57,13 @@
   "correct_questions": "Correct\nquestion",
   "mini_test": "MINI TEST",
   "appbar_profile": "Profile",
-  "change_password": "Change Password"
+  "change_password": "Change Password",
+  "you_ve_finished_your_test": "You've finished yout test.",
+  "review": "Review",
+  "retake": "Retake",
+  "are_you_sure_want_to_delete_this_bookmark": "Are you sure want to delete this bookmark?",
+  "back": "Back",
+  "delete": "Delete",
+  "are_you_sure_want_to_logout_this_account": "Are you sure want to logout this account?",
+  "cancel": "Cancel"
 }

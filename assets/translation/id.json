@@ -57,5 +57,13 @@
   "correct_questions": "Benar",
   "mini_test": "MINI TES",
   "appbar_profile": "Profil",
-  "change_password": "Ganti Sandi"
+  "change_password": "Ganti Sandi",
+  "you_ve_finished_your_test": "Lihat hasil tes Anda",
+  "review": "Tinjau",
+  "retake": "Ulang",
+  "are_you_sure_want_to_delete_this_bookmark": "Apakah Anda yakin ingin menghapus tanda ini?",
+  "back": "Kembali",
+  "delete": "Hapus",
+  "are_you_sure_want_to_logout_this_account": "Apakah Anda yakin ingin keluar dari akun ini?",
+  "cancel": "Batal"
 }
