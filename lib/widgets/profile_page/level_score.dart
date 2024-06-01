@@ -68,7 +68,8 @@ class _LevelScoreState extends State<LevelScore> {
                       const SizedBox(
                         height: 5,
                       ),
-                      Text("${profile?.level}",
+                      Text(
+                          "${profile?.level == '' ? 'Take A Test' : profile?.level}",
                           style: TextStyle(
                             fontWeight: FontWeight.w900,
                             fontSize: MediaQuery.of(context).size.width * 0.047,
@@ -97,7 +98,8 @@ class _LevelScoreState extends State<LevelScore> {
                       const SizedBox(
                         height: 5,
                       ),
-                      Text("${profile?.currentScore}/${profile?.targetScore}",
+                      Text(
+                          "${profile?.currentScore == '' ? '0' : profile?.currentScore}/${profile?.targetScore}",
                           style: TextStyle(
                             fontWeight: FontWeight.w900,
                             fontSize: MediaQuery.of(context).size.width * 0.055,

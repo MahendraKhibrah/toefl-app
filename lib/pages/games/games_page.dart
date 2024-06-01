@@ -84,6 +84,7 @@ class _GamesPageState extends State<GamesPage> {
                   _isActive = !_isActive;
                 });
               },
+              currentLevel: _index,
             ),
           ),
           body: games.hasValue

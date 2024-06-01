@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:toefl/models/game_data.dart';
 import 'package:toefl/models/games/game_detail.dart';
 import 'package:toefl/utils/colors.dart';
@@ -9,6 +10,7 @@ class BottomBarGames extends StatelessWidget implements PreferredSizeWidget {
   final GameDetail game;
   final Size preferredSize;
   final bool isActive;
+  final int currentLevel;
   final VoidCallback onPressed;
 
   const BottomBarGames({
@@ -17,6 +19,7 @@ class BottomBarGames extends StatelessWidget implements PreferredSizeWidget {
     required this.preferredSize,
     required this.isActive,
     required this.onPressed,
+    required this.currentLevel,
   }) : super(key: key);
 
   @override
@@ -38,6 +41,8 @@ class BottomBarGames extends StatelessWidget implements PreferredSizeWidget {
                     decoration: BoxDecoration(
                         color: HexColor(mariner50),
                         borderRadius: BorderRadius.circular(6)),
+                    child:
+                        SvgPicture.asset('assets/images/game_badge_${currentLevel + 1}.svg'),
                   )
                 : null,
             title: RichText(

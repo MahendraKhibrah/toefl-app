@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:toefl/remote/api/user_api.dart';
 import 'package:toefl/routes/route_key.dart';
 import 'package:toefl/utils/colors.dart';
 import 'package:toefl/utils/hex_color.dart';
@@ -6,7 +7,9 @@ import 'package:toefl/widgets/blue_button.dart';
 import 'package:toefl/widgets/form_input.dart';
 
 class NewPassword extends StatefulWidget {
-  const NewPassword({super.key});
+  const NewPassword({super.key, this.isAuthenticated = false});
+
+  final bool? isAuthenticated;
 
   @override
   State<NewPassword> createState() => _NewPasswordState();
@@ -18,6 +21,9 @@ class _NewPasswordState extends State<NewPassword> {
   final confirmPasswordController = TextEditingController();
   late final FocusNode _passwordFocusNode;
   late final FocusNode _confirmPasswordFocusNode;
+
+  var isLoading = false;
+  UserApi userApi = UserApi();
 
   @override
   void initState() {
@@ -39,7 +45,7 @@ class _NewPasswordState extends State<NewPassword> {
             size: 30,
           ),
           onTap: () {
-            Navigator.popAndPushNamed(context, RouteKey.otpVerification);
+            Navigator.pop(context);
           },
         ),
       ),
@@ -71,7 +77,7 @@ class _NewPasswordState extends State<NewPassword> {
                           children: const [
                             TextSpan(
                               text:
-                                  "Your password should be different from teh previous password.",
+                                  "Your password should be different from the previous password.",
                             ),
                           ],
                         ),
@@ -110,14 +116,40 @@ class _NewPasswordState extends State<NewPassword> {
             const SizedBox(
               height: 15,
             ),
-            BlueButton(
-                title: "Reset Password",
-                onTap: () {
-                  if (_formKey.currentState!.validate()) {
-                    Navigator.popAndPushNamed(
-                        context, RouteKey.successPassword);
-                  }
-                }),
+            isLoading
+                ? CircularProgressIndicator(
+                    color: HexColor(mariner700),
+                  )
+                : BlueButton(
+                    title: "Reset Password",
+                    onTap: () async {
+                      if (_formKey.currentState!.validate()) {
+                        setState(() {
+                          isLoading = true;
+                        });
+                        final isSuccess = await userApi.updatePassword(
+                            passwordController.text,
+                            confirmPasswordController.text);
+                        if (isSuccess) {
+                          Navigator.popUntil(context, (route) => route.isFirst);
+                          if (!(widget.isAuthenticated ?? true)) {
+                            Navigator.pushNamed(
+                                context, RouteKey.successPassword);
+                          }
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content:
+                                  const Text("Password must be different!"),
+                              backgroundColor: HexColor(colorError),
+                            ),
+                          );
+                        }
+                        setState(() {
+                          isLoading = false;
+                        });
+                      }
+                    }),
           ],
         ),
       ),

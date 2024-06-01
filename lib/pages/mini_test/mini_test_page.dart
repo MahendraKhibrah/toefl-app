@@ -11,6 +11,7 @@ import 'package:toefl/state_management/mini_test_provider.dart';
 import 'package:toefl/utils/custom_text_style.dart';
 import 'package:toefl/utils/hex_color.dart';
 
+import '../../routes/route_key.dart';
 import '../../utils/colors.dart';
 
 class MiniTestPage extends ConsumerWidget {
@@ -139,7 +140,11 @@ class MiniTestPage extends ConsumerWidget {
                                         .read(miniTestProvider.notifier)
                                         .resetAll()
                                         .then((value) {
-                                      Navigator.pop(context);
+                                      Navigator.popUntil(
+                                          context,
+                                          (route) =>
+                                              RouteKey.openingMiniTest ==
+                                              route.settings.name);
                                     });
                                   }
                                 });
@@ -330,7 +335,10 @@ class MiniTestPage extends ConsumerWidget {
                   bool resetResult =
                       await ref.read(miniTestProvider.notifier).resetAll();
                   if (resetResult && context.mounted) {
-                    Navigator.pop(context);
+                    Navigator.popUntil(
+                        context,
+                        (route) =>
+                            RouteKey.openingMiniTest == route.settings.name);
                   }
                 }
               },

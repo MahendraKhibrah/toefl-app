@@ -60,7 +60,7 @@ class SuccessPassword extends StatelessWidget {
               child: BlueButton(
                 title: "Login",
                 onTap: () {
-                  Navigator.popAndPushNamed(context, RouteKey.login);
+                  Navigator.pop(context);
                 },
               ),
             ),

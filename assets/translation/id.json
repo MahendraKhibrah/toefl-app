@@ -20,27 +20,22 @@
   "btn_register": "Daftar",
   "btn_send_code": "Kirim kode",
   "remember_password": "Kamu mengingat passwordmu?",
-
   "notification": "Notifikasi",
   "language": "Pilih Bahasa",
   "set_toefl_target": "Tetapkan target TOEFL",
   "logout": "Keluar",
-
   "first_label_navbar": "Beranda",
   "second_label_navbar": "Permainan",
   "third_label_navbar": "Profil",
   "set_own_target": "TETAPKAN TARGET TOEFL",
-
   "edit_profile": "Ubah Profil",
   "change_picture": "Ganti Gambar",
   "length_name": "Nama harus lebih dari 2 karakter",
   "valid_email": "Masukkan alamat email yang valid",
   "btn_update": "Perbarui",
-
   "appbar_bookmarked": "Ditandai",
   "description_bookmarked": "Mari kita tinjau pertanyaan-pertanyaan yang telah Anda tandai dalam tes terbaru!",
   "have_bookmarked": "Anda belum menandai pertanyaan apa pun.",
-
   "appbar_home": "Mulai Belajar Hari ini!",
   "estimated_score": "Skor Estimasi",
   "take_full": "*lakukan full test dahulu.",
@@ -53,17 +48,14 @@
   "learning_path": "Jalur Belajar",
   "part_toefl": "Bagian TOEFL",
   "try": "Coba",
-
   "appbar_games": "Permainan",
-
   "test_result": "HASIL TES",
   "btn_back_course": "Kembali ke Tes",
   "review_test": "Tinjau",
   "retake_test": "Ambil Ulang",
   "answered_questions": "Terjawab",
   "correct_questions": "Benar",
-
   "mini_test": "MINI TES",
-
-  "appbar_profile": "Profil"
+  "appbar_profile": "Profil",
+  "change_password": "Ganti Sandi"
 }

@@ -1,7 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:local_auth/local_auth.dart';
 import 'package:restart_app/restart_app.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toefl/remote/local/shared_pref/auth_shared_preferences.dart';
 import 'package:toefl/remote/local/shared_pref/localization_shared_pref.dart';
 import 'package:toefl/remote/local/shared_pref/test_shared_preferences.dart';
@@ -35,12 +37,16 @@ class _SettingState extends State<Setting> {
   final FullTestTable fullTestTable = FullTestTable();
   final MiniTestTable miniTestTable = MiniTestTable();
 
+  final LocalAuthentication auth = LocalAuthentication();
+
   void _onInit() async {
     final selectedLang = await localizationSharedPreference.getSelectedLang();
+    SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       dropdownValue = (selectedLang?.startsWith(LocaleEnum.id.name) ?? false)
           ? 'Indonesia'
           : "English";
+      _switchValue = (prefs.getBool('switchState') ?? false);
     });
   }
 
@@ -48,6 +54,11 @@ class _SettingState extends State<Setting> {
   void initState() {
     super.initState();
     _onInit();
+  }
+
+  _saveSwitchState(bool value) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool('switchState', value);
   }
 
   @override
@@ -85,7 +96,34 @@ class _SettingState extends State<Setting> {
             splashColor: const Color(0xffE7E7E7).withOpacity(0.3),
             highlightColor: Colors.transparent,
             onTap: () async {
+              final bool canAuthenticateWithBiometrics =
+                  await auth.canCheckBiometrics;
+              final bool canAuthenticate = canAuthenticateWithBiometrics ||
+                  await auth.isDeviceSupported();
+
+              try {
+                final bool didAuthenticate = await auth.authenticate(
+                    localizedReason: 'Please authenticate to change password');
+                if (didAuthenticate) {
+                  Navigator.pushNamed(context, RouteKey.resetPassword,
+                      arguments: true);
+                }
+              } catch (e) {
+                // ...
+              }
+            },
+            child: _listTileCustom(Icons.password, 'change_password'.tr()),
+          ),
+          Divider(
+            color: const Color(0xffE7E7E7).withOpacity(0.3),
+            thickness: 1,
+          ),
+          InkWell(
+            splashColor: const Color(0xffE7E7E7).withOpacity(0.3),
+            highlightColor: Colors.transparent,
+            onTap: () async {
               await authSharedPreference.removeBearerToken();
+              await authSharedPreference.removeVerifiedAccount();
               await testSharedPreference.removeStatus();
               await testSharedPreference.removeMiniStatus();
               await fullTestTable.resetDatabase();
@@ -198,11 +236,14 @@ class _SettingState extends State<Setting> {
       onChanged: (value) {
         setState(() {
           _switchValue = value;
-          LocalNotification.showSimpleNotification(
-              title: "Ayo belajar",
-              body: "Ini adalah notifikasi reminder",
-              payload: "This is simple data");
+          _saveSwitchState(value);
+
+          if (value) {
+            NotificationHelper.showScheduleDailyNotification(
+                title: "SUROTOOO", body: "HAHAHHA");
+          }
         });
+        
       },
       activeTrackColor: HexColor(mariner700),
       inactiveTrackColor: Colors.white,

@@ -16,17 +16,17 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   @override
   void initState() {
-    listenToNotification();
+    // listenToNotification();
     super.initState();
   }
 
-  listenToNotification() {
-    print("Listening to notification");
-    LocalNotification.onClickNotification.stream.listen((event) {
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => HomePage()));
-    });
-  }
+  // listenToNotification() {
+  //   print("Listening to notification");
+  //   LocalNotification.onClickNotification.stream.listen((event) {
+  //     Navigator.push(
+  //         context, MaterialPageRoute(builder: (context) => HomePage()));
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -65,16 +65,16 @@ class _ProfilePageState extends State<ProfilePage> {
                   //   icon: const Icon(Icons.notifications_outlined),
                   //   label: const Text("Simple Notifikasi"),
                   // ),
-                  ElevatedButton.icon(
-                    icon: const Icon(Icons.timer_outlined),
-                    onPressed: () {
-                      LocalNotification.showScheduleNotification(
-                          title: "Ayo belajar toefl",
-                          body: "Tingkatkan target toefl mu",
-                          payload: "This is schedule data");
-                    },
-                    label: const Text("Reminder Notifikasi"),
-                  )
+                  // ElevatedButton.icon(
+                  //   icon: const Icon(Icons.timer_outlined),
+                  //   onPressed: () {
+                  //     LocalNotification.showScheduleNotification(
+                  //         title: "Ayo belajar toefl",
+                  //         body: "Tingkatkan target toefl mu",
+                  //         payload: "This is schedule data");
+                  //   },
+                  //   label: const Text("Reminder Notifikasi"),
+                  // )
                 ],
               ),
             ),

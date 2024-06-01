@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:toefl/models/games/user_rank.dart';
 import 'package:toefl/models/quiz.dart';
 import 'package:toefl/models/quiz_type.dart';
 import 'package:toefl/pages/games/quiz/init_quiz.dart';
@@ -81,9 +82,21 @@ final routes = <String, Widget Function(BuildContext)>{
     );
   },
   RouteKey.regist: (context) => const RegistPage(),
-  RouteKey.otpVerification: (context) => const OtpVerification(),
+  RouteKey.otpVerification: (context) {
+    final Map<String, dynamic>? data =
+        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+    return OtpVerification(
+      isForgotOTP: data?['isForgotPassword'] ?? false,
+      email: data?['email'] ?? "",
+    );
+  },
   RouteKey.forgotPassword: (context) => const ForgotPassword(),
-  RouteKey.resetPassword: (context) => const NewPassword(),
+  RouteKey.resetPassword: (context) {
+    final bool? data = ModalRoute.of(context)?.settings.arguments as bool?;
+    return NewPassword(
+      isAuthenticated: data ?? false,
+    );
+  },
   RouteKey.successPassword: (context) => const SuccessPassword(),
   RouteKey.login: (context) => const LoginPage(),
   RouteKey.setGoal: (context) => const SetGoal(),
@@ -99,7 +112,12 @@ final routes = <String, Widget Function(BuildContext)>{
   },
   RouteKey.profile: (context) => const ProfilePage(),
   RouteKey.editProfile: (context) => EditProfile(),
-  RouteKey.rank: (context) => const RankPage(),
+  RouteKey.rank: (context) {
+    final Map? data = ModalRoute.of(context)?.settings.arguments as Map?;
+    return RankPage(
+      dataRank: data?["dataRank"] ?? UserRank(userId: ''),
+    );
+  },
   RouteKey.gamepage: (context) => const GamesPage(),
   RouteKey.bookmarkedpage: (context) => const BookmarkedPage(),
   RouteKey.setTargetPage: (context) => const SetTargetPage(),

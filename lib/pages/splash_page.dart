@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:toefl/remote/local/shared_pref/auth_shared_preferences.dart';
+import 'package:toefl/remote/local/shared_pref/onboarding_shared_preferences.dart';
 
 import '../routes/route_key.dart';
 
@@ -19,24 +20,27 @@ class _SplashPageState extends State<SplashPage> {
   }
 
   Future<void> _init() async {
-    final AuthSharedPreference authSharedPreference = AuthSharedPreference();
-    await authSharedPreference.getBearerToken().then((value) async {
-      final bool isLogin = (value ?? "").isNotEmpty;
-      await Future.delayed(const Duration(seconds: 1));
-      if (mounted) {
-        // if (isLogin) {
-        //   Navigator.of(context).pushReplacementNamed(RouteKey.main);
-        // } else {
-        //   Navigator.of(context).pushReplacementNamed(RouteKey.quiz);
-        // }
-        // Navigator.of(context).pushReplacementNamed(RouteKey.main);
-        if (isLogin) {
-          Navigator.of(context).pushReplacementNamed(RouteKey.main);
-        } else {
-          Navigator.of(context).pushReplacementNamed(RouteKey.onBoarding);
+    final OnBoardingSharedPreference onBoardingSharedPreference =
+        OnBoardingSharedPreference();
+    bool isOnAppInit = await onBoardingSharedPreference.isOnInit();
+
+    if (isOnAppInit) {
+      Navigator.of(context).pushReplacementNamed(RouteKey.onBoarding);
+    } else {
+      final AuthSharedPreference authSharedPreference = AuthSharedPreference();
+      final isVerified = await authSharedPreference.getVerifiedAccount();
+      await authSharedPreference.getBearerToken().then((value) async {
+        final bool isLogin = (value ?? "").isNotEmpty;
+        await Future.delayed(const Duration(seconds: 1));
+        if (mounted) {
+          if (isLogin && isVerified) {
+            Navigator.of(context).pushReplacementNamed(RouteKey.main);
+          } else {
+            Navigator.of(context).pushReplacementNamed(RouteKey.login);
+          }
         }
-      }
-    });
+      });
+    }
   }
 
   @override
