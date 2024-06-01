@@ -78,9 +78,13 @@ class _ReviewTestPageState extends State<ReviewTestPage> {
                             ),
                             selectedIndex < 0
                                 ? const SizedBox()
-                                : ReviewFormSection(
-                                    answer: answers[selectedIndex],
-                                    number: selectedIndex + 1,
+                                : Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 16),
+                                    child: ReviewFormSection(
+                                      answer: answers[selectedIndex],
+                                      number: selectedIndex + 1,
+                                    ),
                                   ),
                           ],
                         ),
