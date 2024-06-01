@@ -1,48 +1,47 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest.dart' as tz;
+import 'package:timezone/timezone.dart' as tz;
 
 class NotificationHelper {
-  static final _notification = FlutterLocalNotificationsPlugin();
+  static final FlutterLocalNotificationsPlugin _notification =
+      FlutterLocalNotificationsPlugin();
 
-  // static init() {
-  //   _notification.initialize(const InitializationSettings(
-  //       android: AndroidInitializationSettings('@mipmap/ic_launcher'),
-  //       iOS: DarwinInitializationSettings()));
-  //   tz.initializeTimeZones();
-  // }
+  static StreamController<NotificationResponse> onClickNotification =
+      StreamController();
 
-
-
-  static Future initializeNotifications({bool scheduled = false}) async {
-    var initAndroidSettings =
-        AndroidInitializationSettings('@mipmap/ic_launcher');
-    var ios = DarwinInitializationSettings();
-
-    final settings =
-        InitializationSettings(android: initAndroidSettings, iOS: ios);
-    await _notification.initialize(settings);
+  static void onNotificationTap(NotificationResponse notificationResponse) {
+    onClickNotification.add(notificationResponse);
   }
 
-  static Future showNotification({
+  static Future<void> initializeNotifications() async {
+    InitializationSettings settings = const InitializationSettings(
+        android: AndroidInitializationSettings('@mipmap/ic_launcher'),
+        iOS: DarwinInitializationSettings()
+    );
+
+    _notification.initialize(settings,
+        onDidReceiveBackgroundNotificationResponse: onNotificationTap,
+        onDidReceiveNotificationResponse: onNotificationTap);
+  }
+
+  static Future<void> showNotification({
     var id = 0,
-    var title,
-    var body,
-    var payload,
+    required String title,
+    required String body,
+    required String payload,
   }) async {
     var details = await notificationDetails();
     await _notification.show(id, title, body, details, payload: payload);
   }
 
   static Future showScheduleNotification({
-    var id = 0,
-    var title,
-    var body,
-    var payload,
+    var id = 1,
+    required String title,
+    required String body,
+    required String payload,
     required DateTime scheduleTime,
   }) async {
     var details = await notificationDetails();
@@ -60,15 +59,17 @@ class NotificationHelper {
   }
 
   static Future showScheduleDailyNotification({
-    var id = 0,
-    var title,
-    var body,
-    var payload,
+    var id = 2,
+    required String title,
+    required String body,
+    required String payload,
   }) async {
+    tz.initializeTimeZones();
     var details = await notificationDetails();
     var scheduledTime = _scheduledDaily(DateTime(
-        DateTime.now().year, DateTime.now().month, DateTime.now().day, 20, 19));
+        DateTime.now().year, DateTime.now().month, DateTime.now().day, 05, 44));
     print('Scheduling notification at: $scheduledTime');
+
     await _notification.zonedSchedule(
       id,
       title,
@@ -84,8 +85,10 @@ class NotificationHelper {
   }
 
   static tz.TZDateTime _scheduledDaily(DateTime time) {
-    final now = tz.TZDateTime.now(tz.local);
-    final scheduledTime = tz.TZDateTime(tz.local, now.year, now.month, now.day,
+    final jakarta = tz.getLocation('Asia/Jakarta');
+    final now = tz.TZDateTime.now(jakarta);
+    print('$now');
+    final scheduledTime = tz.TZDateTime(jakarta, now.year, now.month, now.day,
         time.hour, time.minute, time.second);
 
     final tz.TZDateTime finalTime = scheduledTime.isBefore(now)
@@ -98,8 +101,11 @@ class NotificationHelper {
 
   static notificationDetails() async {
     return const NotificationDetails(
-      android: AndroidNotificationDetails('channelId 1', 'channelName',
-          importance: Importance.max),
+      android: AndroidNotificationDetails('channelId 0', 'channelName',
+          channelDescription: 'channelDesc',
+          importance: Importance.max,
+          priority: Priority.high,
+          ticker: 'ticker'),
       iOS: DarwinNotificationDetails(),
     );
   }

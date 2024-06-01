@@ -233,16 +233,15 @@ class _SettingState extends State<Setting> {
   Widget _switchButton() {
     return (Switch(
       value: _switchValue,
-      onChanged: (value) {
+      onChanged: (value) async {
         setState(() {
           _switchValue = value;
           _saveSwitchState(value);
-
-          if (value) {
-            NotificationHelper.showScheduleDailyNotification(
-                title: "SUROTOOO", body: "HAHAHHA");
-          }
         });
+          if (value) {
+          NotificationHelper.showScheduleDailyNotification(
+              title: "SUROTOOO", body: "HAHAHHA", payload: "SimpleNotif");
+        }
         
       },
       activeTrackColor: HexColor(mariner700),
