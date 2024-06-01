@@ -102,7 +102,8 @@ class _LoginPageState extends State<LoginPage> {
                             child: GestureDetector(
                               onTap: () {
                                 Navigator.pushNamed(
-                                    context, RouteKey.forgotPassword);
+                                    context, RouteKey.forgotPassword,
+                                    arguments: emailController.text);
                               },
                               child: Text(
                                 'forgot_password',
