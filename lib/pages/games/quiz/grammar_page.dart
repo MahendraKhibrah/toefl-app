@@ -71,8 +71,8 @@ class _GrammarPageState extends State<GrammarPage> {
                     Padding(
                       padding: const EdgeInsets.only(
                           left: 10.0, right: 10, top: 20, bottom: 10),
-                      child: const Text(
-                        "Fill the blanks using suitable words!",
+                      child: Text(
+                        widget.question.content![indexCol].content,
                         textAlign: TextAlign.left,
                       ),
                     ),

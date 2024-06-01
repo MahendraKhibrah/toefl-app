@@ -127,56 +127,61 @@ class ForYouCard extends StatelessWidget {
             });
           }
         },
-        child: LayoutBuilder(builder: ((context, constraint) {
-          return Stack(
-            clipBehavior: Clip.none,
-            alignment: Alignment.center,
-            children: [
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(10),
-                  ),
-                  color: HexColor(topic["background"]),
-                ),
-                width: constraint.maxHeight / 1,
-              ),
-              Positioned(
-                  bottom: -(constraint.maxHeight / 55),
-                  child: SvgPicture.asset(
-                    topic["decoration"],
-                    width: constraint.maxHeight / 1,
-                  )),
-              Positioned(
-                top: (constraint.maxHeight / 18),
-                child: Container(
-                  width: constraint.maxHeight / 1.8,
-                  height: constraint.maxHeight / 1.5,
+        child: ClipRRect(
+          borderRadius: BorderRadius.all(
+            Radius.circular(10),
+          ),
+          child: LayoutBuilder(builder: ((context, constraint) {
+            return Stack(
+              clipBehavior: Clip.none,
+              alignment: Alignment.center,
+              children: [
+                Container(
                   decoration: BoxDecoration(
-                    color: HexColor(topic["color"]),
-                    shape: BoxShape.circle,
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(10),
+                    ),
+                    color: HexColor(topic["background"]),
+                  ),
+                  width: constraint.maxHeight / 1,
+                ),
+                // Positioned(
+                //     bottom: -(constraint.maxHeight / 55),
+                //     child: SvgPicture.asset(
+                //       topic["decoration"],
+                //       width: constraint.maxHeight / 1,
+                //     )),
+                Positioned(
+                  top: (constraint.maxHeight / 18),
+                  child: Container(
+                    width: constraint.maxHeight / 1.8,
+                    height: constraint.maxHeight / 1.5,
+                    decoration: BoxDecoration(
+                      color: HexColor(topic["color"]),
+                      shape: BoxShape.circle,
+                    ),
                   ),
                 ),
-              ),
-              Positioned(
-                top: constraint.maxHeight / 4.5,
-                child: SvgPicture.asset(
-                  topic["image"],
-                  height: constraint.maxHeight / 3,
+                Positioned(
+                  top: constraint.maxHeight / 4.5,
+                  child: SvgPicture.asset(
+                    topic["image"],
+                    height: constraint.maxHeight / 3,
+                  ),
                 ),
-              ),
-              Positioned(
-                  bottom: constraint.maxHeight / 12,
-                  child: Text(
-                    topic["title"],
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        fontSize: constraint.maxHeight / 8,
-                        fontWeight: FontWeight.bold,
-                        color: HexColor(topic["color"])),
-                  ))
-            ],
-          );
-        })));
+                Positioned(
+                    bottom: constraint.maxHeight / 12,
+                    child: Text(
+                      topic["title"],
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontSize: constraint.maxHeight / 8,
+                          fontWeight: FontWeight.bold,
+                          color: HexColor(topic["color"])),
+                    ))
+              ],
+            );
+          })),
+        ));
   }
 }

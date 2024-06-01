@@ -5,6 +5,7 @@ class RouteKey {
   static const grammar = '/grammar';
   static const initQuiz = '/init-quiz';
   static const quiz = '/quiz';
+  static const finishQuizResult = '/finish-quiz-result';
   static const fullTest = '/full-test';
   static const regist = '/regist';
   static const login = '/login';

@@ -16,8 +16,6 @@ class NotificationHelper {
   //   tz.initializeTimeZones();
   // }
 
-
-
   static Future initializeNotifications({bool scheduled = false}) async {
     var initAndroidSettings =
         AndroidInitializationSettings('@mipmap/ic_launcher');
@@ -109,7 +107,7 @@ class NotificationHelper {
   }) async {
     var details = await notificationDetails();
     var scheduledTime = _scheduledDaily(DateTime(
-        DateTime.now().year, DateTime.now().month, DateTime.now().day, 20, 19));
+        DateTime.now().year, DateTime.now().month, DateTime.now().day, 14, 08));
     print('Scheduling notification at: $scheduledTime');
     await _notification.zonedSchedule(
       id,

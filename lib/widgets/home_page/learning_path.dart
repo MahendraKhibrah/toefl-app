@@ -171,11 +171,6 @@ class _LearningPathState extends State<LearningPath> {
                                             color: HexColor(learning["color"]),
                                             borderRadius:
                                                 BorderRadius.circular(10),
-                                            border: Border.all(
-                                              color:
-                                                  HexColor(learning["border"]),
-                                              width: 3,
-                                            ),
                                           ),
                                         ),
                                         SvgPicture.asset(
@@ -243,10 +238,12 @@ class _LearningPathState extends State<LearningPath> {
 }
 
 class MySeparator extends StatelessWidget {
-  const MySeparator({Key? key, this.width = 1, this.color = Colors.black})
+  const MySeparator(
+      {Key? key, this.width = 1, this.color = Colors.black, this.child})
       : super(key: key);
   final double width;
   final Color color;
+  final Widget? child;
 
   @override
   Widget build(BuildContext context) {

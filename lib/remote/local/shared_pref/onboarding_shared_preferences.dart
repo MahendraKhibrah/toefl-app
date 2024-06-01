@@ -13,16 +13,4 @@ class OnBoardingSharedPreference {
 
     pref.setBool(SharedPreferenceKeys.onBoarding, false);
   }
-
-  Future<void> storeTargetIdUser(String targetId) async {
-    final pref = await SharedPreferences.getInstance();
-
-    pref.setString(SharedPreferenceKeys.targetIdScore, targetId);
-  }
-
-  Future<String> getTargetIdUser() async {
-    final pref = await SharedPreferences.getInstance();
-
-    return pref.getString(SharedPreferenceKeys.targetIdScore) ?? '';
-  }
 }

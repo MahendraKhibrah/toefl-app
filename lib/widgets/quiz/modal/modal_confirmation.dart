@@ -28,7 +28,7 @@ class _ModalConfirmationState extends State<ModalConfirmation> {
     return AlertDialog(
       surfaceTintColor: Colors.white,
       backgroundColor: Colors.white,
-      contentPadding: EdgeInsets.symmetric(vertical: 40, horizontal: 15),
+      contentPadding: EdgeInsets.symmetric(vertical: 30, horizontal: 15),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10.0),
       ),
@@ -41,7 +41,7 @@ class _ModalConfirmationState extends State<ModalConfirmation> {
           children: [
             Padding(
               padding:
-                  EdgeInsets.only(top: 12, left: 24, right: 24, bottom: 20),
+                  EdgeInsets.only(top: 12, left: 24, right: 24, bottom: 40),
               child: Text(
                 widget.message,
                 textAlign: TextAlign.center,
@@ -61,15 +61,15 @@ class _ModalConfirmationState extends State<ModalConfirmation> {
                     style: TextButton.styleFrom(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 15, vertical: 12),
-                      backgroundColor: HexColor(neutral20),
+                      backgroundColor: HexColor(neutral10),
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
+                          borderRadius: BorderRadius.circular(10),
+                          side: BorderSide(color: HexColor(mariner700))),
                     ),
                     child: Text(
                       widget.leftTitle,
                       style: TextStyle(
-                        color: HexColor(neutral50),
+                        color: HexColor(mariner700),
                         fontSize: 17,
                         fontWeight: FontWeight.bold,
                       ),

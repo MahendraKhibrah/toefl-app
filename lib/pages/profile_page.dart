@@ -1,9 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:toefl/pages/home_page.dart';
-import 'package:toefl/routes/local_notification.dart';
+import 'package:toefl/widgets/common_app_bar.dart';
 import 'package:toefl/widgets/profile_page/level_score.dart';
-import 'package:toefl/widgets/profile_page/profile.dart';
+import 'package:toefl/widgets/profile_page/profile_name_section.dart';
 import 'package:toefl/widgets/profile_page/settings.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -31,28 +30,27 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          centerTitle: true,
-          title: Text('appbar_profile'.tr()),
+        appBar: CommonAppBar(
+          title: 'appbar_profile'.tr(),
+          withBack: false,
         ),
         body: ListView(
           primary: false,
-          children: [
+          children: const [
             Padding(
-              padding: const EdgeInsets.all(24.0),
+              padding: EdgeInsets.all(24.0),
               child: Column(
                 children: <Widget>[
-                  const Profile(),
-                  const SizedBox(
+                  ProfileNameSection(),
+                  SizedBox(
                     height: 20,
                   ),
-                  const LevelScore(),
-                  const SizedBox(
+                  LevelScore(),
+                  SizedBox(
                     height: 20,
                   ),
-                  const Setting(),
-                  const SizedBox(
+                  Setting(),
+                  SizedBox(
                     height: 20,
                   ),
                   // ElevatedButton.icon(

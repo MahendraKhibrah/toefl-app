@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
+import 'package:toefl/models/profile.dart';
+import 'package:toefl/remote/api/profile_api.dart';
+import 'package:toefl/remote/local/shared_pref/onboarding_shared_preferences.dart';
 import 'package:toefl/routes/route_key.dart';
 import 'package:toefl/utils/colors.dart';
 import 'package:toefl/utils/hex_color.dart';
@@ -144,6 +147,8 @@ class _OtpVerificationState extends State<OtpVerification> {
                     isDisabled: otp.length < 4,
                     title: "Verify",
                     onTap: () async {
+                      Profile user = await ProfileApi().getProfile();
+
                       setState(() {
                         isLoading = true;
                       });
@@ -161,6 +166,9 @@ class _OtpVerificationState extends State<OtpVerification> {
                           Navigator.popUntil(context, (route) => route.isFirst);
                           Navigator.pop(context);
                           Navigator.pushNamed(context, RouteKey.main);
+                          if (user.targetScore == 0) {
+                            Navigator.pushNamed(context, RouteKey.setGoal);
+                          }
                         }
                       }
                     }),

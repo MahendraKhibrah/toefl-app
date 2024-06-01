@@ -6,19 +6,25 @@ import 'package:toefl/utils/custom_text_style.dart';
 import 'package:toefl/utils/hex_color.dart';
 import 'package:toefl/widgets/quiz/modal/modal_confirmation.dart';
 
-class StepProgress extends StatefulWidget {
+class StepProgress extends StatefulWidget implements PreferredSizeWidget {
+  final double height;
   final int currentStep;
   final int steps;
   final String quizType;
 
   const StepProgress(
       {super.key,
+      this.height = 60,
       required this.currentStep,
       required this.steps,
       required this.quizType});
 
   @override
   State<StepProgress> createState() => _StepProgressState();
+
+  @override
+  // TODO: implement preferredSize
+  Size get preferredSize => Size.fromHeight(height);
 }
 
 class _StepProgressState extends State<StepProgress> {
@@ -52,69 +58,40 @@ class _StepProgressState extends State<StepProgress> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          children: [
-            GestureDetector(
-              onTap: () async {
-                showDialog(
-                  context: context,
-                  builder: (context) {
-                    return ModalConfirmation(
-                      message: "Are you sure want to abort this quiz?",
-                      leftTitle: "Cancel",
-                      rightTitle: "Confirm",
-                      leftFunction: () => Navigator.pop(context),
-                      rightFunction: () => Navigator.pushNamedAndRemoveUntil(
-                        context,
-                        RouteKey.main,
-                        (route) => false,
-                      ),
-                    );
-                  },
-                );
-              },
-              child: Padding(
-                padding: const EdgeInsets.only(right: 10.0),
-                child: const Icon(
-                  Icons.close,
+    return AppBar(
+      scrolledUnderElevation: 0,
+      titleSpacing: 0,
+      leading: IconButton(
+        onPressed: () {
+          showDialog(
+            context: context,
+            builder: (context) {
+              return ModalConfirmation(
+                message: "Are you sure want to abort this quiz?",
+                leftTitle: "Cancel",
+                rightTitle: "Confirm",
+                leftFunction: () => Navigator.pop(context),
+                rightFunction: () => Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  RouteKey.main,
+                  (route) => false,
                 ),
-              ),
-            ),
-            Expanded(
-              child: Container(
-                height: 9,
-                margin: EdgeInsets.symmetric(vertical: 16),
-                child: Stack(
-                  children: [
-                    AnimatedContainer(
-                      width: widthProgress * widget.currentStep,
-                      duration: Duration(milliseconds: 300),
-                      decoration: BoxDecoration(
-                        color: HexColor(mariner800),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                    ),
-                    // LinearProgressIndicator(
-                    //     value: randomWordsList.length / 10,
-                    //     color: HexColor(mariner800),
-                    //     borderRadius: BorderRadius.circular(8)),
-                  ],
-                ),
-                decoration: BoxDecoration(
-                  color: HexColor(neutral40),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-              ),
-            ),
-          ],
+              );
+            },
+          );
+        },
+        icon: Icon(
+          Icons.close,
         ),
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8.0),
+      ),
+      centerTitle: true,
+      bottom: PreferredSize(
+        preferredSize: Size.fromHeight(0),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 '${widget.quizType}: Questions ${(widget.currentStep + 1).toInt()} of ${widget.steps.toInt()}',
@@ -123,7 +100,39 @@ class _StepProgressState extends State<StepProgress> {
             ],
           ),
         ),
-      ],
+      ),
+      title: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Row(
+            children: [
+              Expanded(
+                child: Container(
+                  height: 9,
+                  margin: EdgeInsets.only(right: 24),
+                  child: Stack(
+                    children: [
+                      AnimatedContainer(
+                        width: widthProgress * widget.currentStep,
+                        duration: Duration(milliseconds: 300),
+                        decoration: BoxDecoration(
+                          color: HexColor(mariner800),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                    ],
+                  ),
+                  decoration: BoxDecoration(
+                    color: HexColor(neutral40),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }
