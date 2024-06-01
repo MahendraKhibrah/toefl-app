@@ -104,7 +104,7 @@ class SimulationTestWidget extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "A test that contains ",
+                          'test_description'.tr(),
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               fontSize: constraint.maxHeight / 16,
@@ -146,7 +146,7 @@ class SimulationTestWidget extends StatelessWidget {
                         child: TextButton(
                             onPressed: topic["onTap"],
                             child: Text(
-                              "Try",
+                              'try'.tr(),
                               style: TextStyle(
                                   fontSize: constraint.maxHeight / 14,
                                   fontWeight: FontWeight.w800,

@@ -137,14 +137,14 @@ class _HomePageState extends State<HomePage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Featured",
+                      'featured'.tr(),
                       style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
                           color: HexColor(neutral90)),
                     ),
                     Text(
-                      "Challenge your knowledge",
+                      'challenge'.tr(),
                       style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.bold,

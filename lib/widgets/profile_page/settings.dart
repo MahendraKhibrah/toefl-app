@@ -26,6 +26,7 @@ class Setting extends StatefulWidget {
 class _SettingState extends State<Setting> {
   bool _switchValue = false;
   String dropdownValue = 'English';
+  String permissionStatus = "Checking permission...";
   var items = [
     'English',
     'Indonesia',
@@ -54,11 +55,19 @@ class _SettingState extends State<Setting> {
   void initState() {
     super.initState();
     _onInit();
+    _checkPermission();
   }
 
   _saveSwitchState(bool value) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setBool('switchState', value);
+  }
+
+  Future<void> _checkPermission() async {
+    String status = await NotificationHelper.requestExactAlarmPermission();
+    setState(() {
+      permissionStatus = status;
+    });
   }
 
   @override
@@ -238,11 +247,10 @@ class _SettingState extends State<Setting> {
           _switchValue = value;
           _saveSwitchState(value);
         });
-          if (value) {
+        if (value) {
           NotificationHelper.showScheduleDailyNotification(
               title: "SUROTOOO", body: "HAHAHHA", payload: "SimpleNotif");
         }
-        
       },
       activeTrackColor: HexColor(mariner700),
       inactiveTrackColor: Colors.white,

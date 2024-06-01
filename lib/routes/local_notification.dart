@@ -1,7 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:rxdart/rxdart.dart';
+import 'package:permission_handler/permission_handler.dart';
+// import 'package:rxdart/rxdart.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 
@@ -19,12 +20,21 @@ class NotificationHelper {
   static Future<void> initializeNotifications() async {
     InitializationSettings settings = const InitializationSettings(
         android: AndroidInitializationSettings('@mipmap/ic_launcher'),
-        iOS: DarwinInitializationSettings()
-    );
+        iOS: DarwinInitializationSettings());
 
     _notification.initialize(settings,
         onDidReceiveBackgroundNotificationResponse: onNotificationTap,
         onDidReceiveNotificationResponse: onNotificationTap);
+  }
+
+  static Future<String> requestExactAlarmPermission() async {
+    if (await Permission.scheduleExactAlarm.request().isGranted) {
+      // Izin diberikan
+      return "Permission GRanted";
+    } else {
+      return "Permission Denied";
+      // Izin ditolak
+    }
   }
 
   static Future<void> showNotification({
@@ -67,7 +77,7 @@ class NotificationHelper {
     tz.initializeTimeZones();
     var details = await notificationDetails();
     var scheduledTime = _scheduledDaily(DateTime(
-        DateTime.now().year, DateTime.now().month, DateTime.now().day, 05, 44));
+        DateTime.now().year, DateTime.now().month, DateTime.now().day, 16, 30));
     print('Scheduling notification at: $scheduledTime');
 
     await _notification.zonedSchedule(

@@ -39,9 +39,11 @@
   "appbar_home": "Start Learning Today!",
   "estimated_score": "Estimated Score",
   "take_full": "*take a full test to show here",
-  "set_now": "set_now",
+  "set_now": "Set Now",
   "for_you": "For You",
   "topic_interest": "Based on your topic interest",
+  "featured": "Featured",
+  "challenge": "Challenge your knowledge",
   "simulation_test": "Simulation Test",
   "test_description": "A test that contains",
   "questions": "{} Questions",
@@ -57,5 +59,8 @@
   "correct_questions": "Correct\nquestion",
   "mini_test": "MINI TEST",
   "appbar_profile": "Profile",
-  "change_password": "Change Password"
+  "change_password": "Change Password",
+
+  "your_level": "Your Level",
+  "submit_btn": "Submit"
 }

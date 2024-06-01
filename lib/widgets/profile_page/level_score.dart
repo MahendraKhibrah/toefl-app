@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:toefl/models/profile.dart' as model;
 import 'package:toefl/remote/api/profile_api.dart';
@@ -60,7 +61,7 @@ class _LevelScoreState extends State<LevelScore> {
                   child: Column(
                     children: [
                       Text(
-                        "Your Level",
+                        'your_level'.tr(),
                         style: TextStyle(
                             fontWeight: FontWeight.w600,
                             fontSize: 10,

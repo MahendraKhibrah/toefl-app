@@ -1,7 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:toefl/pages/home_page.dart';
-import 'package:toefl/routes/local_notification.dart';
+// import 'package:toefl/pages/home_page.dart';
+// import 'package:toefl/routes/local_notification.dart';
 
 import 'package:toefl/widgets/profile_page/level_score.dart';
 import 'package:toefl/widgets/profile_page/profile.dart';
@@ -17,17 +17,17 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   @override
   void initState() {
-    listenToNotification();
+    // listenToNotification();
     super.initState();
   }
 
-  listenToNotification() {
-    print("Listening to notification");
-    NotificationHelper.onClickNotification.stream.listen((event) {
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => HomePage()));
-    });
-  }
+  // listenToNotification() {
+  //   print("Listening to notification");
+  //   NotificationHelper.onClickNotification.stream.listen((event) {
+  //     Navigator.push(
+  //         context, MaterialPageRoute(builder: (context) => HomePage()));
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
