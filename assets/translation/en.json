@@ -63,5 +63,7 @@
   "retake": "Retake",
   "are_you_sure_want_to_delete_this_bookmark": "Are you sure want to delete this bookmark?",
   "back": "Back",
-  "delete": "Delete"
+  "delete": "Delete",
+  "are_you_sure_want_to_logout_this_account": "Are you sure want to logout this account?",
+  "cancel": "Cancel"
 }
