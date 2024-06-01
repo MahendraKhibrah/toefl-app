@@ -10,13 +10,16 @@ class ModalConfirmation extends StatefulWidget {
   final String rightTitle;
   final VoidCallback leftFunction;
   final VoidCallback rightFunction;
+  final bool isWarningModal;
+
   const ModalConfirmation(
       {super.key,
       required this.message,
       required this.leftTitle,
       required this.rightTitle,
       required this.leftFunction,
-      required this.rightFunction});
+      required this.rightFunction,
+      this.isWarningModal = false});
 
   @override
   State<ModalConfirmation> createState() => _ModalConfirmationState();
@@ -61,15 +64,22 @@ class _ModalConfirmationState extends State<ModalConfirmation> {
                     style: TextButton.styleFrom(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 15, vertical: 12),
-                      backgroundColor: HexColor(neutral10),
+                      backgroundColor: widget.isWarningModal
+                          ? HexColor(neutral40).withOpacity(0.35)
+                          : HexColor(neutral10),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
-                          side: BorderSide(color: HexColor(mariner700))),
+                          side: BorderSide(
+                              color: widget.isWarningModal
+                                  ? Colors.transparent
+                                  : HexColor(mariner700))),
                     ),
                     child: Text(
                       widget.leftTitle,
                       style: TextStyle(
-                        color: HexColor(mariner700),
+                        color: widget.isWarningModal
+                            ? HexColor(neutral50)
+                            : HexColor(mariner700),
                         fontSize: 17,
                         fontWeight: FontWeight.bold,
                       ),
@@ -85,7 +95,9 @@ class _ModalConfirmationState extends State<ModalConfirmation> {
                     style: TextButton.styleFrom(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 15, vertical: 12),
-                      backgroundColor: HexColor(mariner700),
+                      backgroundColor: widget.isWarningModal
+                          ? HexColor(colorError)
+                          : HexColor(mariner700),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),

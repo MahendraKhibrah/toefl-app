@@ -1,9 +1,8 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:skeletonizer/skeletonizer.dart';
-import 'package:toefl/pages/bookmark/bookmarked_page.dart';
-import 'package:toefl/pages/full_test/finished_packet_dialog.dart';
 import 'package:toefl/remote/api/full_test_api.dart';
 import 'package:toefl/remote/local/shared_pref/test_shared_preferences.dart';
 import 'package:toefl/routes/route_key.dart';
@@ -171,10 +170,10 @@ class _SimulationPageState extends ConsumerState<SimulationPage> {
                                         context: context,
                                         builder: (BuildContext submitContext) {
                                           return ModalConfirmation(
-                                            message:
-                                                "You've finished yout test.",
-                                            leftTitle: 'Review',
-                                            rightTitle: 'Retake',
+                                            message: "you_ve_finished_your_test"
+                                                .tr(),
+                                            leftTitle: 'review'.tr(),
+                                            rightTitle: 'retake'.tr(),
                                             rightFunction: () {
                                               Navigator.of(submitContext).pop();
                                               Navigator.of(context).pushNamed(

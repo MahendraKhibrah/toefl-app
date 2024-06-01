@@ -57,5 +57,8 @@
   "correct_questions": "Benar",
   "mini_test": "MINI TES",
   "appbar_profile": "Profil",
-  "change_password": "Ganti Sandi"
+  "change_password": "Ganti Sandi",
+  "you_ve_finished_your_test": "Lihat hasil tes Anda",
+  "review": "Tinjau",
+  "retake": "Ulang"
 }
