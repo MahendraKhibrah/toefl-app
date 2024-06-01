@@ -37,7 +37,7 @@ class LocalNotification {
         onDidReceiveNotificationResponse: onNotificationTap,
         onDidReceiveBackgroundNotificationResponse: onNotificationTap);
 
-    // // Request permissions for iOS
+    // Request permissions for iOS
     _flutterLocalNotificationsPlugin
         .resolvePlatformSpecificImplementation<
             IOSFlutterLocalNotificationsPlugin>()
@@ -72,23 +72,35 @@ class LocalNotification {
     required String body,
     required String payload,
   }) async {
-    tz.initializeTimeZones();
-    await _flutterLocalNotificationsPlugin.zonedSchedule(
+    try {
+      print("Initializing time zones");
+      tz.initializeTimeZones();
+
+      print("Scheduling notification");
+      await _flutterLocalNotificationsPlugin.zonedSchedule(
         1,
         title,
         body,
         tz.TZDateTime.now(tz.local).add(const Duration(seconds: 5)),
-        NotificationDetails(
-          android: AndroidNotificationDetails('channelId 1', 'channelName',
-              channelDescription: 'channelDesc',
-              importance: Importance.max,
-              priority: Priority.high,
-              ticker: 'ticker'),
+        const NotificationDetails(
+          android: AndroidNotificationDetails(
+            'channelId 1',
+            'channelName',
+            channelDescription: 'channelDesc',
+            importance: Importance.max,
+            priority: Priority.high,
+            ticker: 'ticker',
+          ),
         ),
         androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
         uiLocalNotificationDateInterpretation:
             UILocalNotificationDateInterpretation.absoluteTime,
-        payload: payload);
+        payload: payload,
+      );
+      print("Notification scheduled successfully.");
+    } catch (e) {
+      print("Error scheduling notification: $e");
+    }
   }
 
   // static Future<void> showScheduleDailyNotification({

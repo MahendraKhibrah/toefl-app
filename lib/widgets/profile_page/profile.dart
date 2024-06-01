@@ -46,12 +46,12 @@ class _ProfileState extends State<Profile> {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        CircleAvatar(
+        const CircleAvatar(
           backgroundColor: Colors.transparent,
           radius: 40,
           backgroundImage: AssetImage('assets/images/avatar_profile.png'),
         ),
-        SizedBox(
+        const SizedBox(
           width: 12,
         ),
         SizedBox(

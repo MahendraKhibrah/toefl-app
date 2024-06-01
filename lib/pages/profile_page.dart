@@ -2,7 +2,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:toefl/pages/home_page.dart';
 import 'package:toefl/routes/local_notification.dart';
-
 import 'package:toefl/widgets/profile_page/level_score.dart';
 import 'package:toefl/widgets/profile_page/profile.dart';
 import 'package:toefl/widgets/profile_page/settings.dart';

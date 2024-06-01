@@ -3,7 +3,6 @@ import 'package:toefl/models/profile.dart' as model;
 import 'package:toefl/remote/api/profile_api.dart';
 import 'package:toefl/utils/colors.dart';
 import 'package:toefl/utils/hex_color.dart';
-import 'package:toefl/widgets/profile_page/profile.dart';
 
 class LevelScore extends StatefulWidget {
   const LevelScore({super.key});
@@ -101,7 +100,7 @@ class _LevelScoreState extends State<LevelScore> {
                       Text("${profile?.currentScore}/${profile?.targetScore}",
                           style: TextStyle(
                             fontWeight: FontWeight.w900,
-                            fontSize: 25,
+                            fontSize: MediaQuery.of(context).size.width * 0.055,
                             color: HexColor(mariner900),
                           ),
                           textAlign: TextAlign.center),
@@ -149,4 +148,3 @@ class _LevelScoreState extends State<LevelScore> {
   //   ));
   // }
 }
-
