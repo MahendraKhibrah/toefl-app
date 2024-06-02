@@ -18,16 +18,12 @@ import 'package:toefl/utils/hex_color.dart';
 import 'package:toefl/utils/locale.dart';
 import 'package:toefl/widgets/profile_page/change_lang_dialog.dart';
 
-
-
 class Setting extends StatefulWidget {
   const Setting({Key? key}) : super(key: key);
 
   @override
   State<Setting> createState() => _SettingState();
 }
-
-
 
 class _SettingState extends State<Setting> {
   bool _switchValue = false;
@@ -250,32 +246,35 @@ class _SettingState extends State<Setting> {
   }
 
   Widget _switchButton() {
-    return (Switch(
+    return Switch(
       value: _switchValue,
       onChanged: (value) async {
         setState(() {
           _switchValue = value;
-          _saveSwitchState(value);
         });
+        _saveSwitchState(value);
         if (value) {
-          scheduleNotifications();
+          await scheduleNotifications();
         }
       },
       activeTrackColor: HexColor(mariner700),
       inactiveTrackColor: Colors.white,
       activeColor: Colors.white,
-    ));
+    );
   }
 
+  // void _checkNotification() async {
+  //   bool isEnabled = await Noti
+  // }
 
-  void scheduleNotifications() {
+  Future<void> scheduleNotifications() async {
     DateTime now = DateTime.now();
-    DateTime nextMorning =
-        DateTime(now.year, now.month, now.day, 10, 0, 0).add(
+    DateTime nextMorning = DateTime(now.year, now.month, now.day, 10, 0, 0).add(
       now.hour >= 10 ? Duration(days: 1) : Duration.zero,
     );
-    DateTime nextAfternoon = DateTime(now.year, now.month, now.day, 16, 12, 0).add(
-      now.hour >= 16 ? Duration(days: 1) : Duration.zero,
+    DateTime nextAfternoon =
+        DateTime(now.year, now.month, now.day, 21, 37, 0).add(
+      now.hour >= 23 ? Duration(days: 1) : Duration.zero,
     );
 
     Duration morningDuration = nextMorning.difference(now);

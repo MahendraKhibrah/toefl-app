@@ -36,8 +36,7 @@ dependencies:
   flutter_local_notifications: ^17.1.2
   flutter_launcher_icons: ^0.13.1
   timezone: ^0.9.3
-
-
+  permission_handler: ^11.3.1
 
 
 dev_dependencies:
