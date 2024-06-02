@@ -70,7 +70,7 @@ class TopicInterest extends StatelessWidget {
       child: FutureBuilder<List<Quiz>>(
           future: forYou(),
           builder: (context, snapshot) {
-            Quiz nullQuiz = Quiz(
+        Quiz nullQuiz = Quiz(
                 id: '',
                 quizName: '',
                 quizTypeId: '',

@@ -62,5 +62,9 @@
   "change_password": "Change Password",
 
   "your_level": "Your Level",
-  "submit_btn": "Submit"
+  "submit_btn": "Submit",
+  "morning_notification": "Good Morning {}",
+  "afternoon_notification": "Good Afternoon {}",
+  "body_notification": " Check your learning achievements and progress today on the MYTOEFL application."
+ 
 }

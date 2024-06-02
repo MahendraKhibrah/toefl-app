@@ -1,145 +1,37 @@
-import 'dart:async';
-
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:permission_handler/permission_handler.dart';
-// import 'package:rxdart/rxdart.dart';
-import 'package:timezone/data/latest.dart' as tz;
-import 'package:timezone/timezone.dart' as tz;
 
 class NotificationHelper {
-  static final FlutterLocalNotificationsPlugin _notification =
-      FlutterLocalNotificationsPlugin();
+  static Future initialize(
+      FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin) async {
+    var androidInitialize = new AndroidInitializationSettings('mipmap/logo');
+    var iosInitialize = new DarwinInitializationSettings();
 
-  static StreamController<NotificationResponse> onClickNotification =
-      StreamController();
+    var initializationsSettings = new InitializationSettings(
+        android: androidInitialize, iOS: iosInitialize);
 
-  static void onNotificationTap(NotificationResponse notificationResponse) {
-    onClickNotification.add(notificationResponse);
+    await flutterLocalNotificationsPlugin.initialize(initializationsSettings);
   }
 
-  static Future<void> initializeNotifications() async {
-    InitializationSettings settings = const InitializationSettings(
-        android: AndroidInitializationSettings('@mipmap/ic_launcher'),
-        iOS: DarwinInitializationSettings());
+  static Future showBigTextNotification(
+      {var id = 0,
+      required String title,
+      required String body,
+      var payload,
+      required FlutterLocalNotificationsPlugin fln}) async {
+    AndroidNotificationDetails androidPlatformChannelSpesifics =
+        new AndroidNotificationDetails('channelId1', 'channelName',
+            playSound: true,
+            importance: Importance.max,
+            priority: Priority.high);
 
-    _notification.initialize(settings,
-        onDidReceiveBackgroundNotificationResponse: onNotificationTap,
-        onDidReceiveNotificationResponse: onNotificationTap);
+    var not = NotificationDetails(
+        android: androidPlatformChannelSpesifics,
+        iOS: DarwinNotificationDetails());
+    await fln.show(0, title, body, not);
   }
 
-  static Future<String> requestExactAlarmPermission() async {
-    if (await Permission.scheduleExactAlarm.request().isGranted) {
-      // Izin diberikan
-      return "Permission GRanted";
-    } else {
-      return "Permission Denied";
-      // Izin ditolak
-    }
-  }
+  
+  
 
-  static Future<void> showNotification({
-    var id = 0,
-    required String title,
-    required String body,
-    required String payload,
-  }) async {
-    var details = await notificationDetails();
-    await _notification.show(id, title, body, details, payload: payload);
-  }
-
-  static Future showScheduleNotification({
-    var id = 1,
-    required String title,
-    required String body,
-    required String payload,
-    required DateTime scheduleTime,
-  }) async {
-    var details = await notificationDetails();
-    await _notification.zonedSchedule(
-      id,
-      title,
-      body,
-      tz.TZDateTime.from(scheduleTime, tz.local),
-      details,
-      payload: payload,
-      androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
-      uiLocalNotificationDateInterpretation:
-          UILocalNotificationDateInterpretation.absoluteTime,
-    );
-  }
-
-  static Future showScheduleDailyNotification({
-    var id = 2,
-    required String title,
-    required String body,
-    required String payload,
-  }) async {
-    tz.initializeTimeZones();
-    var details = await notificationDetails();
-    var scheduledTime = _scheduledDaily(DateTime(
-        DateTime.now().year, DateTime.now().month, DateTime.now().day, 16, 30));
-    print('Scheduling notification at: $scheduledTime');
-
-    await _notification.zonedSchedule(
-      id,
-      title,
-      body,
-      scheduledTime,
-      details,
-      payload: payload,
-      androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
-      uiLocalNotificationDateInterpretation:
-          UILocalNotificationDateInterpretation.absoluteTime,
-      matchDateTimeComponents: DateTimeComponents.time,
-    );
-  }
-
-  static tz.TZDateTime _scheduledDaily(DateTime time) {
-    final jakarta = tz.getLocation('Asia/Jakarta');
-    final now = tz.TZDateTime.now(jakarta);
-    print('$now');
-    final scheduledTime = tz.TZDateTime(jakarta, now.year, now.month, now.day,
-        time.hour, time.minute, time.second);
-
-    final tz.TZDateTime finalTime = scheduledTime.isBefore(now)
-        ? scheduledTime.add(const Duration(days: 1))
-        : scheduledTime;
-
-    print('Scheduled notification time: $finalTime');
-    return finalTime;
-  }
-
-  static notificationDetails() async {
-    return const NotificationDetails(
-      android: AndroidNotificationDetails('channelId 0', 'channelName',
-          channelDescription: 'channelDesc',
-          importance: Importance.max,
-          priority: Priority.high,
-          ticker: 'ticker'),
-      iOS: DarwinNotificationDetails(),
-    );
-  }
-
-  // static scheduledNotification(String title, String body) async {
-  //   var androidDetails = const AndroidNotificationDetails(
-  //       'important_notifications', 'My Channel',
-  //       importance: Importance.max, priority: Priority.high);
-
-  //   var iosDetails = const DarwinNotificationDetails();
-
-  //   var notificationDetails =
-  //       NotificationDetails(android: androidDetails, iOS: iosDetails);
-
-  //   await _notification.zonedSchedule(
-  //       0,
-  //       title,
-  //       body,
-  //       tz.TZDateTime.now(tz.local).add(const Duration(
-  //         seconds: 1,
-  //       )),
-  //       notificationDetails,
-  //       uiLocalNotificationDateInterpretation:
-  //           UILocalNotificationDateInterpretation.absoluteTime,
-  //       androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle);
-  // }
+  
 }

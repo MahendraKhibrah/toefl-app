@@ -62,5 +62,8 @@
   "change_password": "Ganti Sandi",
 
   "your_level": "Level Kamu",
-  "submit_btn": "Kirim"
+  "submit_btn": "Kirim",
+  "morning_notification": "Selamat Pagi {}",
+  "afternoon_notification": "Selamat Sore {}",
+  "body_notification": "Cek capaian dan progress belajar kamu hari ini di aplikasi MYTOEFL."
 }

@@ -1,6 +1,8 @@
+import 'dart:async';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:restart_app/restart_app.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -16,6 +18,8 @@ import 'package:toefl/utils/hex_color.dart';
 import 'package:toefl/utils/locale.dart';
 import 'package:toefl/widgets/profile_page/change_lang_dialog.dart';
 
+
+
 class Setting extends StatefulWidget {
   const Setting({Key? key}) : super(key: key);
 
@@ -23,10 +27,13 @@ class Setting extends StatefulWidget {
   State<Setting> createState() => _SettingState();
 }
 
+
+
 class _SettingState extends State<Setting> {
   bool _switchValue = false;
   String dropdownValue = 'English';
-  String permissionStatus = "Checking permission...";
+  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+      FlutterLocalNotificationsPlugin();
   var items = [
     'English',
     'Indonesia',
@@ -55,19 +62,12 @@ class _SettingState extends State<Setting> {
   void initState() {
     super.initState();
     _onInit();
-    _checkPermission();
+    NotificationHelper.initialize(flutterLocalNotificationsPlugin);
   }
 
   _saveSwitchState(bool value) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setBool('switchState', value);
-  }
-
-  Future<void> _checkPermission() async {
-    String status = await NotificationHelper.requestExactAlarmPermission();
-    setState(() {
-      permissionStatus = status;
-    });
   }
 
   @override
@@ -248,13 +248,49 @@ class _SettingState extends State<Setting> {
           _saveSwitchState(value);
         });
         if (value) {
-          NotificationHelper.showScheduleDailyNotification(
-              title: "SUROTOOO", body: "HAHAHHA", payload: "SimpleNotif");
+          scheduleNotifications();
         }
       },
       activeTrackColor: HexColor(mariner700),
       inactiveTrackColor: Colors.white,
       activeColor: Colors.white,
     ));
+  }
+
+
+  void scheduleNotifications() {
+    DateTime now = DateTime.now();
+    DateTime nextMorning =
+        DateTime(now.year, now.month, now.day, 10, 0, 0).add(
+      now.hour >= 10 ? Duration(days: 1) : Duration.zero,
+    );
+    DateTime nextAfternoon = DateTime(now.year, now.month, now.day, 14, 58, 0).add(
+      now.hour >= 16 ? Duration(days: 1) : Duration.zero,
+    );
+
+    Duration morningDuration = nextMorning.difference(now);
+    Duration eveningDuration = nextAfternoon.difference(now);
+
+    // Timer for morning notification
+    Timer(morningDuration, () {
+      NotificationHelper.showBigTextNotification(
+        title: 'morning_notification'.tr(args: ['Sobat TOEFL PENS!']),
+        body: 'body_notification'.tr(),
+        fln: flutterLocalNotificationsPlugin,
+      );
+      // Schedule next morning notification
+      scheduleNotifications();
+    });
+
+    // Timer for evening notification
+    Timer(eveningDuration, () {
+      NotificationHelper.showBigTextNotification(
+        title: 'afternoon_notification'.tr(args: ['Sobat TOEFL PENS!']),
+        body: 'body_notification'.tr(),
+        fln: flutterLocalNotificationsPlugin,
+      );
+      // Schedule next evening notification
+      scheduleNotifications();
+    });
   }
 }

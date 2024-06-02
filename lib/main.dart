@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:toefl/remote/local/shared_pref/localization_shared_pref.dart';
 import 'package:toefl/routes/local_notification.dart';
@@ -14,11 +15,11 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:toefl/utils/locale.dart';
 
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
-  NotificationHelper.initializeNotifications();
+
+ 
 
   final selectedLocale = await LocalizationSharedPreference().getSelectedLang();
 
@@ -37,6 +38,8 @@ void main() async {
     ),
   );
 }
+
+
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
