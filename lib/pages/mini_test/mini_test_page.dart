@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lottie/lottie.dart';
@@ -68,7 +69,7 @@ class MiniTestPage extends ConsumerWidget {
                                 _showFinishedDialog(context, ref);
                               },
                               child: Text(
-                                "Submit",
+                                'submit_btn'.tr(),
                                 style: CustomTextStyle.extraBold16
                                     .copyWith(color: HexColor(mariner700)),
                               ),

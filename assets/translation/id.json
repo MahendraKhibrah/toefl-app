@@ -42,6 +42,8 @@
   "set_now": "Atur Sekarang",
   "for_you": "Untuk Kamu",
   "topic_interest": "Berdasarkan minat topik Anda",
+  "featured": "Fitur",
+  "challenge": "Tantang pengetahuan kamu",
   "simulation_test": "Tes Simulasi",
   "test_description": "Tes yang berisi",
   "questions": "{} Pertanyaan",
@@ -57,5 +59,11 @@
   "correct_questions": "Benar",
   "mini_test": "MINI TES",
   "appbar_profile": "Profil",
-  "change_password": "Ganti Sandi"
+  "change_password": "Ganti Sandi",
+
+  "your_level": "Level Kamu",
+  "submit_btn": "Kirim",
+  "morning_notification": "Selamat Pagi {}",
+  "afternoon_notification": "Selamat Sore {}",
+  "body_notification": "Cek capaian dan progress belajar kamu hari ini di aplikasi MYTOEFL."
 }

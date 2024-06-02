@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -58,10 +59,14 @@ class _GamesPageState extends State<GamesPage> {
           appBar: AppBar(
             leading: null,
             scrolledUnderElevation: 0,
-            centerTitle: true,
-            title: Text(
-              'Games',
-              style: CustomTextStyle.appBarTitle,
+            title: Padding(
+              padding: EdgeInsets.only(top: 30, bottom: 20),
+              child: Center(
+                child: Text(
+                  'appbar_games'.tr(),
+                  style: CustomTextStyle.appBarTitle,
+                ),
+              ),
             ),
             bottom: BottomBarGames(
               isActive: _isActive,

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:toefl/utils/colors.dart';
 import 'package:toefl/utils/custom_text_style.dart';
@@ -64,7 +65,7 @@ class _BottomSheetMiniTestState extends State<BottomSheetMiniTest> {
             Row(
               children: [
                 buildMenu(
-                    "All(${widget.filledStatus.length})", selectedPage == 0,
+                    'All(${widget.filledStatus.length})', selectedPage == 0,
                     () {
                   setState(() {
                     selectedPage = 0;
