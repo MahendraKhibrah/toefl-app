@@ -52,9 +52,16 @@ class _SettingState extends State<Setting> {
 
   @override
   void initState() {
-    super.initState();
+    // listenToNotification();
     _onInit();
+    super.initState();
   }
+
+  // listenToNotification() {
+  //   NotificationHelper.onClickNotification.stream.listen((event) {
+  //     Navigator.popAndPushNamed(context, RouteKey.main);
+  //   });
+  // }
 
   _saveSwitchState(bool value) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -236,17 +243,20 @@ class _SettingState extends State<Setting> {
   Widget _switchButton() {
     return (Switch(
       value: _switchValue,
-      onChanged: (value) {
+      onChanged: (value) async {
         setState(() {
           _switchValue = value;
           _saveSwitchState(value);
-
-          if (value) {
-            NotificationHelper.showScheduleDailyNotification(
-                title: "SUROTOOO", body: "HAHAHHA");
-          }
         });
-        
+        if (value) {
+          NotificationHelper.showScheduledDailyNotification(
+            title: 'Pemberitahuan Harian',
+            body: 'Ini adalah notifikasi harian pada jam 8 pagi',
+            payload: 'payload contoh',
+          );
+          // NotificationHelper.showNotification(
+          //     title: "title", body: "body", payload: "payload");
+        }
       },
       activeTrackColor: HexColor(mariner700),
       inactiveTrackColor: Colors.white,
