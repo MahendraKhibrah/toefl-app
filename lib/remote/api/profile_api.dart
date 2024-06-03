@@ -10,7 +10,7 @@ class ProfileApi {
   Future<Profile> getProfile() async {
     try {
       final Response rawResponse =
-          await DioToefl.instance.get('${Env.apiUrl}/users/profile');
+          await DioToefl.instance.get('${Env.userUrl}/users/profile');
 
       final response = BaseResponse.fromJson(json.decode(rawResponse.data));
       return Profile.fromJson(response.data);

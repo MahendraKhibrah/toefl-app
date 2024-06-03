@@ -9,7 +9,7 @@ class PairingApi {
   Future<bool> storeSynonym(List<String> synonymWordIds, int score) async {
     try {
       final Response rawResponse = await DioToefl.instance.post(
-          '${Env.apiUrl}/pairingclaims',
+          '${Env.gameUrl}/pairingclaims',
           data: {'score': score, 'synonym_words': synonymWordIds});
 
       final response = BaseResponse.fromJson(json.decode(rawResponse.data));

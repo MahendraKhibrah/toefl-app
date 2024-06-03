@@ -13,7 +13,7 @@ class LeaderBoardApi {
   Future<UserRank> getLeaderBoardEntries() async {
     try {
       final Response rawResponse =
-          await DioToefl.instance.get('${Env.apiUrl}/leaderboard');
+          await DioToefl.instance.get('${Env.gameUrl}/leaderboard');
       final response = BaseResponse.fromJson(json.decode(rawResponse.data));
       // Assuming the response data is a list of leaderboard entries
       String user = response.data['user']["_id"];

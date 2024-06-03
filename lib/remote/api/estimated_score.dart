@@ -11,7 +11,7 @@ class EstimatedScoreApi {
   Future<EstimatedScore> getEstimatedScore() async {
     try {
       final Response rawResponse =
-          await DioToefl.instance.get('${Env.apiUrl}/get-score-toefl');
+          await DioToefl.instance.get('${Env.simulationUrl}/get-score-toefl');
       // debugPrint(json.decode(rawResponse.data)['data'].toString());
       final response = BaseResponse.fromJson(json.decode(rawResponse.data));
       // debugPrint(response.toString());

@@ -9,7 +9,7 @@ class ScrambledWordApi {
   Future<bool> storeScrambled(String wordId, bool isTrue) async {
     try {
       final Response rawResponse = await DioToefl.instance.post(
-          '${Env.apiUrl}/scrambledword',
+          '${Env.gameUrl}/scrambledword',
           data: {'word_id': wordId, 'is_true': isTrue});
 
       final response = BaseResponse.fromJson(json.decode(rawResponse.data));
