@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:toefl/models/test/answer.dart';
 import 'package:toefl/pages/review_test/bottom_sheet_review_test.dart';
@@ -67,7 +68,9 @@ class _ReviewTestPageState extends State<ReviewTestPage> {
                               width: screenWidth,
                               child: Center(
                                 child: Text(
-                                  answers.first.packetName,
+                                  answers.isNotEmpty
+                                      ? answers.first.packetName
+                                      : "review".tr(),
                                   style: CustomTextStyle.extraBold16
                                       .copyWith(fontSize: 20),
                                 ),
@@ -81,10 +84,12 @@ class _ReviewTestPageState extends State<ReviewTestPage> {
                                 : Padding(
                                     padding: const EdgeInsets.symmetric(
                                         horizontal: 16),
-                                    child: ReviewFormSection(
-                                      answer: answers[selectedIndex],
-                                      number: selectedIndex + 1,
-                                    ),
+                                    child: answers.isNotEmpty
+                                        ? ReviewFormSection(
+                                            answer: answers[selectedIndex],
+                                            number: selectedIndex + 1,
+                                          )
+                                        : const SizedBox(),
                                   ),
                           ],
                         ),
@@ -186,26 +191,30 @@ class _ReviewTestPageState extends State<ReviewTestPage> {
         setState(() {
           isLoading = true;
         });
-        final bookmarkStatus =
-            await bookmarkApi.updateBookmark(answers[selectedIndex].id);
+        final bookmarkStatus = answers.isNotEmpty
+            ? await bookmarkApi.updateBookmark(answers[selectedIndex].id)
+            : false;
         setState(() {
-          answers[selectedIndex] = Answer(
-            id: answers[selectedIndex].id,
-            bookmark: bookmarkStatus,
-            question: answers[selectedIndex].question,
-            keyQuestion: answers[selectedIndex].keyQuestion,
-            typeQuestion: answers[selectedIndex].typeQuestion,
-            isCorrect: answers[selectedIndex].isCorrect,
-            userAnswer: answers[selectedIndex].userAnswer,
-            nestedQuestionId: answers[selectedIndex].nestedQuestionId,
-            nestedQuestion: answers[selectedIndex].nestedQuestion,
-            choices: answers[selectedIndex].choices,
-            packetName: answers[selectedIndex].packetName,
-          );
+          if (answers.isNotEmpty) {
+            answers[selectedIndex] = Answer(
+              id: answers[selectedIndex].id,
+              bookmark: bookmarkStatus,
+              question: answers[selectedIndex].question,
+              keyQuestion: answers[selectedIndex].keyQuestion,
+              typeQuestion: answers[selectedIndex].typeQuestion,
+              isCorrect: answers[selectedIndex].isCorrect,
+              userAnswer: answers[selectedIndex].userAnswer,
+              nestedQuestionId: answers[selectedIndex].nestedQuestionId,
+              nestedQuestion: answers[selectedIndex].nestedQuestion,
+              choices: answers[selectedIndex].choices,
+              packetName: answers[selectedIndex].packetName,
+            );
+          }
           isLoading = false;
         });
       },
-      icon: selectedIndex >= 0 && (answers[selectedIndex].bookmark)
+      icon: selectedIndex >= 0 &&
+              (answers.isNotEmpty ? answers[selectedIndex].bookmark : false)
           ? Icon(
               Icons.bookmark,
               color: HexColor(mariner700),
