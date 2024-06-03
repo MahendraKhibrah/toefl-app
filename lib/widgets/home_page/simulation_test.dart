@@ -41,85 +41,28 @@ class SimulationTestWidget extends StatelessWidget {
                           width: constraint.maxWidth / 2.8,
                         )),
                   ),
-                  Positioned(
-                      top: (constraint.maxHeight / 10),
-                      right: (index == 0)
-                          ? (constraint.maxHeight / 3.5)
-                          : (constraint.maxHeight / 2.8),
-                      child: SvgPicture.asset(
-                        topic["icon"],
-                        color: (index == 0)
-                            ? HexColor("#76B7E4")
-                            : HexColor(mariner100),
-                        height: constraint.maxHeight / 8,
-                      )),
-                  Positioned(
-                    top: (constraint.maxHeight / 4),
-                    left: (constraint.maxHeight / 15),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'test_description'.tr(),
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontSize: constraint.maxHeight / 16,
-                              fontWeight: FontWeight.w800,
-                              color: (index == 0)
-                                  ? HexColor(mariner900)
-                                  : HexColor(neutral10)),
-                        ),
-                        Text(
-                          topic["subtitle"],
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontSize: constraint.maxHeight / 16,
-                              fontWeight: FontWeight.w800,
-                              color: (index == 0)
-                                  ? HexColor(mariner900)
-                                  : HexColor(neutral10)),
-                        ),
-                      ],
-                    ),
-
+                ),
+                InkWell(
+                  borderRadius: BorderRadius.circular(10),
+                  onTap: () => Navigator.of(context)
+                      .pushNamed(RouteKey.miniSimulationTest),
+                  child: TryCard(
+                    title: "Mini Test",
+                    icon: "assets/images/pesawat.svg",
+                    subtitle: "A test that contains\n70 questions",
+                    child: Positioned(
+                        bottom: -(constraint.maxWidth / 4.5),
+                        right: -(constraint.maxWidth / 8),
+                        child: SvgPicture.asset(
+                          fit: BoxFit.cover,
+                          "assets/images/avatar_featured1.svg",
+                          width: constraint.maxWidth / 2.6,
+                        )),
                   ),
-                  Positioned(
-                      right: -(constraint.maxHeight / 70),
-                      top: (constraint.maxHeight / 16),
-                      child: SvgPicture.asset(
-                        "assets/images/vector_bg_st.svg",
-                        color: (index == 0)
-                            ? HexColor("#76B7E4")
-                            : HexColor(mariner100),
-                        width: constraint.maxHeight / 1,
-                      )),
-                  Positioned(
-                      bottom: constraint.maxHeight / 12,
-                      right: (constraint.maxHeight / 18),
-                      child: SizedBox(
-                        height: constraint.maxHeight / 5,
-                        width: constraint.maxHeight / 1.8,
-                        child: TextButton(
-                            onPressed: topic["onTap"],
-                            child: Text(
-                              'try'.tr(),
-                              style: TextStyle(
-                                  fontSize: constraint.maxHeight / 14,
-                                  fontWeight: FontWeight.w800,
-                                  color: HexColor(mariner900)),
-                            ),
-                            style: ButtonStyle(
-                              backgroundColor: MaterialStateProperty.all<Color>(
-                                  HexColor(topic["color"])),
-                            )),
-                      ))
-                ],
-              );
-            },
-
-          );
-        },
-      ),
-    );
+                )
+              ],
+            ),
+          ));
+    });
   }
 }
