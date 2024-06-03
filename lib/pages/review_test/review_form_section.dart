@@ -34,9 +34,22 @@ class ReviewFormSection extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // const SizedBox(
-                //   height: 10,
-                // ),
+                const SizedBox(
+                  height: 10,
+                ),
+                if (answer.typeQuestion == "Reading")
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Question $number",
+                        style: CustomTextStyle.bold16.copyWith(fontSize: 14),
+                      ),
+                      const SizedBox(
+                        height: 8,
+                      ),
+                    ],
+                  ),
                 answer.typeQuestion == "Reading"
                     ? BlueContainer(
                         child: Column(
@@ -49,16 +62,38 @@ class ReviewFormSection extends StatelessWidget {
                         ),
                       )
                     : answer.typeQuestion == "Listening"
-                        ? ToeflAudioPlayer(
-                            url: '${Env.storageUrl}/${answer.nestedQuestion}',
+                        ? Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              ToeflAudioPlayer(
+                                url:
+                                    '${Env.storageUrl}/${answer.nestedQuestion}',
+                              ),
+                              const SizedBox(
+                                height: 20,
+                              ),
+                              Text(
+                                "Question $number",
+                                style: CustomTextStyle.bold16
+                                    .copyWith(fontSize: 14),
+                              ),
+                            ],
                           )
-                        : const SizedBox(
-                            height: 0,
+                        : Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const SizedBox(height: 0),
+                              Text(
+                                "Question $number",
+                                style: CustomTextStyle.bold16
+                                    .copyWith(fontSize: 14),
+                              ),
+                            ],
                           ),
                 const SizedBox(
                   height: 20,
                 ),
-                ..._buildQuestion(),
+                _buildQuestionText(),
                 const SizedBox(
                   height: 100,
                 )
@@ -70,55 +105,51 @@ class ReviewFormSection extends StatelessWidget {
     );
   }
 
-  List<Widget> _buildQuestion() {
-    return [
-      Text(
-        "Question $number",
-        style: CustomTextStyle.bold16.copyWith(fontSize: 14),
-      ),
-      const SizedBox(
-        height: 8,
-      ),
-      answer.question.isNotEmpty
-          ? Padding(
-              padding: const EdgeInsets.only(top: 2, bottom: 12),
-              child: Text(
-                answer.question,
-                style: CustomTextStyle.medium14,
-              ),
-            )
-          : const SizedBox(),
-      Column(
-        children: List.generate(4, (index) {
-          return Padding(
-              padding: const EdgeInsets.only(bottom: 15),
-              child: AnswerButton(
-                onTap: () {
-                  debugPrint(
-                      "key : ${answer.keyQuestion} : ${answer.choices.length >= 4 ? answer.choices[index].id : "x"}");
-                },
-                isActive: false,
-                title:
-                    "(${String.fromCharCode(65 + index)}) ${answer.choices.length >= 4 ? answer.choices[index].choice : ""}",
-                isAnswerTrue: answer.choices.length >= 4
-                    ? answer.keyQuestion == answer.choices[index].choice
-                    : false,
-                isAnswerFalse: answer.choices.length >= 4
-                    ? (answer.userAnswer == answer.choices[index].choice &&
-                        !answer.isCorrect)
-                    : false,
-              ));
-        }),
-      ),
-      const SizedBox(
-        height: 12,
-      ),
-      answer.choices.length >= 4
-          ? AnswerValidationContainer(
-              isCorrect: answer.isCorrect,
-              keyAnswer: answer.keyQuestion,
-              explanation: "")
-          : const SizedBox()
-    ];
+  Widget _buildQuestionText() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        answer.question.isNotEmpty
+            ? Padding(
+                padding: const EdgeInsets.only(top: 2, bottom: 12),
+                child: Text(
+                  answer.question,
+                  style: CustomTextStyle.medium14,
+                ),
+              )
+            : const SizedBox(),
+        Column(
+          children: List.generate(4, (index) {
+            return Padding(
+                padding: const EdgeInsets.only(bottom: 15),
+                child: AnswerButton(
+                  onTap: () {
+                    debugPrint(
+                        "key : ${answer.keyQuestion} : ${answer.choices.length >= 4 ? answer.choices[index].id : "x"}");
+                  },
+                  isActive: false,
+                  title:
+                      "(${String.fromCharCode(65 + index)}) ${answer.choices.length >= 4 ? answer.choices[index].choice : ""}",
+                  isAnswerTrue: answer.choices.length >= 4
+                      ? answer.keyQuestion == answer.choices[index].choice
+                      : false,
+                  isAnswerFalse: answer.choices.length >= 4
+                      ? (answer.userAnswer == answer.choices[index].choice &&
+                          !answer.isCorrect)
+                      : false,
+                ));
+          }),
+        ),
+        const SizedBox(
+          height: 12,
+        ),
+        answer.choices.length >= 4
+            ? AnswerValidationContainer(
+                isCorrect: answer.isCorrect,
+                keyAnswer: answer.keyQuestion,
+                explanation: "")
+            : const SizedBox()
+      ],
+    );
   }
 }
