@@ -8,6 +8,7 @@ import 'package:toefl/utils/colors.dart';
 import 'package:toefl/utils/custom_text_style.dart';
 import 'package:toefl/utils/hex_color.dart';
 import 'package:toefl/widgets/blue_container.dart';
+import 'package:toefl/widgets/common_app_bar.dart';
 
 class SetTargetPage extends StatefulWidget {
   const SetTargetPage({super.key});
@@ -58,12 +59,8 @@ class _SetTargetPageState extends State<SetTargetPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: GestureDetector(
-            onTap: () {
-              Navigator.pop(context);
-            },
-            child: const Icon(Icons.arrow_back)),
+      appBar: CommonAppBar(
+        title: '',
       ),
       body: Column(
         children: [

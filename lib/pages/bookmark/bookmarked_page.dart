@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:toefl/remote/api/bookmark_api.dart';
 import 'package:toefl/utils/colors.dart';
@@ -11,6 +12,8 @@ import 'package:toefl/widgets/blue_container.dart';
 
 import '../../models/bookmark/bookmark.dart';
 import '../../routes/route_key.dart';
+import '../../widgets/common_app_bar.dart';
+import '../../widgets/quiz/modal/modal_confirmation.dart';
 
 class BookmarkedPage extends StatefulWidget {
   const BookmarkedPage({super.key});
@@ -45,12 +48,8 @@ class _BookmarkedPageState extends State<BookmarkedPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text(
-          'appbar_bookmarked'.tr(),
-          style: CustomTextStyle.extraBold16,
-        ),
+      appBar: CommonAppBar(
+        title: 'appbar_bookmarked'.tr(),
       ),
       body: Skeletonizer(
         enabled: isLoading,
@@ -60,8 +59,7 @@ class _BookmarkedPageState extends State<BookmarkedPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Text(
-                    'description_bookmarked'.tr(),
+                Text('description_bookmarked'.tr(),
                     textAlign: TextAlign.center,
                     style: CustomTextStyle.bold12
                         .copyWith(color: HexColor(neutral60))),
@@ -81,11 +79,33 @@ class _BookmarkedPageState extends State<BookmarkedPage> {
                                   );
                                 },
                                 onDelete: () async {
-                                  setState(() {
-                                    isLoading = true;
-                                  });
-                                  await api.updateBookmark(bookmarks[index].id);
-                                  _init();
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext submitContext) {
+                                      return ModalConfirmation(
+                                        message:
+                                            "are_you_sure_want_to_delete_this_bookmark"
+                                                .tr(),
+                                        leftTitle: 'back'.tr(),
+                                        rightTitle: 'delete'.tr(),
+                                        isWarningModal: true,
+                                        rightFunction: () async {
+                                          setState(() {
+                                            isLoading = true;
+                                          });
+                                          await api.updateBookmark(
+                                              bookmarks[index].id);
+                                          _init();
+                                          if (submitContext.mounted) {
+                                            Navigator.of(submitContext).pop();
+                                          }
+                                        },
+                                        leftFunction: () {
+                                          Navigator.of(submitContext).pop();
+                                        },
+                                      );
+                                    },
+                                  );
                                 },
                               ),
                             ))

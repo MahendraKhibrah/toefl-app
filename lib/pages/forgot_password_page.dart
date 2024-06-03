@@ -9,7 +9,9 @@ import 'package:toefl/widgets/form_input.dart';
 import '../remote/api/user_api.dart';
 
 class ForgotPassword extends StatefulWidget {
-  const ForgotPassword({super.key});
+  const ForgotPassword({super.key, this.initialEmail = ""});
+
+  final String initialEmail;
 
   @override
   State<ForgotPassword> createState() => _ForgotPasswordState();
@@ -25,6 +27,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
   @override
   void initState() {
     super.initState();
+    emailController.text = widget.initialEmail;
     _emailFocusNode = FocusNode();
   }
 
@@ -41,7 +44,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
             size: 30,
           ),
           onTap: () {
-            Navigator.popAndPushNamed(context, RouteKey.login);
+            Navigator.of(context).pop();
           },
         ),
       ),

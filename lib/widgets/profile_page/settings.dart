@@ -17,8 +17,7 @@ import 'package:toefl/utils/colors.dart';
 import 'package:toefl/utils/hex_color.dart';
 import 'package:toefl/utils/locale.dart';
 import 'package:toefl/widgets/profile_page/change_lang_dialog.dart';
-
-
+import '../quiz/modal/modal_confirmation.dart';
 
 class Setting extends StatefulWidget {
   const Setting({Key? key}) : super(key: key);
@@ -89,6 +88,7 @@ class _SettingState extends State<Setting> {
             thickness: 1,
           ),
           InkWell(
+            borderRadius: BorderRadius.circular(10),
             splashColor: const Color(0xffE7E7E7).withOpacity(0.3),
             highlightColor: Colors.transparent,
             onTap: () {
@@ -102,6 +102,7 @@ class _SettingState extends State<Setting> {
             thickness: 1,
           ),
           InkWell(
+            borderRadius: BorderRadius.circular(10),
             splashColor: const Color(0xffE7E7E7).withOpacity(0.3),
             highlightColor: Colors.transparent,
             onTap: () async {
@@ -128,16 +129,38 @@ class _SettingState extends State<Setting> {
             thickness: 1,
           ),
           InkWell(
+            borderRadius: BorderRadius.circular(10),
             splashColor: const Color(0xffE7E7E7).withOpacity(0.3),
             highlightColor: Colors.transparent,
             onTap: () async {
-              await authSharedPreference.removeBearerToken();
-              await authSharedPreference.removeVerifiedAccount();
-              await testSharedPreference.removeStatus();
-              await testSharedPreference.removeMiniStatus();
-              await fullTestTable.resetDatabase();
-              await miniTestTable.resetDatabase();
-              Navigator.pushReplacementNamed(context, RouteKey.login);
+              showDialog(
+                context: context,
+                builder: (BuildContext submitContext) {
+                  return ModalConfirmation(
+                    message: "are_you_sure_want_to_logout_this_account".tr(),
+                    leftTitle: 'cancel'.tr(),
+                    rightTitle: 'logout'.tr(),
+                    isWarningModal: true,
+                    rightFunction: () async {
+                      await authSharedPreference.removeBearerToken();
+                      await authSharedPreference.removeVerifiedAccount();
+                      await testSharedPreference.removeStatus();
+                      await testSharedPreference.removeMiniStatus();
+                      await fullTestTable.resetDatabase();
+                      await miniTestTable.resetDatabase();
+                      if (submitContext.mounted) {
+                        Navigator.of(submitContext).pop();
+                      }
+                      if (context.mounted) {
+                        Navigator.pushReplacementNamed(context, RouteKey.login);
+                      }
+                    },
+                    leftFunction: () {
+                      Navigator.of(submitContext).pop();
+                    },
+                  );
+                },
+              );
             },
             child: _listTileCustom(Icons.logout_sharp, 'logout'.tr(),
                 islogout: true),
@@ -150,7 +173,7 @@ class _SettingState extends State<Setting> {
   Widget _listTileCustom(IconData icon, String text,
       {Widget? trailing, bool islogout = false}) {
     return ListTile(
-      contentPadding: const EdgeInsets.all(0),
+      contentPadding: const EdgeInsets.symmetric(horizontal: 10),
       leading: Icon(
         icon,
         color: (islogout ? const Color(0xffF44336) : HexColor(mariner800)),

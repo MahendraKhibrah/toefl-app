@@ -107,12 +107,6 @@ class _RegistPageState extends State<RegistPage> {
                       BlueButton(
                         title: 'btn_register'.tr(),
                         onTap: () async {
-                          final OnBoardingSharedPreference
-                              onBoardingSharedPreference =
-                              OnBoardingSharedPreference();
-                          final String targetId =
-                              await onBoardingSharedPreference
-                                  .getTargetIdUser();
                           setState(() {
                             isLoading = true;
                           });
@@ -120,12 +114,12 @@ class _RegistPageState extends State<RegistPage> {
                           if (_formKey.currentState!.validate()) {
                             val = await userApi.postRegist(
                               Regist(
-                                  name: nameController.text,
-                                  email: emailController.text,
-                                  password: passwordController.text,
-                                  passwordConfirmation:
-                                      confirmPasswordController.text,
-                                  targetId: targetId),
+                                name: nameController.text,
+                                email: emailController.text,
+                                password: passwordController.text,
+                                passwordConfirmation:
+                                    confirmPasswordController.text,
+                              ),
                             );
                             if (val.isSuccess) {
                               Navigator.pushNamed(

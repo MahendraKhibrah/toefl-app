@@ -57,15 +57,12 @@ class _GamesPageState extends State<GamesPage> {
 
         return Scaffold(
           appBar: AppBar(
+            leading: null,
             scrolledUnderElevation: 0,
-            title: Padding(
-              padding: EdgeInsets.only(top: 30, bottom: 20),
-              child: Center(
-                child: Text(
-                  'appbar_games'.tr(),
-                  style: CustomTextStyle.appBarTitle,
-                ),
-              ),
+            centerTitle: true,
+            title: Text(
+              'appbar_games'.tr(),
+              style: CustomTextStyle.appBarTitle,
             ),
             bottom: BottomBarGames(
               isActive: _isActive,

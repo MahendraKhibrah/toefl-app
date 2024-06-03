@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:toefl/remote/local/shared_pref/onboarding_shared_preferences.dart';
 import 'package:toefl/routes/route_key.dart';
 import 'package:toefl/utils/colors.dart';
 import 'package:toefl/utils/hex_color.dart';
@@ -19,17 +20,17 @@ class OnBoarding extends StatelessWidget {
               width: MediaQuery.of(context).size.width,
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 56),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 24.0, vertical: 56),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     "Welcome to Our App",
                     style: TextStyle(
-                      fontSize: 30,
-                      fontWeight: FontWeight.bold,
-                      color: HexColor(mariner700)
-                    ),
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold,
+                        color: HexColor(mariner700)),
                   ),
                   Text(
                     "Learn the words of language, grammar, conversation and reading",
@@ -41,11 +42,15 @@ class OnBoarding extends StatelessWidget {
                   ),
                   const SizedBox(height: 75),
                   BlueButton(
-                    title: 'Next', 
-                    onTap: () {
-                      Navigator.popAndPushNamed(context, RouteKey.setGoal);
-                    }
-                  ),
+                      title: 'Next',
+                      onTap: () async {
+                        final OnBoardingSharedPreference
+                            onBoardingSharedPreference =
+                            OnBoardingSharedPreference();
+
+                        onBoardingSharedPreference.setOnboardingFalse();
+                        Navigator.popAndPushNamed(context, RouteKey.login);
+                      }),
                 ],
               ),
             ),

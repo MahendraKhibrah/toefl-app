@@ -182,21 +182,23 @@ class BottomSheetReviewTest extends StatelessWidget {
               style: CustomTextStyle.normal12,
             )
           : const SizedBox(),
-      Padding(
-        padding: const EdgeInsets.symmetric(vertical: 15),
-        child: Wrap(
-          crossAxisAlignment: WrapCrossAlignment.center,
-          spacing: screenWidth * 0.03,
-          runSpacing: screenWidth * 0.03,
-          children: List.generate(total, (index) {
-            return buildNumOption(
-              index + start,
-              () {
-                Navigator.of(context).pop(index + start);
-              },
-              answers[index + start - 1].isCorrect,
-            );
-          }),
+      Center(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 15),
+          child: Wrap(
+            crossAxisAlignment: WrapCrossAlignment.center,
+            spacing: screenWidth * 0.03,
+            runSpacing: screenWidth * 0.03,
+            children: List.generate(total, (index) {
+              return buildNumOption(
+                index + start,
+                () {
+                  Navigator.of(context).pop(index + start);
+                },
+                answers[index + start - 1].isCorrect,
+              );
+            }),
+          ),
         ),
       ),
     ];

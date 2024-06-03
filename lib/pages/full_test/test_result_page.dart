@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:toefl/models/test/result.dart';
+import 'package:toefl/pages/bookmark/bookmarked_page.dart';
 import 'package:toefl/remote/api/full_test_api.dart';
 import 'package:toefl/routes/route_key.dart';
 import 'package:toefl/utils/colors.dart';
@@ -11,6 +12,8 @@ import 'package:toefl/utils/hex_color.dart';
 import 'package:toefl/widgets/blue_button.dart';
 import 'package:toefl/widgets/blue_container.dart';
 import 'package:toefl/widgets/toefl_progress_indicator.dart';
+
+import '../../widgets/common_app_bar.dart';
 
 class TestResultPage extends StatefulWidget {
   const TestResultPage(
@@ -51,13 +54,7 @@ class _TestResultPageState extends State<TestResultPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text(
-          'test_result'.tr(),
-          style: CustomTextStyle.extraBold16,
-        ),
-      ),
+      appBar: CommonAppBar(title: 'test_result'.tr()),
       body: Skeletonizer(
         enabled: isLoading,
         child: Padding(
@@ -77,14 +74,18 @@ class _TestResultPageState extends State<TestResultPage> {
                                 width: 90,
                                 height: 120,
                                 child: ToeflProgressIndicator(
-                                  value: (result?.precentage ?? 0).toDouble() /
-                                      100,
+                                  value:
+                                      ((result?.precentage ?? 0).toDouble() < 9
+                                              ? 9
+                                              : (result?.precentage ?? 0)
+                                                  .toDouble()) /
+                                          100,
                                   activeHexColor: mariner800,
                                   nonActiveHexColor: neutral40,
                                   size:
                                       MediaQuery.of(context).size.width * 1 / 5,
                                   strokeWidth: 18,
-                                  strokeScaler: 0.95,
+                                  strokeScaler: 1.2,
                                 ),
                               ),
                               Positioned(
@@ -201,18 +202,21 @@ class _TestResultPageState extends State<TestResultPage> {
                               });
                             },
                             child: Container(
+                              height: 50,
                               width: MediaQuery.of(context).size.width * 0.38,
                               padding: const EdgeInsets.symmetric(
                                   vertical: 8, horizontal: 24),
                               decoration: BoxDecoration(
                                   color: Colors.transparent,
-                                  borderRadius: BorderRadius.circular(15),
+                                  borderRadius: BorderRadius.circular(10),
                                   border:
                                       Border.all(color: HexColor(mariner700))),
-                              child: Text('review_test'.tr(),
-                                  textAlign: TextAlign.center,
-                                  style: CustomTextStyle.bold18
-                                      .copyWith(color: HexColor(mariner700))),
+                              child: Center(
+                                child: Text('review_test'.tr(),
+                                    textAlign: TextAlign.center,
+                                    style: CustomTextStyle.bold18
+                                        .copyWith(color: HexColor(mariner700))),
+                              ),
                             ),
                           ),
                           const SizedBox(width: 4),
