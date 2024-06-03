@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
@@ -117,7 +118,7 @@ class _FormSectionState extends ConsumerState<MiniFormSection> {
       Padding(
         padding: EdgeInsets.only(bottom: question.question.isEmpty ? 8.0 : 0),
         child: Text(
-          "Question ${question.number}",
+          'Question ${question.number}',
           style: CustomTextStyle.bold16.copyWith(fontSize: 14),
         ),
       ),

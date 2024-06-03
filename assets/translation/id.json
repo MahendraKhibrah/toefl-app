@@ -42,6 +42,8 @@
   "set_now": "Atur Sekarang",
   "for_you": "Untuk Kamu",
   "topic_interest": "Berdasarkan minat topik Anda",
+  "featured": "Fitur",
+  "challenge": "Tantang pengetahuan kamu",
   "simulation_test": "Tes Simulasi",
   "test_description": "Tes yang berisi",
   "questions": "{} Pertanyaan",
@@ -65,5 +67,10 @@
   "back": "Kembali",
   "delete": "Hapus",
   "are_you_sure_want_to_logout_this_account": "Apakah Anda yakin ingin keluar dari akun ini?",
-  "cancel": "Batal"
+  "cancel": "Batal",
+  "your_level": "Level Kamu",
+  "submit_btn": "Kirim",
+  "morning_notification": "Selamat Pagi {}",
+  "afternoon_notification": "Selamat Sore {}",
+  "body_notification": "Cek capaian dan progress belajar kamu hari ini di aplikasi MYTOEFL."
 }

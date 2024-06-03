@@ -1,19 +1,22 @@
+import 'dart:async';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:restart_app/restart_app.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toefl/remote/local/shared_pref/auth_shared_preferences.dart';
 import 'package:toefl/remote/local/shared_pref/localization_shared_pref.dart';
 import 'package:toefl/remote/local/shared_pref/test_shared_preferences.dart';
 import 'package:toefl/remote/local/sqlite/full_test_table.dart';
 import 'package:toefl/remote/local/sqlite/mini_test_table.dart';
+import 'package:toefl/routes/local_notification.dart';
 import 'package:toefl/routes/route_key.dart';
 import 'package:toefl/utils/colors.dart';
 import 'package:toefl/utils/hex_color.dart';
 import 'package:toefl/utils/locale.dart';
 import 'package:toefl/widgets/profile_page/change_lang_dialog.dart';
-
 import '../quiz/modal/modal_confirmation.dart';
 
 class Setting extends StatefulWidget {
@@ -23,9 +26,13 @@ class Setting extends StatefulWidget {
   State<Setting> createState() => _SettingState();
 }
 
+
+
 class _SettingState extends State<Setting> {
   bool _switchValue = false;
   String dropdownValue = 'English';
+  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+      FlutterLocalNotificationsPlugin();
   var items = [
     'English',
     'Indonesia',
@@ -41,10 +48,12 @@ class _SettingState extends State<Setting> {
 
   void _onInit() async {
     final selectedLang = await localizationSharedPreference.getSelectedLang();
+    SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       dropdownValue = (selectedLang?.startsWith(LocaleEnum.id.name) ?? false)
           ? 'Indonesia'
           : "English";
+      _switchValue = (prefs.getBool('switchState') ?? false);
     });
   }
 
@@ -52,6 +61,12 @@ class _SettingState extends State<Setting> {
   void initState() {
     super.initState();
     _onInit();
+    NotificationHelper.initialize(flutterLocalNotificationsPlugin);
+  }
+
+  _saveSwitchState(bool value) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool('switchState', value);
   }
 
   @override
@@ -250,14 +265,55 @@ class _SettingState extends State<Setting> {
   Widget _switchButton() {
     return (Switch(
       value: _switchValue,
-      onChanged: (value) {
+      onChanged: (value) async {
         setState(() {
           _switchValue = value;
+          _saveSwitchState(value);
         });
+        if (value) {
+          scheduleNotifications();
+        }
       },
       activeTrackColor: HexColor(mariner700),
       inactiveTrackColor: Colors.white,
       activeColor: Colors.white,
     ));
+  }
+
+
+  void scheduleNotifications() {
+    DateTime now = DateTime.now();
+    DateTime nextMorning =
+        DateTime(now.year, now.month, now.day, 10, 0, 0).add(
+      now.hour >= 10 ? Duration(days: 1) : Duration.zero,
+    );
+    DateTime nextAfternoon = DateTime(now.year, now.month, now.day, 14, 58, 0).add(
+      now.hour >= 16 ? Duration(days: 1) : Duration.zero,
+    );
+
+    Duration morningDuration = nextMorning.difference(now);
+    Duration eveningDuration = nextAfternoon.difference(now);
+
+    // Timer for morning notification
+    Timer(morningDuration, () {
+      NotificationHelper.showBigTextNotification(
+        title: 'morning_notification'.tr(args: ['Sobat TOEFL PENS!']),
+        body: 'body_notification'.tr(),
+        fln: flutterLocalNotificationsPlugin,
+      );
+      // Schedule next morning notification
+      scheduleNotifications();
+    });
+
+    // Timer for evening notification
+    Timer(eveningDuration, () {
+      NotificationHelper.showBigTextNotification(
+        title: 'afternoon_notification'.tr(args: ['Sobat TOEFL PENS!']),
+        body: 'body_notification'.tr(),
+        fln: flutterLocalNotificationsPlugin,
+      );
+      // Schedule next evening notification
+      scheduleNotifications();
+    });
   }
 }

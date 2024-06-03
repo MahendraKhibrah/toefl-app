@@ -42,6 +42,8 @@
   "set_now": "Set Now",
   "for_you": "For You",
   "topic_interest": "Based on your topic interest",
+  "featured": "Featured",
+  "challenge": "Challenge your knowledge",
   "simulation_test": "Simulation Test",
   "test_description": "A test that contains",
   "questions": "{} Questions",
@@ -65,5 +67,10 @@
   "back": "Back",
   "delete": "Delete",
   "are_you_sure_want_to_logout_this_account": "Are you sure want to logout this account?",
-  "cancel": "Cancel"
+  "cancel": "Cancel",
+  "your_level": "Your Level",
+  "submit_btn": "Submit",
+  "morning_notification": "Good Morning {}",
+  "afternoon_notification": "Good Afternoon {}",
+  "body_notification": " Check your learning achievements and progress today on the MYTOEFL application."
 }
