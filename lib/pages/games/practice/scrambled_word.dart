@@ -126,7 +126,7 @@ class _WordScramblePageState extends State<WordScramblePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: GameAppBar(
-        title: 'Synonym Pairing',
+        title: 'Scrambled Word',
       ),
       body: Column(
         children: [
