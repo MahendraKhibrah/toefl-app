@@ -35,6 +35,7 @@ import 'package:toefl/pages/user/setgoal_page.dart';
 import 'package:toefl/pages/splash_page.dart';
 import 'package:toefl/pages/auth/success_password_page.dart';
 import 'package:toefl/pages/template_page.dart';
+import 'package:toefl/pages/user/setting_page.dart';
 import 'package:toefl/routes/route_key.dart';
 import 'package:toefl/pages/main_page.dart';
 import 'package:toefl/state_management/quiz/quiz_provider_state.dart';
@@ -172,4 +173,5 @@ final routes = <String, Widget Function(BuildContext)>{
         ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
     return FinishQuizPage(result: data?["result"] ?? "");
   },
+  RouteKey.settingPage: (context) => const SettingPage(),
 };

@@ -11,6 +11,8 @@ import 'package:toefl/widgets/profile_page/level_score.dart';
 import 'package:toefl/widgets/profile_page/profile_name_section.dart';
 import 'package:toefl/widgets/profile_page/settings.dart';
 
+import '../../routes/route_key.dart';
+
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
 
@@ -115,12 +117,17 @@ class _ProfilePageState extends State<ProfilePage> {
           top: 52,
           right: 12,
           width: 40,
-          child: BlueContainer(
-            padding: 4,
-            borderRadius: 10,
-            child: Icon(
-              Icons.settings,
-              color: HexColor(mariner800),
+          child: GestureDetector(
+            onTap: () {
+              Navigator.pushNamed(context, RouteKey.settingPage);
+            },
+            child: BlueContainer(
+              padding: 4,
+              borderRadius: 10,
+              child: Icon(
+                Icons.settings,
+                color: HexColor(mariner800),
+              ),
             ),
           ),
         ),

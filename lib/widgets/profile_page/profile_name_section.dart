@@ -47,8 +47,8 @@ class _ProfileNameSectionState extends State<ProfileNameSection> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        CircleAvatar(
-          backgroundColor: Colors.red,
+        const CircleAvatar(
+          backgroundColor: Colors.transparent,
           radius: 40,
           backgroundImage: AssetImage('assets/images/avatar_profile.png'),
         ),
