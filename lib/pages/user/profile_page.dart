@@ -1,15 +1,16 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:skeletonizer/skeletonizer.dart';
+import 'package:toefl/models/profile.dart';
+import 'package:toefl/remote/api/profile_api.dart';
 import 'package:toefl/utils/colors.dart';
 import 'package:toefl/utils/custom_text_style.dart';
 import 'package:toefl/utils/hex_color.dart';
 import 'package:toefl/widgets/blue_container.dart';
 import 'package:toefl/widgets/common_app_bar.dart';
 
-import 'package:toefl/widgets/profile_page/level_score.dart';
 import 'package:toefl/widgets/profile_page/profile_name_section.dart';
-import 'package:toefl/widgets/profile_page/settings.dart';
 
 import '../../routes/route_key.dart';
 
@@ -21,10 +22,36 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  Profile profile = Profile(
+      id: '',
+      nameUser: '',
+      emailUser: '',
+      rank: 0,
+      currentScore: 0,
+      targetScore: 0,
+      level: '',
+      profileImage: '',
+      isFriend: false);
+  final profileApi = ProfileApi();
+  bool isLoading = false;
+
   @override
   void initState() {
     // listenToNotification();
+    initProfile();
     super.initState();
+  }
+
+  initProfile() async {
+    setState(() {
+      isLoading = true;
+    });
+    await profileApi.getProfile().then((value) {
+      setState(() {
+        profile = value;
+        isLoading = false;
+      });
+    });
   }
 
   // listenToNotification() {
@@ -37,105 +64,113 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Scaffold(
-            backgroundColor: Colors.white,
-            appBar: CommonAppBar(
-              title: 'appbar_profile'.tr(),
-              withBack: false,
-            ),
-            body: ListView(
-              primary: false,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 24.0),
-                  child: SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                          child: Column(
-                            children: <Widget>[
-                              // <<<<<<< adam-notifikasi
-                              //                   const Profile(),
-                              //                   const SizedBox(
-                              //                     height: 20,
-                              //                   ),
-                              //                   const LevelScore(),
-                              //                   const SizedBox(
-                              // =======
-                              const ProfileNameSection(),
-                              const SizedBox(
-                                height: 20,
-                              ),
-                              buildProfileStatus(context),
-                              Row(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 16.0),
-                                    child: Text("Game History",
-                                        style: CustomTextStyle.bold16.copyWith(
-                                          fontSize: 18,
-                                        )),
-                                  ),
-                                  const Spacer(),
-                                ],
-                              ),
-                              // ElevatedButton.icon(
-                              //   onPressed: () {
-                              //     LocalNotification.showSimpleNotification(
-                              //         title: "Ayo belajar",
-                              //         body: "Ini adalah notifikasi reminder",
-                              //         payload: "This is simple data");
-                              //   },
-                              //   icon: const Icon(Icons.notifications_outlined),
-                              //   label: const Text("Simple Notifikasi"),
-                              // ),
-                              // ElevatedButton.icon(
-                              //   icon: const Icon(Icons.timer_outlined),
-                              //   onPressed: () {
-                              //     LocalNotification.showScheduleNotification(
-                              //         title: "Ayo belajar toefl",
-                              //         body: "Tingkatkan target toefl mu",
-                              //         payload: "This is schedule data");
-                              //   },
-                              //   label: const Text("Reminder Notifikasi"),
-                              // )
-                            ],
+    return Skeletonizer(
+      enabled: isLoading,
+      child: Stack(
+        children: [
+          Scaffold(
+              backgroundColor: Colors.white,
+              appBar: CommonAppBar(
+                title: 'appbar_profile'.tr(),
+                withBack: false,
+              ),
+              body: ListView(
+                primary: false,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 24.0),
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 24.0),
+                            child: Column(
+                              children: <Widget>[
+                                // <<<<<<< adam-notifikasi
+                                //                   const Profile(),
+                                //                   const SizedBox(
+                                //                     height: 20,
+                                //                   ),
+                                //                   const LevelScore(),
+                                //                   const SizedBox(
+                                // =======
+                                ProfileNameSection(
+                                    isLoading: isLoading, profile: profile),
+                                const SizedBox(
+                                  height: 20,
+                                ),
+                                Skeleton.leaf(
+                                    child:
+                                        buildProfileStatus(context, profile)),
+                                Row(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 16.0),
+                                      child: Text("Game History",
+                                          style:
+                                              CustomTextStyle.bold16.copyWith(
+                                            fontSize: 18,
+                                          )),
+                                    ),
+                                    const Spacer(),
+                                  ],
+                                ),
+                                // ElevatedButton.icon(
+                                //   onPressed: () {
+                                //     LocalNotification.showSimpleNotification(
+                                //         title: "Ayo belajar",
+                                //         body: "Ini adalah notifikasi reminder",
+                                //         payload: "This is simple data");
+                                //   },
+                                //   icon: const Icon(Icons.notifications_outlined),
+                                //   label: const Text("Simple Notifikasi"),
+                                // ),
+                                // ElevatedButton.icon(
+                                //   icon: const Icon(Icons.timer_outlined),
+                                //   onPressed: () {
+                                //     LocalNotification.showScheduleNotification(
+                                //         title: "Ayo belajar toefl",
+                                //         body: "Tingkatkan target toefl mu",
+                                //         payload: "This is schedule data");
+                                //   },
+                                //   label: const Text("Reminder Notifikasi"),
+                                // )
+                              ],
+                            ),
                           ),
-                        ),
-                        buildGameHistorySection(context)
-                      ],
+                          buildGameHistorySection(context)
+                        ],
+                      ),
                     ),
                   ),
+                ],
+              )),
+          Positioned(
+            top: 52,
+            right: 12,
+            width: 40,
+            child: GestureDetector(
+              onTap: () {
+                Navigator.pushNamed(context, RouteKey.settingPage);
+              },
+              child: BlueContainer(
+                padding: 4,
+                borderRadius: 10,
+                child: Icon(
+                  Icons.settings,
+                  color: HexColor(mariner800),
                 ),
-              ],
-            )),
-        Positioned(
-          top: 52,
-          right: 12,
-          width: 40,
-          child: GestureDetector(
-            onTap: () {
-              Navigator.pushNamed(context, RouteKey.settingPage);
-            },
-            child: BlueContainer(
-              padding: 4,
-              borderRadius: 10,
-              child: Icon(
-                Icons.settings,
-                color: HexColor(mariner800),
               ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
-  SingleChildScrollView buildGameHistorySection(BuildContext context) {
+  Widget buildGameHistorySection(BuildContext context) {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
@@ -193,7 +228,9 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  BlueContainer buildProfileStatus(BuildContext context) {
+  Widget buildProfileStatus(BuildContext context, Profile profile) {
+    bool showBanner = profile.targetScore == 0;
+
     return BlueContainer(
       padding: 4,
       child: Padding(
@@ -203,12 +240,32 @@ class _ProfilePageState extends State<ProfilePage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                ...List.generate(
-                  3,
-                  (index) => ProfileStatusCard(
-                    width: MediaQuery.of(context).size.width * 0.3 - 25,
-                  ),
+                ProfileStatusCard(
+                  width: MediaQuery.of(context).size.width * 0.3 - 25,
+                  title: "Level",
+                  icon: Icons.star,
+                  value: "Special Advance",
+                  bannerText: "Take a Test",
                 ),
+                ProfileStatusCard(
+                  width: MediaQuery.of(context).size.width * 0.3 - 25,
+                  title: "Score",
+                  bannerText: "Target Needed",
+                  icon: Icons.score,
+                  onSetTap: () {
+                    initProfile();
+                  },
+                  showSetTarget: showBanner,
+                  hideBanner: !showBanner,
+                  value:
+                      "${profile.currentScore}${profile.targetScore != 0 ? '/${profile.targetScore}' : ''}",
+                ),
+                ProfileStatusCard(
+                    width: MediaQuery.of(context).size.width * 0.3 - 25,
+                    title: "Rank",
+                    hideBanner: true,
+                    icon: Icons.emoji_events,
+                    value: profile.rank <= 0 ? "-" : profile.rank.toString()),
               ],
             ),
             const SizedBox(
@@ -256,36 +313,61 @@ class _ProfilePageState extends State<ProfilePage> {
 
 class ProfileStatusCard extends StatelessWidget {
   final double width;
+  final bool hideBanner;
+  final String bannerText;
+  final String title;
+  final String value;
+  final bool showSetTarget;
+  final IconData icon;
+  final Function()? onSetTap;
 
   const ProfileStatusCard({
     super.key,
     required this.width,
+    required this.title,
+    required this.value,
+    required this.icon,
+    this.bannerText = "",
+    this.showSetTarget = false,
+    this.hideBanner = false,
+    this.onSetTap,
   });
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 155,
+      height: 152,
       child: Stack(
         children: [
           BlueContainer(
             color: neutral10,
+            padding: 0,
+            colorOpacity: hideBanner ? 0 : 1.0,
             width: width,
             borderRadius: 7,
             child: Transform.translate(
-                offset: const Offset(0, -15),
+              offset: const Offset(0, -14),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 16),
                 child: Text(
-                  "Take a Test",
+                  bannerText,
+                  textAlign: TextAlign.center,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                   style: CustomTextStyle.bold12.copyWith(
-                    color: HexColor(mariner900),
+                    fontSize: 11,
+                    color:
+                        hideBanner ? Colors.transparent : HexColor(mariner900),
                     fontWeight: FontWeight.w900,
                   ),
-                )),
+                ),
+              ),
+            ),
           ),
           Positioned(
             top: 20,
             child: BlueContainer(
-              height: 130,
+              height: 115,
               color: mariner500,
               width: width,
               child: Column(
@@ -293,8 +375,8 @@ class ProfileStatusCard extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      const Icon(
-                        Icons.star,
+                      Icon(
+                        icon,
                         color: Colors.white,
                         size: 20,
                       ),
@@ -302,7 +384,7 @@ class ProfileStatusCard extends StatelessWidget {
                         width: 2,
                       ),
                       Text(
-                        "LEVEL",
+                        title,
                         style: CustomTextStyle.extrabold24.copyWith(
                           color: Colors.white,
                           fontSize: 12,
@@ -315,7 +397,7 @@ class ProfileStatusCard extends StatelessWidget {
                     height: 5,
                   ),
                   Text(
-                    "Special Advance",
+                    value,
                     style: CustomTextStyle.bold16.copyWith(
                       color: Colors.white,
                       fontWeight: FontWeight.w900,
@@ -324,24 +406,36 @@ class ProfileStatusCard extends StatelessWidget {
                   const SizedBox(
                     height: 8,
                   ),
-                  Container(
-                    width: 60,
-                    decoration: BoxDecoration(
-                      color: HexColor(mariner600),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 8,
-                        vertical: 4,
-                      ),
-                      child: Text(
-                        "Set Target",
-                        style: GoogleFonts.nunito(
-                            color: Colors.white, fontSize: 8),
-                      ),
-                    ),
-                  )
+                  showSetTarget
+                      ? GestureDetector(
+                          onTap: () {
+                            Navigator.pushNamed(context, RouteKey.setTargetPage)
+                                .then((val) {
+                              if (onSetTap != null) {
+                                onSetTap!();
+                              }
+                            });
+                          },
+                          child: Container(
+                            width: 60,
+                            decoration: BoxDecoration(
+                              color: HexColor(mariner600),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 8,
+                                vertical: 4,
+                              ),
+                              child: Text(
+                                "Set Target",
+                                style: GoogleFonts.nunito(
+                                    color: Colors.white, fontSize: 8),
+                              ),
+                            ),
+                          ),
+                        )
+                      : const SizedBox(),
                 ],
               ),
             ),

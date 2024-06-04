@@ -14,6 +14,7 @@ class BlueContainer extends StatelessWidget {
     this.color = mariner100,
     this.innerShadow = false,
     this.borderRadius = 15,
+    this.colorOpacity,
   });
 
   final double? width;
@@ -24,6 +25,7 @@ class BlueContainer extends StatelessWidget {
   final Widget child;
   final String color;
   final double borderRadius;
+  final double? colorOpacity;
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +33,9 @@ class BlueContainer extends StatelessWidget {
       width: width ?? MediaQuery.of(context).size.width * 0.9,
       height: height,
       decoration: BoxDecoration(
-          color: innerShadow ? Colors.transparent : HexColor(color),
+          color: innerShadow
+              ? Colors.transparent
+              : HexColor(color).withOpacity(colorOpacity ?? 1.0),
           borderRadius: BorderRadius.circular(borderRadius),
           boxShadow: [
             BoxShadow(
