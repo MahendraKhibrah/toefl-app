@@ -17,11 +17,11 @@ import 'package:toefl/pages/mini_test/mini_simulation_page.dart';
 import 'package:toefl/pages/mini_test/mini_test_page.dart';
 
 import 'package:toefl/pages/games/quiz/quiz_page.dart';
-import 'package:toefl/pages/edit_profile_page.dart';
+import 'package:toefl/pages/user/edit_profile_page.dart';
 import 'package:toefl/pages/full_test/opening_loading_page.dart';
 import 'package:toefl/pages/new_password_page.dart';
 import 'package:toefl/pages/otp_verification_page.dart';
-import 'package:toefl/pages/profile_page.dart';
+import 'package:toefl/pages/user/profile_page.dart';
 import 'package:toefl/pages/full_test/full_test_page.dart';
 import 'package:toefl/pages/full_test/simulation_page.dart';
 import 'package:toefl/pages/full_test/test_result_page.dart';

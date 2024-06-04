@@ -8,26 +8,31 @@ class BlueContainer extends StatelessWidget {
     super.key,
     required this.child,
     this.width,
+    this.height,
     this.showShadow = false,
     this.padding = 16,
     this.color = mariner100,
     this.innerShadow = false,
+    this.borderRadius = 15,
   });
 
   final double? width;
+  final double? height;
   final double padding;
   final bool showShadow;
   final bool innerShadow;
   final Widget child;
   final String color;
+  final double borderRadius;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: width ?? MediaQuery.of(context).size.width * 0.9,
+      height: height,
       decoration: BoxDecoration(
-          color: innerShadow ? Colors.transparent : HexColor(mariner100),
-          borderRadius: BorderRadius.circular(15),
+          color: innerShadow ? Colors.transparent : HexColor(color),
+          borderRadius: BorderRadius.circular(borderRadius),
           boxShadow: [
             BoxShadow(
               color: Colors.grey.withOpacity(showShadow ? 0.5 : 0),
