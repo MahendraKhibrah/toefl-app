@@ -44,7 +44,7 @@ class _InputTextState extends State<SearchTextField> {
               Icon(Icons.search, color: HexColor(neutral90)),
               const Spacer(),
               SizedBox(
-                width: MediaQuery.of(context).size.width * 0.7,
+                width: MediaQuery.of(context).size.width * 0.67,
                 child: TextFormField(
                   controller: widget.controller,
                   focusNode: widget.focusNode,

@@ -4,9 +4,7 @@ import 'package:toefl/models/quiz.dart';
 import 'package:toefl/models/quiz_type.dart';
 import 'package:toefl/pages/games/quiz/finish_quiz_page.dart';
 import 'package:toefl/pages/games/quiz/init_quiz.dart';
-import 'package:path/path.dart';
 import 'package:toefl/pages/auth/forgot_password_page.dart';
-import 'package:toefl/pages/games/quiz/grammar_page.dart';
 import 'package:toefl/pages/games/quiz/quiz_page.dart';
 import 'package:toefl/pages/bookmark/bookmark_detail_page.dart';
 import 'package:toefl/pages/bookmark/bookmarked_page.dart';
@@ -35,7 +33,6 @@ import 'package:toefl/pages/user/search_user_page.dart';
 import 'package:toefl/pages/user/setgoal_page.dart';
 import 'package:toefl/pages/splash_page.dart';
 import 'package:toefl/pages/auth/success_password_page.dart';
-import 'package:toefl/pages/template_page.dart';
 import 'package:toefl/pages/user/setting_page.dart';
 import 'package:toefl/routes/route_key.dart';
 import 'package:toefl/pages/main_page.dart';
@@ -118,7 +115,14 @@ final routes = <String, Widget Function(BuildContext)>{
       packetName: data?["packetName"] ?? "",
     );
   },
-  RouteKey.profile: (context) => const ProfilePage(),
+  RouteKey.profile: (context) {
+    final data =
+        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+    return ProfilePage(
+      isMe: data?['isMe'] ?? true,
+      userId: data?['userId'] ?? "",
+    );
+  },
   RouteKey.editProfile: (context) => EditProfile(),
   RouteKey.rank: (context) {
     final Map? data = ModalRoute.of(context)?.settings.arguments as Map?;

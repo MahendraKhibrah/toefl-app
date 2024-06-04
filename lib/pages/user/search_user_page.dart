@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:toefl/models/friend.dart';
 import 'package:toefl/remote/api/profile_api.dart';
+import 'package:toefl/routes/route_key.dart';
 import 'package:toefl/utils/colors.dart';
 import 'package:toefl/utils/custom_text_style.dart';
 import 'package:toefl/utils/hex_color.dart';
@@ -98,26 +99,36 @@ class _SearchUserPageState extends State<SearchUserPage> {
                                 children: List.generate(users.length, (index) {
                                   return Column(
                                     children: [
-                                      Row(
-                                        children: [
-                                          CircleAvatar(
-                                            radius: 24,
-                                            backgroundImage: NetworkImage(
-                                                users[index].profileImage),
-                                            backgroundColor:
-                                                HexColor(mariner100),
-                                          ),
-                                          const SizedBox(
-                                            width: 12,
-                                          ),
-                                          Text(
-                                            users[index].name,
-                                            style:
-                                                CustomTextStyle.bold16.copyWith(
-                                              color: HexColor(neutral70),
+                                      GestureDetector(
+                                        onTap: () {
+                                          Navigator.pushNamed(
+                                              context, RouteKey.profile,
+                                              arguments: {
+                                                'userId': users[index].id,
+                                                "isMe": false
+                                              });
+                                        },
+                                        child: Row(
+                                          children: [
+                                            CircleAvatar(
+                                              radius: 24,
+                                              backgroundImage: NetworkImage(
+                                                  users[index].profileImage),
+                                              backgroundColor:
+                                                  HexColor(mariner100),
                                             ),
-                                          ),
-                                        ],
+                                            const SizedBox(
+                                              width: 12,
+                                            ),
+                                            Text(
+                                              users[index].name,
+                                              style: CustomTextStyle.bold16
+                                                  .copyWith(
+                                                color: HexColor(neutral70),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                       const Divider(
                                         color: Color(0xffE7E7E7),

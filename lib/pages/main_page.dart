@@ -39,6 +39,7 @@ class _MainPageState extends State<MainPage> {
         decoration:
             const BoxDecoration(boxShadow: [BoxShadow()], color: Colors.white),
         child: BottomNavigationBar(
+          backgroundColor: HexColor(neutral10),
           iconSize: 30,
           currentIndex: _index,
           onTap: (int index) {

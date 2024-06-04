@@ -8,6 +8,7 @@ import 'package:toefl/utils/colors.dart';
 import 'package:toefl/utils/custom_text_style.dart';
 import 'package:toefl/utils/hex_color.dart';
 import 'package:toefl/widgets/blue_container.dart';
+import 'package:toefl/widgets/border_button.dart';
 import 'package:toefl/widgets/common_app_bar.dart';
 
 import 'package:toefl/widgets/profile_page/profile_name_section.dart';
@@ -15,7 +16,14 @@ import 'package:toefl/widgets/profile_page/profile_name_section.dart';
 import '../../routes/route_key.dart';
 
 class ProfilePage extends StatefulWidget {
-  const ProfilePage({super.key});
+  const ProfilePage({
+    super.key,
+    this.isMe = true,
+    this.userId = "",
+  });
+
+  final bool isMe;
+  final String userId;
 
   @override
   State<ProfilePage> createState() => _ProfilePageState();
@@ -46,12 +54,21 @@ class _ProfilePageState extends State<ProfilePage> {
     setState(() {
       isLoading = true;
     });
-    await profileApi.getProfile().then((value) {
-      setState(() {
-        profile = value;
-        isLoading = false;
+    if (widget.isMe) {
+      await profileApi.getProfile().then((value) {
+        setState(() {
+          profile = value;
+          isLoading = false;
+        });
       });
-    });
+    } else {
+      await profileApi.getUserProfile(widget.userId).then((value) {
+        setState(() {
+          profile = value;
+          isLoading = false;
+        });
+      });
+    }
   }
 
   // listenToNotification() {
@@ -147,24 +164,26 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                 ],
               )),
-          Positioned(
-            top: 52,
-            right: 12,
-            width: 40,
-            child: GestureDetector(
-              onTap: () {
-                Navigator.pushNamed(context, RouteKey.settingPage);
-              },
-              child: BlueContainer(
-                padding: 4,
-                borderRadius: 10,
-                child: Icon(
-                  Icons.settings,
-                  color: HexColor(mariner800),
-                ),
-              ),
-            ),
-          ),
+          widget.isMe
+              ? Positioned(
+                  top: 52,
+                  right: 12,
+                  width: 40,
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.pushNamed(context, RouteKey.settingPage);
+                    },
+                    child: BlueContainer(
+                      padding: 4,
+                      borderRadius: 10,
+                      child: Icon(
+                        Icons.settings,
+                        color: HexColor(mariner800),
+                      ),
+                    ),
+                  ),
+                )
+              : const SizedBox(),
         ],
       ),
     );
@@ -182,40 +201,42 @@ class _ProfilePageState extends State<ProfilePage> {
             5,
             (index) => Padding(
               padding: const EdgeInsets.only(right: 12.0),
-              child: BlueContainer(
-                width: MediaQuery.of(context).size.width * 0.35,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    BlueContainer(
-                      color: mariner700,
-                      width: 55,
-                      height: 55,
-                      padding: 10,
-                      child: Center(
-                          child: Text(
-                        "5",
-                        style: CustomTextStyle.extrabold20
-                            .copyWith(color: Colors.white),
-                      )),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 8.0, bottom: 2),
-                      child: Text(
-                        "Challange",
-                        style: CustomTextStyle.medium14
-                            .copyWith(fontSize: 11, color: HexColor(neutral60)),
+              child: Skeleton.leaf(
+                child: BlueContainer(
+                  width: MediaQuery.of(context).size.width * 0.35,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      BlueContainer(
+                        color: mariner700,
+                        width: 55,
+                        height: 55,
+                        padding: 10,
+                        child: Center(
+                            child: Text(
+                          "5",
+                          style: CustomTextStyle.extrabold20
+                              .copyWith(color: Colors.white),
+                        )),
                       ),
-                    ),
-                    Text(
-                      "Synonym Pairing hahaha",
-                      style: CustomTextStyle.bold16.copyWith(
-                        color: HexColor(neutral90),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 8.0, bottom: 2),
+                        child: Text(
+                          "Challange",
+                          style: CustomTextStyle.medium14.copyWith(
+                              fontSize: 11, color: HexColor(neutral60)),
+                        ),
                       ),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ],
+                      Text(
+                        "Synonym Pairing hahaha",
+                        style: CustomTextStyle.bold16.copyWith(
+                          color: HexColor(neutral90),
+                        ),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -246,6 +267,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   icon: Icons.star,
                   value: "Special Advance",
                   bannerText: "Take a Test",
+                  hideBanner: !widget.isMe,
                 ),
                 ProfileStatusCard(
                   width: MediaQuery.of(context).size.width * 0.3 - 25,
@@ -255,8 +277,8 @@ class _ProfilePageState extends State<ProfilePage> {
                   onSetTap: () {
                     initProfile();
                   },
-                  showSetTarget: showBanner,
-                  hideBanner: !showBanner,
+                  showSetTarget: showBanner && widget.isMe,
+                  hideBanner: !showBanner || !widget.isMe,
                   value:
                       "${profile.currentScore}${profile.targetScore != 0 ? '/${profile.targetScore}' : ''}",
                 ),
@@ -275,23 +297,61 @@ class _ProfilePageState extends State<ProfilePage> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 GestureDetector(
-                  onTap: () {
-                    Navigator.pushNamed(context, RouteKey.searchUser);
+                  onTap: () async {
+                    if (widget.isMe) {
+                      Navigator.pushNamed(context, RouteKey.searchUser);
+                    } else {
+                      setState(() {
+                        isLoading = true;
+                      });
+                      await profileApi
+                          .changeFriendStatus(widget.userId)
+                          .then((value) {
+                        setState(() {
+                          this.profile =
+                              profile.copyWith(isFriend: !profile.isFriend);
+                          isLoading = false;
+                        });
+                      });
+                    }
                   },
-                  child: BlueContainer(
-                    width: MediaQuery.of(context).size.width * 0.7 - 25,
-                    color: mariner700,
-                    padding: 12,
-                    child: Center(
-                      child: Text(
-                        "Find a Friend",
-                        style: CustomTextStyle.bold16.copyWith(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w900,
+                  child: !profile.isFriend
+                      ? BlueContainer(
+                          width: MediaQuery.of(context).size.width * 0.7 - 25,
+                          color: mariner700,
+                          padding: 12,
+                          child: Center(
+                            child: Text(
+                              widget.isMe
+                                  ? "Find a Friend"
+                                  : profile.isFriend
+                                      ? "Remove Friend"
+                                      : "Add Friend",
+                              style: CustomTextStyle.bold16.copyWith(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w900,
+                              ),
+                            ),
+                          ),
+                        )
+                      : BorderButton(
+                          size: MediaQuery.of(context).size.width * 0.7 - 25,
+                          title: 'Remove Friend',
+                          onTap: () async {
+                            setState(() {
+                              isLoading = true;
+                            });
+                            await profileApi
+                                .changeFriendStatus(widget.userId)
+                                .then((value) {
+                              setState(() {
+                                this.profile = profile.copyWith(
+                                    isFriend: !profile.isFriend);
+                                isLoading = false;
+                              });
+                            });
+                          },
                         ),
-                      ),
-                    ),
-                  ),
                 ),
                 BlueContainer(
                   padding: 12,
@@ -378,7 +438,7 @@ class ProfileStatusCard extends StatelessWidget {
                       Icon(
                         icon,
                         color: Colors.white,
-                        size: 20,
+                        size: 18,
                       ),
                       const SizedBox(
                         width: 2,
@@ -387,7 +447,7 @@ class ProfileStatusCard extends StatelessWidget {
                         title,
                         style: CustomTextStyle.extrabold24.copyWith(
                           color: Colors.white,
-                          fontSize: 12,
+                          fontSize: 11,
                           fontWeight: FontWeight.w900,
                         ),
                       ),
@@ -400,8 +460,11 @@ class ProfileStatusCard extends StatelessWidget {
                     value,
                     style: CustomTextStyle.bold16.copyWith(
                       color: Colors.white,
+                      fontSize: 14,
                       fontWeight: FontWeight.w900,
                     ),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
                   ),
                   const SizedBox(
                     height: 8,
