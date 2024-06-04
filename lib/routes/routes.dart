@@ -14,7 +14,6 @@ import 'package:toefl/pages/mini_test/mini_opening_page.dart';
 import 'package:toefl/pages/mini_test/mini_simulation_page.dart';
 import 'package:toefl/pages/mini_test/mini_test_page.dart';
 
-import 'package:toefl/pages/games/quiz/quiz_page.dart';
 import 'package:toefl/pages/user/edit_profile_page.dart';
 import 'package:toefl/pages/full_test/opening_loading_page.dart';
 import 'package:toefl/pages/auth/new_password_page.dart';
@@ -179,5 +178,11 @@ final routes = <String, Widget Function(BuildContext)>{
     return FinishQuizPage(result: data?["result"] ?? "");
   },
   RouteKey.settingPage: (context) => const SettingPage(),
-  RouteKey.searchUser: (context) => const SearchUserPage(),
+  RouteKey.searchUser: (context) {
+    final data =
+        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+    return SearchUserPage(
+      searchFriend: data?["searchFriend"] ?? false,
+    );
+  },
 };

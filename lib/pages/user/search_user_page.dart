@@ -9,7 +9,12 @@ import 'package:toefl/widgets/common_app_bar.dart';
 import 'package:toefl/widgets/search_text_field.dart';
 
 class SearchUserPage extends StatefulWidget {
-  const SearchUserPage({super.key});
+  const SearchUserPage({
+    super.key,
+    this.searchFriend = false,
+  });
+
+  final bool searchFriend;
 
   @override
   State<SearchUserPage> createState() => _SearchUserPageState();
@@ -19,8 +24,44 @@ class _SearchUserPageState extends State<SearchUserPage> {
   final searchController = TextEditingController();
   final ProfileApi profileApi = ProfileApi();
   List<Friend> users = [];
+  List<Friend> friends = [];
   bool wasSearch = false;
   bool isLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.searchFriend) {
+      initFriendList();
+    }
+  }
+
+  @override
+  void dispose() {
+    searchController.dispose();
+    super.dispose();
+  }
+
+  void initFriendList() async {
+    setState(() {
+      isLoading = true;
+      wasSearch = true;
+    });
+    final friend = await profileApi.getAllFriend();
+    setState(() {
+      users = friend
+          .map(
+            (e) => Friend(
+              id: e.id,
+              name: e.nameUser,
+              profileImage: e.profileImage,
+            ),
+          )
+          .toList();
+      friends = users;
+      isLoading = false;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,9 +86,19 @@ class _SearchUserPageState extends State<SearchUserPage> {
                   setState(() {
                     isLoading = true;
                   });
-                  if (value.isNotEmpty) {
-                    wasSearch = true;
-                    users = await profileApi.searchSpecificUser(value);
+                  if (!widget.searchFriend) {
+                    if (value.isNotEmpty) {
+                      wasSearch = true;
+                      users = await profileApi.searchSpecificUser(value);
+                    }
+                  } else {
+                    if (friends.isNotEmpty) {
+                      users = friends
+                          .where((element) => element.name
+                              .toLowerCase()
+                              .contains(value.toLowerCase()))
+                          .toList();
+                    }
                   }
                   setState(() {
                     wasSearch = true;
@@ -81,19 +132,17 @@ class _SearchUserPageState extends State<SearchUserPage> {
                           width: double.infinity,
                           height: 16,
                         ),
-                        wasSearch
-                            ? Text(
-                                "${users.length} Result",
-                                style: CustomTextStyle.bold18.copyWith(
-                                  color: HexColor(neutral60),
+                        wasSearch && !widget.searchFriend
+                            ? Padding(
+                                padding: const EdgeInsets.only(bottom: 10.0),
+                                child: Text(
+                                  "${users.length} Result",
+                                  style: CustomTextStyle.bold18.copyWith(
+                                    color: HexColor(neutral60),
+                                  ),
                                 ),
                               )
-                            : const SizedBox(
-                                height: 10,
-                              ),
-                        const SizedBox(
-                          height: 10,
-                        ),
+                            : const SizedBox(),
                         users.isNotEmpty
                             ? Column(
                                 children: List.generate(users.length, (index) {

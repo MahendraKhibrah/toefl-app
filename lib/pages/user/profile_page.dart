@@ -317,7 +317,9 @@ class _ProfilePageState extends State<ProfilePage> {
                   },
                   child: !profile.isFriend
                       ? BlueContainer(
-                          width: MediaQuery.of(context).size.width * 0.7 - 25,
+                          width: MediaQuery.of(context).size.width *
+                                  (widget.isMe ? 0.55 : 0.7) -
+                              25,
                           color: mariner700,
                           padding: 12,
                           child: Center(
@@ -353,6 +355,25 @@ class _ProfilePageState extends State<ProfilePage> {
                           },
                         ),
                 ),
+                widget.isMe
+                    ? GestureDetector(
+                        onTap: () {
+                          Navigator.pushNamed(context, RouteKey.searchUser,
+                              arguments: {
+                                "searchFriend": true,
+                              });
+                        },
+                        child: BlueContainer(
+                          padding: 12,
+                          width: MediaQuery.of(context).size.width * 0.2 - 25,
+                          color: mariner700,
+                          child: const Icon(
+                            Icons.group,
+                            color: Colors.white,
+                          ),
+                        ),
+                      )
+                    : const SizedBox(),
                 BlueContainer(
                   padding: 12,
                   width: MediaQuery.of(context).size.width * 0.2 - 25,
