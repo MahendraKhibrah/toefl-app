@@ -43,7 +43,7 @@ class GameAppBar extends StatelessWidget implements PreferredSizeWidget {
         ),
       ),
       title: Text(
-        'Synonym Pairing',
+        title,
         style: GoogleFonts.nunito(fontSize: 22, fontWeight: FontWeight.bold),
       ),
     );
