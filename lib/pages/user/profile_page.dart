@@ -83,109 +83,103 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     return Skeletonizer(
       enabled: isLoading,
-      child: Stack(
-        children: [
-          Scaffold(
-              backgroundColor: Colors.white,
-              appBar: CommonAppBar(
-                title: 'appbar_profile'.tr(),
-                withBack: false,
-              ),
-              body: ListView(
-                primary: false,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 24.0),
-                    child: SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 24.0),
-                            child: Column(
-                              children: <Widget>[
-                                // <<<<<<< adam-notifikasi
-                                //                   const Profile(),
-                                //                   const SizedBox(
-                                //                     height: 20,
-                                //                   ),
-                                //                   const LevelScore(),
-                                //                   const SizedBox(
-                                // =======
-                                ProfileNameSection(
-                                    isLoading: isLoading, profile: profile),
-                                const SizedBox(
-                                  height: 20,
+      child: Scaffold(
+          backgroundColor: Colors.white,
+          appBar: CommonAppBar(
+            title: 'appbar_profile'.tr(),
+            withBack: false,
+            actions: [
+              widget.isMe
+                  ? Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 24),
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.pushNamed(context, RouteKey.settingPage);
+                        },
+                        child: BlueContainer(
+                          width: 30,
+                          padding: 4,
+                          borderRadius: 10,
+                          child: Icon(
+                            Icons.settings,
+                            color: HexColor(mariner800),
+                          ),
+                        ),
+                      ),
+                    )
+                  : const SizedBox(),
+            ],
+          ),
+          body: ListView(
+            primary: false,
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 24.0),
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                        child: Column(
+                          children: <Widget>[
+                            // <<<<<<< adam-notifikasi
+                            //                   const Profile(),
+                            //                   const SizedBox(
+                            //                     height: 20,
+                            //                   ),
+                            //                   const LevelScore(),
+                            //                   const SizedBox(
+                            // =======
+                            ProfileNameSection(
+                                isLoading: isLoading, profile: profile),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            Skeleton.leaf(
+                                child: buildProfileStatus(context, profile)),
+                            Row(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 16.0),
+                                  child: Text("game_history".tr(),
+                                      style: CustomTextStyle.bold16.copyWith(
+                                        fontSize: 18,
+                                      )),
                                 ),
-                                Skeleton.leaf(
-                                    child:
-                                        buildProfileStatus(context, profile)),
-                                Row(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 16.0),
-                                      child: Text("game_history".tr(),
-                                          style:
-                                              CustomTextStyle.bold16.copyWith(
-                                            fontSize: 18,
-                                          )),
-                                    ),
-                                    const Spacer(),
-                                  ],
-                                ),
-                                // ElevatedButton.icon(
-                                //   onPressed: () {
-                                //     LocalNotification.showSimpleNotification(
-                                //         title: "Ayo belajar",
-                                //         body: "Ini adalah notifikasi reminder",
-                                //         payload: "This is simple data");
-                                //   },
-                                //   icon: const Icon(Icons.notifications_outlined),
-                                //   label: const Text("Simple Notifikasi"),
-                                // ),
-                                // ElevatedButton.icon(
-                                //   icon: const Icon(Icons.timer_outlined),
-                                //   onPressed: () {
-                                //     LocalNotification.showScheduleNotification(
-                                //         title: "Ayo belajar toefl",
-                                //         body: "Tingkatkan target toefl mu",
-                                //         payload: "This is schedule data");
-                                //   },
-                                //   label: const Text("Reminder Notifikasi"),
-                                // )
+                                const Spacer(),
                               ],
                             ),
-                          ),
-                          buildGameHistorySection(context)
-                        ],
+                            // ElevatedButton.icon(
+                            //   onPressed: () {
+                            //     LocalNotification.showSimpleNotification(
+                            //         title: "Ayo belajar",
+                            //         body: "Ini adalah notifikasi reminder",
+                            //         payload: "This is simple data");
+                            //   },
+                            //   icon: const Icon(Icons.notifications_outlined),
+                            //   label: const Text("Simple Notifikasi"),
+                            // ),
+                            // ElevatedButton.icon(
+                            //   icon: const Icon(Icons.timer_outlined),
+                            //   onPressed: () {
+                            //     LocalNotification.showScheduleNotification(
+                            //         title: "Ayo belajar toefl",
+                            //         body: "Tingkatkan target toefl mu",
+                            //         payload: "This is schedule data");
+                            //   },
+                            //   label: const Text("Reminder Notifikasi"),
+                            // )
+                          ],
+                        ),
                       ),
-                    ),
+                      buildGameHistorySection(context)
+                    ],
                   ),
-                ],
-              )),
-          widget.isMe
-              ? Positioned(
-                  top: 52,
-                  right: 12,
-                  width: 40,
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.pushNamed(context, RouteKey.settingPage);
-                    },
-                    child: BlueContainer(
-                      padding: 4,
-                      borderRadius: 10,
-                      child: Icon(
-                        Icons.settings,
-                        color: HexColor(mariner800),
-                      ),
-                    ),
-                  ),
-                )
-              : const SizedBox(),
-        ],
-      ),
+                ),
+              ),
+            ],
+          )),
     );
   }
 
@@ -321,7 +315,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                   (widget.isMe ? 0.55 : 0.7) -
                               25,
                           color: mariner700,
-                          padding: 12,
+                          padding: 14,
                           child: Center(
                             child: Text(
                               widget.isMe
@@ -339,6 +333,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       : BorderButton(
                           size: MediaQuery.of(context).size.width * 0.7 - 25,
                           title: 'Remove Friend',
+                          padding: EdgeInsets.symmetric(vertical: 12),
                           onTap: () async {
                             setState(() {
                               isLoading = true;

@@ -150,7 +150,9 @@ class _SearchUserPageState extends State<SearchUserPage> {
                                 children: List.generate(users.length, (index) {
                                   return Column(
                                     children: [
-                                      GestureDetector(
+                                      InkWell(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(10)),
                                         onTap: () {
                                           Navigator.pushNamed(
                                               context, RouteKey.profile,
@@ -159,26 +161,29 @@ class _SearchUserPageState extends State<SearchUserPage> {
                                                 "isMe": false
                                               });
                                         },
-                                        child: Row(
-                                          children: [
-                                            CircleAvatar(
-                                              radius: 24,
-                                              backgroundImage: NetworkImage(
-                                                  users[index].profileImage),
-                                              backgroundColor:
-                                                  HexColor(mariner100),
-                                            ),
-                                            const SizedBox(
-                                              width: 12,
-                                            ),
-                                            Text(
-                                              users[index].name,
-                                              style: CustomTextStyle.bold16
-                                                  .copyWith(
-                                                color: HexColor(neutral70),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Row(
+                                            children: [
+                                              CircleAvatar(
+                                                radius: 24,
+                                                backgroundImage: NetworkImage(
+                                                    users[index].profileImage),
+                                                backgroundColor:
+                                                    HexColor(mariner100),
                                               ),
-                                            ),
-                                          ],
+                                              const SizedBox(
+                                                width: 12,
+                                              ),
+                                              Text(
+                                                users[index].name,
+                                                style: CustomTextStyle.bold16
+                                                    .copyWith(
+                                                  color: HexColor(neutral70),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
                                         ),
                                       ),
                                       const Divider(

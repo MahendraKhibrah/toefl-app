@@ -10,11 +10,13 @@ class BorderButton extends StatelessWidget {
     this.size = -1,
     required this.title,
     required this.onTap,
+    this.padding = const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
   });
 
   final double size;
   final String title;
   final void Function() onTap;
+  final EdgeInsetsGeometry? padding;
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +36,7 @@ class BorderButton extends StatelessWidget {
         ),
         width: buttonSize,
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+          padding: padding!,
           child: Center(
             child: Text(
               title,
