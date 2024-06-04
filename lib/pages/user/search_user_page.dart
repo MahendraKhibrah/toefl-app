@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:toefl/models/friend.dart';
 import 'package:toefl/remote/api/profile_api.dart';
@@ -67,8 +68,8 @@ class _SearchUserPageState extends State<SearchUserPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: const CommonAppBar(
-        title: 'Find Friends',
+      appBar: CommonAppBar(
+        title: 'find_friend'.tr(),
         withBack: true,
       ),
       body: Column(
@@ -81,7 +82,7 @@ class _SearchUserPageState extends State<SearchUserPage> {
             child: SizedBox(
               child: SearchTextField(
                 controller: searchController,
-                hintText: "Search...",
+                hintText: "search".tr(),
                 onChanged: (value) async {
                   setState(() {
                     isLoading = true;
@@ -136,7 +137,8 @@ class _SearchUserPageState extends State<SearchUserPage> {
                             ? Padding(
                                 padding: const EdgeInsets.only(bottom: 10.0),
                                 child: Text(
-                                  "${users.length} Result",
+                                  "friend_result"
+                                      .tr(args: [users.length.toString()]),
                                   style: CustomTextStyle.bold18.copyWith(
                                     color: HexColor(neutral60),
                                   ),

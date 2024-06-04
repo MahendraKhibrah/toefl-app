@@ -72,5 +72,15 @@
   "submit_btn": "Kirim",
   "morning_notification": "Selamat Pagi {}",
   "afternoon_notification": "Selamat Sore {}",
-  "body_notification": "Cek capaian dan progress belajar kamu hari ini di aplikasi MYTOEFL."
+  "body_notification": "Cek capaian dan progress belajar kamu hari ini di aplikasi MYTOEFL.",
+  "take_a_test": "Ambil Tes",
+  "target_needed": "Target Diperlukan",
+  "score": "Skor",
+  "game_history": "Riwayat Permainan",
+  "find_a_friend": "Cari Teman",
+  "remove_friend": "Hapus Teman",
+  "add_friend": "Tambah Teman",
+  "find_friend": "Cari Teman",
+  "friend_result": "{} Ditemukan",
+  "search": "Cari..."
 }

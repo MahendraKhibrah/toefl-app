@@ -125,7 +125,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                     Padding(
                                       padding: const EdgeInsets.symmetric(
                                           vertical: 16.0),
-                                      child: Text("Game History",
+                                      child: Text("game_history".tr(),
                                           style:
                                               CustomTextStyle.bold16.copyWith(
                                             fontSize: 18,
@@ -266,13 +266,13 @@ class _ProfilePageState extends State<ProfilePage> {
                   title: "Level",
                   icon: Icons.star,
                   value: "Special Advance",
-                  bannerText: "Take a Test",
+                  bannerText: "take_a_test".tr(),
                   hideBanner: !widget.isMe,
                 ),
                 ProfileStatusCard(
                   width: MediaQuery.of(context).size.width * 0.3 - 25,
-                  title: "Score",
-                  bannerText: "Target Needed",
+                  title: "score".tr(),
+                  bannerText: "target_needed".tr(),
                   icon: Icons.score,
                   onSetTap: () {
                     initProfile();
@@ -325,10 +325,10 @@ class _ProfilePageState extends State<ProfilePage> {
                           child: Center(
                             child: Text(
                               widget.isMe
-                                  ? "Find a Friend"
+                                  ? "find_a_friend".tr()
                                   : profile.isFriend
-                                      ? "Remove Friend"
-                                      : "Add Friend",
+                                      ? "remove_friend".tr()
+                                      : "add_friend".tr(),
                               style: CustomTextStyle.bold16.copyWith(
                                 color: Colors.white,
                                 fontWeight: FontWeight.w900,
