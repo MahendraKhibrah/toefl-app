@@ -47,111 +47,64 @@ class _ProfilePageState extends State<ProfilePage> {
               primary: false,
               children: [
                 Padding(
-                  padding: const EdgeInsets.all(24.0),
+                  padding: const EdgeInsets.symmetric(vertical: 24.0),
                   child: SingleChildScrollView(
                     child: Column(
-                      children: <Widget>[
-                        // <<<<<<< adam-notifikasi
-                        //                   const Profile(),
-                        //                   const SizedBox(
-                        //                     height: 20,
-                        //                   ),
-                        //                   const LevelScore(),
-                        //                   const SizedBox(
-                        // =======
-                        const ProfileNameSection(),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        buildProfileStatus(context),
-                        Row(
-                          children: [
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(vertical: 16.0),
-                              child: Text("Game History",
-                                  style: CustomTextStyle.bold16.copyWith(
-                                    fontSize: 18,
-                                  )),
-                            ),
-                            const Spacer(),
-                          ],
-                        ),
-                        SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          child: Row(
-                            children: [
-                              ...List.generate(
-                                5,
-                                (index) => Padding(
-                                  padding: const EdgeInsets.only(right: 12.0),
-                                  child: BlueContainer(
-                                    width: MediaQuery.of(context).size.width *
-                                        0.35,
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        BlueContainer(
-                                          color: mariner700,
-                                          width: 55,
-                                          height: 55,
-                                          padding: 10,
-                                          child: Center(
-                                              child: Text(
-                                            "5",
-                                            style: CustomTextStyle.extrabold20
-                                                .copyWith(color: Colors.white),
-                                          )),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                              top: 8.0, bottom: 2),
-                                          child: Text(
-                                            "Challange",
-                                            style: CustomTextStyle.medium14
-                                                .copyWith(
-                                                    fontSize: 11,
-                                                    color: HexColor(neutral60)),
-                                          ),
-                                        ),
-                                        Text(
-                                          "Synonym Pairing hahaha",
-                                          style:
-                                              CustomTextStyle.bold16.copyWith(
-                                            color: HexColor(neutral90),
-                                          ),
-                                          maxLines: 2,
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                          child: Column(
+                            children: <Widget>[
+                              // <<<<<<< adam-notifikasi
+                              //                   const Profile(),
+                              //                   const SizedBox(
+                              //                     height: 20,
+                              //                   ),
+                              //                   const LevelScore(),
+                              //                   const SizedBox(
+                              // =======
+                              const ProfileNameSection(),
+                              const SizedBox(
+                                height: 20,
                               ),
+                              buildProfileStatus(context),
+                              Row(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 16.0),
+                                    child: Text("Game History",
+                                        style: CustomTextStyle.bold16.copyWith(
+                                          fontSize: 18,
+                                        )),
+                                  ),
+                                  const Spacer(),
+                                ],
+                              ),
+                              // ElevatedButton.icon(
+                              //   onPressed: () {
+                              //     LocalNotification.showSimpleNotification(
+                              //         title: "Ayo belajar",
+                              //         body: "Ini adalah notifikasi reminder",
+                              //         payload: "This is simple data");
+                              //   },
+                              //   icon: const Icon(Icons.notifications_outlined),
+                              //   label: const Text("Simple Notifikasi"),
+                              // ),
+                              // ElevatedButton.icon(
+                              //   icon: const Icon(Icons.timer_outlined),
+                              //   onPressed: () {
+                              //     LocalNotification.showScheduleNotification(
+                              //         title: "Ayo belajar toefl",
+                              //         body: "Tingkatkan target toefl mu",
+                              //         payload: "This is schedule data");
+                              //   },
+                              //   label: const Text("Reminder Notifikasi"),
+                              // )
                             ],
                           ),
-                        )
-                        // ElevatedButton.icon(
-                        //   onPressed: () {
-                        //     LocalNotification.showSimpleNotification(
-                        //         title: "Ayo belajar",
-                        //         body: "Ini adalah notifikasi reminder",
-                        //         payload: "This is simple data");
-                        //   },
-                        //   icon: const Icon(Icons.notifications_outlined),
-                        //   label: const Text("Simple Notifikasi"),
-                        // ),
-                        // ElevatedButton.icon(
-                        //   icon: const Icon(Icons.timer_outlined),
-                        //   onPressed: () {
-                        //     LocalNotification.showScheduleNotification(
-                        //         title: "Ayo belajar toefl",
-                        //         body: "Tingkatkan target toefl mu",
-                        //         payload: "This is schedule data");
-                        //   },
-                        //   label: const Text("Reminder Notifikasi"),
-                        // )
+                        ),
+                        buildGameHistorySection(context)
                       ],
                     ),
                   ),
@@ -172,6 +125,64 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
         ),
       ],
+    );
+  }
+
+  SingleChildScrollView buildGameHistorySection(BuildContext context) {
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        children: [
+          const SizedBox(
+            width: 24,
+          ),
+          ...List.generate(
+            5,
+            (index) => Padding(
+              padding: const EdgeInsets.only(right: 12.0),
+              child: BlueContainer(
+                width: MediaQuery.of(context).size.width * 0.35,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    BlueContainer(
+                      color: mariner700,
+                      width: 55,
+                      height: 55,
+                      padding: 10,
+                      child: Center(
+                          child: Text(
+                        "5",
+                        style: CustomTextStyle.extrabold20
+                            .copyWith(color: Colors.white),
+                      )),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8.0, bottom: 2),
+                      child: Text(
+                        "Challange",
+                        style: CustomTextStyle.medium14
+                            .copyWith(fontSize: 11, color: HexColor(neutral60)),
+                      ),
+                    ),
+                    Text(
+                      "Synonym Pairing hahaha",
+                      style: CustomTextStyle.bold16.copyWith(
+                        color: HexColor(neutral90),
+                      ),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(
+            width: 24,
+          ),
+        ],
+      ),
     );
   }
 
