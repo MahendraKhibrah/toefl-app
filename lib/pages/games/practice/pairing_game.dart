@@ -83,80 +83,87 @@ class _PairingGameState extends State<PairingGame> {
       appBar: GameAppBar(
         title: 'Synonym Pairing',
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Stack(
-              alignment: Alignment.center,
-              children: [
-                SizedBox(
-                  height: MediaQuery.of(context).size.height / 5,
-                  child: Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 24, vertical: 6),
-                    child: SvgPicture.asset('assets/images/score.svg'),
+      body: Padding(
+        padding: const EdgeInsets.all(24),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SvgPicture.asset(
+                    'assets/images/maskot_1.svg',
+                    height: MediaQuery.of(context).size.width * 0.4,
                   ),
-                ),
-                Positioned(
-                  left: MediaQuery.of(context).size.width * 0.61,
-                  top: MediaQuery.of(context).size.height / 10.1,
-                  child: SizedBox(
-                    width: 38,
-                    child: Text('$score',
-                        textAlign: TextAlign.center,
-                        style: GoogleFonts.nunito(
-                            fontSize: 24,
-                            fontWeight: FontWeight.w900,
-                            color: HexColor(mariner100))),
-                  ),
-                ),
-              ],
-            ),
-            Expanded(
-              child: SingleChildScrollView(
-                child: GridView.builder(
-                  padding: EdgeInsets.symmetric(horizontal: 24),
-                  shrinkWrap: true,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 24,
-                    mainAxisSpacing: 24,
-                  ),
-                  itemCount: shuffledWords.length,
-                  itemBuilder: (context, index) {
-                    bool isSelected = selectedIndices.contains(index);
-                    bool isMatched = matchedIndices.contains(index);
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Stack(
+                      alignment: Alignment.bottomCenter,
+                      children: [
+                        SvgPicture.asset(
+                            'assets/images/game_pairing_score.svg'),
+                        Positioned(
+                            bottom: 17,
+                            child: Text(
+                              '${score}',
+                              style: GoogleFonts.nunito(
+                                  fontSize: 22,
+                                  color: HexColor(neutral10),
+                                  fontWeight: FontWeight.w900),
+                            )),
+                      ],
+                    ),
+                  )
+                ],
+              ),
+              Expanded(
+                child: Center(
+                  child: SingleChildScrollView(
+                    padding: EdgeInsets.symmetric(horizontal: 24, vertical: 24),
+                    child: GridView.builder(
+                      shrinkWrap: true,
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        crossAxisSpacing: 24,
+                        mainAxisSpacing: 24,
+                      ),
+                      itemCount: shuffledWords.length,
+                      itemBuilder: (context, index) {
+                        bool isSelected = selectedIndices.contains(index);
+                        bool isMatched = matchedIndices.contains(index);
 
-                    return GestureDetector(
-                      onTap: () => _onCardTap(index),
-                      child: Card(
-                        color: isMatched
-                            ? HexColor(mariner500)
-                            : (isSelected
-                                ? HexColor(mariner100)
-                                : Colors.white),
-                        child: Center(
-                          child: Text(
-                            shuffledWords[index],
-                            style: GoogleFonts.nunito(
-                              fontSize: 20,
-                              fontWeight: FontWeight.w800,
-                              color: isMatched
-                                  ? HexColor(neutral10)
-                                  : (isSelected
-                                      ? HexColor(mariner700)
-                                      : HexColor(mariner500)),
+                        return GestureDetector(
+                          onTap: () => _onCardTap(index),
+                          child: Card(
+                            color: isMatched
+                                ? HexColor(mariner500)
+                                : (isSelected
+                                    ? HexColor(mariner100)
+                                    : Colors.white),
+                            child: Center(
+                              child: Text(
+                                shuffledWords[index],
+                                style: GoogleFonts.nunito(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w800,
+                                  color: isMatched
+                                      ? HexColor(neutral10)
+                                      : (isSelected
+                                          ? HexColor(mariner700)
+                                          : HexColor(mariner500)),
+                                ),
+                              ),
                             ),
                           ),
-                        ),
-                      ),
-                    );
-                  },
+                        );
+                      },
+                    ),
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
