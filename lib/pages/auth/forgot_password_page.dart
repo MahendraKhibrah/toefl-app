@@ -6,7 +6,7 @@ import 'package:toefl/utils/hex_color.dart';
 import 'package:toefl/widgets/blue_button.dart';
 import 'package:toefl/widgets/form_input.dart';
 
-import '../remote/api/user_api.dart';
+import '../../remote/api/user_api.dart';
 
 class ForgotPassword extends StatefulWidget {
   const ForgotPassword({super.key, this.initialEmail = ""});
