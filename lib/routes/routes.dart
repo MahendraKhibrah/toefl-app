@@ -31,6 +31,7 @@ import 'package:toefl/pages/rank_page.dart';
 import 'package:toefl/pages/auth/regist_page.dart';
 import 'package:toefl/pages/games/games_page.dart';
 import 'package:toefl/pages/review_test/review_test_page.dart';
+import 'package:toefl/pages/user/search_user_page.dart';
 import 'package:toefl/pages/user/setgoal_page.dart';
 import 'package:toefl/pages/splash_page.dart';
 import 'package:toefl/pages/auth/success_password_page.dart';
@@ -174,4 +175,5 @@ final routes = <String, Widget Function(BuildContext)>{
     return FinishQuizPage(result: data?["result"] ?? "");
   },
   RouteKey.settingPage: (context) => const SettingPage(),
+  RouteKey.searchUser: (context) => const SearchUserPage(),
 };

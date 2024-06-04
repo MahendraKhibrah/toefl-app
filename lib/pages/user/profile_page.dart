@@ -217,16 +217,21 @@ class _ProfilePageState extends State<ProfilePage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                BlueContainer(
-                  width: MediaQuery.of(context).size.width * 0.7 - 25,
-                  color: mariner700,
-                  padding: 12,
-                  child: Center(
-                    child: Text(
-                      "Find a Friend",
-                      style: CustomTextStyle.bold16.copyWith(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w900,
+                GestureDetector(
+                  onTap: () {
+                    Navigator.pushNamed(context, RouteKey.searchUser);
+                  },
+                  child: BlueContainer(
+                    width: MediaQuery.of(context).size.width * 0.7 - 25,
+                    color: mariner700,
+                    padding: 12,
+                    child: Center(
+                      child: Text(
+                        "Find a Friend",
+                        style: CustomTextStyle.bold16.copyWith(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w900,
+                        ),
                       ),
                     ),
                   ),

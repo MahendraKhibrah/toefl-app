@@ -32,4 +32,5 @@ class RouteKey {
   static const successPassword = '/success-password';
   static const resetPassword = '/reset-password';
   static const settingPage = '/setting-page';
+  static const searchUser = '/search-user';
 }
