@@ -50,6 +50,7 @@ class _ReviewTestPageState extends State<ReviewTestPage> {
     final screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
+      backgroundColor: Colors.white,
       body: isLoading
           ? const Center(
               child: CircularProgressIndicator(),
