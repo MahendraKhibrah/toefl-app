@@ -4,7 +4,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:toefl/pages/games/practice/scrambled_sentence.dart';
 import 'package:toefl/pages/games/practice/speaking_game.dart';
-import 'package:toefl/pages/games/practice/testing.dart';
 import 'package:toefl/remote/local/shared_pref/test_shared_preferences.dart';
 import 'package:toefl/routes/route_key.dart';
 import 'package:toefl/utils/colors.dart';
@@ -219,20 +218,6 @@ class _HomePageState extends State<HomePage> {
               SizedBox(
                 height: 30,
               ),
-              TextButton(
-                  onPressed: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => SentenceScramblePage(),
-                    ));
-                  },
-                  child: Text('test')),
-              TextButton(
-                  onPressed: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => SpeakingGame(),
-                    ));
-                  },
-                  child: Text('test')),
             ],
           ),
         )));

@@ -3,7 +3,9 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:toefl/models/friend.dart';
+import 'package:toefl/models/games/user_leaderboard.dart';
 import 'package:toefl/models/profile.dart';
+import 'package:toefl/remote/api/leader_board_api.dart';
 import 'package:toefl/remote/base_response.dart';
 import 'package:toefl/remote/dio_toefl.dart';
 import 'package:toefl/remote/env.dart';
@@ -29,7 +31,7 @@ class ProfileApi {
           targetScore: 0,
           nameUser: "",
           emailUser: "",
-          rank: 0,
+          rank: -1,
           profileImage: "",
           isFriend: false);
     }

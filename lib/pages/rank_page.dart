@@ -64,27 +64,35 @@ class _RankPageState extends State<RankPage> {
                     Container(
                       height: MediaQuery.of(context).size.height / 2,
                       alignment: Alignment.bottomCenter,
-                      child: ListView.builder(
-                        itemCount: math.max(0, listRank.data!.length - 3),
-                        itemBuilder: (context, index) {
-                          return Padding(
-                            padding: EdgeInsets.only(
-                                top: index == 0 ? 90 : 8,
-                                bottom: index ==
-                                        math.max(0, listRank.data!.length - 3) -
-                                            1
-                                    ? 20
-                                    : 8,
-                                left: 24,
-                                right: 24),
-                            child: ListRank(
-                              index: index + 4,
-                              name: listRank.data![index + 3].nama,
-                              score: listRank.data![index + 3].totalScore,
+                      child: listRank.data != null
+                          ? ListView.builder(
+                              itemCount: math.max(0, listRank.data!.length - 3),
+                              itemBuilder: (context, index) {
+                                return Padding(
+                                  padding: EdgeInsets.only(
+                                      top: index == 0 ? 90 : 8,
+                                      bottom: index ==
+                                              math.max(
+                                                      0,
+                                                      listRank.data!.length -
+                                                          3) -
+                                                  1
+                                          ? 20
+                                          : 8,
+                                      left: 24,
+                                      right: 24),
+                                  child: ListRank(
+                                    index: index + 4,
+                                    name: listRank.data![index + 3].user.name!,
+                                    score: listRank.data![index + 3].totalScore,
+                                  ),
+                                );
+                              },
+                            )
+                          : Padding(
+                              padding: EdgeInsets.all(24),
+                              child: Text('Take a game to participate'),
                             ),
-                          );
-                        },
-                      ),
                     ),
                     Positioned(
                       top: -200,
@@ -101,7 +109,7 @@ class _RankPageState extends State<RankPage> {
                         children: [
                           Center(
                             child: Text(
-                              "Score TOEFL Practice Rank Board",
+                              "Take a game to participate",
                               style: TextStyle(
                                 fontSize: 16,
                                 color: HexColor(neutral60),
@@ -117,10 +125,12 @@ class _RankPageState extends State<RankPage> {
                                 child: Transform.translate(
                                   offset: const Offset(0, 80),
                                   child: ProfileRank(
-                                    name: listRank.data!.length > 1
-                                        ? listRank.data![1].nama
-                                        : "",
-                                    score: listRank.data!.length > 1
+                                    name: listRank.data != null &&
+                                            listRank.data!.length > 1
+                                        ? listRank.data![1].user.name!
+                                        : "?",
+                                    score: listRank.data != null &&
+                                            listRank.data!.length > 1
                                         ? listRank.data![1].totalScore
                                         : 0,
                                     category: "Silver",
@@ -131,10 +141,12 @@ class _RankPageState extends State<RankPage> {
                               Expanded(
                                 child: ProfileRank(
                                   isMiddle: true,
-                                  name: listRank.data!.isNotEmpty
-                                      ? listRank.data![0].nama
-                                      : "",
-                                  score: listRank.data!.isNotEmpty
+                                  name: listRank.data != null &&
+                                          listRank.data!.isNotEmpty
+                                      ? listRank.data![0].user.name!
+                                      : "?",
+                                  score: listRank.data != null &&
+                                          listRank.data!.isNotEmpty
                                       ? listRank.data![0].totalScore
                                       : 0,
                                   category: "Gold",
@@ -145,10 +157,12 @@ class _RankPageState extends State<RankPage> {
                                 child: Transform.translate(
                                   offset: const Offset(0, 80),
                                   child: ProfileRank(
-                                    name: listRank.data!.length > 2
-                                        ? listRank.data![2].nama
-                                        : "",
-                                    score: listRank.data!.length > 2
+                                    name: listRank.data != null &&
+                                            listRank.data!.length > 2
+                                        ? listRank.data![2].user.name!
+                                        : "?",
+                                    score: listRank.data != null &&
+                                            listRank.data!.length > 2
                                         ? listRank.data![2].totalScore
                                         : 0,
                                     category: "Bronze",
