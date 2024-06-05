@@ -264,7 +264,8 @@ class _SettingState extends State<Setting> {
         DateTime(now.year, now.month, now.day, 10, 0, 0).add(
       now.hour >= 10 ? Duration(days: 1) : Duration.zero,
     );
-    DateTime nextAfternoon = DateTime(now.year, now.month, now.day, 14, 58, 0).add(
+    DateTime nextAfternoon =
+        DateTime(now.year, now.month, now.day, 16, 0, 0).add(
       now.hour >= 16 ? Duration(days: 1) : Duration.zero,
     );
 
