@@ -15,9 +15,8 @@ class LeaderBoardApi {
       final Response rawResponse =
           await DioToefl.instance.get('${Env.gameUrl}/leaderboard');
       final response = BaseResponse.fromJson(json.decode(rawResponse.data));
-      // Assuming the response data is a list of leaderboard entries
       String user = response.data['user']["_id"];
-      List<dynamic> data = response.data['rank'];
+      List<dynamic> data = response.data['top_scores'];
       List<LeaderBoard> leaderBoardEntries =
           data.map((entry) => LeaderBoard.fromJson(entry)).toList();
 

@@ -7,19 +7,13 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:toefl/pages/games/practice/pairing_game.dart';
-import 'package:toefl/pages/games/practice/testing.dart';
-import 'package:toefl/remote/api/scrambled_word_api.dart';
-import 'package:toefl/routes/route_key.dart';
+import 'package:toefl/models/games/game_tense.dart';
+import 'package:toefl/remote/api/mini_game_api.dart';
 import 'package:toefl/utils/colors.dart';
-import 'package:toefl/utils/custom_text_style.dart';
-import 'package:toefl/utils/game_utils.dart';
 import 'package:toefl/utils/hex_color.dart';
 import 'package:toefl/widgets/answer_validation_container.dart';
 import 'package:toefl/widgets/blue_button.dart';
 import 'package:collection/collection.dart';
-import 'package:toefl/widgets/blue_container.dart';
-import 'package:toefl/widgets/quiz/modal/modal_confirmation.dart';
 
 import '../../../widgets/games/game_app_bar.dart';
 import '../../../widgets/games/soal_to_audio_widget.dart';
@@ -32,13 +26,13 @@ class SentenceScramblePage extends StatefulWidget {
 }
 
 class _SentenceScramblePageState extends State<SentenceScramblePage> {
-  late Future<Map<String, dynamic>> sentenceDataFuture;
+  late Future<List<GameTense>> sentenceDataFuture;
   late List<String> _sentences = [];
   late List<String> _scrambledSentence = [];
   late List<String> _selectedWord = [];
   late String textSoal = '';
   late bool _isCorrect = false;
-  late String wordId = '';
+  late String tenseId = '';
   bool _isCheck = false;
 
   @override
@@ -47,20 +41,20 @@ class _SentenceScramblePageState extends State<SentenceScramblePage> {
     sentenceDataFuture = getData();
   }
 
-  Future<Map<String, dynamic>> getData() async {
+  Future<List<GameTense>> getData() async {
     Random random = Random();
     final String response =
-        await rootBundle.loadString('assets/json/word.json');
+        await rootBundle.loadString('assets/json/tenses.json');
     final List<dynamic> data = json.decode(response);
-    final Map<String, dynamic> dataWord =
-        Map<String, dynamic>.from(data[random.nextInt(data.length)]);
-    return dataWord;
+    List<GameTense> tense =
+        data.map((json) => GameTense.fromJson(json)).toList();
+    return [tense[random.nextInt(2200)], tense[random.nextInt(2200)]];
   }
 
-  void _initializeGame(Map<String, dynamic> wordData) {
+  void _initializeGame(List<GameTense> tenses) {
     final Random random = Random();
-    String word = wordData['Meaning']!;
-    String pengecoh = wordData['Examples/1'];
+    String word = tenses.first.sentence!;
+    String pengecoh = tenses.last.sentence!;
     textSoal = word;
 
     _sentences = word.split(' ');
@@ -71,7 +65,7 @@ class _SentenceScramblePageState extends State<SentenceScramblePage> {
       _scrambledSentence.add(pengecoh.split(' ').last);
     }
 
-    wordId = wordData['_id']['\$oid']!;
+    tenseId = tenses.first.id!.oid;
     _scrambledSentence.shuffle(random);
     _selectedWord = [];
     _isCorrect = false;
@@ -105,7 +99,7 @@ class _SentenceScramblePageState extends State<SentenceScramblePage> {
   void _nextWord() async {
     if (_isCheck) {
       final isSaved = true;
-      // await ScrambledWordApi().storeScrambled(wordId, _isCorrect);
+      await MiniGameApi().storeScrambledTense(tenseId, _isCorrect);
       if (isSaved) {
         setState(() {
           _sentences = [];
@@ -135,8 +129,8 @@ class _SentenceScramblePageState extends State<SentenceScramblePage> {
                 child: Center(
                   child: FutureBuilder(
                     future: sentenceDataFuture,
-                    builder: (context,
-                        AsyncSnapshot<Map<String, dynamic>> snapshot) {
+                    builder:
+                        (context, AsyncSnapshot<List<GameTense>> snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return CircularProgressIndicator();
                       } else if (snapshot.hasError) {

@@ -10,7 +10,7 @@ import 'package:speech_to_text/speech_recognition_result.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 import 'package:toefl/models/games/game_tense.dart';
 import 'package:toefl/models/word_synonym.dart';
-import 'package:toefl/remote/api/pairing_api.dart';
+import 'package:toefl/remote/api/mini_game_api.dart';
 import 'package:toefl/routes/route_key.dart';
 import 'package:toefl/utils/colors.dart';
 import 'package:toefl/utils/custom_text_style.dart';
@@ -38,6 +38,7 @@ class _SpeakingGameState extends State<SpeakingGame> {
   bool _isCorrect = false;
   bool _disable = true;
   double accuracy = 0;
+  String tenseId = '';
 
   @override
   void initState() {
@@ -79,8 +80,10 @@ class _SpeakingGameState extends State<SpeakingGame> {
     List<GameTense> sentence =
         parsedJson.map((json) => GameTense.fromJson(json)).toList();
     sentence.shuffle();
+    final take = sentence.take(1).toList().first;
     setState(() {
-      _answerKey = sentence.take(1).toList().first.sentence!;
+      _answerKey = take.sentence!;
+      tenseId = take.id!.oid;
     });
   }
 
@@ -101,13 +104,13 @@ class _SpeakingGameState extends State<SpeakingGame> {
   void _nextWord() async {
     print('test');
     if (_isCheck) {
-      final isSaved = true;
-      // await ScrambledWordApi().storeScrambled(wordId, _isCorrect);
+      final isSaved = await MiniGameApi().storeSpeakingTense(tenseId, accuracy);
       if (isSaved) {
         setState(() {
           _userAnswer = '';
           _answerKey = '';
           _isCheck = false;
+          _isCorrect = false;
           _disable = true;
         });
         _loadWords();
@@ -205,37 +208,38 @@ class _SpeakingGameState extends State<SpeakingGame> {
                         )
                       : Text(''),
                 ),
-                TextButton(
-                  onPressed: _speechToText.isNotListening
-                      ? _startListening
-                      : _stopListening,
-                  style: _speechToText.isNotListening
-                      ? TextButton.styleFrom(
-                          backgroundColor: HexColor(neutral10),
-                          minimumSize:
-                              Size(MediaQuery.of(context).size.width, 60),
-                          padding: EdgeInsets.symmetric(horizontal: 10),
-                          shape: RoundedRectangleBorder(
-                            side: BorderSide(
-                                width: 3, color: HexColor(mariner700)),
-                            borderRadius: BorderRadius.circular(10),
+                if (!_isCorrect)
+                  TextButton(
+                    onPressed: _speechToText.isNotListening
+                        ? _startListening
+                        : _stopListening,
+                    style: _speechToText.isNotListening
+                        ? TextButton.styleFrom(
+                            backgroundColor: HexColor(neutral10),
+                            minimumSize:
+                                Size(MediaQuery.of(context).size.width, 60),
+                            padding: EdgeInsets.symmetric(horizontal: 10),
+                            shape: RoundedRectangleBorder(
+                              side: BorderSide(
+                                  width: 3, color: HexColor(mariner700)),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          )
+                        : TextButton.styleFrom(
+                            backgroundColor: HexColor(mariner700),
+                            minimumSize:
+                                Size(MediaQuery.of(context).size.width, 60),
+                            padding: EdgeInsets.symmetric(horizontal: 10),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
                           ),
-                        )
-                      : TextButton.styleFrom(
-                          backgroundColor: HexColor(mariner700),
-                          minimumSize:
-                              Size(MediaQuery.of(context).size.width, 60),
-                          padding: EdgeInsets.symmetric(horizontal: 10),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                        ),
-                  child: SvgPicture.asset(
-                    _speechToText.isNotListening
-                        ? 'assets/images/vector_game_mic_off.svg'
-                        : 'assets/images/vector_game_mic_on.svg',
+                    child: SvgPicture.asset(
+                      _speechToText.isNotListening
+                          ? 'assets/images/vector_game_mic_off.svg'
+                          : 'assets/images/vector_game_mic_on.svg',
+                    ),
                   ),
-                ),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 24),
                   child: BlueButton(

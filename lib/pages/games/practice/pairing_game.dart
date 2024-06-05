@@ -7,7 +7,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:toefl/models/word_synonym.dart';
-import 'package:toefl/remote/api/pairing_api.dart';
+import 'package:toefl/remote/api/mini_game_api.dart';
 import 'package:toefl/routes/route_key.dart';
 import 'package:toefl/utils/colors.dart';
 import 'package:toefl/utils/custom_text_style.dart';
@@ -203,7 +203,8 @@ class _PairingGameState extends State<PairingGame> {
       });
     }
     if (score <= 0 || matchedIndices.length == 6) {
-      bool isSaved = await PairingApi().storeSynonym(synonymWordIds, score);
+      bool isSaved = await MiniGameApi()
+          .storePairingSynonym(synonymWordIds, score.toDouble());
       if (isSaved) {
         showModalEnd();
       }
