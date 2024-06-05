@@ -32,8 +32,7 @@ class FeaturedCard extends StatelessWidget {
         width: MediaQuery.of(context).size.width / 2.43,
         height: MediaQuery.of(context).size.height / 7,
         child: Padding(
-          padding:
-              EdgeInsetsDirectional.symmetric(horizontal: 10),
+          padding: EdgeInsetsDirectional.symmetric(horizontal: 10),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -46,7 +45,7 @@ class FeaturedCard extends StatelessWidget {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     fontSize: 16,
-                    fontWeight:FontWeight.w800,
+                    fontWeight: FontWeight.w800,
                     color:
                         isBgLight ? HexColor(mariner900) : HexColor(neutral10)),
               ),
@@ -55,7 +54,7 @@ class FeaturedCard extends StatelessWidget {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     fontSize: 10,
-                    fontWeight:FontWeight.w400,
+                    fontWeight: FontWeight.w400,
                     color:
                         isBgLight ? HexColor(mariner900) : HexColor(neutral10)),
               ),

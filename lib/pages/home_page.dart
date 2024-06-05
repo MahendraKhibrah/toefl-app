@@ -219,20 +219,6 @@ class _HomePageState extends State<HomePage> {
               SizedBox(
                 height: 30,
               ),
-              TextButton(
-                  onPressed: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => SentenceScramblePage(),
-                    ));
-                  },
-                  child: Text('test')),
-              TextButton(
-                  onPressed: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => SpeakingGame(),
-                    ));
-                  },
-                  child: Text('test')),
             ],
           ),
         )));
