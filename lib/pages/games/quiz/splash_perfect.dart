@@ -2,8 +2,10 @@ import 'dart:async';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:toefl/models/quiz_game_result.dart';
 import 'package:toefl/pages/games/quiz/finish_quiz_page.dart';
+import 'package:toefl/routes/route_key.dart';
 import 'package:toefl/utils/colors.dart';
 import 'package:toefl/utils/hex_color.dart';
 
@@ -22,18 +24,17 @@ class _SplashPerfectState extends State<SplashPerfect> {
     super.initState();
     Timer(Duration(milliseconds: 1500), () {
       if (mounted) {
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(
-            builder: (context) => FinishQuizPage(
-              result: widget.result,
-            ),
-          ),
-        );
+        Navigator.of(context).pushNamedAndRemoveUntil(
+            RouteKey.finishQuizResult,
+            arguments: {
+              'result': widget.result,
+            },
+            (route) => false);
       }
     });
 
-    accuracy = (widget.result.total / widget.result.benar) * 100;
-    print(accuracy);
+    accuracy = (widget.result.benar / widget.result.total) * 100;
+    print("Akurasi" + accuracy.toString());
   }
 
   @override
@@ -63,9 +64,10 @@ class _SplashPerfectState extends State<SplashPerfect> {
                             : accuracy >= 40
                                 ? "FAIR"
                                 : "NEEDS IMPROVEMENT",
+                textAlign: TextAlign.center,
               ),
-              contentTextStyle: TextStyle(
-                fontWeight: FontWeight.bold,
+              contentTextStyle: GoogleFonts.nunito(
+                fontWeight: FontWeight.w900,
                 fontSize: 55,
                 color: HexColor(mariner900),
               ),

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:toefl/models/test/packet_detail.dart';
 
@@ -44,7 +45,27 @@ class Answer {
     required this.packetName,
   });
 
-  factory Answer.fromJson(Map<String, dynamic> json) => _$AnswerFromJson(json);
+  factory Answer.fromJson(Map<String, dynamic> json) {
+    try {
+      return _$AnswerFromJson(json);
+    } catch (e, stacktrace) {
+      debugPrint('Error Answer Model: $e');
+      debugPrint('Stacktrace Answer Model: $stacktrace');
+      return Answer(
+        id: '',
+        question: '',
+        keyQuestion: '',
+        typeQuestion: '',
+        isCorrect: false,
+        userAnswer: '',
+        nestedQuestionId: '',
+        nestedQuestion: '',
+        choices: [],
+        bookmark: false,
+        packetName: '',
+      );
+    }
+  }
 
   factory Answer.fromJsonString(String jsonString) =>
       _$AnswerFromJson(jsonDecode(jsonString));

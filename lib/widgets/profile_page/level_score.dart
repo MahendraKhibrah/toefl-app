@@ -1,10 +1,11 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 import 'package:toefl/models/profile.dart' as model;
 import 'package:toefl/remote/api/profile_api.dart';
 import 'package:toefl/utils/colors.dart';
 import 'package:toefl/utils/hex_color.dart';
-import 'package:toefl/widgets/profile_page/profile.dart';
+import 'package:toefl/widgets/profile_page/profile_name_section.dart';
 
 class LevelScore extends StatefulWidget {
   const LevelScore({super.key});
@@ -36,9 +37,11 @@ class _LevelScoreState extends State<LevelScore> {
     } catch (e) {
       print("Error : $e");
     } finally {
-      setState(() {
-        isLoading = false;
-      });
+      if (mounted) {
+        setState(() {
+          isLoading = false;
+        });
+      }
     }
   }
 
@@ -70,14 +73,20 @@ class _LevelScoreState extends State<LevelScore> {
                       const SizedBox(
                         height: 5,
                       ),
-                      Text(
-                          "${profile?.level == '' ? 'Take A Test' : profile?.level}",
-                          style: TextStyle(
-                            fontWeight: FontWeight.w900,
-                            fontSize: MediaQuery.of(context).size.width * 0.047,
-                            color: HexColor(mariner900),
-                          ),
-                          textAlign: TextAlign.center),
+                      Skeletonizer(
+                        enabled: isLoading,
+                        child: Skeleton.leaf(
+                          child: Text(
+                              "${profile?.level == '' ? 'Take a test first' : profile?.level ?? 'Take Your Test'}",
+                              style: TextStyle(
+                                fontWeight: FontWeight.w900,
+                                fontSize:
+                                    MediaQuery.of(context).size.width * 0.047,
+                                color: HexColor(mariner900),
+                              ),
+                              textAlign: TextAlign.center),
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -100,14 +109,19 @@ class _LevelScoreState extends State<LevelScore> {
                       const SizedBox(
                         height: 5,
                       ),
-                      Text(
-                          "${profile?.currentScore == '' ? '0' : profile?.currentScore}/${profile?.targetScore}",
-                          style: TextStyle(
-                            fontWeight: FontWeight.w900,
-                            fontSize: 25,
-                            color: HexColor(mariner900),
-                          ),
-                          textAlign: TextAlign.center),
+                      Skeletonizer(
+                        enabled: isLoading,
+                        child: Skeleton.leaf(
+                          child: Text(
+                              "${profile?.currentScore == '' ? '0' : profile?.currentScore ?? 0}/${profile?.targetScore ?? 0}",
+                              style: TextStyle(
+                                fontWeight: FontWeight.w900,
+                                fontSize: 25,
+                                color: HexColor(mariner900),
+                              ),
+                              textAlign: TextAlign.center),
+                        ),
+                      ),
                     ],
                   ),
                 ),

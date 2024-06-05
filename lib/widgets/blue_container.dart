@@ -40,9 +40,9 @@ class BlueContainer extends StatelessWidget {
             ),
             BoxShadow(
               color: innerShadow ? HexColor(color) : Colors.transparent,
-              spreadRadius: -1.5,
-              blurRadius: 3.0,
-              offset: const Offset(0, 1),
+              spreadRadius: -0.5,
+              blurRadius: 1.0,
+              // offset: const Offset(0, 1),
             ),
           ]),
       child: Padding(

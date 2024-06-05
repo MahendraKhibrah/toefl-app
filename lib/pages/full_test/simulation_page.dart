@@ -1,8 +1,8 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:skeletonizer/skeletonizer.dart';
-import 'package:toefl/pages/full_test/finished_packet_dialog.dart';
 import 'package:toefl/remote/api/full_test_api.dart';
 import 'package:toefl/remote/local/shared_pref/test_shared_preferences.dart';
 import 'package:toefl/routes/route_key.dart';
@@ -11,9 +11,11 @@ import 'package:toefl/utils/colors.dart';
 import 'package:toefl/utils/custom_text_style.dart';
 import 'package:toefl/utils/hex_color.dart';
 import 'package:toefl/widgets/blue_container.dart';
+import 'package:toefl/widgets/quiz/modal/modal_confirmation.dart';
 
 import '../../models/test/packet.dart';
 import '../../models/test/test_status.dart';
+import '../../widgets/common_app_bar.dart';
 
 class SimulationPage extends ConsumerStatefulWidget {
   const SimulationPage({super.key});
@@ -100,13 +102,7 @@ class _SimulationPageState extends ConsumerState<SimulationPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text(
-            "FULL TEST",
-            style: CustomTextStyle.extraBold16,
-          ),
-          centerTitle: true,
-        ),
+        appBar: CommonAppBar(title: 'FULL TEST'),
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
           child: SingleChildScrollView(
@@ -133,7 +129,7 @@ class _SimulationPageState extends ConsumerState<SimulationPage> {
                             return Padding(
                               padding: const EdgeInsets.only(bottom: 16),
                               child: PacketCard(
-                                  title: packets[index].name,
+                                  title: packets[index].name.toUpperCase(),
                                   questionCount: 140,
                                   isDisabled:
                                       !(packets[index].questionCount == 140),
@@ -173,53 +169,45 @@ class _SimulationPageState extends ConsumerState<SimulationPage> {
                                       showDialog(
                                         context: context,
                                         builder: (BuildContext submitContext) {
-                                          return AlertDialog(
-                                              backgroundColor:
-                                                  Colors.transparent,
-                                              contentPadding:
-                                                  const EdgeInsets.symmetric(
-                                                      horizontal: 0,
-                                                      vertical: 0),
-                                              content: FinishedPacketDialog(
-                                                onRetake: () {
-                                                  Navigator.of(submitContext)
-                                                      .pop();
-                                                  Navigator.of(context).pushNamed(
-                                                      RouteKey
-                                                          .openingLoadingTest,
-                                                      arguments: {
-                                                        "id": packets[index].id,
-                                                        "packetName":
-                                                            packets[index].name,
-                                                        "isRetake":
-                                                            packets[index]
-                                                                .wasFilled
-                                                      }).then((value) {
-                                                    _onInit();
-                                                    _pushReviewPage(
-                                                        packets[index]);
-                                                  });
-                                                },
-                                                onReview: () {
-                                                  Navigator.of(submitContext)
-                                                      .pop();
-                                                  Navigator.pushNamed(context,
-                                                      RouteKey.testresult,
-                                                      arguments: {
-                                                        "packetId":
-                                                            packets[index].id,
-                                                        "isMiniTest": false,
-                                                        "packetName":
-                                                            packets[index].name
-                                                      }).then((afterRetake) {
-                                                    if (afterRetake == true) {
-                                                      _onInit();
-                                                      _pushReviewPage(
-                                                          packets[index]);
-                                                    }
-                                                  });
-                                                },
-                                              ));
+                                          return ModalConfirmation(
+                                            message: "you_ve_finished_your_test"
+                                                .tr(),
+                                            leftTitle: 'review'.tr(),
+                                            rightTitle: 'retake'.tr(),
+                                            rightFunction: () {
+                                              Navigator.of(submitContext).pop();
+                                              Navigator.of(context).pushNamed(
+                                                  RouteKey.openingLoadingTest,
+                                                  arguments: {
+                                                    "id": packets[index].id,
+                                                    "packetName":
+                                                        packets[index].name,
+                                                    "isRetake":
+                                                        packets[index].wasFilled
+                                                  }).then((value) {
+                                                _onInit();
+                                                _pushReviewPage(packets[index]);
+                                              });
+                                            },
+                                            leftFunction: () {
+                                              Navigator.of(submitContext).pop();
+                                              Navigator.pushNamed(
+                                                  context, RouteKey.testresult,
+                                                  arguments: {
+                                                    "packetId":
+                                                        packets[index].id,
+                                                    "isMiniTest": false,
+                                                    "packetName":
+                                                        packets[index].name
+                                                  }).then((afterRetake) {
+                                                if (afterRetake == true) {
+                                                  _onInit();
+                                                  _pushReviewPage(
+                                                      packets[index]);
+                                                }
+                                              });
+                                            },
+                                          );
                                         },
                                       );
                                     }
