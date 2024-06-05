@@ -6,7 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:toefl/remote/local/shared_pref/localization_shared_pref.dart';
-import 'package:toefl/routes/local_notification.dart';
+import 'package:toefl/utils/local_notification.dart';
 import 'package:toefl/routes/navigator_key.dart';
 import 'package:toefl/routes/route_key.dart';
 import 'package:toefl/routes/route_observer.dart';

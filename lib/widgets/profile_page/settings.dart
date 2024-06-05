@@ -11,7 +11,7 @@ import 'package:toefl/remote/local/shared_pref/localization_shared_pref.dart';
 import 'package:toefl/remote/local/shared_pref/test_shared_preferences.dart';
 import 'package:toefl/remote/local/sqlite/full_test_table.dart';
 import 'package:toefl/remote/local/sqlite/mini_test_table.dart';
-import 'package:toefl/routes/local_notification.dart';
+import 'package:toefl/utils/local_notification.dart';
 import 'package:toefl/routes/route_key.dart';
 import 'package:toefl/utils/colors.dart';
 import 'package:toefl/utils/hex_color.dart';
@@ -251,8 +251,8 @@ class _SettingState extends State<Setting> {
       onChanged: (value) async {
         setState(() {
           _switchValue = value;
+          _saveSwitchState(value);
         });
-        _saveSwitchState(value);
         if (value) {
           await scheduleNotifications();
         }
@@ -263,18 +263,14 @@ class _SettingState extends State<Setting> {
     );
   }
 
-  // void _checkNotification() async {
-  //   bool isEnabled = await Noti
-  // }
-
   Future<void> scheduleNotifications() async {
     DateTime now = DateTime.now();
     DateTime nextMorning = DateTime(now.year, now.month, now.day, 10, 0, 0).add(
       now.hour >= 10 ? Duration(days: 1) : Duration.zero,
     );
     DateTime nextAfternoon =
-        DateTime(now.year, now.month, now.day, 21, 37, 0).add(
-      now.hour >= 23 ? Duration(days: 1) : Duration.zero,
+        DateTime(now.year, now.month, now.day, 17, 45, 0).add(
+      now.hour >= 18 ? Duration(days: 1) : Duration.zero,
     );
 
     Duration morningDuration = nextMorning.difference(now);
@@ -286,6 +282,7 @@ class _SettingState extends State<Setting> {
         title: 'morning_notification'.tr(args: ['Sobat TOEFL PENS!']),
         body: 'body_notification'.tr(),
         fln: flutterLocalNotificationsPlugin,
+        scheduledDateTime: nextMorning,
       );
       // Schedule next morning notification
       scheduleNotifications();
@@ -297,6 +294,7 @@ class _SettingState extends State<Setting> {
         title: 'afternoon_notification'.tr(args: ['Sobat TOEFL PENS!']),
         body: 'body_notification'.tr(),
         fln: flutterLocalNotificationsPlugin,
+        scheduledDateTime: nextAfternoon,
       );
       // Schedule next evening notification
       scheduleNotifications();
