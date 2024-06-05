@@ -103,7 +103,7 @@ class _ProfilePageState extends State<ProfilePage> {
           backgroundColor: Colors.white,
           appBar: CommonAppBar(
             title: 'appbar_profile'.tr(),
-            withBack: false,
+            withBack: widget.isMe ? false : true,
             actions: [
               widget.isMe
                   ? Padding(
