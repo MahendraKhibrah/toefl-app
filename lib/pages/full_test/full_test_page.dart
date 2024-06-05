@@ -32,6 +32,7 @@ class FullTestPage extends ConsumerWidget {
         _showFinishedDialog(context, ref);
       },
       child: Scaffold(
+        backgroundColor: Colors.white,
         body: Stack(
           children: [
             Positioned(

@@ -101,6 +101,7 @@ class _SimulationPageState extends ConsumerState<MiniSimulationPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: Colors.white,
         appBar: CommonAppBar(title: 'mini_test'.tr()),
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),

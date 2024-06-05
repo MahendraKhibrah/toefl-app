@@ -19,7 +19,8 @@ class FullTestApi {
 
       final response = BaseResponse.fromJson(json.decode(rawResponse.data));
       return PacketDetail.fromJson(response.data);
-    } catch (e) {
+    } catch (e, trace) {
+      debugPrint("ERROR getPacketDetail : $e $trace");
       return PacketDetail(id: "", name: "", questions: []);
     }
   }
