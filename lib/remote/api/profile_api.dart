@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
@@ -104,6 +105,31 @@ class ProfileApi {
     try {
       final Response rawResponse = await (dio ?? DioToefl.instance)
           .post('${Env.userUrl}/friend/process/add-patch/$friendId');
+
+      final response = json.decode(rawResponse.data);
+      debugPrint("is success : ${response['success']}");
+      return response['success'];
+    } catch (e, stackTrace) {
+      debugPrint(e.toString() + stackTrace.toString());
+      return false;
+    }
+  }
+
+  Future<bool> updateProfile(File? image, String name) async {
+    try {
+      String fileName = image?.path.split('/').last ?? "";
+      final Response rawResponse = await (dio ?? DioToefl.instance).post(
+        '${Env.userUrl}/edit/profile',
+        data: FormData.fromMap({
+          'name': name,
+          "file": image != null
+              ? await MultipartFile.fromFile(image.path, filename: fileName)
+              : null,
+        }),
+        options: Options(headers: {
+          HttpHeaders.contentTypeHeader: "multipart/form-data",
+        }),
+      );
 
       final response = json.decode(rawResponse.data);
       debugPrint("is success : ${response['success']}");
