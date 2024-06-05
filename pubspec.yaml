@@ -38,6 +38,7 @@ dependencies:
   timezone: ^0.9.3
   flutter_tts: ^4.0.2
   speech_to_text: ^6.6.1
+  string_similarity: ^2.0.0
 
 
 dev_dependencies:

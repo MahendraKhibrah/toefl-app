@@ -9,12 +9,12 @@ class AnswerValidationContainer extends StatelessWidget {
   const AnswerValidationContainer({
     super.key,
     required this.isCorrect,
-    required this.keyAnswer,
+    this.keyAnswer = '',
     required this.explanation,
   });
 
   final bool isCorrect;
-  final String keyAnswer;
+  final String? keyAnswer;
   final String explanation;
 
   @override
@@ -28,7 +28,9 @@ class AnswerValidationContainer extends StatelessWidget {
         padding:
             const EdgeInsets.only(left: 14, right: 12, bottom: 12, top: 16),
         child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: keyAnswer == ''
+              ? CrossAxisAlignment.center
+              : CrossAxisAlignment.start,
           children: [
             SvgPicture.asset(
                 'assets/icons/${isCorrect ? 'ic_correct' : 'ic_incorrect'}.svg'),
@@ -37,23 +39,32 @@ class AnswerValidationContainer extends StatelessWidget {
             ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: keyAnswer == ''
+                  ? MainAxisAlignment.center
+                  : MainAxisAlignment.start,
               children: [
                 Text(
-                  isCorrect ? 'Correct' : 'Incorrect',
+                  isCorrect
+                      ? keyAnswer == ''
+                          ? 'Accuracy : '
+                          : 'Correct'
+                      : 'Incorrect',
                   style: CustomTextStyle.extraBold16.copyWith(
                     color: HexColor(isCorrect ? colorSuccess : colorError),
                   ),
                 ),
-                const SizedBox(
-                  height: 5,
-                ),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.65,
-                  child: Text(
-                    'Key answer : $keyAnswer',
-                    style: CustomTextStyle.bold16.copyWith(fontSize: 12),
+                if (keyAnswer != '')
+                  const SizedBox(
+                    height: 5,
                   ),
-                ),
+                if (keyAnswer != '')
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.65,
+                    child: Text(
+                      'Key answer : $keyAnswer',
+                      style: CustomTextStyle.bold16.copyWith(fontSize: 12),
+                    ),
+                  ),
                 SizedBox(
                   height: explanation.isEmpty ? 0 : 5,
                 ),
