@@ -95,7 +95,7 @@ class _GameButtonState extends State<GameButton> {
                       subtitle: RichText(
                         text: TextSpan(
                             text:
-                                '${widget.gameList.gameClaim != null && widget.gameList.gameClaim!.isNotEmpty ? generateHalvingSequence(30, iterations: widget.gameList.gameClaim!.length) : '30'} Points',
+                                '${widget.gameList.gameClaim != null && widget.gameList.gameClaim!.isNotEmpty ? generateHalvingSequence(30, iterations: widget.gameList.gameClaim!.length + 1) : '30'} Points',
                             style: CustomTextStyle.gameCardScoreSubTitle,
                             children: [
                               TextSpan(
