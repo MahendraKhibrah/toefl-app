@@ -48,6 +48,7 @@ class _FullTestPageState extends State<BookmarkDetailPage> {
     final screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Stack(
         children: [
           Positioned(

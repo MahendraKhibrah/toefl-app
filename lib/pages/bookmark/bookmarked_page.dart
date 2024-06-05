@@ -48,6 +48,7 @@ class _BookmarkedPageState extends State<BookmarkedPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: CommonAppBar(
         title: 'appbar_bookmarked'.tr(),
       ),

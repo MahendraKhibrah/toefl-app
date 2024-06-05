@@ -102,6 +102,7 @@ class _SimulationPageState extends ConsumerState<SimulationPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: Colors.white,
         appBar: CommonAppBar(title: 'FULL TEST'),
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
