@@ -19,32 +19,24 @@ class NotificationHelper {
       required String body,
       var payload,
       required FlutterLocalNotificationsPlugin fln,
-      required DateTime scheduledDateTime}) async {
+      }) async {
     AndroidNotificationDetails androidPlatformChannelSpesifics =
         new AndroidNotificationDetails('channelId1', 'channelName',
             playSound: true,
-            importance: Importance.max,
+            importance: Importance.high,
             priority: Priority.high);
 
     var not = NotificationDetails(
         android: androidPlatformChannelSpesifics,
         iOS: DarwinNotificationDetails());
     // Konversi scheduledDateTime ke waktu zona lokal
-    final tz.TZDateTime scheduledTZDateTime =
-        tz.TZDateTime.from(scheduledDateTime, tz.local);
 
-    await fln.zonedSchedule(
+    await fln.show(
       id,
       title,
       body,
-      scheduledTZDateTime,
       not,
-      androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
       payload: payload,
-      uiLocalNotificationDateInterpretation:
-          UILocalNotificationDateInterpretation.absoluteTime,
-      androidAllowWhileIdle: true,
     );
-    ;
   }
 }
