@@ -122,7 +122,14 @@ final routes = <String, Widget Function(BuildContext)>{
       userId: data?['userId'] ?? "",
     );
   },
-  RouteKey.editProfile: (context) => EditProfile(),
+  RouteKey.editProfile: (context) {
+    final Map<String, dynamic>? data =
+        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+    return EditProfile(
+      initialName: data?['name'] ?? '',
+      initialImage: data?['image'] ?? '',
+    );
+  },
   RouteKey.rank: (context) {
     final Map? data = ModalRoute.of(context)?.settings.arguments as Map?;
     return RankPage(
@@ -177,7 +184,14 @@ final routes = <String, Widget Function(BuildContext)>{
         ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
     return FinishQuizPage(result: data?["result"] ?? "");
   },
-  RouteKey.settingPage: (context) => const SettingPage(),
+  RouteKey.settingPage: (context) {
+    final Map<String, dynamic>? data =
+        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+    return SettingPage(
+      name: data?["name"] ?? '',
+      image: data?["image"] ?? '',
+    );
+  },
   RouteKey.searchUser: (context) {
     final data =
         ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;

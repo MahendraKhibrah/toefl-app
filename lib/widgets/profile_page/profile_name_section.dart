@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:toefl/models/profile.dart';
+import 'package:toefl/remote/env.dart';
+import 'package:toefl/utils/colors.dart';
+import 'package:toefl/utils/hex_color.dart';
 
 class ProfileNameSection extends StatelessWidget {
   const ProfileNameSection({
@@ -20,9 +23,10 @@ class ProfileNameSection extends StatelessWidget {
             ? CircleAvatar(
                 backgroundColor: Colors.transparent,
                 radius: 40,
-                backgroundImage: NetworkImage(profile.profileImage))
+                backgroundImage: NetworkImage(
+                    "${Env.storageUrl}/toefl/${profile.profileImage}"))
             : CircleAvatar(
-                backgroundColor: Colors.transparent,
+                backgroundColor: HexColor(neutral10),
                 radius: 40,
                 child: Image.asset('assets/images/avatar_profile.png'),
               ),

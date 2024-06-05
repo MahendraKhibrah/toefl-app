@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:toefl/models/profile.dart';
 import 'package:toefl/remote/api/profile_api.dart';
@@ -94,7 +95,13 @@ class _ProfilePageState extends State<ProfilePage> {
                       padding: const EdgeInsets.symmetric(horizontal: 24),
                       child: GestureDetector(
                         onTap: () {
-                          Navigator.pushNamed(context, RouteKey.settingPage);
+                          Navigator.pushNamed(context, RouteKey.settingPage,
+                              arguments: {
+                                "name": profile.nameUser,
+                                "image": profile.profileImage
+                              }).then((val) {
+                            initProfile();
+                          });
                         },
                         child: BlueContainer(
                           width: 30,
@@ -369,13 +376,19 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                       )
                     : const SizedBox(),
-                BlueContainer(
-                  padding: 12,
-                  width: MediaQuery.of(context).size.width * 0.2 - 25,
-                  color: mariner700,
-                  child: const Icon(
-                    Icons.share,
-                    color: Colors.white,
+                GestureDetector(
+                  onTap: () async {
+                    await Share.share(
+                        'check out my website https://example.com');
+                  },
+                  child: BlueContainer(
+                    padding: 12,
+                    width: MediaQuery.of(context).size.width * 0.2 - 25,
+                    color: mariner700,
+                    child: const Icon(
+                      Icons.share,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
               ],

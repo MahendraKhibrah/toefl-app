@@ -3,16 +3,22 @@ import 'package:toefl/widgets/common_app_bar.dart';
 import 'package:toefl/widgets/profile_page/settings.dart';
 
 class SettingPage extends StatelessWidget {
-  const SettingPage({super.key});
+  const SettingPage({super.key, required this.name, required this.image});
+
+  final String name;
+  final String image;
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       backgroundColor: Colors.white,
-      appBar: CommonAppBar(
+      appBar: const CommonAppBar(
         title: "Setting",
       ),
-      body: Setting(),
+      body: Setting(
+        name: name,
+        image: image,
+      ),
     );
   }
 }
