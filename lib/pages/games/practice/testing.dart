@@ -1,62 +1,64 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_tts/flutter_tts.dart';
+// import 'package:flutter/material.dart';
+// import 'package:speech_to_text/speech_recognition_result.dart';
+// import 'package:speech_to_text/speech_to_text.dart';
 
-class SoalToAudioWidget extends StatefulWidget {
-  final String text;
-  final double rate;
-  final Widget child;
 
-  SoalToAudioWidget({
-    required this.text,
-    this.rate = 0.7,
-    required this.child,
-  });
+// class SampleSpeechApp extends StatefulWidget {
+//   SampleSpeechApp({Key? key}) : super(key: key);
 
-  @override
-  _SoalToAudioWidgetState createState() => _SoalToAudioWidgetState();
-}
+//   @override
+//   _SampleSpeechAppState createState() => _SampleSpeechAppState();
+// }
 
-class _SoalToAudioWidgetState extends State<SoalToAudioWidget> {
-  late FlutterTts flutterTts;
-  TtsState ttsState = TtsState.stopped;
+// class _SampleSpeechAppState extends State<SampleSpeechApp> {
+ 
 
-  @override
-  void initState() {
-    super.initState();
-    flutterTts = FlutterTts();
-    flutterTts.setStartHandler(() {
-      setState(() => ttsState = TtsState.playing);
-    });
-    flutterTts.setCompletionHandler(() {
-      setState(() => ttsState = TtsState.stopped);
-    });
-    flutterTts.setCancelHandler(() {
-      setState(() => ttsState = TtsState.stopped);
-    });
-  }
+  
 
-  Future<void> _speak() async {
-    if (ttsState == TtsState.playing) {
-      await flutterTts.stop();
-    } else {
-      await flutterTts.setSpeechRate(widget.rate);
-      await flutterTts.speak(widget.text);
-    }
-  }
-
-  @override
-  void dispose() {
-    flutterTts.stop();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-        borderRadius: BorderRadius.circular(12),
-        onTap: _speak,
-        child: widget.child);
-  }
-}
-
-enum TtsState { playing, stopped }
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: Text('Speech Demo'),
+//       ),
+//       body: Center(
+//         child: Column(
+//           mainAxisAlignment: MainAxisAlignment.center,
+//           children: <Widget>[
+//             Container(
+//               padding: EdgeInsets.all(16),
+//               child: Text(
+//                 'Recognized words:',
+//                 style: TextStyle(fontSize: 20.0),
+//               ),
+//             ),
+//             Expanded(
+//               child: Container(
+//                 padding: EdgeInsets.all(16),
+//                 child: Text(
+//                   // If listening is active show the recognized words
+//                   _speechToText.isListening
+//                       ? '$_lastWords'
+//                       // If listening isn't active but could be tell the user
+//                       // how to start it, otherwise indicate that speech
+//                       // recognition is not yet ready or not supported on
+//                       // the target device
+//                       : _speechEnabled
+//                           ? 'Tap the microphone to start listening...'
+//                           : 'Speech not available',
+//                 ),
+//               ),
+//             ),
+//           ],
+//         ),
+//       ),
+//       floatingActionButton: FloatingActionButton(
+//         onPressed:
+//             // If not yet listening for speech start, otherwise stop
+//             _speechToText.isNotListening ? _startListening : _stopListening,
+//         tooltip: 'Listen',
+//         child: Icon(_speechToText.isNotListening ? Icons.mic_off : Icons.mic),
+//       ),
+//     );
+//   }
+// }

@@ -22,6 +22,7 @@ import 'package:toefl/widgets/blue_container.dart';
 import 'package:toefl/widgets/quiz/modal/modal_confirmation.dart';
 
 import '../../../widgets/games/game_app_bar.dart';
+import '../../../widgets/games/soal_to_audio_widget.dart';
 
 class SentenceScramblePage extends StatefulWidget {
   const SentenceScramblePage({super.key});
@@ -65,10 +66,10 @@ class _SentenceScramblePageState extends State<SentenceScramblePage> {
     _sentences = word.split(' ');
     _scrambledSentence = _sentences.toList();
     print(_sentences);
-
-    _scrambledSentence.add(pengecoh.split(' ').first);
-    _scrambledSentence.add(pengecoh.split(' ').last);
-    _scrambledSentence.add(pengecoh.split(' ')[1]);
+    if (pengecoh != '') {
+      _scrambledSentence.add(pengecoh.split(' ').first);
+      _scrambledSentence.add(pengecoh.split(' ').last);
+    }
 
     wordId = wordData['_id']['\$oid']!;
     _scrambledSentence.shuffle(random);
@@ -164,7 +165,7 @@ class _SentenceScramblePageState extends State<SentenceScramblePage> {
                                   ),
                                   rate: 0.45,
                                 ),
-                              ],  
+                              ],
                             ),
                             Padding(
                               padding: const EdgeInsets.symmetric(vertical: 24),
@@ -180,25 +181,74 @@ class _SentenceScramblePageState extends State<SentenceScramblePage> {
                                       .map((entry) {
                                     final int index = entry.key;
                                     final String letter = entry.value;
-                                    return TextButton(
-                                      onPressed: () =>
-                                          _onSelectedLetterDeselected(index),
-                                      style: TextButton.styleFrom(
-                                        backgroundColor: HexColor(colorSuccess),
-                                        minimumSize: Size(50, 50),
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 10),
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
+                                    return Draggable(
+                                      childWhenDragging: TextButton(
+                                        onPressed: () =>
+                                            _onSelectedLetterDeselected(index),
+                                        style: TextButton.styleFrom(
+                                          backgroundColor: HexColor(neutral10),
+                                          minimumSize: Size(50, 50),
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 10),
+                                          shape: RoundedRectangleBorder(
+                                            side: BorderSide(
+                                                width: 2,
+                                                color: HexColor(colorSuccess)),
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                          ),
+                                        ),
+                                        child: Text(
+                                          letter,
+                                          style: GoogleFonts.nunito(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 20,
+                                              color: Colors.white),
                                         ),
                                       ),
-                                      child: Text(
-                                        letter,
-                                        style: GoogleFonts.nunito(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 20,
-                                            color: Colors.white),
+                                      feedback: TextButton(
+                                        onPressed: () =>
+                                            _onSelectedLetterDeselected(index),
+                                        style: TextButton.styleFrom(
+                                          backgroundColor:
+                                              HexColor(colorSuccess),
+                                          minimumSize: Size(50, 50),
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 10),
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                          ),
+                                        ),
+                                        child: Text(
+                                          letter,
+                                          style: GoogleFonts.nunito(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 20,
+                                              color: Colors.white),
+                                        ),
+                                      ),
+                                      child: TextButton(
+                                        onPressed: () =>
+                                            _onSelectedLetterDeselected(index),
+                                        style: TextButton.styleFrom(
+                                          backgroundColor:
+                                              HexColor(colorSuccess),
+                                          minimumSize: Size(50, 50),
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 10),
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                          ),
+                                        ),
+                                        child: Text(
+                                          letter,
+                                          style: GoogleFonts.nunito(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 20,
+                                              color: Colors.white),
+                                        ),
                                       ),
                                     );
                                   }).toList(),
