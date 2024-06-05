@@ -38,6 +38,7 @@ class FeaturedCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               SvgPicture.asset(icon,
+                  height: 24,
                   color:
                       isBgLight ? HexColor(mariner900) : HexColor(neutral10)),
               Text(

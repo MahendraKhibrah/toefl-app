@@ -31,7 +31,7 @@ class FeatureTest extends StatelessWidget {
                     )),
                     child: FeaturedCard(
                       isBgLight: true,
-                      icon: "assets/images/synonim_pairing.svg",
+                      icon: "assets/images/vector_game_speaking.svg",
                       title: "Speaking Game",
                       subtitle: "Challange your speaking",
                     ),
@@ -77,7 +77,7 @@ class FeatureTest extends StatelessWidget {
                     )),
                     child: FeaturedCard(
                       isBgLight: false,
-                      icon: "assets/images/word_scramble.svg",
+                      icon: "assets/images/vector_game_listening.svg",
                       title: "Listening Game",
                       subtitle: "Can you hear what i said?",
                     ),
