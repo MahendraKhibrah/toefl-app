@@ -104,7 +104,8 @@ class _SpeakingGameState extends State<SpeakingGame> {
   void _nextWord() async {
     print('test');
     if (_isCheck) {
-      final isSaved = await MiniGameApi().storeSpeakingTense(tenseId, accuracy);
+      final isSaved =
+          await MiniGameApi().storeSpeakingTense(tenseId, accuracy * 10);
       if (isSaved) {
         setState(() {
           _userAnswer = '';

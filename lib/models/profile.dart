@@ -17,7 +17,7 @@ class Profile {
   @JsonKey(name: 'email_user', defaultValue: '')
   final String emailUser;
   @JsonKey(defaultValue: 0)
-  final int rank;
+  int rank;
   @JsonKey(name: 'profile_image', defaultValue: '')
   final String profileImage;
   @JsonKey(name: 'is_friend', defaultValue: false)

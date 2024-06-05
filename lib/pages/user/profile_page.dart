@@ -2,7 +2,11 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:skeletonizer/skeletonizer.dart';
+import 'package:toefl/models/games/game_history.dart';
+import 'package:toefl/models/games/user_leaderboard.dart';
 import 'package:toefl/models/profile.dart';
+import 'package:toefl/remote/api/leader_board_api.dart';
+import 'package:toefl/remote/api/mini_game_api.dart';
 import 'package:toefl/remote/api/profile_api.dart';
 import 'package:toefl/utils/colors.dart';
 import 'package:toefl/utils/custom_text_style.dart';
@@ -30,6 +34,7 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  late List<GameHistory> gameHistory = [];
   Profile profile = Profile(
       id: '',
       nameUser: '',
@@ -41,6 +46,7 @@ class _ProfilePageState extends State<ProfilePage> {
       profileImage: '',
       isFriend: false);
   final profileApi = ProfileApi();
+  final miniGameApi = MiniGameApi();
   bool isLoading = false;
 
   @override
@@ -55,15 +61,25 @@ class _ProfilePageState extends State<ProfilePage> {
       isLoading = true;
     });
     if (widget.isMe) {
-      await profileApi.getProfile().then((value) {
+      UserLeaderBoard rank = await LeaderBoardApi().getUserRank();
+      final history = await miniGameApi.getHistoryGame();
+      await profileApi.getProfile().then((value) async {
+        value.rank = rank.rank!;
         setState(() {
+          gameHistory = history;
           profile = value;
           isLoading = false;
         });
       });
     } else {
+      UserLeaderBoard rank =
+          await LeaderBoardApi().getUserRank(id: widget.userId);
+      final history = await miniGameApi.getHistoryGame(id: widget.userId);
+
       await profileApi.getUserProfile(widget.userId).then((value) {
+        value.rank = rank.rank!;
         setState(() {
+          gameHistory = history;
           profile = value;
           isLoading = false;
         });
@@ -192,7 +208,7 @@ class _ProfilePageState extends State<ProfilePage> {
             width: 24,
           ),
           ...List.generate(
-            5,
+            gameHistory.length,
             (index) => Padding(
               padding: const EdgeInsets.only(right: 12.0),
               child: Skeleton.leaf(
@@ -208,7 +224,10 @@ class _ProfilePageState extends State<ProfilePage> {
                         padding: 10,
                         child: Center(
                             child: Text(
-                          "5",
+                          gameHistory[index]
+                              .score!
+                              .toStringAsFixed(0)
+                              .toString(),
                           style: CustomTextStyle.extrabold20
                               .copyWith(color: Colors.white),
                         )),
@@ -216,13 +235,13 @@ class _ProfilePageState extends State<ProfilePage> {
                       Padding(
                         padding: const EdgeInsets.only(top: 8.0, bottom: 2),
                         child: Text(
-                          "Challange",
+                          gameHistory[index].gameType.toString(),
                           style: CustomTextStyle.medium14.copyWith(
                               fontSize: 11, color: HexColor(neutral60)),
                         ),
                       ),
                       Text(
-                        "Synonym Pairing hahaha",
+                        gameHistory[index].gameName.toString(),
                         style: CustomTextStyle.bold16.copyWith(
                           color: HexColor(neutral90),
                         ),
@@ -281,7 +300,9 @@ class _ProfilePageState extends State<ProfilePage> {
                     title: "Rank",
                     hideBanner: true,
                     icon: Icons.emoji_events,
-                    value: profile.rank <= 0 ? "-" : profile.rank.toString()),
+                    value: profile.rank <= 0
+                        ? "Unranked"
+                        : profile.rank.toString()),
               ],
             ),
             const SizedBox(

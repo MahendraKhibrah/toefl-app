@@ -7,7 +7,8 @@ part 'user_leaderboard.g.dart';
 @JsonSerializable()
 class UserLeaderBoard {
   String? name;
-  UserLeaderBoard({this.name});
+  int? rank;
+  UserLeaderBoard({this.name, this.rank});
 
   factory UserLeaderBoard.fromJson(Map<String, dynamic> json) =>
       _$UserLeaderBoardFromJson(json);
