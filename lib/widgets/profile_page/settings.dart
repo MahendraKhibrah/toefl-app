@@ -296,8 +296,8 @@ class _SettingState extends State<Setting> {
 
   Future<void> scheduleNotifications() async {
     DateTime now = DateTime.now();
-    DateTime nextMorning = DateTime(now.year, now.month, now.day, 8, 45, 0).add(
-      now.hour >= 9 ? Duration(days: 1) : Duration.zero,
+    DateTime nextMorning = DateTime(now.year, now.month, now.day, 10, 0, 0).add(
+      now.hour >= 10 ? Duration(days: 1) : Duration.zero,
     );
     DateTime nextAfternoon =
         DateTime(now.year, now.month, now.day, 16, 0, 0).add(

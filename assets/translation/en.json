@@ -72,10 +72,6 @@
   "submit_btn": "Submit",
   "morning_notification": "Good Morning {}",
   "afternoon_notification": "Good Afternoon {}",
-<<<<<<< HEAD
-  "body_notification": "Check your learning achievements and progress today on the MYTOEFL application."
- 
-=======
   "body_notification": " Check your learning achievements and progress today on the MYTOEFL application.",
   "take_a_test": "Take a Test",
   "target_needed": "Target Needed",
@@ -87,5 +83,4 @@
   "find_friend": "Find Friends",
   "friend_result": "{} Results",
   "search": "Search..."
->>>>>>> ac0ba1eec9ab9fd18571c4f11d1257788c2166d1
 }
