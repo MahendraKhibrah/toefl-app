@@ -5,7 +5,6 @@ import 'package:toefl/models/profile.dart' as model;
 import 'package:toefl/remote/api/profile_api.dart';
 import 'package:toefl/utils/colors.dart';
 import 'package:toefl/utils/hex_color.dart';
-import 'package:toefl/widgets/profile_page/profile_name_section.dart';
 
 class LevelScore extends StatefulWidget {
   const LevelScore({super.key});
@@ -116,7 +115,7 @@ class _LevelScoreState extends State<LevelScore> {
                               "${profile?.currentScore == '' ? '0' : profile?.currentScore ?? 0}/${profile?.targetScore ?? 0}",
                               style: TextStyle(
                                 fontWeight: FontWeight.w900,
-                                fontSize: 25,
+                                fontSize: MediaQuery.of(context).size.width * 0.055,
                                 color: HexColor(mariner900),
                               ),
                               textAlign: TextAlign.center),

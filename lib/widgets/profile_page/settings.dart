@@ -11,7 +11,7 @@ import 'package:toefl/remote/local/shared_pref/localization_shared_pref.dart';
 import 'package:toefl/remote/local/shared_pref/test_shared_preferences.dart';
 import 'package:toefl/remote/local/sqlite/full_test_table.dart';
 import 'package:toefl/remote/local/sqlite/mini_test_table.dart';
-import 'package:toefl/routes/local_notification.dart';
+import 'package:toefl/utils/local_notification.dart';
 import 'package:toefl/routes/route_key.dart';
 import 'package:toefl/utils/colors.dart';
 import 'package:toefl/utils/hex_color.dart';
@@ -60,10 +60,17 @@ class _SettingState extends State<Setting> {
 
   @override
   void initState() {
-    super.initState();
+    // listenToNotification();
     _onInit();
+    super.initState();
     NotificationHelper.initialize(flutterLocalNotificationsPlugin);
   }
+
+  // listenToNotification() {
+  //   NotificationHelper.onClickNotification.stream.listen((event) {
+  //     Navigator.popAndPushNamed(context, RouteKey.main);
+  //   });
+  // }
 
   _saveSwitchState(bool value) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -270,7 +277,7 @@ class _SettingState extends State<Setting> {
   }
 
   Widget _switchButton() {
-    return (Switch(
+    return Switch(
       value: _switchValue,
       onChanged: (value) async {
         setState(() {
@@ -278,22 +285,22 @@ class _SettingState extends State<Setting> {
           _saveSwitchState(value);
         });
         if (value) {
-          scheduleNotifications();
+          await scheduleNotifications();
         }
       },
       activeTrackColor: HexColor(mariner700),
       inactiveTrackColor: Colors.white,
       activeColor: Colors.white,
-    ));
+    );
   }
 
-  void scheduleNotifications() {
+  Future<void> scheduleNotifications() async {
     DateTime now = DateTime.now();
     DateTime nextMorning = DateTime(now.year, now.month, now.day, 10, 0, 0).add(
       now.hour >= 10 ? Duration(days: 1) : Duration.zero,
     );
     DateTime nextAfternoon =
-        DateTime(now.year, now.month, now.day, 14, 58, 0).add(
+        DateTime(now.year, now.month, now.day, 16, 0, 0).add(
       now.hour >= 16 ? Duration(days: 1) : Duration.zero,
     );
 
