@@ -32,12 +32,8 @@
                 android:resource="@style/NormalTheme" />
             <meta-data
                 android:name="com.google.firebase.messaging.default_notification_channe;_id"
-<<<<<<< HEAD
                 android:value = "channelId1"/>
-=======
-                android:value="cchannelId1" />
 
->>>>>>> ac0ba1eec9ab9fd18571c4f11d1257788c2166d1
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
