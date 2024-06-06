@@ -48,7 +48,7 @@ class _SentenceScramblePageState extends State<SentenceScramblePage> {
     final List<dynamic> data = json.decode(response);
     List<GameTense> tense =
         data.map((json) => GameTense.fromJson(json)).toList();
-    return [tense[random.nextInt(2200)], tense[random.nextInt(2200)]];
+    return [tense[random.nextInt(290)], tense[random.nextInt(290)]];
   }
 
   void _initializeGame(List<GameTense> tenses) {
