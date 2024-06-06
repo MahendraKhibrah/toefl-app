@@ -11,7 +11,7 @@ class LearningPathApi {
   Future<List<LearningPathModel>> getLearning() async {
     try {
       final Response rawResponse =
-          await DioToefl.instance.get('${Env.apiUrl}/quiztypes');
+          await DioToefl.instance.get('${Env.gameUrl}/quiztypes');
       final response = BaseResponse.fromJson(json.decode(rawResponse.data));
       final List<dynamic> dataTypes = response.data;
       List<LearningPathModel> types =
@@ -25,7 +25,7 @@ class LearningPathApi {
   Future<List<Quiz>> getQuizByCategory(String id) async {
     try {
       final Response rawResponse =
-          await DioToefl.instance.get('${Env.apiUrl}/quiztypes/$id');
+          await DioToefl.instance.get('${Env.gameUrl}/quiztypes/$id');
       final response = BaseResponse.fromJson(json.decode(rawResponse.data));
       final List<dynamic> dataTypes = response.data;
       List<Quiz> quizzes = dataTypes.map((e) => Quiz.fromJson(e)).toList();

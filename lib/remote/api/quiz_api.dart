@@ -20,7 +20,7 @@ class QuizApi implements IQuizApi {
   Future<Quiz> fetchQuiz(String id) async {
     try {
       final Response rawResponse =
-          await DioToefl.instance.get('${Env.apiUrl}/quizs/$id');
+          await DioToefl.instance.get('${Env.gameUrl}/quizs/$id');
 
       final response = BaseResponse.fromJson(json.decode(rawResponse.data));
       return Quiz.fromJson(response.data);
@@ -38,7 +38,7 @@ class QuizApi implements IQuizApi {
   Future<List<GameClaim>> getUserGames() async {
     try {
       final Response rawResponse =
-          await DioToefl.instance.get('${Env.apiUrl}/gameclaims');
+          await DioToefl.instance.get('${Env.gameUrl}/gameclaims');
       final response = BaseResponse.fromJson(json.decode(rawResponse.data));
       final Map<String, dynamic> dataResponse = response.data;
       List<GameClaim> gameclaim = dataResponse['data'];
@@ -52,7 +52,7 @@ class QuizApi implements IQuizApi {
   Future<QuizGame> getClaim(String id, bool isGame) async {
     try {
       final Response rawResponse = await DioToefl.instance.post(
-          '${Env.apiUrl}/${isGame ? 'gameclaims' : 'quizclaims'}',
+          '${Env.gameUrl}/${isGame ? 'gameclaims' : 'quizclaims'}',
           data: isGame ? {'game_set_id': id} : {'quiz_id': id});
       final response = BaseResponse.fromJson(json.decode(rawResponse.data));
       final Map<String, dynamic> dataResponse = response.data;
@@ -76,7 +76,7 @@ class QuizApi implements IQuizApi {
   Future<QuizGame> getReview(String id, bool isGame) async {
     try {
       final Response rawResponse = await DioToefl.instance
-          .get('${Env.apiUrl}/${isGame ? 'gameclaims' : 'quizclaims'}/$id');
+          .get('${Env.gameUrl}/${isGame ? 'gameclaims' : 'quizclaims'}/$id');
       final response = BaseResponse.fromJson(json.decode(rawResponse.data));
       final Map<String, dynamic> dataResponse = response.data;
       dataResponse['isGame'] = isGame;
@@ -100,7 +100,7 @@ class QuizApi implements IQuizApi {
       String claim, bool isGame) async {
     try {
       final Response rawResponse = await DioToefl.instance
-          .post('${Env.apiUrl}/${isGame ? 'gameanswer' : 'quizanswer'}',
+          .post('${Env.gameUrl}/${isGame ? 'gameanswer' : 'quizanswer'}',
               data: isGame
                   ? {
                       'quiz_option_id': quizOptionId,
@@ -123,7 +123,7 @@ class QuizApi implements IQuizApi {
   Future<QuizGameResult> getResult(String claimId, bool isGame) async {
     try {
       final Response rawResponse = await DioToefl.instance
-          .post('${Env.apiUrl}/${'quizgameresult'}', data: {
+          .post('${Env.gameUrl}/${'quizgameresult'}', data: {
         'is_game': isGame,
         'claim_id': claimId,
       });

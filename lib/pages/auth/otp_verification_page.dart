@@ -8,7 +8,7 @@ import 'package:toefl/utils/colors.dart';
 import 'package:toefl/utils/hex_color.dart';
 import 'package:toefl/widgets/blue_button.dart';
 
-import '../remote/api/user_api.dart';
+import '../../remote/api/user_api.dart';
 
 class OtpVerification extends StatefulWidget {
   const OtpVerification(

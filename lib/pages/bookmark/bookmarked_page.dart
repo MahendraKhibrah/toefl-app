@@ -13,6 +13,7 @@ import 'package:toefl/widgets/blue_container.dart';
 import '../../models/bookmark/bookmark.dart';
 import '../../routes/route_key.dart';
 import '../../widgets/common_app_bar.dart';
+import '../../widgets/quiz/modal/modal_confirmation.dart';
 
 class BookmarkedPage extends StatefulWidget {
   const BookmarkedPage({super.key});
@@ -47,6 +48,7 @@ class _BookmarkedPageState extends State<BookmarkedPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: CommonAppBar(
         title: 'appbar_bookmarked'.tr(),
       ),
@@ -78,11 +80,33 @@ class _BookmarkedPageState extends State<BookmarkedPage> {
                                   );
                                 },
                                 onDelete: () async {
-                                  setState(() {
-                                    isLoading = true;
-                                  });
-                                  await api.updateBookmark(bookmarks[index].id);
-                                  _init();
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext submitContext) {
+                                      return ModalConfirmation(
+                                        message:
+                                            "are_you_sure_want_to_delete_this_bookmark"
+                                                .tr(),
+                                        leftTitle: 'back'.tr(),
+                                        rightTitle: 'delete'.tr(),
+                                        isWarningModal: true,
+                                        rightFunction: () async {
+                                          setState(() {
+                                            isLoading = true;
+                                          });
+                                          await api.updateBookmark(
+                                              bookmarks[index].id);
+                                          _init();
+                                          if (submitContext.mounted) {
+                                            Navigator.of(submitContext).pop();
+                                          }
+                                        },
+                                        leftFunction: () {
+                                          Navigator.of(submitContext).pop();
+                                        },
+                                      );
+                                    },
+                                  );
                                 },
                               ),
                             ))

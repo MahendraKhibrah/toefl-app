@@ -17,9 +17,13 @@ import 'package:toefl/utils/colors.dart';
 import 'package:toefl/utils/hex_color.dart';
 import 'package:toefl/utils/locale.dart';
 import 'package:toefl/widgets/profile_page/change_lang_dialog.dart';
+import '../quiz/modal/modal_confirmation.dart';
 
 class Setting extends StatefulWidget {
-  const Setting({Key? key}) : super(key: key);
+  const Setting({super.key, required this.name, required this.image});
+
+  final String name;
+  final String image;
 
   @override
   State<Setting> createState() => _SettingState();
@@ -79,6 +83,16 @@ class _SettingState extends State<Setting> {
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Column(
         children: [
+          GestureDetector(
+            onTap: () {
+              Navigator.pushNamed(context, RouteKey.editProfile,
+                  arguments: {"name": widget.name, "image": widget.image});
+            },
+            child: _listTileCustom(
+              Icons.edit_note,
+              'edit_profile'.tr(),
+            ),
+          ),
           _listTileCustom(Icons.notifications, 'notification'.tr(),
               trailing: _switchButton()),
           const Divider(
@@ -128,22 +142,39 @@ class _SettingState extends State<Setting> {
             },
             child: _listTileCustom(Icons.password, 'change_password'.tr()),
           ),
-          Divider(
-            color: const Color(0xffE7E7E7).withOpacity(0.3),
-            thickness: 1,
-          ),
           InkWell(
             borderRadius: BorderRadius.circular(10),
             splashColor: const Color(0xffE7E7E7).withOpacity(0.3),
             highlightColor: Colors.transparent,
             onTap: () async {
-              await authSharedPreference.removeBearerToken();
-              await authSharedPreference.removeVerifiedAccount();
-              await testSharedPreference.removeStatus();
-              await testSharedPreference.removeMiniStatus();
-              await fullTestTable.resetDatabase();
-              await miniTestTable.resetDatabase();
-              Navigator.pushReplacementNamed(context, RouteKey.login);
+              showDialog(
+                context: context,
+                builder: (BuildContext submitContext) {
+                  return ModalConfirmation(
+                    message: "are_you_sure_want_to_logout_this_account".tr(),
+                    leftTitle: 'cancel'.tr(),
+                    rightTitle: 'logout'.tr(),
+                    isWarningModal: true,
+                    rightFunction: () async {
+                      await authSharedPreference.removeBearerToken();
+                      await authSharedPreference.removeVerifiedAccount();
+                      await testSharedPreference.removeStatus();
+                      await testSharedPreference.removeMiniStatus();
+                      await fullTestTable.resetDatabase();
+                      await miniTestTable.resetDatabase();
+                      if (submitContext.mounted) {
+                        Navigator.of(submitContext).pop();
+                      }
+                      if (context.mounted) {
+                        Navigator.pushReplacementNamed(context, RouteKey.login);
+                      }
+                    },
+                    leftFunction: () {
+                      Navigator.of(submitContext).pop();
+                    },
+                  );
+                },
+              );
             },
             child: _listTileCustom(Icons.logout_sharp, 'logout'.tr(),
                 islogout: true),

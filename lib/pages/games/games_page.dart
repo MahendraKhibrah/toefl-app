@@ -21,6 +21,7 @@ class GamesPage extends StatefulWidget {
 
 class _GamesPageState extends State<GamesPage> {
   late Future<List<Game>> futureGames;
+
   // late List<Game> _games = [];
   late PageController _pageController;
   late int _index = 0;
@@ -56,17 +57,15 @@ class _GamesPageState extends State<GamesPage> {
         final games = ref.watch(gameProviderStatesProvider);
 
         return Scaffold(
+          backgroundColor: Colors.white,
           appBar: AppBar(
             leading: null,
+            backgroundColor: Colors.white,
             scrolledUnderElevation: 0,
-            title: Padding(
-              padding: EdgeInsets.only(top: 30, bottom: 20),
-              child: Center(
-                child: Text(
-                  'appbar_games'.tr(),
-                  style: CustomTextStyle.appBarTitle,
-                ),
-              ),
+            centerTitle: true,
+            title: Text(
+              'appbar_games'.tr(),
+              style: CustomTextStyle.appBarTitle,
             ),
             bottom: BottomBarGames(
               isActive: _isActive,

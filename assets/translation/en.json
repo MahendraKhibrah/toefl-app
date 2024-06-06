@@ -60,11 +60,32 @@
   "mini_test": "MINI TEST",
   "appbar_profile": "Profile",
   "change_password": "Change Password",
-
+  "you_ve_finished_your_test": "You've finished yout test.",
+  "review": "Review",
+  "retake": "Retake",
+  "are_you_sure_want_to_delete_this_bookmark": "Are you sure want to delete this bookmark?",
+  "back": "Back",
+  "delete": "Delete",
+  "are_you_sure_want_to_logout_this_account": "Are you sure want to logout this account?",
+  "cancel": "Cancel",
   "your_level": "Your Level",
   "submit_btn": "Submit",
   "morning_notification": "Good Morning {}",
   "afternoon_notification": "Good Afternoon {}",
+<<<<<<< HEAD
   "body_notification": "Check your learning achievements and progress today on the MYTOEFL application."
  
+=======
+  "body_notification": " Check your learning achievements and progress today on the MYTOEFL application.",
+  "take_a_test": "Take a Test",
+  "target_needed": "Target Needed",
+  "score": "Score",
+  "game_history": "Game History",
+  "find_a_friend": "Find a Friend",
+  "remove_friend": "Remove Friend",
+  "add_friend": "Add Friend",
+  "find_friend": "Find Friends",
+  "friend_result": "{} Results",
+  "search": "Search..."
+>>>>>>> ac0ba1eec9ab9fd18571c4f11d1257788c2166d1
 }

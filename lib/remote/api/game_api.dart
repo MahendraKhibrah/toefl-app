@@ -12,7 +12,7 @@ class GameApi {
   Future<List<Game>> fetchGames() async {
     try {
       final Response rawResponse =
-          await DioToefl.instance.get('${Env.apiUrl}/games');
+          await DioToefl.instance.get('${Env.gameUrl}/games');
       final List<dynamic> jsonResponse = json.decode(rawResponse.data)['data'];
       debugPrint(jsonResponse.toString());
 
@@ -31,7 +31,7 @@ class GameApi {
   Future<List<GameClaim>> getUserGameByGameSet(String gameSetId) async {
     try {
       final Response rawResponse =
-          await DioToefl.instance.get('${Env.apiUrl}/gameclaims/$gameSetId');
+          await DioToefl.instance.get('${Env.gameUrl}/gameclaims/$gameSetId');
 
       final response = BaseResponse.fromJson(json.decode(rawResponse.data));
       final Map<String, dynamic> dataGameClaim = response.data;
@@ -46,7 +46,7 @@ class GameApi {
   Future<GameClaim?> getUserGameById(String gameClaimId) async {
     try {
       final Response rawResponse =
-          await DioToefl.instance.get('${Env.apiUrl}/gameclaims/$gameClaimId');
+          await DioToefl.instance.get('${Env.gameUrl}/gameclaims/$gameClaimId');
 
       final response = BaseResponse.fromJson(json.decode(rawResponse.data));
       GameClaim gameClaim = response.data;
@@ -61,7 +61,7 @@ class GameApi {
   Future<GameClaim?> claimGame(String gameSetId) async {
     try {
       final Response rawResponse = await DioToefl.instance
-          .post('${Env.apiUrl}/gameclaims/', data: {'game_set_id': gameSetId});
+          .post('${Env.gameUrl}/gameclaims/', data: {'game_set_id': gameSetId});
       final response = BaseResponse.fromJson(json.decode(rawResponse.data));
 
       GameClaim gameClaim = response.data;

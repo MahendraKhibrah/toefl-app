@@ -24,7 +24,7 @@ class UserApi {
   Future<User> getProfile() async {
     try {
       final Response rawResponse =
-          await (dio ?? DioToefl.instance).get('${Env.apiUrl}/users/profile');
+          await (dio ?? DioToefl.instance).get('${Env.userUrl}/users/profile');
       final response = BaseResponse.fromJson(json.decode(rawResponse.data));
       return User.fromJson(response.data);
     } catch (e) {
@@ -35,7 +35,7 @@ class UserApi {
   Future<AuthStatus> postLogin(Login request) async {
     try {
       final Response rawResponse = await (dio ?? DioToefl.instance).post(
-        '${Env.apiUrl}/login',
+        '${Env.userUrl}/login',
         data: request.toJson(),
       );
       final isSuccess = json.decode(rawResponse.data)['success'];
@@ -56,7 +56,7 @@ class UserApi {
   Future<AuthStatus> postRegist(Regist request) async {
     try {
       final Response rawResponse = await DioToefl.instance.post(
-        '${Env.apiUrl}/register',
+        '${Env.userUrl}/register',
         data: request.toJson(),
       );
       final isSuccess = json.decode(rawResponse.data)['success'];
@@ -77,7 +77,7 @@ class UserApi {
   Future<UserTarget> getUserTarget() async {
     try {
       final Response rawResponse =
-          await DioToefl.instance.get('${Env.apiUrl}/get-all/targets');
+          await DioToefl.instance.get('${Env.simulationUrl}/get-all/targets');
 
       final response = BaseResponse.fromJson(json.decode(rawResponse.data));
       return UserTarget.fromJson(response.data);
@@ -92,7 +92,7 @@ class UserApi {
   Future<bool> updateBookmark(String id) async {
     try {
       await DioToefl.instance
-          .patch('${Env.apiUrl}/add-and-patch-target', data: {
+          .patch('${Env.simulationUrl}/add-and-patch-target', data: {
         'target_id': id,
       });
       return true;
@@ -104,7 +104,7 @@ class UserApi {
   Future<bool> getOtp() async {
     try {
       final response =
-          await (dio ?? DioToefl.instance).post('${Env.apiUrl}/users/new-otp');
+          await (dio ?? DioToefl.instance).post('${Env.userUrl}/users/new-otp');
       debugPrint('response: ${json.decode(response.data)}');
       return true;
     } catch (e) {
@@ -116,7 +116,7 @@ class UserApi {
   Future<AuthStatus> verifyOtp(String otp) async {
     try {
       final rawResponse = await (dio ?? DioToefl.instance)
-          .post('${Env.apiUrl}/users/verify-otp', data: {'otp_register': otp});
+          .post('${Env.userUrl}/users/verify-otp', data: {'otp_register': otp});
       final response = json.decode(rawResponse.data);
       debugPrint('response: ${response['success']}');
       await authSharedPreference.saveVerifiedAccount(true);
@@ -130,7 +130,7 @@ class UserApi {
   Future<bool> forgotPassword(String email) async {
     try {
       final rawResponse =
-          await (dio ?? DioToefl.instance).post('${Env.apiUrl}/forgot', data: {
+          await (dio ?? DioToefl.instance).post('${Env.userUrl}/forgot', data: {
         'email': email,
       });
       final response = BaseResponse.fromJson(json.decode(rawResponse.data));
@@ -146,7 +146,7 @@ class UserApi {
   Future<AuthStatus> verifyForgot(String otp) async {
     try {
       final rawResponse = await (dio ?? DioToefl.instance)
-          .post('${Env.apiUrl}/users/verify-otp-forgot', data: {
+          .post('${Env.userUrl}/users/verify-otp-forgot', data: {
         'otp_forgot': otp,
       });
       debugPrint('success : ${json.decode(rawResponse.data)['success']}');
@@ -161,7 +161,7 @@ class UserApi {
   Future<bool> verifyPassword(String password) async {
     try {
       final rawResponse = await (dio ?? DioToefl.instance)
-          .post('${Env.apiUrl}/check/password', data: {
+          .post('${Env.userUrl}/check/password', data: {
         'password': password,
       });
       final response = BaseResponse.fromJson(json.decode(rawResponse.data));
@@ -175,7 +175,7 @@ class UserApi {
   Future<bool> updatePassword(String password, String secondPassword) async {
     try {
       final rawResponse = await (dio ?? DioToefl.instance)
-          .post('${Env.apiUrl}/change/password', data: {
+          .post('${Env.userUrl}/change/password', data: {
         'password': password,
         'confirm_password': secondPassword,
       });

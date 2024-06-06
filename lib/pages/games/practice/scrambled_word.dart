@@ -7,7 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:toefl/pages/games/practice/pairing_game.dart';
-import 'package:toefl/remote/api/scrambled_word_api.dart';
+import 'package:toefl/remote/api/mini_game_api.dart';
 import 'package:toefl/routes/route_key.dart';
 import 'package:toefl/utils/colors.dart';
 import 'package:toefl/utils/custom_text_style.dart';
@@ -107,7 +107,7 @@ class _WordScramblePageState extends State<WordScramblePage> {
   void _nextWord() async {
     if (_isCheck) {
       final isSaved =
-          await ScrambledWordApi().storeScrambled(wordId, _isCorrect);
+          await MiniGameApi().storeScrambledWord(wordId, _isCorrect);
       if (isSaved) {
         setState(() {
           _word = [];
@@ -126,7 +126,7 @@ class _WordScramblePageState extends State<WordScramblePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: GameAppBar(
-        title: 'Synonym Pairing',
+        title: 'Scrambled Word',
       ),
       body: Column(
         children: [

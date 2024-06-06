@@ -2,7 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:toefl/pages/games/games_page.dart';
 import 'package:toefl/pages/home_page.dart';
-import 'package:toefl/pages/profile_page.dart';
+import 'package:toefl/pages/user/profile_page.dart';
 import 'package:toefl/utils/colors.dart';
 import 'package:toefl/utils/hex_color.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -39,6 +39,7 @@ class _MainPageState extends State<MainPage> {
         decoration:
             const BoxDecoration(boxShadow: [BoxShadow()], color: Colors.white),
         child: BottomNavigationBar(
+          backgroundColor: HexColor(neutral10),
           iconSize: 30,
           currentIndex: _index,
           onTap: (int index) {

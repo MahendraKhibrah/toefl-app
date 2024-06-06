@@ -9,12 +9,14 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
   final Color? backgroundColor;
   final bool? withBack;
+  final List<Widget>? actions;
   const CommonAppBar({
     super.key,
     this.height = kToolbarHeight,
     required this.title,
     this.backgroundColor = Colors.white,
     this.withBack = true,
+    this.actions,
   });
 
   @override
@@ -41,6 +43,7 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
             fontWeight: FontWeight.bold,
             color: HexColor(neutral90)),
       ),
+      actions: actions,
     );
   }
 

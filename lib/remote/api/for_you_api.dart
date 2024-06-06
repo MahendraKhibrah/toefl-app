@@ -11,7 +11,7 @@ class ForYouApi {
   Future<List<Quiz>> fetchForYou() async {
     try {
       final Response rawResponse =
-          await DioToefl.instance.get('${Env.apiUrl}/foryou');
+          await DioToefl.instance.get('${Env.gameUrl}/foryou');
       final response = BaseResponse.fromJson(json.decode(rawResponse.data));
       final List<dynamic> data = response.data;
       List<Quiz> quizs =

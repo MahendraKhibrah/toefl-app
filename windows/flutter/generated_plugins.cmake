@@ -3,8 +3,13 @@
 #
 
 list(APPEND FLUTTER_PLUGIN_LIST
+  flutter_tts
   local_auth_windows
+<<<<<<< HEAD
   permission_handler_windows
+=======
+  share_plus
+>>>>>>> ac0ba1eec9ab9fd18571c4f11d1257788c2166d1
   url_launcher_windows
 )
 

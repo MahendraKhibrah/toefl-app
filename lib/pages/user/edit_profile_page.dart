@@ -1,36 +1,44 @@
+import 'dart:io';
+
 import 'package:easy_localization/easy_localization.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:toefl/remote/api/profile_api.dart';
+import 'package:toefl/remote/env.dart';
 import 'package:toefl/utils/colors.dart';
 import 'package:toefl/utils/hex_color.dart';
 import 'package:toefl/widgets/blue_button.dart';
 
-class EditProfile extends StatelessWidget {
-  EditProfile({super.key});
+class EditProfile extends StatefulWidget {
+  const EditProfile(
+      {super.key, required this.initialName, required this.initialImage});
 
+  final String initialName;
+  final String initialImage;
+
+  @override
+  State<EditProfile> createState() => _EditProfileState();
+}
+
+class _EditProfileState extends State<EditProfile> {
   final _nameController = TextEditingController();
-  final _emailController = TextEditingController();
-
-  String? validateEmail(String? value) {
-    const pattern = r"(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'"
-        r'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-'
-        r'\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*'
-        r'[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4]'
-        r'[0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9]'
-        r'[0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\'
-        r'x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])';
-    final regex = RegExp(pattern);
-
-    return value!.isEmpty || !regex.hasMatch(value)
-        ? 'valid_email'.tr()
-        : null;
-  }
+  File? image;
+  bool isLoading = false;
+  ProfileApi api = ProfileApi();
 
   String? validateName(String? value) {
-    if (value!.length < 3)
+    if (value!.length < 3) {
       return 'length_name'.tr();
-    else
+    } else {
       return null;
+    }
+  }
+
+  @override
+  void initState() {
+    _nameController.text = widget.initialName;
+    super.initState();
   }
 
   @override
@@ -64,11 +72,23 @@ class EditProfile extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  const CircleAvatar(
+                  // const CircleAvatar(
+                  //   backgroundColor: Colors.transparent,
+                  //   radius: 50,
+                  //   backgroundImage:
+                  //       AssetImage('assets/images/avatar_profile.png'),
+                  // ),
+                  CircleAvatar(
                     backgroundColor: Colors.transparent,
                     radius: 50,
-                    backgroundImage:
-                        AssetImage('assets/images/avatar_profile.png'),
+                    backgroundImage: image != null
+                        ? FileImage(image!)
+                        : widget.initialImage.isNotEmpty
+                            ? NetworkImage(
+                                "${Env.storageUrl}/toefl/${widget.initialImage}")
+                            : const AssetImage(
+                                    'assets/images/avatar_profile.png')
+                                as ImageProvider,
                   ),
                   const SizedBox(
                     height: 10,
@@ -76,7 +96,16 @@ class EditProfile extends StatelessWidget {
                   InkWell(
                     splashColor: const Color(0xffE7E7E7).withOpacity(0.3),
                     highlightColor: Colors.transparent,
-                    onTap: () {},
+                    onTap: () async {
+                      FilePickerResult? result = await FilePicker.platform
+                          .pickFiles(type: FileType.image);
+
+                      if (result != null) {
+                        setState(() {
+                          image = File(result.files.single.path!);
+                        });
+                      }
+                    },
                     child: Text(
                       'change_picture'.tr(),
                       style: TextStyle(
@@ -96,32 +125,36 @@ class EditProfile extends StatelessWidget {
                         _textField(
                           'label_name'.tr(),
                           false,
-                          "Adinda Azzahra",
+                          "input your name",
                           validateName,
-                          _nameController..text = 'Adinda Azzahra',
-                        ),
-                        _textField(
-                          "Email",
-                          true,
-                          "dinda@gmail.com",
-                          validateEmail,
-                          _emailController..text = 'adinda@gmail.com',
+                          _nameController,
                         ),
                         const SizedBox(
                           height: 10,
                         ),
-                        BlueButton(
-                          title: 'btn_update'.tr(),
-                          size: 300,
-                          onTap: () {
-                            if (_formKey.currentState!.validate()) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                    content: Text('Processing Data')),
-                              );
-                            }
-                          },
-                        ),
+                        isLoading
+                            ? CircularProgressIndicator(
+                                color: HexColor(mariner700),
+                              )
+                            : BlueButton(
+                                title: 'btn_update'.tr(),
+                                size: 300,
+                                onTap: () async {
+                                  if (isLoading == false) {
+                                    setState(() {
+                                      isLoading = true;
+                                    });
+                                    final success = await api.updateProfile(
+                                        image, _nameController.text);
+                                    setState(() {
+                                      isLoading = false;
+                                    });
+                                    if (success && context.mounted) {
+                                      Navigator.pop(context, true);
+                                    }
+                                  }
+                                },
+                              ),
                       ],
                     ),
                   ),

@@ -4,9 +4,7 @@ import 'package:toefl/models/quiz.dart';
 import 'package:toefl/models/quiz_type.dart';
 import 'package:toefl/pages/games/quiz/finish_quiz_page.dart';
 import 'package:toefl/pages/games/quiz/init_quiz.dart';
-import 'package:path/path.dart';
-import 'package:toefl/pages/forgot_password_page.dart';
-import 'package:toefl/pages/games/quiz/grammar_page.dart';
+import 'package:toefl/pages/auth/forgot_password_page.dart';
 import 'package:toefl/pages/games/quiz/quiz_page.dart';
 import 'package:toefl/pages/bookmark/bookmark_detail_page.dart';
 import 'package:toefl/pages/bookmark/bookmarked_page.dart';
@@ -16,25 +14,25 @@ import 'package:toefl/pages/mini_test/mini_opening_page.dart';
 import 'package:toefl/pages/mini_test/mini_simulation_page.dart';
 import 'package:toefl/pages/mini_test/mini_test_page.dart';
 
-import 'package:toefl/pages/games/quiz/quiz_page.dart';
-import 'package:toefl/pages/edit_profile_page.dart';
+import 'package:toefl/pages/user/edit_profile_page.dart';
 import 'package:toefl/pages/full_test/opening_loading_page.dart';
-import 'package:toefl/pages/new_password_page.dart';
-import 'package:toefl/pages/otp_verification_page.dart';
-import 'package:toefl/pages/profile_page.dart';
+import 'package:toefl/pages/auth/new_password_page.dart';
+import 'package:toefl/pages/auth/otp_verification_page.dart';
+import 'package:toefl/pages/user/profile_page.dart';
 import 'package:toefl/pages/full_test/full_test_page.dart';
 import 'package:toefl/pages/full_test/simulation_page.dart';
 import 'package:toefl/pages/full_test/test_result_page.dart';
-import 'package:toefl/pages/login_page.dart';
+import 'package:toefl/pages/auth/login_page.dart';
 import 'package:toefl/pages/on_boarding.dart';
 import 'package:toefl/pages/rank_page.dart';
-import 'package:toefl/pages/regist_page.dart';
+import 'package:toefl/pages/auth/regist_page.dart';
 import 'package:toefl/pages/games/games_page.dart';
 import 'package:toefl/pages/review_test/review_test_page.dart';
-import 'package:toefl/pages/setgoal_page.dart';
+import 'package:toefl/pages/user/search_user_page.dart';
+import 'package:toefl/pages/user/setgoal_page.dart';
 import 'package:toefl/pages/splash_page.dart';
-import 'package:toefl/pages/success_password_page.dart';
-import 'package:toefl/pages/template_page.dart';
+import 'package:toefl/pages/auth/success_password_page.dart';
+import 'package:toefl/pages/user/setting_page.dart';
 import 'package:toefl/routes/route_key.dart';
 import 'package:toefl/pages/main_page.dart';
 import 'package:toefl/state_management/quiz/quiz_provider_state.dart';
@@ -91,7 +89,12 @@ final routes = <String, Widget Function(BuildContext)>{
       email: data?['email'] ?? "",
     );
   },
-  RouteKey.forgotPassword: (context) => const ForgotPassword(),
+  RouteKey.forgotPassword: (context) {
+    final String? data = ModalRoute.of(context)?.settings.arguments as String?;
+    return ForgotPassword(
+      initialEmail: data ?? "",
+    );
+  },
   RouteKey.resetPassword: (context) {
     final bool? data = ModalRoute.of(context)?.settings.arguments as bool?;
     return NewPassword(
@@ -111,8 +114,22 @@ final routes = <String, Widget Function(BuildContext)>{
       packetName: data?["packetName"] ?? "",
     );
   },
-  RouteKey.profile: (context) => const ProfilePage(),
-  RouteKey.editProfile: (context) => EditProfile(),
+  RouteKey.profile: (context) {
+    final data =
+        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+    return ProfilePage(
+      isMe: data?['isMe'] ?? true,
+      userId: data?['userId'] ?? "",
+    );
+  },
+  RouteKey.editProfile: (context) {
+    final Map<String, dynamic>? data =
+        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+    return EditProfile(
+      initialName: data?['name'] ?? '',
+      initialImage: data?['image'] ?? '',
+    );
+  },
   RouteKey.rank: (context) {
     final Map? data = ModalRoute.of(context)?.settings.arguments as Map?;
     return RankPage(
@@ -166,5 +183,20 @@ final routes = <String, Widget Function(BuildContext)>{
     final Map<String, dynamic>? data =
         ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
     return FinishQuizPage(result: data?["result"] ?? "");
+  },
+  RouteKey.settingPage: (context) {
+    final Map<String, dynamic>? data =
+        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+    return SettingPage(
+      name: data?["name"] ?? '',
+      image: data?["image"] ?? '',
+    );
+  },
+  RouteKey.searchUser: (context) {
+    final data =
+        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+    return SearchUserPage(
+      searchFriend: data?["searchFriend"] ?? false,
+    );
   },
 };

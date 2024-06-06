@@ -19,7 +19,6 @@ class RouteKey {
   static const simulationpage = '/simulation-page';
   static const gamepage = '/game-page';
   static const reviewTestPage = '/review-test-page';
-
   static const rank = '/rank';
   static const bookmarkedpage = '/bookmarked-page';
   static const openingMiniTest = '/opening-mini-test';
@@ -32,4 +31,6 @@ class RouteKey {
   static const forgotPassword = '/forgot-password';
   static const successPassword = '/success-password';
   static const resetPassword = '/reset-password';
+  static const settingPage = '/setting-page';
+  static const searchUser = '/search-user';
 }

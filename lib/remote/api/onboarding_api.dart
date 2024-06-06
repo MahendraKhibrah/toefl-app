@@ -11,7 +11,7 @@ class OnBoardingApi {
   Future<List<TargetOnboarding>> getTarget() async {
     try {
       final Response rawResponse =
-          await DioToefl.instance.get('${Env.apiUrl}/get-onboarding-target');
+          await DioToefl.instance.get('${Env.mainUrl}/get-onboarding-target');
 
       final response = BaseResponse.fromJson(json.decode(rawResponse.data));
       final List<dynamic> data = response.data;
@@ -20,7 +20,7 @@ class OnBoardingApi {
           data.map((entry) => TargetOnboarding.fromJson(entry)).toList();
 
       return targets;
-    } catch (e, stackTrace) {
+    } catch (e) {
       print(e);
       return [];
     }

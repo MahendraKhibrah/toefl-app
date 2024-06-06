@@ -7,7 +7,7 @@ part 'user_rank.g.dart';
 @JsonSerializable()
 class UserRank {
   String userId;
-  @JsonKey(name: "data")
+  @JsonKey(name: "top_scores")
   List<LeaderBoard>? data;
 
   UserRank({

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:json_annotation/json_annotation.dart';
+import 'package:toefl/models/games/user_leaderboard.dart';
 
 part 'leader_board.g.dart';
 
@@ -8,8 +9,8 @@ part 'leader_board.g.dart';
 class LeaderBoard {
   @JsonKey(name: 'user_id')
   String userId;
-  @JsonKey(name: 'nama')
-  String nama;
+  @JsonKey(name: 'user')
+  UserLeaderBoard user;
   @JsonKey(name: 'total_score')
   int totalScore;
   @JsonKey(name: 'game_score')
@@ -19,7 +20,7 @@ class LeaderBoard {
 
   LeaderBoard({
     required this.userId,
-    required this.nama,
+    required this.user,
     required this.totalScore,
     required this.gameScore,
     required this.quizScore,

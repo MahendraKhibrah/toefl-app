@@ -35,6 +35,7 @@ class _ToeflAudioPlayerState extends State<ToeflAudioPlayer> {
   }
 
   void initPlayer() async {
+    debugPrint("url: ${widget.url}");
     await player.setUrl(widget.url);
 
     player.positionStream.listen((event) {

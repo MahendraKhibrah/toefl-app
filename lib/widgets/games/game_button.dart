@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -92,11 +94,12 @@ class _GameButtonState extends State<GameButton> {
                       ),
                       subtitle: RichText(
                         text: TextSpan(
-                            text: '480',
+                            text:
+                                '${widget.gameList.gameClaim != null && widget.gameList.gameClaim!.isNotEmpty ? generateHalvingSequence(30, iterations: widget.gameList.gameClaim!.length + 1) : '30'} Points',
                             style: CustomTextStyle.gameCardScoreSubTitle,
                             children: [
                               TextSpan(
-                                  text: ' / Good Job',
+                                  text: '',
                                   style:
                                       CustomTextStyle.gameCardPredicateSubTitle)
                             ]),
@@ -317,6 +320,18 @@ class GameButtonContent extends StatelessWidget {
       ],
     );
   }
+}
+
+int generateHalvingSequence(double initialValue, {int iterations = 10}) {
+  List<double> sequence = [];
+  double currentValue = initialValue;
+
+  for (int i = 0; i < iterations; i++) {
+    sequence.add(currentValue);
+    currentValue /= 2;
+  }
+
+  return sequence.last.toInt();
 }
 
 class SliderPaint extends CustomPainter {

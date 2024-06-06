@@ -32,6 +32,7 @@ class FullTestPage extends ConsumerWidget {
         _showFinishedDialog(context, ref);
       },
       child: Scaffold(
+        backgroundColor: Colors.white,
         body: Stack(
           children: [
             Positioned(
@@ -177,8 +178,12 @@ class FullTestPage extends ConsumerWidget {
                                 ),
                               );
                             } else if (state.selectedQuestions.isNotEmpty) {
-                              return FormSection(
-                                questions: state.selectedQuestions,
+                              return Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 16),
+                                child: FormSection(
+                                  questions: state.selectedQuestions,
+                                ),
                               );
                             } else {
                               return const SizedBox();
